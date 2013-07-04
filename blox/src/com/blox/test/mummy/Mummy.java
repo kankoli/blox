@@ -66,7 +66,7 @@ public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 		}		
 	}
 
-
+// dev2 comment
 //	@Override
 //	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 //		startAnimation(Animations.Turn);
