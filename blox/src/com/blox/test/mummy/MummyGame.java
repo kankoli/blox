@@ -14,15 +14,17 @@ import com.blox.framework.CustomInputProcessor;
 
 public class MummyGame implements ApplicationListener {
 	SpriteBatch spriteBatch;
-	Mummy mummy;
+	float delta;
 
+	Mummy mummy;
+	
 	@Override
 	public void create() {
 		Texture.setEnforcePotImages(false);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
-		mummy = new Mummy();
 		spriteBatch = new SpriteBatch();
+		mummy = new Mummy(spriteBatch);
 
 		World.scale = 2 / 48f;
 		World.width = Gdx.graphics.getWidth();
@@ -44,9 +46,10 @@ public class MummyGame implements ApplicationListener {
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT); // #14
-
+		delta = Gdx.graphics.getDeltaTime();
+		
 		spriteBatch.begin();
-		mummy.draw(spriteBatch);
+		mummy.update(delta);
 		spriteBatch.end();
 	}
 

@@ -14,6 +14,8 @@ import com.blox.test.mummy.Mummy;
 
 public class FruitGame implements ApplicationListener {
 	SpriteBatch spriteBatch;
+	float delta;
+	
 	Fruit watermelon1;
 //	Fruit watermelon2;
 //	Fruit watermelon3;
@@ -23,10 +25,10 @@ public class FruitGame implements ApplicationListener {
 		Texture.setEnforcePotImages(false);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
-		watermelon1 = new Fruit(0.1f, 70f, 70f);
+		spriteBatch = new SpriteBatch();
+		watermelon1 = new Fruit(spriteBatch, 70f, 70f);
 //		watermelon2 = new Fruit(0.2f, 40f, 1f);
 //		watermelon3 = new Fruit(0.4f, 70f, 1f);
-		spriteBatch = new SpriteBatch();
 		
 //		CompositeInputDetector mummyListener = new CompositeInputDetector();
 //		mummyListener.register(mummy);
@@ -52,9 +54,10 @@ public class FruitGame implements ApplicationListener {
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT); // #14
+		delta = Gdx.graphics.getDeltaTime();
 		
 		spriteBatch.begin();
-		watermelon1.draw(spriteBatch);
+		watermelon1.update(delta);
 //		watermelon2.draw(spriteBatch);
 //		watermelon3.draw(spriteBatch);
 		spriteBatch.end();
