@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.blox.World;
 import com.blox.framework.*;
 
-public class Mummy extends AnimatedSprite implements AnimationFinishListener {
+public class Mummy extends BloxSprite {
 	public final class Animations {
 		public static final String Walk = "MummyWalkAnimation";
 		private static final String WalkImagePath = "mummyImages/mummyWalk.png";
@@ -32,8 +32,13 @@ public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 		private static final int JumpFrameHeight = 48;
 		private static final float JumpFrameDuration = 1 / 6f;
 	}
-
-	public Mummy() {
+	public Mummy(SpriteBatch spriteBatch) {
+		this(spriteBatch, 20f, 20f);
+	}
+	
+	public Mummy(SpriteBatch spriteBatch, float posX, float posY) {
+		super(spriteBatch);
+		
 		BloxAnimation walkAnimation = AnimationBuilder
 				.createAnimation(Animations.Walk)
 				.fromImageFile(Animations.WalkImagePath)
@@ -161,10 +166,10 @@ public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 	}
 
 	@Override
-	public void draw(SpriteBatch spriteBatch) {
+	public void update(float delta) {
 		if (currentAnimation != null)
 			currentAnimation.setFlipped(flipped);
-		move();
+		move(delta);
 		if (isJumping() && position.y < 1) {
 			position.y = 1;
 			velocity.mul(0);
@@ -172,15 +177,22 @@ public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 			currentAnimation.stopAnimation();
 			startAnimation(Animations.Stand);
 		}
+		draw(spriteBatch);
+	}
+	
+	@Override
+	public void draw(SpriteBatch spriteBatch) {
 		super.draw(spriteBatch);
 	}
 
-	private void move() {
-		float dt = Gdx.graphics.getDeltaTime();
+	@Override
+	public void move(float delta) {
+		float dt = delta;
 		float dt2 = dt * dt;
 		position.x += velocity.x * dt + 0.5f * acceleration.x * dt2;
 		position.y += velocity.y * dt + 0.5f * acceleration.y * dt2;
 
 		velocity.add(acceleration.tmp().mul(dt));
 	}
+
 }
