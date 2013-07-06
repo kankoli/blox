@@ -1,6 +1,10 @@
 package com.blox.test.mummy;
 
 import com.badlogic.gdx.math.Vector2;
+import com.blox.framework.AnimatedSprite;
+import com.blox.framework.AnimationBuilder;
+import com.blox.framework.AnimationFinishListener;
+import com.blox.framework.BloxAnimation;
 
 public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 	public final class Animations {

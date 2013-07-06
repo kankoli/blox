@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.framework;
 
 import java.util.HashMap;
 import java.util.Map;

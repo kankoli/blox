@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.blox.framework.CustomGestureListener;
+import com.blox.framework.CustomInputProcessor;
 
 public class MummyGame implements ApplicationListener {
 	SpriteBatch spriteBatch;

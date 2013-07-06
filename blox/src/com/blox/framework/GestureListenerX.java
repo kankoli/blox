@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.framework;
 
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;

@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.framework;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 public class CustomGestureListener implements GestureListener {
 	private List<InputDetector> detectors;
 
-	CustomGestureListener() {
+	public CustomGestureListener() {
 		detectors = new ArrayList<InputDetector>();
 	}
 

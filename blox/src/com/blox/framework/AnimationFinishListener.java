@@ -1,4 +1,5 @@
-package com.blox.test.mummy;
+package com.blox.framework;
+
 
 public interface AnimationFinishListener {
 	void onAnimationFinished(BloxAnimation animation);

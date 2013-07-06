@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.framework;
 
 import java.util.ArrayList;
 import java.util.List;
