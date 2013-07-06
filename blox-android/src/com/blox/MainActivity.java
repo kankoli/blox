@@ -19,6 +19,6 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = true;
 		cfg.useCompass = true;
 		
-		initialize(new MummyGame(), cfg);
+		initialize(new FruitGame(), cfg);
     }
 }

@@ -46,12 +46,16 @@ public abstract class AnimatedSprite extends Sprite implements InputDetector {
 			currentAnimation.stopAnimation();
 		currentAnimation = animations.get(defaultAnimation);
 	}
-
+	
+	public String getCurrentAnimation() {
+		return currentAnimation.getName();
+	}
+	
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
 		super.setX(World.descale(position.x));
 		super.setY(World.descale(position.y));
-
+		
 		if (currentAnimation != null) {
 			spriteBatch.draw(currentAnimation.getFrame(), getX(), getY());
 		} else {

@@ -20,7 +20,7 @@ public class GestureListenerX implements GestureListener {
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		parent.touchDown(x, y, pointer, button);
+		// parent.touchDown(x, y, pointer, button);
 		return false;
 	}
 

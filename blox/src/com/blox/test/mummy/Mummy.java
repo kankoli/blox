@@ -1,15 +1,11 @@
+// comment for conflict. kkk
 package com.blox.test.mummy;
-
-import com.badlogic.gdx.math.Vector2;
-import com.blox.framework.AnimatedSprite;
-import com.blox.framework.AnimationBuilder;
-import com.blox.framework.AnimationFinishListener;
-import com.blox.framework.BloxAnimation;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.blox.World;
+import com.blox.framework.*;
 
 public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 	public final class Animations {
@@ -149,7 +145,13 @@ public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 		}
 		return super.touchUp(screenX, screenY, pointer, button);
 	}
-
+	
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	@Override
 	public void onAnimationFinished(BloxAnimation animation) {
 		if (Animations.Turn == animation.getName()) {

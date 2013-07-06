@@ -38,7 +38,7 @@ public class ScaledShapeRenderer {
 		renderer.circle(p.x, p.y, r);
 		renderer.end();
 	}
-
+	
 	public void dispose() {
 		renderer.dispose();
 	}

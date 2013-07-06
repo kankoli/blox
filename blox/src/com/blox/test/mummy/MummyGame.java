@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.blox.World;
 import com.blox.framework.CustomGestureListener;
 import com.blox.framework.CustomInputProcessor;
 
@@ -18,31 +19,32 @@ public class MummyGame implements ApplicationListener {
 	@Override
 	public void create() {
 		Texture.setEnforcePotImages(false);
-
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		
 		mummy = new Mummy();
 		spriteBatch = new SpriteBatch();
-		
-//		CompositeInputDetector mummyListener = new CompositeInputDetector();
-//		mummyListener.register(mummy);
+
+		World.scale = 2 / 48f;
+		World.width = Gdx.graphics.getWidth();
+		World.height = Gdx.graphics.getHeight();
 
 		CustomInputProcessor inputProcessor = new CustomInputProcessor();
 		inputProcessor.register(mummy);
 		CustomGestureListener gestureListener = new CustomGestureListener();
 		gestureListener.register(mummy);
 		GestureDetector gestureDetector = new GestureDetector(gestureListener);
-		
+
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(gestureDetector);
 		multiplexer.addProcessor(inputProcessor);
-		
+
 		Gdx.input.setInputProcessor(multiplexer);
-		//Gdx.input.setInputProcessor(new GestureDetector(mummyListener));
 	}
 
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT); // #14
-		
+
 		spriteBatch.begin();
 		mummy.draw(spriteBatch);
 		spriteBatch.end();

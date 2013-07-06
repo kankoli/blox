@@ -28,11 +28,13 @@ public class CompositeInputDetector extends GestureDetector implements GestureLi
 		detectors.remove(detector);
 	}
 
+	// Implement GestureListener Methods
+	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		for (InputDetector detector : detectors)
 			detector.touchDown(x, y, pointer, button);
-		return false;
+		return super.touchDown(x, y, pointer, button);
 	}
 
 	@Override
@@ -77,60 +79,62 @@ public class CompositeInputDetector extends GestureDetector implements GestureLi
 			detector.pinch(initialPointer1, initialPointer2, pointer1, pointer2);
 		return false;
 	}
+	
+	// Override GestureDetector (Implement InputProcessor) Methods
 
 	@Override
 	public boolean keyDown(int keycode) {
 		for (InputDetector detector : detectors)
 			detector.keyDown(keycode);
-		return false;
+		return super.keyDown(keycode);
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
 		for (InputDetector detector : detectors)
 			detector.keyUp(keycode);
-		return false;
+		return super.keyUp(keycode);
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
 		for (InputDetector detector : detectors)
 			detector.keyTyped(character);
-		return false;
+		return super.keyTyped(character);
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		for (InputDetector detector : detectors)
 			detector.touchDown(screenX, screenY, pointer, button);
-		return false;
+		return super.touchDown(screenX, screenY, pointer, button);
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		for (InputDetector detector : detectors)
 			detector.touchUp(screenX, screenY, pointer, button);
-		return false;
+		return super.touchUp(screenX, screenY, pointer, button);
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		for (InputDetector detector : detectors)
 			detector.touchDragged(screenX, screenY, pointer);
-		return false;
+		return super.touchDragged(screenX, screenY, pointer);
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		for (InputDetector detector : detectors)
 			detector.mouseMoved(screenX, screenY);
-		return false;
+		return super.mouseMoved(screenX, screenY);
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
 		for (InputDetector detector : detectors)
 			detector.scrolled(amount);
-		return false;
+		return super.scrolled(amount);
 	}
 }

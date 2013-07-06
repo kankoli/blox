@@ -3,12 +3,12 @@ package com.blox;
 import com.badlogic.gdx.math.Vector2;
 
 public final class World {
-
+	
 	public static float scale = 1;
-	public static float gravity = -9.8f;
+	public static float gravity = -89.8f;
 	public static float width = 800f;
 	public static float height = 480f;
-
+	
 	public static Vector2 scale(Vector2 vector) {
 		return new Vector2(scale(vector.x), scale(vector.y));
 	}

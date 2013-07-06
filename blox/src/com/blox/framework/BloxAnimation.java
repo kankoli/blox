@@ -87,7 +87,7 @@ public class BloxAnimation {
 	public boolean isFlipped() {
 		return flipped;
 	}
-
+	
 	public void setFlipped(boolean flipped) {
 		this.flipped = flipped;
 	}
@@ -131,10 +131,10 @@ public class BloxAnimation {
 
 	public TextureRegion getFrame() {
 		stateTime += Gdx.graphics.getDeltaTime();
-
+		
 		if (animation.isAnimationFinished(stateTime))
 			notifyFinishListeners();
-
+		
 		TextureRegion frameTexture = animation.getKeyFrame(stateTime, looping);
 
 		if (flipped != frameTexture.isFlipX()) {
