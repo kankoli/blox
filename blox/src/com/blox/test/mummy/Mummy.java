@@ -1,8 +1,10 @@
-// Test Comment Mehmet
-
 package com.blox.test.mummy;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.blox.World;
+import com.blox.framework.*;
 
 public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 	public final class Animations {
@@ -10,7 +12,7 @@ public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 		private static final String WalkImagePath = "mummyImages/mummyWalk.png";
 		private static final int WalkFrameWidth = 41;
 		private static final int WalkFrameHeight = 48;
-		private static final float WalkFrameDuration = 0.1f;
+		private static final float WalkFrameDuration = 0.033f;
 
 		public static final String Stand = "MummyStandAnimation";
 		private static final String StandImagePath = "mummyImages/mummyStand.png";
@@ -23,6 +25,12 @@ public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 		private static final int TurnFrameWidth = 41;
 		private static final int TurnFrameHeight = 48;
 		private static final float TurnFrameDuration = 0.1f;
+
+		public static final String Jump = "MummyJumpAnimation";
+		private static final String JumpImagePath = "mummyImages/mummyStand.png";
+		private static final int JumpFrameWidth = 41;
+		private static final int JumpFrameHeight = 48;
+		private static final float JumpFrameDuration = 1 / 6f;
 	}
 
 	public Mummy() {
@@ -31,103 +39,148 @@ public class Mummy extends AnimatedSprite implements AnimationFinishListener {
 				.fromImageFile(Animations.WalkImagePath)
 				.withFrameDuration(Animations.WalkFrameDuration)
 				.withFrameSize(Animations.WalkFrameWidth,
-						Animations.WalkFrameHeight).setAsLooping().build();
-		
+						Animations.WalkFrameHeight).withFinishListeners(this)
+				.setAsLooping().build();
+
 		BloxAnimation standAnimation = AnimationBuilder
 				.createAnimation(Animations.Stand)
 				.fromImageFile(Animations.StandImagePath)
 				.withFrameDuration(Animations.StandFrameDuration)
 				.withFrameSize(Animations.StandFrameWidth,
-						Animations.StandFrameHeight).setAsLooping().build();
-		
+						Animations.StandFrameHeight).withFinishListeners(this)
+				.setAsLooping().build();
+
 		BloxAnimation turnAnimation = AnimationBuilder
 				.createAnimation(Animations.Turn)
 				.fromImageFile(Animations.TurnImagePath)
 				.withFrameDuration(Animations.TurnFrameDuration)
-				.withFrameSize(Animations.TurnFrameWidth, Animations.TurnFrameHeight)
-				.withFinishListeners(this)
+				.withFrameSize(Animations.TurnFrameWidth,
+						Animations.TurnFrameHeight).withFinishListeners(this)
 				.build();
+
+		BloxAnimation jumpAnimation = AnimationBuilder
+				.createAnimation(Animations.Jump)
+				.fromImageFile(Animations.JumpImagePath)
+				.withFrameDuration(Animations.JumpFrameDuration)
+				.withFrameSize(Animations.JumpFrameWidth,
+						Animations.JumpFrameHeight).withFinishListeners(this)
+				.setAsLooping().build();
 
 		addAnimation(walkAnimation);
 		addAnimation(standAnimation);
 		addAnimation(turnAnimation);
-		
+		addAnimation(jumpAnimation);
+
 		setDefaultAnimation(Animations.Stand);
 		startAnimation(Animations.Stand);
+
+		this.flipped = true;
+		this.position.x = 1f;
+		this.position.y = 1f;
 	}
 
+	private boolean isJumping() {
+		return Animations.Jump == currentAnimation.getName();
+	}
+
+	private boolean isStanding() {
+		return Animations.Stand == currentAnimation.getName();
+	}
+
+	private boolean isWalking() {
+		return Animations.Walk == currentAnimation.getName();
+	}
+
+	private boolean isTurning() {
+		return Animations.Turn == currentAnimation.getName();
+	}
+
+	private boolean flipped;
+
+	@Override
+	public Rectangle getBoundingRectangle() {
+		Rectangle bounds = super.getBoundingRectangle();
+		bounds.width = currentAnimation.getFrameWidth();
+		bounds.height = currentAnimation.getFrameHeight();
+		return bounds;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if (isStanding() || isWalking()) {
+			if (screenX < World.width * 0.333f) {
+				if (flipped) {
+					startAnimation(Animations.Turn);
+					velocity.x = 0;
+				} else {
+					startAnimation(Animations.Walk);
+					velocity.x = -3;
+				}
+			} else if (screenX > World.width * 0.666f) {
+				if (!flipped) {
+					startAnimation(Animations.Turn);
+					velocity.x = 0;
+				} else {
+					startAnimation(Animations.Walk);
+					velocity.x = 3;
+				}
+			}
+		}
+		return super.touchDown(screenX, screenY, pointer, button);
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		if (!isJumping() && !isTurning()) {
+			if (getBoundingRectangle()
+					.contains(screenX, World.height - screenY)) {
+				velocity.y = 10;
+				acceleration.y = World.gravity;
+				startAnimation(Animations.Jump);
+			}
+		} else if (isWalking()) {
+			velocity.x = 0;
+			startAnimation(Animations.Stand);
+		}
+		return super.touchUp(screenX, screenY, pointer, button);
+	}
+	
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	@Override
 	public void onAnimationFinished(BloxAnimation animation) {
 		if (Animations.Turn == animation.getName()) {
 			animation.stopAnimation();
-			animation.flip();
 			startAnimation(Animations.Stand);
-			currentAnimation.flip();
-		}		
+			flipped = !flipped;
+		}
 	}
 
-// dev1 comment
-	
-	
 	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		startAnimation(Animations.Turn);
-		return super.touchDown(screenX, screenY, pointer, button);
+	public void draw(SpriteBatch spriteBatch) {
+		if (currentAnimation != null)
+			currentAnimation.setFlipped(flipped);
+		move();
+		if (isJumping() && position.y < 1) {
+			position.y = 1;
+			velocity.mul(0);
+			acceleration.mul(0);
+			currentAnimation.stopAnimation();
+			startAnimation(Animations.Stand);
+		}
+		super.draw(spriteBatch);
 	}
 
+	private void move() {
+		float dt = Gdx.graphics.getDeltaTime();
+		float dt2 = dt * dt;
+		position.x += velocity.x * dt + 0.5f * acceleration.x * dt2;
+		position.y += velocity.y * dt + 0.5f * acceleration.y * dt2;
 
-//	@Override
-//	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-//		startAnimation(Animations.Turn);
-//		return super.touchUp(screenX, screenY, pointer, button);
-//	}
-
-//	@Override
-//	public boolean touchDragged(int screenX, int screenY, int pointer) {
-//		startAnimation(Animations.Turn);
-//		return super.touchDragged(screenX, screenY, pointer);
-//	}
-
-//	@Override
-//	public boolean touchDown(float x, float y, int pointer, int button) {
-//		startAnimation(Animations.Turn);
-//		return super.touchDown(x, y, pointer, button);
-//	}
-
-//	@Override
-//	public boolean tap(float x, float y, int count, int button) {
-//		startAnimation(Animations.Turn);
-//		return super.tap(x, y, count, button);
-//	}
-
-//	@Override
-//	public boolean longPress(float x, float y) {
-//		startAnimation(Animations.Turn);
-//		return super.longPress(x, y);
-//	}
-
-//	@Override
-//	public boolean fling(float velocityX, float velocityY, int button) {
-//		startAnimation(Animations.Turn);
-//		return super.fling(velocityX, velocityY, button);
-//	}
-
-//	@Override
-//	public boolean pan(float x, float y, float deltaX, float deltaY) {
-//		startAnimation(Animations.Turn);
-//		return super.pan(x, y, deltaX, deltaY);
-//	}
-
-//	@Override
-//	public boolean zoom(float initialDistance, float distance) {
-//		startAnimation(Animations.Turn);
-//		return super.zoom(initialDistance, distance);
-//	}
-	
-//	@Override
-//	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
-//			Vector2 pointer1, Vector2 pointer2) {
-//		startAnimation(Animations.Turn);
-//		return super.pinch(initialPointer1, initialPointer2, pointer1, pointer2);
-//	}
+		velocity.add(acceleration.tmp().mul(dt));
+	}
 }

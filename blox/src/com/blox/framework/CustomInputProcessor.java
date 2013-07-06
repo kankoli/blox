@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.framework;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.InputProcessor;
 public class CustomInputProcessor implements InputProcessor {
 	private List<InputDetector> detectors;
 
-	CustomInputProcessor() {
+	public CustomInputProcessor() {
 		detectors = new ArrayList<InputDetector>();
 	}
 

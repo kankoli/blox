@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.test.fruitgame;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
@@ -8,45 +8,55 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.blox.World;
 import com.blox.framework.CustomGestureListener;
 import com.blox.framework.CustomInputProcessor;
+import com.blox.test.mummy.Mummy;
 
-public class MummyGame implements ApplicationListener {
+public class FruitGame implements ApplicationListener {
 	SpriteBatch spriteBatch;
-	Mummy mummy;
+	Fruit watermelon1;
+//	Fruit watermelon2;
+//	Fruit watermelon3;
 
 	@Override
 	public void create() {
 		Texture.setEnforcePotImages(false);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
-		mummy = new Mummy();
+		watermelon1 = new Fruit(0.1f, 70f, 70f);
+//		watermelon2 = new Fruit(0.2f, 40f, 1f);
+//		watermelon3 = new Fruit(0.4f, 70f, 1f);
 		spriteBatch = new SpriteBatch();
-
-		World.scale = 2 / 48f;
-		World.width = Gdx.graphics.getWidth();
-		World.height = Gdx.graphics.getHeight();
+		
+//		CompositeInputDetector mummyListener = new CompositeInputDetector();
+//		mummyListener.register(mummy);
 
 		CustomInputProcessor inputProcessor = new CustomInputProcessor();
-		inputProcessor.register(mummy);
+		inputProcessor.register(watermelon1);
+//		inputProcessor.register(watermelon2);
+//		inputProcessor.register(watermelon3);
 		CustomGestureListener gestureListener = new CustomGestureListener();
-		gestureListener.register(mummy);
+		gestureListener.register(watermelon1);
+//		gestureListener.register(watermelon2);
+//		gestureListener.register(watermelon3);
 		GestureDetector gestureDetector = new GestureDetector(gestureListener);
-
+		
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(gestureDetector);
 		multiplexer.addProcessor(inputProcessor);
-
+		
 		Gdx.input.setInputProcessor(multiplexer);
+		//Gdx.input.setInputProcessor(new GestureDetector(mummyListener));
 	}
 
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT); // #14
-
+		
 		spriteBatch.begin();
-		mummy.draw(spriteBatch);
+		watermelon1.draw(spriteBatch);
+//		watermelon2.draw(spriteBatch);
+//		watermelon3.draw(spriteBatch);
 		spriteBatch.end();
 	}
 

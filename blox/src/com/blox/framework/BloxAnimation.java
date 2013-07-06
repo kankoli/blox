@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.framework;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +86,10 @@ public class BloxAnimation {
 
 	public boolean isFlipped() {
 		return flipped;
+	}
+	
+	public void setFlipped(boolean flipped) {
+		this.flipped = flipped;
 	}
 
 	public void flip() {

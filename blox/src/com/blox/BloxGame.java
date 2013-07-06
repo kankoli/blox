@@ -20,7 +20,6 @@ public class BloxGame implements ApplicationListener {
 	private SpriteBatch batch;
 
 	private BitmapFont font;
-	private WorldScaler scaler;
 	private ScaledShapeRenderer shapeRenderer;
 	private BloxGestureListener gestureListener;
 
@@ -29,7 +28,6 @@ public class BloxGame implements ApplicationListener {
 
 	private final float gravity = 9.8f;
 	private final float friction = 0.25f;
-	private final float scale = 1 / 80f;
 	private int screenWidth;
 	private int screenHeight;
 	private float worldWidth;
@@ -51,13 +49,13 @@ public class BloxGame implements ApplicationListener {
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);
 
-		scaler = new WorldScaler(scale);
-		shapeRenderer = new ScaledShapeRenderer(new ShapeRenderer(), scaler);
+		shapeRenderer = new ScaledShapeRenderer(new ShapeRenderer());
 		gestureListener = new BloxGestureListener();
 		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
 
-		worldWidth = scale * screenWidth;
-		worldHeight = scale * screenHeight;
+		World.scale = 1 / 80f;
+		worldWidth = World.scale(screenWidth);
+		worldHeight = World.scale(screenHeight);
 
 		buildMaze();
 		ball = new Ball(worldWidth / 2, worldHeight / 2, worldWidth / 30);
@@ -67,8 +65,8 @@ public class BloxGame implements ApplicationListener {
 	}
 
 	private void buildMaze() {
-		maze = new Maze2D(Room2D.rect(1, 1, 40, 40),
-				Room2D.rect(1, 41, 40, 80), Room2D.rect(41, 1, 80, 40));
+		maze = new Maze2D(Room2D.rect(1, 1, 40, 40), Room2D.rect(1, 41, 40, 80));
+		maze.addRoom(Room2D.rect(41, 1, 80, 40));
 	}
 
 	@Override
@@ -99,25 +97,25 @@ public class BloxGame implements ApplicationListener {
 			int ty = screenHeight - Gdx.input.getY();
 
 			if (!manualMove) {
-				float px = scaler.descale(ball.position.x);
-				float py = scaler.descale(ball.position.y);
+				float px = World.descale(ball.position.x);
+				float py = World.descale(ball.position.y);
 				float f1 = (float) Math.sqrt((px - tx) * (px - tx) + (py - ty)
 						* (py - ty));
-				float f2 = scaler.descale(ball.radius);
+				float f2 = World.descale(ball.radius);
 				manualMove = f1 < 2 * f2;
 			}
 
 			if (manualMove) {
 				ball.v.x = ball.v.y = ball.a.y = ball.a.y = 0;
-				ball.position.x = scaler.scale(tx);
-				ball.position.y = scaler.scale(ty);
+				ball.position.x = World.scale(tx);
+				ball.position.y = World.scale(ty);
 			}
 		}
 
 		FlingInfo fi;
 		if (manualMove && (fi = gestureListener.getFling()) != null) {
-			ball.v.x = scaler.scale(fi.velocity.x);
-			ball.v.y = scaler.scale(-fi.velocity.y);
+			ball.v.x = World.scale(fi.velocity.x);
+			ball.v.y = World.scale(-fi.velocity.y);
 			info = "fling";
 			manualMove = false;
 		}
@@ -150,8 +148,7 @@ public class BloxGame implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
-		font.drawMultiLine(batch, info, 10,
-				screenHeight - 10);
+		font.drawMultiLine(batch, info, 10, screenHeight - 10);
 		shapeRenderer.setColor(255);
 		shapeRenderer.circle(ball.position, ball.radius);
 		batch.end();

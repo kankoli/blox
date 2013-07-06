@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.framework;
 
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
@@ -20,7 +20,7 @@ public class GestureListenerX implements GestureListener {
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		parent.touchDown(x, y, pointer, button);
+		// parent.touchDown(x, y, pointer, button);
 		return false;
 	}
 

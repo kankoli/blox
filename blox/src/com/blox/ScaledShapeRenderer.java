@@ -6,11 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ScaledShapeRenderer {
 	private ShapeRenderer renderer;
-	private WorldScaler scaler;
 
-	public ScaledShapeRenderer(ShapeRenderer renderer, WorldScaler scaler) {
+	public ScaledShapeRenderer(ShapeRenderer renderer) {
 		this.renderer = renderer;
-		this.scaler = scaler;
 	}
 
 	public void setColor(int rgb) {
@@ -26,16 +24,16 @@ public class ScaledShapeRenderer {
 	}
 
 	public void line(Vector2 start, Vector2 end) {
-		Vector2 s = scaler.descale(start);
-		Vector2 e = scaler.descale(end);
+		Vector2 s = World.descale(start);
+		Vector2 e = World.descale(end);
 		renderer.begin(ShapeType.Line);
 		renderer.line(s.x, s.y, e.x, e.y);
 		renderer.end();
 	}
 
 	public void circle(Vector2 position, float radius) {
-		Vector2 p = scaler.descale(position);
-		float r = scaler.descale(radius);
+		Vector2 p = World.descale(position);
+		float r = World.descale(radius);
 		renderer.begin(ShapeType.Circle);
 		renderer.circle(p.x, p.y, r);
 		renderer.end();

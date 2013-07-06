@@ -5,6 +5,8 @@ import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.blox.test.AnimationGame;
+import com.blox.test.fruitgame.FruitGame;
 import com.blox.test.mummy.MummyGame;
 
 public class MainActivity extends AndroidApplication {
@@ -17,6 +19,6 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = true;
 		cfg.useCompass = true;
 		
-		initialize(new MummyGame(), cfg);
+		initialize(new FruitGame(), cfg);
     }
 }

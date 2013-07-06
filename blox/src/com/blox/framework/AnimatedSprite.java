@@ -1,4 +1,4 @@
-package com.blox.test.mummy;
+package com.blox.framework;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,13 +6,20 @@ import java.util.Map;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.blox.World;
 
 public abstract class AnimatedSprite extends Sprite implements InputDetector {
-	protected  String defaultAnimation;
+	protected String defaultAnimation;
 	protected BloxAnimation currentAnimation;
 	protected Map<String, BloxAnimation> animations;
+	protected Vector2 position;
+	protected Vector2 velocity;
+	protected Vector2 acceleration;
 
 	public AnimatedSprite() {
+		position = new Vector2();
+		velocity = new Vector2();
+		acceleration = new Vector2();
 		animations = new HashMap<String, BloxAnimation>();
 	}
 
@@ -29,6 +36,8 @@ public abstract class AnimatedSprite extends Sprite implements InputDetector {
 	}
 
 	public void startAnimation(String animationName) {
+		if (currentAnimation != null)
+			currentAnimation.stopAnimation();
 		currentAnimation = animations.get(animationName);
 	}
 
@@ -37,11 +46,18 @@ public abstract class AnimatedSprite extends Sprite implements InputDetector {
 			currentAnimation.stopAnimation();
 		currentAnimation = animations.get(defaultAnimation);
 	}
-
+	
+	public String getCurrentAnimation() {
+		return currentAnimation.getName();
+	}
+	
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
+		super.setX(World.descale(position.x));
+		super.setY(World.descale(position.y));
+		
 		if (currentAnimation != null) {
-			spriteBatch.draw(currentAnimation.getFrame(), 50, 50);
+			spriteBatch.draw(currentAnimation.getFrame(), getX(), getY());
 		} else {
 			super.draw(spriteBatch);
 		}
