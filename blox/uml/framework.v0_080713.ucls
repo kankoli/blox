@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="com.blox.framework.v0.libgdx.GdxVector" project="blox" 
     file="/blox/src/com/blox/framework/v0/libgdx/GdxVector.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="595" y="607"/>    
+    <position height="-1" width="-1" x="601" y="605"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="com.blox.framework.v0.Rotation" project="blox" 
     file="/blox/src/com/blox/framework/v0/Rotation.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1015" y="343"/>    
+    <position height="-1" width="-1" x="898" y="308"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +75,7 @@
   </interface>  
   <class id="9" language="java" name="com.blox.framework.v0.GameObject" project="blox" 
     file="/blox/src/com/blox/framework/v0/GameObject.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="778" y="249"/>    
+    <position height="-1" width="-1" x="607" y="180"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="com.blox.framework.v0.Animation" project="blox" 
     file="/blox/src/com/blox/framework/v0/Animation.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1314" y="222"/>    
+    <position height="-1" width="-1" x="1262" y="199"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
