@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.blox.framework.CustomGestureListener;
 import com.blox.framework.CustomInputProcessor;
-import com.blox.test.mummy.Mummy;
 
 public class FruitGame implements ApplicationListener {
 	SpriteBatch spriteBatch;
