@@ -1,6 +1,5 @@
 package com.blox.framework.v0;
 
-
 public final class GameWorld {
 	public static float scale;
 	public static Vector gravity;
@@ -10,6 +9,7 @@ public final class GameWorld {
 
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
+	private static IAnimationDataFactory animationDataFactory;
 
 	public static void initialize(IGameFactory factory) {
 		deltaTime = factory.createDeltaTime();
@@ -20,7 +20,11 @@ public final class GameWorld {
 		return deltaTime.getDeltaTime();
 	}
 
-	public IResourceManager getResourceManager() {
+	public static IResourceManager getResourceManager() {
 		return resourceManager;
+	}
+	
+	public static IAnimationDataFactory getAnimationDataFactory() {
+		return animationDataFactory;
 	}
 }
