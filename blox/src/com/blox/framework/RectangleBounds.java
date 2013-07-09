@@ -1,25 +1,35 @@
 package com.blox.framework;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class RectangleBounds extends Bounds {
-
-	protected Rectangle bound;
 	
-	public RectangleBounds(Rectangle r) {
-		this.bound = r;
+	protected Vector2 dimensions;
+	protected Vector2 currentParentPos;
+	
+	public RectangleBounds(BloxSprite parent, float width, float height) {
+		this(parent, new Vector2(width, height), new Vector2(0,0));
 	}
 	
-	public RectangleBounds(float x, float y, float width, float height) {
-		this.bound = new Rectangle(x, y, width, height);
+	public RectangleBounds(BloxSprite parent, Vector2 dimensions) {
+		this(parent, dimensions, new Vector2(0,0));
+	}
+	
+	public RectangleBounds(BloxSprite parent, Vector2 dimensions, Vector2 parentOffset) {
+		this.parent = parent;
+		this.dimensions = dimensions;
+		this.parentOffset = parentOffset;
 	}
 	
 	protected Vector2 getIntervalX() {
-		return new Vector2(bound.x, bound.x+bound.width);
+		currentParentPos = parent.getPosition();
+		return new Vector2(currentParentPos.x + parentOffset.x, 
+				currentParentPos.x + parentOffset.x + dimensions.x);
 	}
 	
 	protected Vector2 getIntervalY() {
-		return new Vector2(bound.y, bound.y+bound.height);
+		currentParentPos = parent.getPosition();
+		return new Vector2(currentParentPos.y + parentOffset.y, 
+				currentParentPos.y + parentOffset.y + dimensions.y);
 	}
 }

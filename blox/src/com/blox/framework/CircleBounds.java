@@ -4,21 +4,30 @@ import com.badlogic.gdx.math.Vector2;
 
 public class CircleBounds extends Bounds {
 	
-	protected Vector2 position;
+	protected Vector2 currentParentCenter;
 	protected float radius; 
 	
-	public CircleBounds(Vector2 pos, float r) {
-		this.position = pos;
-		this.radius = r;
+	public CircleBounds(BloxSprite parent, float radius) {
+		this(parent, radius, new Vector2(0,0));
+	}
+	
+	public CircleBounds(BloxSprite parent, float radius, Vector2 parentOffset) {
+		this.parent = parent;
+		this.parentOffset = parentOffset;
+		this.radius = radius;
 	}
 
 	@Override
 	protected Vector2 getIntervalX() {
-		return new Vector2(position.x-radius, position.x+radius);
+		currentParentCenter = parent.getCenter();
+		return new Vector2(currentParentCenter.x - radius + parentOffset.x, 
+				currentParentCenter.x + radius + parentOffset.x);
 	}
 
 	@Override
 	protected Vector2 getIntervalY() {
-		return new Vector2(position.y-radius, position.y+radius);
+		currentParentCenter = parent.getCenter();
+		return new Vector2(currentParentCenter.y - radius + parentOffset.y, 
+				currentParentCenter.y + radius + parentOffset.y);
 	}
 }

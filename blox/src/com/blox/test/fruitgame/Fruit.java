@@ -52,14 +52,14 @@ public class Fruit extends BloxSprite {
 				.withFrameSize(Animations.CrashFrameWidth,
 						Animations.CrashFrameHeight)
 				.withFrameDuration(Animations.CrashFrameDuration).withFinishListeners(this).build();
-		
-		addAnimation(watermelonAnimation);
-		addAnimation(crashAnimation);
-		addBounds(new RectangleBounds(getX(), getY(), getWidth(), getHeight()));
-		
+
 		setPosition(posX, posY);
 		setMovable(true);
 		this.currentState = FruitState.WAITING;
+		
+		addAnimation(watermelonAnimation);
+		addAnimation(crashAnimation);
+		addBounds(new RectangleBounds(this, 30, 30));
 	}
 	
 	public void setMovable(boolean b) {

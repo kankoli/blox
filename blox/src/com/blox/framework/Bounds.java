@@ -5,13 +5,17 @@ import com.badlogic.gdx.utils.Array;
 
 /***
  * Abstract class to derive bounds of different shapes.
- * Uses <b>the separating axis theorem directly on X and Y axes</b>
- * so it works fine <b>for only rectangles and circles</b>. 
+ * Uses <b>the Separating Hyperplane Theorem directly on X and Y axes</b>
+ * so this implementation currently works <b>fine for only rectangles</b>. 
+ * Full implementation might be done later on if needed.
  * @author kadirello
  *
  */
 public abstract class Bounds {
 
+	protected BloxSprite parent;
+	protected Vector2 parentOffset;
+	
 	abstract protected Vector2 getIntervalX();
 	abstract protected Vector2 getIntervalY();
 	
