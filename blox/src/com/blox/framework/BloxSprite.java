@@ -3,10 +3,12 @@ package com.blox.framework;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.blox.World;
 
 public abstract class BloxSprite extends Sprite implements InputDetector, AnimationFinishListener {
@@ -20,6 +22,8 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 	
 	protected Enum currentState;
 
+	protected static enum Direction {UP, DOWN, LEFT, RIGHT};
+	
 	protected SpriteBatch spriteBatch;
 
 	public BloxSprite(SpriteBatch spriteBatch) {
@@ -38,6 +42,50 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 		this.velocity = new Vector2();
 		this.acceleration = new Vector2();
 		this.animations = new HashMap<String, BloxAnimation>();
+	}
+	
+	/**
+	 * Collides two sprites.s
+	 * @param s1
+	 * @param s2
+	 * @return true if they collide.
+	 */
+	public static boolean collide(BloxSprite s1, BloxSprite s2) {
+		return Intersector.overlapRectangles(s1.getBoundingRectangle(), s2.getBoundingRectangle());
+	}
+	
+	/**
+	 * Collides s1 with sprites in sArray and returns the colliding sprites. 
+	 * @param s1
+	 * @param sArray
+	 * @return colliding sprites
+	 */
+	public static Array<BloxSprite> collide(BloxSprite s1, Array<BloxSprite> sArray) {
+		Array<BloxSprite> returnArray = new Array<BloxSprite>();
+		for (BloxSprite s2: sArray) {
+			if (collide(s1,s2))
+				returnArray.add(s2);
+		}
+		return returnArray;
+	}
+	
+	/**
+	 * Collides sprites in two arrays and returns the colliding sprites (of both the arrays).
+	 * @param sArray1
+	 * @param sArray2
+	 * @return colliding sprites
+	 */
+	public static Array<BloxSprite> collide(Array<BloxSprite> sArray1, Array<BloxSprite> sArray2) {
+		Array<BloxSprite> returnArray = new Array<BloxSprite>();
+		for (BloxSprite s1: sArray1) {
+			for (BloxSprite s2: sArray2) {
+				if (collide(s1,s2)) {
+					returnArray.add(s1);
+					returnArray.add(s2);
+				}
+			}
+		}
+		return returnArray;
 	}
 
 	public Texture getDefaultTexture() {
@@ -81,8 +129,21 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 		this.position.y = posY;
 	}
 	
+	public float getX() {
+		return this.position.x;
+	}
+	
+	public float getY() {
+		return this.position.y;
+	}
+	
 	abstract public void update(float delta);
 	
+	/**
+	 * Default move function. First, position is updated by adding velocity * delta. 
+	 * Then velocity is updated by adding acceleration * delta.
+	 * @param delta
+	 */
 	public void move(float delta) {
 		position.x += velocity.x * delta;
 		position.y += velocity.y * delta;

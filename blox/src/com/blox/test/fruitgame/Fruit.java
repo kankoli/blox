@@ -15,6 +15,8 @@ public class Fruit extends BloxSprite {
 	
 	public enum FruitState { WAITING, FLYING, CRASHING };
 	
+	private boolean movable;
+	
 	public final class Animations {
 		public static final String Watermelon = "FruitWatermelonAnimation";
 		private static final String WatermelonPath = "watermelon.png";
@@ -52,27 +54,34 @@ public class Fruit extends BloxSprite {
 		addAnimation(watermelonAnimation);
 		addAnimation(crashAnimation);
 		
-		
-		this.position.x = posX;
-		this.position.y = posY;
+		setPosition(posX, posY);
+		setMovable(true);
 		this.currentState = FruitState.WAITING;
+	}
+	
+	public void setMovable(boolean b) {
+		movable = b;
 	}
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		pullStart = new Vector2(screenX, screenY);
+		if (movable) {
+			pullStart = new Vector2(screenX, screenY);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		pullEnd = new Vector2(screenX, screenY);
-		this.velocity = new Vector2(pullStart.x - pullEnd.x, -(pullStart.y - pullEnd.y));
-		this.velocity.mul(3);
-		this.acceleration.x = 0;
-		this.acceleration.y = World.gravity;
-		startAnimation(Animations.Watermelon);
-		this.currentState = FruitState.FLYING;
+		if (movable) {
+			pullEnd = new Vector2(screenX, screenY);
+			this.velocity = new Vector2(pullStart.x - pullEnd.x, -(pullStart.y - pullEnd.y));
+			this.velocity.mul(3);
+			this.acceleration.x = 0;
+			this.acceleration.y = World.gravity;
+			startAnimation(Animations.Watermelon);
+			this.currentState = FruitState.FLYING;
+		}
 		return false;
 	}
 
@@ -102,5 +111,12 @@ public class Fruit extends BloxSprite {
 			position.x = 70f;
 			position.y = 70f;
 		}
+	}
+	
+	public void stop() {
+		stopAnimation();
+		velocity.mul(0);
+		acceleration.mul(0);
+		this.currentState = FruitState.WAITING;
 	}
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.blox.framework.BloxSprite;
 import com.blox.framework.CustomGestureListener;
 import com.blox.framework.CustomInputProcessor;
 
@@ -16,7 +17,7 @@ public class FruitGame implements ApplicationListener {
 	float delta;
 	
 	Fruit watermelon1;
-//	Fruit watermelon2;
+	Fruit watermelon2;
 //	Fruit watermelon3;
 
 	@Override
@@ -26,7 +27,8 @@ public class FruitGame implements ApplicationListener {
 		
 		spriteBatch = new SpriteBatch();
 		watermelon1 = new Fruit(spriteBatch, 70f, 70f);
-//		watermelon2 = new Fruit(0.2f, 40f, 1f);
+		watermelon2 = new Fruit(spriteBatch, 200f, 0f);
+		watermelon2.setMovable(false);
 //		watermelon3 = new Fruit(0.4f, 70f, 1f);
 		
 //		CompositeInputDetector mummyListener = new CompositeInputDetector();
@@ -34,11 +36,11 @@ public class FruitGame implements ApplicationListener {
 
 		CustomInputProcessor inputProcessor = new CustomInputProcessor();
 		inputProcessor.register(watermelon1);
-//		inputProcessor.register(watermelon2);
+		inputProcessor.register(watermelon2);
 //		inputProcessor.register(watermelon3);
 		CustomGestureListener gestureListener = new CustomGestureListener();
 		gestureListener.register(watermelon1);
-//		gestureListener.register(watermelon2);
+		gestureListener.register(watermelon2);
 //		gestureListener.register(watermelon3);
 		GestureDetector gestureDetector = new GestureDetector(gestureListener);
 		
@@ -57,7 +59,10 @@ public class FruitGame implements ApplicationListener {
 		
 		spriteBatch.begin();
 		watermelon1.update(delta);
-//		watermelon2.draw(spriteBatch);
+		watermelon2.update(delta);
+		if (BloxSprite.collide(watermelon1, watermelon2)) {
+			watermelon1.stop();
+		}
 //		watermelon3.draw(spriteBatch);
 		spriteBatch.end();
 	}
