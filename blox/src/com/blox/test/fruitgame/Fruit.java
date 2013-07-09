@@ -8,6 +8,8 @@ import com.blox.World;
 import com.blox.framework.BloxSprite;
 import com.blox.framework.AnimationBuilder;
 import com.blox.framework.BloxAnimation;
+import com.blox.framework.CircleBounds;
+import com.blox.framework.RectangleBounds;
 
 public class Fruit extends BloxSprite {
 	private Vector2 pullStart;
@@ -53,6 +55,7 @@ public class Fruit extends BloxSprite {
 		
 		addAnimation(watermelonAnimation);
 		addAnimation(crashAnimation);
+		addBounds(new RectangleBounds(getX(), getY(), getWidth(), getHeight()));
 		
 		setPosition(posX, posY);
 		setMovable(true);

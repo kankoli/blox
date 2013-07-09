@@ -22,86 +22,70 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 	
 	protected Enum currentState;
 
-	protected static enum Direction {UP, DOWN, LEFT, RIGHT};
+	protected Array<Bounds> bounds;
 	
 	protected SpriteBatch spriteBatch;
 
-	public BloxSprite(SpriteBatch spriteBatch) {
-		this.spriteBatch = spriteBatch;
-		this.position = new Vector2();
-		this.velocity = new Vector2();
-		this.acceleration = new Vector2();
-		this.animations = new HashMap<String, BloxAnimation>();
+	public BloxSprite(SpriteBatch sb) {
+		spriteBatch = sb;
+		position = new Vector2();
+		velocity = new Vector2();
+		acceleration = new Vector2();
+		animations = new HashMap<String, BloxAnimation>();
+		bounds = new Array<Bounds>();
 	}
 	
-	public BloxSprite(SpriteBatch spriteBatch, Texture defaultTexture, int width, int height) {
+	public BloxSprite(SpriteBatch sb, Texture defaultTexture, int width, int height) {
 		super(defaultTexture, width, height);
 
-		this.spriteBatch = spriteBatch;
-		this.position = new Vector2();
-		this.velocity = new Vector2();
-		this.acceleration = new Vector2();
-		this.animations = new HashMap<String, BloxAnimation>();
+		spriteBatch = sb;
+		position = new Vector2();
+		velocity = new Vector2();
+		acceleration = new Vector2();
+		animations = new HashMap<String, BloxAnimation>();
+		bounds = new Array<Bounds>();
 	}
 	
-	/**
-	 * Collides two sprites.s
-	 * @param s1
-	 * @param s2
-	 * @return true if they collide.
-	 */
-	public static boolean collide(BloxSprite s1, BloxSprite s2) {
-		return Intersector.overlapRectangles(s1.getBoundingRectangle(), s2.getBoundingRectangle());
+	public void addBounds(Bounds b) {
+		bounds.add(b);
 	}
 	
-	/**
-	 * Collides s1 with sprites in sArray and returns the colliding sprites. 
-	 * @param s1
-	 * @param sArray
-	 * @return colliding sprites
-	 */
-	public static Array<BloxSprite> collide(BloxSprite s1, Array<BloxSprite> sArray) {
-		Array<BloxSprite> returnArray = new Array<BloxSprite>();
+	public static boolean collide(BloxSprite s1, BloxSprite s2) throws Exception {
+		if (s1.bounds.size == 0 || s2.bounds.size == 0)
+			throw new Exception("There are no bounds added to the sprite");
+		return Bounds.collide(s1.bounds, s2.bounds);
+	}
+	
+	public static boolean collide(BloxSprite s1, Array<BloxSprite> sArray) throws Exception {
 		for (BloxSprite s2: sArray) {
 			if (collide(s1,s2))
-				returnArray.add(s2);
+				return true;
 		}
-		return returnArray;
+		return false;
 	}
 	
-	/**
-	 * Collides sprites in two arrays and returns the colliding sprites (of both the arrays).
-	 * @param sArray1
-	 * @param sArray2
-	 * @return colliding sprites
-	 */
-	public static Array<BloxSprite> collide(Array<BloxSprite> sArray1, Array<BloxSprite> sArray2) {
-		Array<BloxSprite> returnArray = new Array<BloxSprite>();
+	public static boolean collide(Array<BloxSprite> sArray1, Array<BloxSprite> sArray2) throws Exception {
 		for (BloxSprite s1: sArray1) {
-			for (BloxSprite s2: sArray2) {
-				if (collide(s1,s2)) {
-					returnArray.add(s1);
-					returnArray.add(s2);
-				}
-			}
+			if (collide(s1,sArray2))
+				return true;
 		}
-		return returnArray;
+		return false;
 	}
 
 	public Texture getDefaultTexture() {
 		return defaultTexture;
 	}
 
-	public void setDefaultTexture(Texture defaultTexture) {
-		this.defaultTexture = defaultTexture;
+	public void setDefaultTexture(Texture dt) {
+		defaultTexture = dt;
 	}
 	
 	public String getDefaultAnimation() {
 		return defaultAnimation;
 	}
 
-	public void setDefaultAnimation(String defaultAnimation) {
-		this.defaultAnimation = defaultAnimation;
+	public void setDefaultAnimation(String da) {
+		defaultAnimation = da;
 	}
 
 	public void addAnimation(BloxAnimation animation) {
@@ -124,17 +108,29 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 		return currentAnimation.getName();
 	}
 	
+	public Vector2 getPosition() {
+		return position;
+	}
+	
 	public void setPosition(float posX, float posY) {
-		this.position.x = posX;
-		this.position.y = posY;
+		position.x = posX;
+		position.y = posY;
+	}
+	
+	public void setPosition(Vector2 pos) {
+		position = pos;
 	}
 	
 	public float getX() {
-		return this.position.x;
+		return position.x;
 	}
 	
 	public float getY() {
-		return this.position.y;
+		return position.y;
+	}
+	
+	public Vector2 getCenter() {
+		return new Vector2(position.x + getWidth()/2, position.y + getHeight()/2);
 	}
 	
 	abstract public void update(float delta);

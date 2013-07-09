@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.blox.framework.BloxSprite;
+import com.blox.framework.CircleBounds;
 import com.blox.framework.CustomGestureListener;
 import com.blox.framework.CustomInputProcessor;
 
@@ -60,8 +61,13 @@ public class FruitGame implements ApplicationListener {
 		spriteBatch.begin();
 		watermelon1.update(delta);
 		watermelon2.update(delta);
-		if (BloxSprite.collide(watermelon1, watermelon2)) {
-			watermelon1.stop();
+		try {
+			if (BloxSprite.collide(watermelon1, watermelon2)) {
+				watermelon1.stop();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 //		watermelon3.draw(spriteBatch);
 		spriteBatch.end();
