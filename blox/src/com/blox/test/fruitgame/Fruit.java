@@ -59,7 +59,6 @@ public class Fruit extends BloxSprite {
 		
 		addAnimation(watermelonAnimation);
 		addAnimation(crashAnimation);
-		addBounds(new RectangleBounds(this, 30, 30));
 	}
 	
 	public void setMovable(boolean b) {

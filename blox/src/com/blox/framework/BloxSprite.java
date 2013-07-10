@@ -46,14 +46,30 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 		bounds = new Array<Bounds>();
 	}
 	
-	public void addBounds(Bounds b) {
-		bounds.add(b);
+	public void addCircleBounds(float r) {
+		bounds.add(new CircleBounds(this, r));
+	}
+
+	public void addCircleBounds(float r, Vector2 parentOffset) {
+		bounds.add(new CircleBounds(this, r, parentOffset));
+	}
+	
+	public void addRectangleBounds(float width, float height) {
+		bounds.add(new RectangleBounds(this, width, height));
+	}
+
+	public void addRectangleBounds(float width, float height, float xOffset, float yOffset) {
+		bounds.add(new RectangleBounds(this, width, height, xOffset, yOffset));
 	}
 	
 	public static boolean collide(BloxSprite s1, BloxSprite s2) throws Exception {
 		if (s1.bounds.size == 0 || s2.bounds.size == 0)
 			throw new Exception("There are no bounds added to the sprite");
-		return Bounds.collide(s1.bounds, s2.bounds);
+		for (Bounds b: s1.bounds) {
+			if (b.collide(s2.bounds))
+				return true;
+		}
+		return false;
 	}
 	
 	public static boolean collide(BloxSprite s1, Array<BloxSprite> sArray) throws Exception {
