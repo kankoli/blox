@@ -12,6 +12,7 @@ import com.blox.framework.BloxSprite;
 import com.blox.framework.CircleBounds;
 import com.blox.framework.CustomGestureListener;
 import com.blox.framework.CustomInputProcessor;
+import com.blox.framework.RectangleBounds;
 
 public class FruitGame implements ApplicationListener {
 	SpriteBatch spriteBatch;
@@ -30,6 +31,9 @@ public class FruitGame implements ApplicationListener {
 		watermelon1 = new Fruit(spriteBatch, 70f, 70f);
 		watermelon2 = new Fruit(spriteBatch, 200f, 0f);
 		watermelon2.setMovable(false);
+
+		watermelon1.addCircleBounds(20);
+		watermelon2.addRectangleBounds(50, 50);
 //		watermelon3 = new Fruit(0.4f, 70f, 1f);
 		
 //		CompositeInputDetector mummyListener = new CompositeInputDetector();
