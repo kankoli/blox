@@ -12,6 +12,6 @@ public class Main {
 		cfg.width = 480;
 		cfg.height = 800;
 
-		new LwjglApplication(new MazeGame(), cfg);
+		new LwjglApplication(new MazeGame(new MazeSaveHandler()), cfg);
 	}
 }

@@ -1,7 +1,11 @@
 package com.blox.maze;
 
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,25 +15,30 @@ import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.blox.ScaledShapeRenderer;
 import com.blox.World;
-import com.blox.entity.Maze2D;
-import com.blox.entity.Room2D;
 import com.blox.framework.InputDetector;
 
 public class MazeGame extends Game implements GestureListener, InputDetector {
 	private SpriteBatch batch;
-	private Maze2D maze;
 	private ScaledShapeRenderer shapeRenderer;
 
-	private final int boxSize = 1;
 	private final int mazeWidth = 12;
 	private final int mazeHeight = 12;
-	Maze mazeArr;
+	Maze maze;
+
+	public MazeGame() {
+
+	}
+
+	private IMazeSaveHandler saveHandler;
+
+	public MazeGame(IMazeSaveHandler saveHandler) {
+		this.saveHandler = saveHandler;
+	}
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
 		shapeRenderer = new ScaledShapeRenderer(new ShapeRenderer());
-		shapeRenderer.setColor(0, 0xaa, 0);
 
 		Gdx.input.setInputProcessor(new InputMultiplexer(new GestureDetector(
 				this), this));
@@ -38,47 +47,23 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 		World.height = Gdx.graphics.getHeight();
 
 		World.scale = 1 / 28f;
-
-		maze = new Maze2D(Room2D.rect(1, 1, 40, 40), Room2D.rect(1, 41, 40, 80));
-		maze.addRoom(Room2D.rect(41, 1, 80, 40));
-
-		mazeArr = new Maze(mazeWidth, mazeHeight, boxSize);
-		for (int i = 0; i < mazeWidth; i++) {
-			for (int j = 0; j < mazeWidth; j++) {
-				mazeArr.close(i, j);
-			}
+		
+		maze = new Maze(mazeWidth, mazeHeight);
+		maze.setTranslation(
+				(World.scale(World.width) - mazeWidth) / 2,
+				(World.scale(World.height) - mazeHeight) / 2);
+		
+		try {
+			InputStream fis = Gdx.files.internal("maze.dat").read();
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			int[][] arr = (int[][]) ois.readObject();
+			maze.setWalls(arr);
+			ois.close();
+			fis.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		mazeArr.setTranslation((World.scale(World.width) - mazeWidth) / 2,
-				(World.scale(World.height) - mazeHeight) / 2);
-		mazeArr.open(0, 0);
-		mazeArr.open(0, 1);
-		mazeArr.open(0, 2);
-		mazeArr.open(1, 0);
-		mazeArr.open(2, 0);
-		mazeArr.open(2, 2);
-		mazeArr.open(2, 1);
-		mazeArr.open(1, 2);
-		mazeArr.open(1, 3);
-		mazeArr.open(1, 4);
-		mazeArr.open(2, 4);
-		mazeArr.open(3, 4);
-		mazeArr.open(4, 4);
-		mazeArr.open(5, 4);
-		mazeArr.open(5, 5);
-		mazeArr.open(5, 6);
-
-		mazeArr.open(4, 7);
-		mazeArr.open(5, 7);
-		mazeArr.open(6, 7);
-
-		mazeArr.open(4, 8);
-		mazeArr.close(5, 8);
-		mazeArr.open(6, 8);
-
-		mazeArr.open(4, 9);
-		mazeArr.open(5, 9);
-		mazeArr.open(6, 9);
 	}
 
 	@Override
@@ -89,7 +74,7 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 		batch.begin();
 
 		// maze.render(shapeRenderer);
-		mazeArr.draw(shapeRenderer);
+		maze.draw(shapeRenderer);
 
 		batch.end();
 	}
@@ -127,6 +112,7 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
+		maze.toggleWall(x, World.height - y);
 		logMethodName();
 		return false;
 	}
@@ -137,8 +123,27 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 		return false;
 	}
 
+	private boolean ctrlPressed;
+
+	@Override
+	public boolean keyUp(int keycode) {
+		if (keycode == Input.Keys.CONTROL_LEFT
+				|| keycode == Input.Keys.CONTROL_RIGHT)
+			ctrlPressed = false;
+		logMethodName();
+		return false;
+	}
+
 	@Override
 	public boolean keyDown(int keycode) {
+		if (keycode == Input.Keys.CONTROL_LEFT
+				|| keycode == Input.Keys.CONTROL_RIGHT)
+			ctrlPressed = true;
+
+		if (ctrlPressed && keycode == Input.Keys.S && saveHandler != null) {
+			saveHandler.save(maze.getWalls());
+		}
+
 		logMethodName();
 		return false;
 	}
@@ -150,14 +155,8 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 	}
 
 	@Override
-	public boolean keyUp(int keycode) {
-		logMethodName();
-		return false;
-	}
-
-	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		//logMethodName();
+		// logMethodName();
 		return false;
 	}
 
@@ -167,26 +166,34 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 		return false;
 	}
 
+	int rotateStart;
+
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		rotateStart = screenX;
 		logMethodName();
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		float theta = (float) ((Math.PI / 2) * ((rotateStart - screenX) / World.width));
+		rotateStart = screenX;
+		maze.tempRotate(theta);
 		logMethodName();
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		maze.turn();
 		logMethodName();
 		return false;
 	}
 
 	private static void logMethodName() {
-		final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-		System.out.println(ste[2].getMethodName());
+		// final StackTraceElement[] ste =
+		// Thread.currentThread().getStackTrace();
+		// System.out.println(ste[2].getMethodName());
 	}
 }
