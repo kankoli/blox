@@ -3,7 +3,9 @@ package com.blox.test.mummy;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.blox.World;
-import com.blox.framework.*;
+import com.blox.framework.AnimationBuilder;
+import com.blox.framework.BloxAnimation;
+import com.blox.framework.BloxSprite;
 
 public class Mummy extends BloxSprite {
 	public final class Animations {
@@ -132,6 +134,8 @@ public class Mummy extends BloxSprite {
 		}
 		return super.touchDown(screenX, screenY, pointer, button);
 	}
+	
+	String prevAnimation;
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -140,6 +144,7 @@ public class Mummy extends BloxSprite {
 					.contains(screenX, World.height - screenY)) {
 				velocity.y = 10;
 				acceleration.y = World.gravity;
+				prevAnimation = currentAnimation.getName();
 				startAnimation(Animations.Jump);
 			}
 		} else if (isWalking()) {
@@ -161,6 +166,13 @@ public class Mummy extends BloxSprite {
 			animation.stopAnimation();
 			startAnimation(Animations.Stand);
 			flipped = !flipped;
+		}else if (Animations.Jump == animation.getName()) {
+			if (Animations.Walk == prevAnimation)
+				velocity.x = flipped ? 3 : -3;
+			else 
+				velocity.x = 0;
+			animation.stopAnimation();
+			startAnimation(prevAnimation);
 		}
 	}
 

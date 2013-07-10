@@ -7,6 +7,9 @@ public interface IAnimation {
 	void setLooping(boolean looping);
 	
 	Rotation getRotation();	
+
+	void registerEndListener(IAnimationEndListener handler);
+	void unregisterEndListener(IAnimationEndListener handler);
 	
 	void start();
 	void stop();

@@ -1,16 +1,22 @@
 package com.blox.framework.v0;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Animation implements IAnimation {
 	protected float frameTime;
 
 	private boolean isAnimating;
 	private boolean isLooping;
+
 	private Rotation rotation;
 
 	private IAnimationData data;
+	private List<IAnimationEndListener> endListeners;
 
 	public Animation() {
 		rotation = new Rotation();
+		endListeners = new ArrayList<IAnimationEndListener>();
 	}
 
 	public void load(ITexture mainTexture, float frameWidth, float frameHeight) {
@@ -51,5 +57,18 @@ public class Animation implements IAnimation {
 	public ITexture getFrame() {
 		frameTime += GameWorld.getDeltaTime();
 		return data.getFrame(frameTime);
+	}
+
+	public void registerEndListener(IAnimationEndListener listener) {
+		endListeners.add(listener);
+	}
+
+	public void unregisterEndListener(IAnimationEndListener listener) {
+		endListeners.remove(listener);
+	}
+
+	protected void notifyEndListeners() {
+		for (IAnimationEndListener listener : endListeners)
+			listener.notifyAnimationEnd(this);
 	}
 }

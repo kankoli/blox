@@ -1,9 +1,5 @@
 package com.blox.framework.v0;
 
-public interface ISound {
-	void play();
-	void stop();
+public interface ISound extends IMedia {
 
-	void load(String resourcePath);
-	void dispose();
 }

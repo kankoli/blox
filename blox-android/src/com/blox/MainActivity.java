@@ -5,9 +5,7 @@ import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.blox.test.AnimationGame;
-import com.blox.test.fruitgame.FruitGame;
-import com.blox.test.mummy.MummyGame;
+import com.blox.maze.MazeGame;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -19,6 +17,6 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = true;
 		cfg.useCompass = true;
 		
-		initialize(new FruitGame(), cfg);
+		initialize(new MazeGame(), cfg);
     }
 }

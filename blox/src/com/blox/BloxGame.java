@@ -25,8 +25,6 @@ public class BloxGame implements ApplicationListener {
 
 	private float deltaT;
 	private long lastRender;
-
-	private final float gravity = 9.8f;
 	private final float friction = 0.25f;
 	private int screenWidth;
 	private int screenHeight;
@@ -125,8 +123,8 @@ public class BloxGame implements ApplicationListener {
 		}
 
 		if (!manualMove) {
-			ball.a.x = -(ax / 10) * gravity;
-			ball.a.y = -(ay / 10) * gravity;
+			ball.a.x = -(ax / 10) * World.gravity;
+			ball.a.y = -(ay / 10) * World.gravity;
 			ball.move(deltaT, friction);
 		}
 

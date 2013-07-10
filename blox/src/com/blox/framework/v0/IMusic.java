@@ -1,10 +1,5 @@
 package com.blox.framework.v0;
 
-public interface IMusic {
-	void play();
-	void pause();
-	void stop();
+public interface IMusic extends IMedia {
 
-	void load(String resourcePath);
-	void dispose();
 }

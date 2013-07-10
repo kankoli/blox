@@ -3,7 +3,6 @@ package com.blox.framework;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,8 +19,6 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 	protected Vector2 velocity;
 	protected Vector2 acceleration;
 	
-	protected Enum currentState;
-
 	protected Array<Bounds> bounds;
 	
 	protected SpriteBatch spriteBatch;

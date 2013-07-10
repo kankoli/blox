@@ -5,9 +5,12 @@ public interface IMedia {
 	void pause();
 	void stop();
 
-	void getSpeed();
+	float getSpeed();
 	void setSpeed(float speed);
+
+	float getSoundLevel();
+	void setSoundLevel(float soundLevel);
 	
-	void getPosition();
+	float getPosition();
 	void setPosition(float position);
 }
