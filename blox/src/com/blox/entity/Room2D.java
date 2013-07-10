@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.blox.ScaledShapeRenderer;
+
 public class Room2D {
 	private List<Wall2D> walls;
 
@@ -30,5 +32,10 @@ public class Room2D {
 				new Wall2D(x + w, 	y, 		x + w, 	y + h),
 				new Wall2D(x, 		y + h, 	x + w, 	y + h)
 	    );
+	}
+	
+	public void render(ScaledShapeRenderer renderer) {
+		for (Wall2D wall : walls)
+			wall.render(renderer);
 	}
 }

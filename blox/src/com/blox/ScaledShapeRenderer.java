@@ -1,5 +1,6 @@
 package com.blox;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -31,6 +32,33 @@ public class ScaledShapeRenderer {
 		renderer.end();
 	}
 
+	public void line(float p1x, float p1y, float p2x, float p2y) {
+		renderer.begin(ShapeType.Line);
+		renderer.line(World.descale(p1x), World.descale(p1y),
+				World.descale(p2x), World.descale(p2y));
+		renderer.end();
+	}
+	public void rect(float x, float y, float w, float h, Color color) {
+		renderer.begin(ShapeType.FilledRectangle);
+		renderer.filledRect(World.descale(x), World.descale(y), World.descale(w),
+				World.descale(h), color, color, color, color);
+		renderer.end();
+	}
+	
+	public void rect(float x, float y, float w, float h, Color color1, Color color2, Color color3, Color color4) {
+		renderer.begin(ShapeType.FilledRectangle);
+		renderer.filledRect(World.descale(x), World.descale(y), World.descale(w),
+				World.descale(h), color1, color2, color3, color4);
+		renderer.end();
+	}
+	
+	public void rect(float x, float y, float w, float h) {
+		renderer.begin(ShapeType.Rectangle);
+		renderer.rect(World.descale(x), World.descale(y), World.descale(w),
+				World.descale(h));
+		renderer.end();
+	}
+
 	public void circle(Vector2 position, float radius) {
 		Vector2 p = World.descale(position);
 		float r = World.descale(radius);
@@ -38,7 +66,7 @@ public class ScaledShapeRenderer {
 		renderer.circle(p.x, p.y, r);
 		renderer.end();
 	}
-	
+
 	public void dispose() {
 		renderer.dispose();
 	}

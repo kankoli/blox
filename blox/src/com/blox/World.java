@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 public final class World {
 	
 	public static float scale = 1;
-	public static float gravity = -89.8f;
+	public static float gravity = -9.8f;
 	public static float width = 800f;
 	public static float height = 480f;
 	
