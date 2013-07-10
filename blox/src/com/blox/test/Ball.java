@@ -16,8 +16,6 @@ public class Ball {
 		v = new Vector2();
 	}
 
-	private final float epsilon = 0.1f;
-
 	public void move(float dt, float friction) {
 		v.mul(1 - dt * friction);
 

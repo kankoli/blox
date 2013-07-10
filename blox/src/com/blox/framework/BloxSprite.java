@@ -18,8 +18,6 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 	protected Vector2 velocity;
 	protected Vector2 acceleration;
 	
-	protected Enum currentState;
-
 	protected SpriteBatch spriteBatch;
 
 	public BloxSprite(SpriteBatch spriteBatch) {

@@ -7,4 +7,6 @@ public abstract class GameObject {
 	public float friction;
 	public float elasticity;
 	public Vector location;
+	
+	abstract void update();
 }

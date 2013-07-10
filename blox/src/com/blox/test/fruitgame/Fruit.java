@@ -1,21 +1,21 @@
 package com.blox.test.fruitgame;
 
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.blox.World;
-import com.blox.framework.BloxSprite;
 import com.blox.framework.AnimationBuilder;
 import com.blox.framework.BloxAnimation;
+import com.blox.framework.BloxSprite;
 
 public class Fruit extends BloxSprite {
 	private Vector2 pullStart;
 	private Vector2 pullEnd;
 	
 	public enum FruitState { WAITING, FLYING, CRASHING };
+	
+	private FruitState currentState;
 	
 	public final class Animations {
 		public static final String Watermelon = "FruitWatermelonAnimation";
