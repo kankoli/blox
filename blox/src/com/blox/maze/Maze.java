@@ -137,7 +137,7 @@ public class Maze {
 	}
 
 	List<int[]> lines = new ArrayList<int[]>();
-	private final float epsilon = (float) Math.PI / 360;
+	private final float epsilon = (float) (20 * Math.PI) / 360;
 
 	// saniyede
 	private final float turnSpeed = (float)Math.PI;
@@ -149,7 +149,7 @@ public class Maze {
 
 		float tmpDr = targetRotation - rotation;
 
-		if (Math.abs(tmpDr) > 2 * epsilon) {
+		if (Math.abs(tmpDr) > epsilon) {
 			if (tmpDr > 0) {
 				rotation += turnSpeed * Gdx.graphics.getDeltaTime();
 			} else {
