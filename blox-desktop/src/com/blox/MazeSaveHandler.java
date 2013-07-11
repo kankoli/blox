@@ -4,7 +4,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import com.blox.maze.IMazeSaveHandler;
+import com.blox.maze.designer.IMazeSaveHandler;
 
 public class MazeSaveHandler implements IMazeSaveHandler {
 	public void save(int[][] mazeData) {

@@ -1,4 +1,4 @@
-package com.blox.maze;
+package com.blox.maze.designer;
 
 public interface IMazeSaveHandler {
 	void save(int[][] mazeData);
