@@ -7,21 +7,19 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ScaledShapeRenderer {
 	private ShapeRenderer renderer;
+	private Color color;
 
 	public ScaledShapeRenderer(ShapeRenderer renderer) {
 		this.renderer = renderer;
 	}
 
-	public void setColor(int rgb) {
-		setColor(rgb, rgb, rgb);
+	public void setColor(Color color) {
+		renderer.setColor(color);
+		this.color = color;
 	}
-
-	public void setColor(int r, int g, int b) {
-		setColor(r, g, b, 1);
-	}
-
-	public void setColor(int r, int g, int b, int a) {
-		renderer.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
+	
+	public Color getColor() {
+		return color;
 	}
 
 	public void line(Vector2 start, Vector2 end) {
@@ -38,6 +36,7 @@ public class ScaledShapeRenderer {
 				World.descale(p2x), World.descale(p2y));
 		renderer.end();
 	}
+	
 	public void rect(float x, float y, float w, float h, Color color) {
 		renderer.begin(ShapeType.FilledRectangle);
 		renderer.filledRect(World.descale(x), World.descale(y), World.descale(w),
@@ -67,6 +66,14 @@ public class ScaledShapeRenderer {
 		renderer.end();
 	}
 
+	public void translate(float x, float y) {
+		renderer.translate(x, y, 0);
+	}
+	
+	public void rotate(float theta) {
+		renderer.rotate(0, 0, 1, theta);
+	}
+	
 	public void dispose() {
 		renderer.dispose();
 	}

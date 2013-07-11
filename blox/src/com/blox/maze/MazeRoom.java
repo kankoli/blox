@@ -45,16 +45,10 @@ public class MazeRoom {
 	private int rowIndex;
 	private int colIndex;
 
-	private float ox;
-	private float oy;
-
 	MazeRoom(Maze maze, int rowIndex, int colIndex) {
 		this.maze = maze;
 		this.rowIndex = rowIndex;
 		this.colIndex = colIndex;
-
-		this.ox = maze.getColumnCount() / 2f;
-		this.oy = maze.getRowCount() / 2f;
 	}
 
 	public int getRowIndex() {
@@ -109,8 +103,8 @@ public class MazeRoom {
 		return maze.getRoom(rowIndex, colIndex - 1);
 	}
 
-	public void draw(ScaledShapeRenderer renderer, float sinr, float cosr,
-			float tx, float ty) {
+	public void draw(ScaledShapeRenderer renderer, float theta, float sinr,
+			float cosr, float tx, float ty) {
 		drawUpWall(renderer, sinr, cosr, tx, ty);
 		drawRightWall(renderer, sinr, cosr, tx, ty);
 		drawDownWall(renderer, sinr, cosr, tx, ty);
@@ -148,6 +142,9 @@ public class MazeRoom {
 	private void drawWall(ScaledShapeRenderer renderer, float sinr, float cosr,
 			float tx, float ty, float p0x, float p0y, float p1x, float p1y) {
 
+		float ox = maze.getOx();
+		float oy = maze.getOy();
+		
 		float x0 = cosr * (p0x - ox) - sinr * (p0y - oy) + ox;
 		float y0 = sinr * (p0x - ox) + cosr * (p0y - oy) + oy;
 		float x1 = cosr * (p1x - ox) - sinr * (p1y - oy) + ox;

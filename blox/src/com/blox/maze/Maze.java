@@ -1,6 +1,10 @@
 package com.blox.maze;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.blox.ScaledShapeRenderer;
 
 public class Maze {
@@ -11,6 +15,9 @@ public class Maze {
 	private float tx;
 	private float ty;
 
+	private float ox;
+	private float oy;
+
 	private float rotation;
 	private float targetRotation;
 	private float tempRotation;
@@ -20,11 +27,27 @@ public class Maze {
 	private int rows;
 	private int cols;
 	private MazeRoom[][] rooms;
+	private List<MazePlayer> players;
 
 	public Maze(int rows, int cols) {
 		this.rows = rows;
 		this.cols = cols;
+		this.players = new ArrayList<MazePlayer>();
+		this.ox = cols / 2f;
+		this.oy = rows / 2f;
 		initRooms();
+	}
+
+	public void addPlayer(MazePlayer player) {
+		players.add(player);
+	}
+
+	float getOx() {
+		return ox;
+	}
+
+	float getOy() {
+		return oy;
 	}
 
 	public int getRowCount() {
@@ -34,7 +57,7 @@ public class Maze {
 	public int getColumnCount() {
 		return cols;
 	}
-	
+
 	private void initRooms() {
 		rooms = new MazeRoom[rows][cols];
 		for (int i = 0; i < rows; i++) {
@@ -134,25 +157,76 @@ public class Maze {
 				rotation -= turnSpeed * Gdx.graphics.getDeltaTime();
 			}
 		} else {
+			if (isRotating())
+				setPlayersAcceleration(targetRotation);
 			rotation = targetRotation;
 		}
 
-		renderer.setColor(0, 192, 0);
+		renderer.setColor(Color.GREEN);
 		drawWalls(renderer, rotation);
 
 		if (tempRotation != 0) {
-			renderer.setColor(127);
+			renderer.setColor(Color.GRAY);
 			drawWalls(renderer, rotation + tempRotation);
+		}
+
+		if (!isRotating())
+			movePlayers(rotation);
+		drawPlayers(renderer, rotation);
+	}
+
+	private void setPlayersAcceleration(float rotation) {
+		for (MazePlayer player : players) {
+			player.beginMove(rotation);
 		}
 	}
 
-	private void drawWalls(ScaledShapeRenderer renderer, float rotation) {
-		float sinr = (float) Math.sin(rotation);
-		float cosr = (float) Math.cos(rotation);
+	private void movePlayers(float currentRotation) {
+
+		int orientation = (int) Math.round(Math.toDegrees(currentRotation)) % 360;
+		if (orientation < 0)
+			orientation += 360;
+
+		for (MazePlayer player : players) {
+			int i = (int) player.getX();
+			int j = (int) player.getY();
+
+			MazeRoom currentRoom = rooms[j][i];
+
+			boolean stop;
+			if (orientation == 0) {
+				stop = currentRoom.isVisible(MazeRoom.WallDown);
+			} else if (orientation == 90) {
+				stop = currentRoom.isVisible(MazeRoom.WallLeft);
+			} else if (orientation == 180) {
+				stop = currentRoom.isVisible(MazeRoom.WallUp);
+			} else {
+				stop = currentRoom.isVisible(MazeRoom.WallRight);
+			}
+
+			if (stop) {
+				player.stop();
+				player.setLocation(currentRoom.getColumnIndex() + 0.05f,
+						currentRoom.getRowIndex() + 0.05f);
+			} else {
+				player.move();
+			}
+		}
+	}
+
+	private void drawPlayers(ScaledShapeRenderer renderer, float theta) {
+		for (MazePlayer player : players) {
+			player.draw(renderer, theta, ox, oy, tx, ty);
+		}
+	}
+
+	private void drawWalls(ScaledShapeRenderer renderer, float theta) {
+		float sinr = (float) Math.sin(theta);
+		float cosr = (float) Math.cos(theta);
 
 		for (int i = 0; i < rooms.length; i++) {
 			for (int j = 0; j < rooms[i].length; j++) {
-				rooms[i][j].draw(renderer, sinr, cosr, tx, ty);
+				rooms[i][j].draw(renderer, theta, sinr, cosr, tx, ty);
 			}
 		}
 	}

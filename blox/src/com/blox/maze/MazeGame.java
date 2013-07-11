@@ -19,18 +19,18 @@ import com.blox.framework.InputDetector;
 import com.blox.maze.designer.IMazeSaveHandler;
 
 public class MazeGame extends Game implements GestureListener, InputDetector {
+	private static final int mazeWidth = 12;
+	private static final int mazeHeight = 12;
+
 	private SpriteBatch batch;
 	private ScaledShapeRenderer shapeRenderer;
 
-	private final int mazeWidth = 12;
-	private final int mazeHeight = 12;
-	Maze maze;
+	private Maze maze;
+	private IMazeSaveHandler saveHandler;
 
 	public MazeGame() {
-
+		this(null);
 	}
-
-	private IMazeSaveHandler saveHandler;
 
 	public MazeGame(IMazeSaveHandler saveHandler) {
 		this.saveHandler = saveHandler;
@@ -47,21 +47,27 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 		World.width = Gdx.graphics.getWidth();
 		World.height = Gdx.graphics.getHeight();
 
-		World.scale = 1 / 28f;
+		World.scale = 1 / 36f;
 
 		maze = new Maze(mazeWidth, mazeHeight);
 		maze.setTranslation((World.scale(World.width) - mazeWidth) / 2,
 				(World.scale(World.height) - mazeHeight) / 2);
 		maze.setDesignMode(false);
 
+		MazePlayer player = new MazePlayer();
+		player.setLocation(0.05f,  0.05f);
+		maze.addPlayer(player);
+		
+		player = new MazePlayer();
+		player.setLocation(11.05f,  0.05f);
+		maze.addPlayer(player);
+
 		if (maze.isDesignMode()) {
 			for (int i = 0; i < mazeWidth; i++) {
 				for (int j = 0; j < mazeHeight; j++) {
-					maze.getRoom(i, j)
-						.show(MazeRoom.WallUp)
-						.show(MazeRoom.WallRight)
-						.show(MazeRoom.WallDown)
-						.show(MazeRoom.WallLeft);
+					maze.getRoom(i, j).show(MazeRoom.WallUp)
+							.show(MazeRoom.WallRight).show(MazeRoom.WallDown)
+							.show(MazeRoom.WallLeft);
 				}
 			}
 		} else {
@@ -77,7 +83,7 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 			}
 		}
 	}
-
+	
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -85,7 +91,6 @@ public class MazeGame extends Game implements GestureListener, InputDetector {
 
 		batch.begin();
 
-		// maze.render(shapeRenderer);
 		maze.draw(shapeRenderer);
 
 		batch.end();
