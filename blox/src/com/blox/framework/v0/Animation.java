@@ -1,27 +1,65 @@
 package com.blox.framework.v0;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Animation implements IAnimation {
-	protected float frameTime;
+public class Animation {
+	private float frameTime;
+	private float frameDuration; // seconds
+	private int width;
+	private int height;
 
 	private boolean isAnimating;
 	private boolean isLooping;
+	private String name;
 
-	private Rotation rotation;
+	private AnimationManager manager;
 
-	private IAnimationData data;
-	private List<IAnimationEndListener> endListeners;
+	private ITexture[] textures;
 
-	public Animation() {
-		rotation = new Rotation();
-		endListeners = new ArrayList<IAnimationEndListener>();
+	Animation() {
+
 	}
 
-	public void load(ITexture mainTexture, float frameWidth, float frameHeight) {
-		data = GameWorld.getAnimationDataFactory().create();
-		data.load(mainTexture, frameWidth, frameHeight);
+	void setWidth(int width) {
+		this.width = width;
+	}
+	
+	void setHeight(int height) {
+		this.height = height;
+	}
+	
+	void setManager(AnimationManager manager) {
+		this.manager = manager;
+	}
+
+	void setName(String name) {
+		this.name = name;
+	}
+
+	void setFrames(ITexture... textures) {
+		this.textures = textures;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+
+	public void setFrameDuration(float frameDuration) {
+		this.frameDuration = frameDuration;
+	}
+
+	public void setLooping(boolean looping) {
+		isLooping = looping;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void reset() {
+		frameTime = 0;
 	}
 
 	public boolean isAnimating() {
@@ -32,19 +70,16 @@ public class Animation implements IAnimation {
 		return isLooping;
 	}
 
-	public void setLooping(boolean looping) {
-		isLooping = looping;
-	}
-
-	public Rotation getRotation() {
-		return rotation;
-	}
-
-	public void start() {
+	public void start(boolean forceRestart) {
+		if (forceRestart)
+			reset();
 		if (isAnimating)
 			return;
-		frameTime = 0;
 		isAnimating = true;
+	}
+
+	public void pause() {
+		isAnimating = false;
 	}
 
 	public void stop() {
@@ -55,20 +90,18 @@ public class Animation implements IAnimation {
 	}
 
 	public ITexture getFrame() {
-		frameTime += GameWorld.getDeltaTime();
-		return data.getFrame(frameTime);
-	}
+		if (isAnimating)
+			frameTime += Game.getDeltaTime();
 
-	public void registerEndListener(IAnimationEndListener listener) {
-		endListeners.add(listener);
-	}
-
-	public void unregisterEndListener(IAnimationEndListener listener) {
-		endListeners.remove(listener);
-	}
-
-	protected void notifyEndListeners() {
-		for (IAnimationEndListener listener : endListeners)
-			listener.notifyAnimationEnd(this);
+		int frameIndex = (int) (frameTime / frameDuration);
+		if (frameIndex >= textures.length) {
+			if (isLooping)
+				frameIndex = frameIndex % textures.length;
+			else {
+				frameIndex = textures.length - 1;
+				manager.notifyEndListeners(this);
+			}
+		}
+		return textures[frameIndex];
 	}
 }

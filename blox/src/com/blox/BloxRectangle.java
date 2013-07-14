@@ -1,6 +1,6 @@
 package com.blox;
 
-import com.blox.framework.v0.Vector;
+import com.badlogic.gdx.math.Vector2;
 
 /*
 
@@ -15,24 +15,24 @@ import com.blox.framework.v0.Vector;
 public class BloxRectangle {
 	private float width;
 	private float height;
-	private Vector a;
-	private Vector b;
-	private Vector c;
-	private Vector d;
+	private Vector2 a;
+	private Vector2 b;
+	private Vector2 c;
+	private Vector2 d;
 	private float rotation;
 	private float sinr;
 	private float cosr;
-	private Vector rotatationOrigin;
+	private Vector2 rotatationOrigin;
 
-	private Vector[] vertices;
+	private Vector2[] vertices;
 
 	private BloxRectangle() {
-		a = new Vector();
-		b = new Vector();
-		c = new Vector();
-		d = new Vector();
-		vertices = new Vector[] { a, b, c, d };
-		rotatationOrigin = new Vector();
+		a = new Vector2();
+		b = new Vector2();
+		c = new Vector2();
+		d = new Vector2();
+		vertices = new Vector2[] { a, b, c, d };
+		rotatationOrigin = new Vector2();
 		setRotation(0);
 	}
 
@@ -165,8 +165,8 @@ public class BloxRectangle {
 //		float oy = a.y + height / 2;
 				
 		for (int i = 0; i < vertices.length; i++) {
-			Vector p0 = vertices[i];
-			Vector p1 = vertices[(i + 1) % vertices.length];
+			Vector2 p0 = vertices[i];
+			Vector2 p1 = vertices[(i + 1) % vertices.length];
 						
 			float x0 = cosr * (p0.x - ox) - sinr * (p0.y - oy) + ox;
 			float y0 = sinr * (p0.x - ox) + cosr * (p0.y - oy) + oy;

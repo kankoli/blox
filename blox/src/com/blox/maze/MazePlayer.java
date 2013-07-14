@@ -2,22 +2,22 @@ package com.blox.maze;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.blox.BloxRectangle;
 import com.blox.ScaledShapeRenderer;
 import com.blox.World;
-import com.blox.framework.v0.Vector;
 
 public class MazePlayer {
 	private BloxRectangle rect;
 
-	private Vector p;
-	private Vector v;
-	private Vector a;
+	private Vector2 p;
+	private Vector2 v;
+	private Vector2 a;
 
 	MazePlayer() {
-		p = new Vector();
-		v = new Vector();
-		a = new Vector();
+		p = new Vector2();
+		v = new Vector2();
+		a = new Vector2();
 		rect = new BloxRectangle(0, 0, 0.9f, 0.9f);
 	}
 

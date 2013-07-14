@@ -17,7 +17,7 @@ public interface IInputListener {
 
 	public boolean zoom(float initialDistance, float distance);
 
-	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End);
+	public boolean pinch(IVector p1Start, IVector p2Start, IVector p1End, IVector p2End);
 
 	public boolean keyDown(int keycode);
 
