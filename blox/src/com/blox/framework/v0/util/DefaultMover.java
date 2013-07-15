@@ -1,4 +1,7 @@
-package com.blox.framework.v0;
+package com.blox.framework.v0.util;
+
+import com.blox.framework.v0.IMovable;
+import com.blox.framework.v0.IMover;
 
 public class DefaultMover implements IMover {	
 	@Override

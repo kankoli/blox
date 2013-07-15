@@ -1,6 +1,8 @@
-package com.blox.framework.v0;
+package com.blox.framework.v0.util;
 
-public class Animation implements IDrawable {
+import com.blox.framework.v0.ITexture;
+
+public class Animation {
 	private float frameTime;
 	private float frameDuration; // seconds
 	private int width;
@@ -10,7 +12,7 @@ public class Animation implements IDrawable {
 	private boolean isLooping;
 	private String name;
 
-	private AnimationManager manager;
+	private Animator manager;
 
 	private ITexture[] textures;
 
@@ -26,7 +28,7 @@ public class Animation implements IDrawable {
 		this.height = height;
 	}
 	
-	void setManager(AnimationManager manager) {
+	void setManager(Animator manager) {
 		this.manager = manager;
 	}
 
@@ -37,15 +39,15 @@ public class Animation implements IDrawable {
 	void setFrames(ITexture... textures) {
 		this.textures = textures;
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}
-
+	
 	public void setFrameDuration(float frameDuration) {
 		this.frameDuration = frameDuration;
 	}
@@ -103,10 +105,5 @@ public class Animation implements IDrawable {
 			}
 		}
 		return textures[frameIndex];
-	}
-
-	@Override
-	public void draw(DrawOptions options) {
-		getFrame().draw(options);
 	}
 }

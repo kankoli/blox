@@ -1,16 +1,18 @@
-package com.blox.framework.v0;
+package com.blox.framework.v0.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class AnimationManager {
+import com.blox.framework.v0.IAnimationEndListener;
+
+class Animator {
 	private Animation currentAnimation;
 	private Map<String, Animation> animations;
 	private List<IAnimationEndListener> endListeners;
 
-	AnimationManager() {
+	Animator() {
 		animations = new HashMap<String, Animation>();
 		endListeners = new ArrayList<IAnimationEndListener>();
 	}

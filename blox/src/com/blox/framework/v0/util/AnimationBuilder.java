@@ -1,6 +1,9 @@
-package com.blox.framework.v0;
+package com.blox.framework.v0.util;
 
-public class AnimationBuilder {
+import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.ITextureSplitter;
+
+class AnimationBuilder {
 	private Animation animation;
 
 	private String mainTexturePath;

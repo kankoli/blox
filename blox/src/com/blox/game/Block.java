@@ -1,8 +1,8 @@
 package com.blox.game;
 
-import com.blox.framework.v0.Animation;
-import com.blox.framework.v0.DefaultMovable;
-import com.blox.framework.v0.GameObject;
+import com.blox.framework.v0.util.Animation;
+import com.blox.framework.v0.util.DefaultMover;
+import com.blox.framework.v0.util.GameObject;
 
 public class Block extends GameObject {
 	private final class Animations {
@@ -44,10 +44,10 @@ public class Block extends GameObject {
 		addAnimation(Animations.Turn, Animations.TurnImagePath,
 				Animations.TurnFrameDuration, Animations.TurnFrameWidth,
 				Animations.TurnFrameHeight);
-
+		
 		stand();
-
-		movable = new DefaultMovable(location, velocity, acceleration);
+		
+		mover = new DefaultMover();
 
 		width = 41;
 		height = 48;
@@ -56,8 +56,6 @@ public class Block extends GameObject {
 	@Override
 	protected Animation startAnimation(String name) {
 		Animation animation = super.startAnimation(name);
-		drawOptions.width = animation.getWidth();
-		drawOptions.height = animation.getHeight();
 		return animation;
 	}
 
@@ -80,8 +78,8 @@ public class Block extends GameObject {
 	@Override
 	protected void onAnimationEnd(Animation animation) {
 		if (animation.getName() == Animations.Turn) {
-			drawOptions.flipX = !drawOptions.flipX;
-			if (drawOptions.flipX) {
+			flipX = !flipX;
+			if (flipX) {
 				walk();
 				velocity.x = 15;
 			} else {
@@ -121,8 +119,6 @@ public class Block extends GameObject {
 			location.y = 0;
 		}
 		move();
-		drawOptions.x = location.x;
-		drawOptions.y = location.y;
-		getAnimation().draw(drawOptions);
+		getAnimation().getFrame().draw(this);
 	}
 }

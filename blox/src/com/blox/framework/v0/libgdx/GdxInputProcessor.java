@@ -1,8 +1,8 @@
 package com.blox.framework.v0.libgdx;
 
 import com.badlogic.gdx.InputProcessor;
-import com.blox.framework.v0.Game;
 import com.blox.framework.v0.IInputListener;
+import com.blox.framework.v0.util.Game;
 
 class GdxInputProcessor implements InputProcessor {
 	private IInputListener listener;

@@ -8,7 +8,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.IInputManager;
-import com.blox.framework.v0.Vector;
+import com.blox.framework.v0.util.Vector;
 
 class GdxInputManager implements IInputManager, IInputListener {
 	private List<IInputListener> listeners;

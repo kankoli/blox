@@ -1,9 +1,25 @@
-package com.blox.framework.v0;
+package com.blox.framework.v0.util;
 
 public class Vector {
 	public float x;
 	public float y;
 	public float z;
+
+	public Vector() {
+
+	}
+
+	public Vector(Vector vector) {
+		this.x = vector.x;
+		this.y = vector.y;
+		this.z = vector.z;
+	}
+
+	public Vector(float x, float y, float z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
 
 	public Vector add(Vector v) {
 		x += v.x;
@@ -47,7 +63,7 @@ public class Vector {
 	public float len2() {
 		return x * x + y * y + z * z;
 	}
-	
+
 	public float dist(Vector v) {
 		return (float) Math.sqrt(dist2(v));
 	}

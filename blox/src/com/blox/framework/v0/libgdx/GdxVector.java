@@ -2,7 +2,7 @@ package com.blox.framework.v0.libgdx;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.blox.framework.v0.Vector;
+import com.blox.framework.v0.util.Vector;
 
 class GdxVector extends Vector {
 	private Vector3 vector;

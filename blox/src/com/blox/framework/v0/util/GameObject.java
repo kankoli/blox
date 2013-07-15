@@ -1,38 +1,52 @@
-package com.blox.framework.v0;
+package com.blox.framework.v0.util;
 
-public abstract class GameObject implements IInputListener {
-	// http://en.wikipedia.org/wiki/Physical_property#List_of_properties
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import com.blox.framework.v0.IAnimationEndListener;
+import com.blox.framework.v0.IBound;
+import com.blox.framework.v0.ICollidable;
+import com.blox.framework.v0.IDrawer;
+import com.blox.framework.v0.IGameObject;
+import com.blox.framework.v0.IMover;
+
+public abstract class GameObject implements IGameObject {
 	protected float width;
 	protected float height;
 	protected Vector location;
 	protected Vector velocity;
 	protected Vector acceleration;
-	protected Vector rotation;
+	protected Vector scale;
+	protected Rotation rotation;
+	protected boolean flipX;
+	protected boolean flipY;
 
-	private AnimationManager animationManager;
-	
-	protected IMovable movable;
-	protected DrawOptions drawOptions;
+	protected Animator animator;
+	protected List<IBound> bounds;
+	protected IMover mover;
+	protected IDrawer drawer;
 
 	protected GameObject() {
 		location = new Vector();
 		velocity = new Vector();
 		acceleration = new Vector();
-		rotation = new Vector();
-		animationManager = new AnimationManager();
-		animationManager.registerEndListener(new AnimationEndListener(this));
+		scale = new Vector(1, 1, 1);
+		rotation = new Rotation();
 
-		drawOptions = new DrawOptions();
-		
+		animator = new Animator();
+		animator.registerEndListener(new AnimationEndListener(this));
+
+		bounds = new ArrayList<IBound>();
+
+		mover = IMover.NULL;
+		drawer = IDrawer.NULL;
+
 		Game.getInputManager().register(this);
 	}
-	
-	protected void move() {
-		movable.move();
-	}
-	
+
 	// region animations
-	
+
 	private class AnimationEndListener implements IAnimationEndListener {
 		private GameObject gameObj;
 
@@ -52,13 +66,13 @@ public abstract class GameObject implements IInputListener {
 				.from(resourcePath).withFrameDuration(frameDuration)
 				.withFrameSize(frameWidth, frameHeight).build();
 
-		animationManager.addAnimation(animation);
+		animator.addAnimation(animation);
 
 		return animation;
 	}
 
 	protected void removeAnimation(String name) {
-		animationManager.removeAnimation(name);
+		animator.removeAnimation(name);
 	}
 
 	protected void onAnimationEnd(Animation animation) {
@@ -66,7 +80,7 @@ public abstract class GameObject implements IInputListener {
 	}
 
 	protected void stopAnimation() {
-		animationManager.stop();
+		animator.stop();
 	}
 
 	protected Animation startAnimation() {
@@ -74,25 +88,25 @@ public abstract class GameObject implements IInputListener {
 	}
 
 	protected Animation startAnimation(boolean forceRestart) {
-		return animationManager.start(forceRestart);
+		return animator.start(forceRestart);
 	}
 
 	protected Animation startAnimation(String name) {
-		return animationManager.start(name);
+		return animator.start(name);
 	}
 
 	protected void pauseAnimation() {
-		animationManager.pause();
+		animator.pause();
 	}
 
 	protected Animation getAnimation() {
-		return animationManager.getAnimation();
+		return animator.getAnimation();
 	}
 
 	// endregion
-	
+
 	// region input handling
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -160,7 +174,8 @@ public abstract class GameObject implements IInputListener {
 	}
 
 	@Override
-	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
+	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End,
+			Vector p2End) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -177,5 +192,107 @@ public abstract class GameObject implements IInputListener {
 		return false;
 	}
 
+	// endregion
+
+	// region IDrawable
+
+	@Override
+	public float getWidth() {
+		return width;
+	}
+
+	@Override
+	public float getHeight() {
+		return height;
+	}
+
+	@Override
+	public Vector getScale() {
+		return scale;
+	}
+
+	@Override
+	public boolean isFlipX() {
+		return flipX;
+	}
+
+	@Override
+	public boolean isFlipY() {
+		return flipY;
+	}
+
+	@Override
+	public void draw() {
+		drawer.draw(this);
+	}
+
+	@Override
+	public void setDrawer(IDrawer drawer) {
+		this.drawer = drawer;
+	}
+
+	protected void flipX() {
+		flipX = !flipX;
+	}
+
+	protected void flipY() {
+		flipY = !flipY;
+	}
+
+	// endregion
+
+	// region IMovable
+	@Override
+	public Vector getVelocity() {
+		return velocity;
+	}
+
+	@Override
+	public Vector getAcceleration() {
+		return acceleration;
+	}
+
+	@Override
+	public void move() {
+		mover.move(this);
+	}
+
+	@Override
+	public void setMover(IMover mover) {
+		this.mover = mover;
+	}
+
+	// endregion
+
+	// region ICollidable
+
+	@Override
+	public Iterator<IBound> getBounds() {
+		return bounds.iterator();
+	}
+
+	@Override
+	public void onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
+		
+	}
+
+	// endregion
+
+	// region IMovable & IDrawable Common
+
+	@Override
+	public Vector getLocation() {
+		return location;
+	}
+
+	// endregion
+	
+	// region ICollidable & IDrawable Common
+
+	@Override
+	public Rotation getRotation() {
+		return rotation;
+	}
+	
 	// endregion
 }

@@ -4,8 +4,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.blox.framework.v0.Game;
 import com.blox.framework.v0.libgdx.GdxGameFactory;
+import com.blox.framework.v0.util.Game;
 
 public class BlockGame implements ApplicationListener {
 	private SpriteBatch batch;

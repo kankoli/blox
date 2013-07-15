@@ -2,9 +2,9 @@ package com.blox.framework.v0.libgdx;
 
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
-import com.blox.framework.v0.Game;
 import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.Vector;
+import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.Vector;
 
 class GdxGestureListener implements GestureListener {
 	private IInputListener listener;

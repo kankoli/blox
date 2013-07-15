@@ -1,4 +1,11 @@
-package com.blox.framework.v0;
+package com.blox.framework.v0.util;
+
+import com.blox.framework.v0.ICollisionDetectorFactory;
+import com.blox.framework.v0.IDeltaTime;
+import com.blox.framework.v0.IGameFactory;
+import com.blox.framework.v0.IInputManager;
+import com.blox.framework.v0.IResourceManager;
+import com.blox.framework.v0.ITextureSplitter;
 
 public final class Game {
 	public static float width = 480;
@@ -10,6 +17,7 @@ public final class Game {
 	private static IResourceManager resourceManager;
 	private static ITextureSplitter textureSplitter;
 	private static IInputManager inputManager;
+	private static ICollisionDetectorFactory collisionDetectorFactory;
 
 	private Game() {
 
@@ -20,6 +28,7 @@ public final class Game {
 		resourceManager = factory.createResourceManager();
 		textureSplitter = factory.createTextureSplitter();
 		inputManager = factory.createInputManager();
+		collisionDetectorFactory = factory.createCollisionDetectorFactory();
 		gravity = new Vector();
 		gravity.y = -9.8f;
 	}
@@ -38,5 +47,9 @@ public final class Game {
 	
 	public static IInputManager getInputManager() {
 		return inputManager;
+	}
+
+	public static ICollisionDetectorFactory getCollisionDetectorFactory() {
+		return collisionDetectorFactory;
 	}
 }
