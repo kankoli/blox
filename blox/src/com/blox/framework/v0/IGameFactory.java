@@ -5,4 +5,5 @@ public interface IGameFactory {
 	IDeltaTime createDeltaTime();
 	ITextureSplitter createTextureSplitter();
 	IInputManager createInputManager();
+	ICollisionDetectorFactory createCollisionDetectorFactory();
 }

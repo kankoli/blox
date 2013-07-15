@@ -2,11 +2,13 @@ package com.blox.framework.v0.libgdx;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.IDeltaTime;
 import com.blox.framework.v0.IGameFactory;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ITextureSplitter;
+import com.blox.framework.v0.util.CollisionDetectorFactory;
 
 public class GdxGameFactory implements IGameFactory {
 	public GdxGameFactory(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
@@ -32,5 +34,10 @@ public class GdxGameFactory implements IGameFactory {
 	@Override
 	public IInputManager createInputManager() {
 		return new GdxInputManager();
+	}
+
+	@Override
+	public ICollisionDetectorFactory createCollisionDetectorFactory() {
+		return new CollisionDetectorFactory();
 	}
 }
