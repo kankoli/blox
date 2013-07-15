@@ -1,9 +1,8 @@
 package com.blox.game;
 
 import com.blox.framework.v0.Animation;
-import com.blox.framework.v0.DrawOptions;
+import com.blox.framework.v0.DefaultMovable;
 import com.blox.framework.v0.GameObject;
-import com.blox.framework.v0.ITexture;
 
 public class Block extends GameObject {
 	private final class Animations {
@@ -32,11 +31,7 @@ public class Block extends GameObject {
 		private static final float JumpFrameDuration = 1 / 6f;
 	}
 
-	private DrawOptions drawOptions;
-
 	public Block() {
-		drawOptions = new DrawOptions();
-
 		addAnimation(Animations.Walk, Animations.WalkImagePath,
 				Animations.WalkFrameDuration, Animations.WalkFrameWidth,
 				Animations.WalkFrameHeight).setLooping(true);
@@ -51,9 +46,11 @@ public class Block extends GameObject {
 				Animations.TurnFrameHeight);
 
 		stand();
-		
+
+		movable = new DefaultMovable(location, velocity, acceleration);
+
 		width = 41;
-		height = 48;		
+		height = 48;
 	}
 
 	@Override
@@ -84,27 +81,48 @@ public class Block extends GameObject {
 	protected void onAnimationEnd(Animation animation) {
 		if (animation.getName() == Animations.Turn) {
 			drawOptions.flipX = !drawOptions.flipX;
-			if (drawOptions.flipX)
+			if (drawOptions.flipX) {
 				walk();
-			else
+				velocity.x = 15;
+			} else {
+				velocity.y = 0;
+				velocity.y = 0;
+				acceleration.x = 0;
+				acceleration.y = 0;
 				stand();
+			}
 		}
 	}
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		if (x > this.location.getX() && x < this.location.getX() + this.width
-				&& y > this.location.getY()
-				&& y < this.location.getY() + this.height)
+		if (x > this.location.x && y > this.location.y
+				&& x < this.location.x + this.width
+				&& y < this.location.y + this.height) {
+			acceleration.y = -200;
+			velocity.y = 200;
 			jump();
-		else
+		} else {
+			velocity.x = 0;
+			velocity.y = 0;
+			acceleration.x = 0;
+			acceleration.y = 0;
 			turn();
+		}
 		return super.touchDown(x, y, pointer, button);
 	}
 
 	public void draw() {
-		Animation animation = getAnimation();
-		ITexture frame = animation.getFrame();
-		frame.draw(drawOptions);
+		if (location.y < 0) {
+			velocity.x = 0;
+			velocity.y = 0;
+			acceleration.x = 0;
+			acceleration.y = 0;
+			location.y = 0;
+		}
+		move();
+		drawOptions.x = location.x;
+		drawOptions.y = location.y;
+		getAnimation().draw(drawOptions);
 	}
 }

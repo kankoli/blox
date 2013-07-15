@@ -8,7 +8,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.IInputManager;
-import com.blox.framework.v0.IVector;
+import com.blox.framework.v0.Vector;
 
 class GdxInputManager implements IInputManager, IInputListener {
 	private List<IInputListener> listeners;
@@ -105,8 +105,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	}
 
 	@Override
-	public boolean pinch(IVector p1Start, IVector p2Start, IVector p1End,
-			IVector p2End) {
+	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
 		for(IInputListener listener : listeners) {
 			if (listener.pinch(p1Start, p2Start, p1End, p2End))
 				return true;

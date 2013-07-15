@@ -7,7 +7,6 @@ import com.blox.framework.v0.IGameFactory;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ITextureSplitter;
-import com.blox.framework.v0.IVector;
 
 public class GdxGameFactory implements IGameFactory {
 	public GdxGameFactory(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
@@ -23,11 +22,6 @@ public class GdxGameFactory implements IGameFactory {
 	@Override
 	public IDeltaTime createDeltaTime() {
 		return new GdxDeltaTime();
-	}
-
-	@Override
-	public IVector createVector() {
-		return new GdxVector();
 	}
 
 	@Override

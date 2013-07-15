@@ -1,6 +1,6 @@
 package com.blox.framework.v0;
 
-public class Animation {
+public class Animation implements IDrawable {
 	private float frameTime;
 	private float frameDuration; // seconds
 	private int width;
@@ -103,5 +103,10 @@ public class Animation {
 			}
 		}
 		return textures[frameIndex];
+	}
+
+	@Override
+	public void draw(DrawOptions options) {
+		getFrame().draw(options);
 	}
 }

@@ -2,27 +2,37 @@ package com.blox.framework.v0;
 
 public abstract class GameObject implements IInputListener {
 	// http://en.wikipedia.org/wiki/Physical_property#List_of_properties
-	protected float mass;
 	protected float width;
 	protected float height;
-	protected IVector location;
-	protected IVector velocity;
-	protected IVector acceleration;
-	protected IVector rotation;
+	protected Vector location;
+	protected Vector velocity;
+	protected Vector acceleration;
+	protected Vector rotation;
 
 	private AnimationManager animationManager;
+	
+	protected IMovable movable;
+	protected DrawOptions drawOptions;
 
 	protected GameObject() {
-		location = Game.createVector();
-		velocity = Game.createVector();
-		acceleration = Game.createVector();
-		rotation = Game.createVector();
+		location = new Vector();
+		velocity = new Vector();
+		acceleration = new Vector();
+		rotation = new Vector();
 		animationManager = new AnimationManager();
 		animationManager.registerEndListener(new AnimationEndListener(this));
+
+		drawOptions = new DrawOptions();
 		
 		Game.getInputManager().register(this);
 	}
-
+	
+	protected void move() {
+		movable.move();
+	}
+	
+	// region animations
+	
 	private class AnimationEndListener implements IAnimationEndListener {
 		private GameObject gameObj;
 
@@ -79,6 +89,10 @@ public abstract class GameObject implements IInputListener {
 		return animationManager.getAnimation();
 	}
 
+	// endregion
+	
+	// region input handling
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -146,8 +160,7 @@ public abstract class GameObject implements IInputListener {
 	}
 
 	@Override
-	public boolean pinch(IVector p1Start, IVector p2Start, IVector p1End,
-			IVector p2End) {
+	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -163,4 +176,6 @@ public abstract class GameObject implements IInputListener {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	// endregion
 }

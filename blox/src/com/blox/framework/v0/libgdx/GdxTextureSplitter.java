@@ -20,6 +20,11 @@ class GdxTextureSplitter implements ITextureSplitter {
 		TextureRegion[][] regions = TextureRegion.split(gdxTexture, width,
 				height);
 
+		return toArray(cols, rows, regions);
+	}
+
+	private GdxTextureRegion[] toArray(int cols, int rows,
+			TextureRegion[][] regions) {
 		GdxTextureRegion[] gdxRegions = new GdxTextureRegion[cols * rows];
 		int index = 0;
 		for (int i = 0; i < rows; i++) {
@@ -27,7 +32,6 @@ class GdxTextureSplitter implements ITextureSplitter {
 				gdxRegions[index++] = new GdxTextureRegion(regions[i][j]);
 			}
 		}
-
 		return gdxRegions;
 	}
 }

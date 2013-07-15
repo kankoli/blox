@@ -4,7 +4,7 @@ import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.blox.framework.v0.Game;
 import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.IVector;
+import com.blox.framework.v0.Vector;
 
 class GdxGestureListener implements GestureListener {
 	private IInputListener listener;
@@ -46,10 +46,10 @@ class GdxGestureListener implements GestureListener {
 	@Override
 	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
 			Vector2 pointer1, Vector2 pointer2) {
-		IVector ip1 = new GdxVector(initialPointer1.x, Game.height - initialPointer1.y, 0);
-		IVector ip2 = new GdxVector(initialPointer2.x, Game.height - initialPointer2.y, 0);
-		IVector p1 = new GdxVector(pointer1.x, Game.height - pointer1.y, 0);
-		IVector p2 = new GdxVector(pointer2.x, Game.height - pointer2.y, 0);
+		Vector ip1 = new GdxVector(initialPointer1.x, Game.height - initialPointer1.y);
+		Vector ip2 = new GdxVector(initialPointer2.x, Game.height - initialPointer2.y);
+		Vector p1 = new GdxVector(pointer1.x, Game.height - pointer1.y);
+		Vector p2 = new GdxVector(pointer2.x, Game.height - pointer2.y);
 
 		return listener.pinch(ip1, ip2, p1, p2);
 	}
