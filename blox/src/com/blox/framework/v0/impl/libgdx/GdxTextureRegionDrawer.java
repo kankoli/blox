@@ -1,9 +1,9 @@
-package com.blox.framework.v0.libgdx;
+package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IDrawer;
-import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.ToolBox;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
 
@@ -27,9 +27,9 @@ class GdxTextureRegionDrawer implements IDrawer {
 		textureRegion.flip(textureRegion.isFlipX() != flipX,
 				textureRegion.isFlipY() != flipY);
 
-		GdxGame.spriteBatch.draw(textureRegion, Game.descale(l.x),
-				Game.descale(l.y), Game.descale(r.origin.x),
-				Game.descale(r.origin.y), Game.descale(width), Game.descale(height),
-				s.x, s.y, Game.descale(r.rotation.z));
+		GdxGame.spriteBatch.draw(textureRegion, ToolBox.descale(l.x),
+				ToolBox.descale(l.y), ToolBox.descale(r.origin.x),
+				ToolBox.descale(r.origin.y), ToolBox.descale(width), ToolBox.descale(height),
+				s.x, s.y, ToolBox.descale(r.rotation.z));
 	}
 }

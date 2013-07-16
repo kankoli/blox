@@ -1,4 +1,4 @@
-package com.blox.framework.v0.util;
+package com.blox.framework.v0.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,6 +10,12 @@ import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IGameObject;
 import com.blox.framework.v0.IMover;
+import com.blox.framework.v0.util.Animation;
+import com.blox.framework.v0.util.AnimationBuilder;
+import com.blox.framework.v0.util.Animator;
+import com.blox.framework.v0.util.Rotation;
+import com.blox.framework.v0.util.ToolBox;
+import com.blox.framework.v0.util.Vector;
 
 public abstract class GameObject implements IGameObject {
 	protected float width;
@@ -42,7 +48,7 @@ public abstract class GameObject implements IGameObject {
 		mover = IMover.NULL;
 		drawer = IDrawer.NULL;
 
-		Game.getInputManager().register(this);
+		ToolBox.getInputManager().register(this);
 	}
 
 	// region animations

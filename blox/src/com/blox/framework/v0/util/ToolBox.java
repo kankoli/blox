@@ -1,13 +1,16 @@
 package com.blox.framework.v0.util;
 
 import com.blox.framework.v0.ICollisionDetectorFactory;
+import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.IDeltaTime;
+import com.blox.framework.v0.IDrawManager;
 import com.blox.framework.v0.IGameFactory;
 import com.blox.framework.v0.IInputManager;
+import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ITextureSplitter;
 
-public final class Game {
+public final class ToolBox {
 	public static float width = 480;
 	public static float height = 800;
 	public static float scale = 1.0f;
@@ -19,7 +22,7 @@ public final class Game {
 	private static IInputManager inputManager;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
 
-	private Game() {
+	private ToolBox() {
 
 	}
 
@@ -29,6 +32,7 @@ public final class Game {
 		textureSplitter = factory.createTextureSplitter();
 		inputManager = factory.createInputManager();
 		collisionDetectorFactory = factory.createCollisionDetectorFactory();
+		
 		gravity = new Vector();
 		gravity.y = -9.8f;
 	}

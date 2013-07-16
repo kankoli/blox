@@ -6,4 +6,7 @@ public interface IGameFactory {
 	ITextureSplitter createTextureSplitter();
 	IInputManager createInputManager();
 	ICollisionDetectorFactory createCollisionDetectorFactory();
+	IDrawManager createDrawManager();
+	IMoveManager createMoveManager();
+	ICollisionManager createCollisionManager();
 }

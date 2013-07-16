@@ -1,9 +1,13 @@
 package com.blox.game;
 
+import com.blox.framework.v0.IBound;
+import com.blox.framework.v0.ICollidable;
+import com.blox.framework.v0.impl.DefaultMover;
+import com.blox.framework.v0.impl.GameObject;
+import com.blox.framework.v0.impl.RectangleBound;
 import com.blox.framework.v0.util.Animation;
-import com.blox.framework.v0.util.DefaultMover;
-import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.GameObject;
+import com.blox.framework.v0.util.ToolBox;
+import com.blox.framework.v0.util.Vector;
 
 public class Block extends GameObject {
 	private final class Animations {
@@ -11,7 +15,7 @@ public class Block extends GameObject {
 		private static final String WalkImagePath = "mummyImages/mummyWalk.png";
 		private static final int WalkFrameWidth = 41;
 		private static final int WalkFrameHeight = 48;
-		private static final float WalkFrameDuration = 0.033f;
+		private static final float WalkFrameDuration = 0.2f;
 
 		private static final String Stand = "MummyStandAnimation";
 		private static final String StandImagePath = "mummyImages/mummyStand.png";
@@ -32,6 +36,8 @@ public class Block extends GameObject {
 		private static final float JumpFrameDuration = 1 / 6f;
 	}
 
+	private boolean isStatic;
+
 	public Block() {
 		addAnimation(Animations.Walk, Animations.WalkImagePath,
 				Animations.WalkFrameDuration, Animations.WalkFrameWidth,
@@ -50,8 +56,11 @@ public class Block extends GameObject {
 
 		mover = new DefaultMover();
 
-		width = Game.scale(41);
-		height = Game.scale(48);
+		width = ToolBox.scale(41);
+		height = ToolBox.scale(48);
+		
+		isStatic = false;
+		bounds.add(new RectangleBound(this, new Vector(15,0), 20, 46));
 	}
 
 	@Override
@@ -82,7 +91,7 @@ public class Block extends GameObject {
 			flipX = !flipX;
 			if (flipX) {
 				walk();
-				velocity.x = Game.scale(63);
+				velocity.x = ToolBox.scale(13);
 			} else {
 				velocity.y = 0;
 				velocity.y = 0;
@@ -95,11 +104,13 @@ public class Block extends GameObject {
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
+		if (isStatic) return false;
+		
 		if (x > this.location.x && y > this.location.y
 				&& x < this.location.x + this.width
 				&& y < this.location.y + this.height) {
-			acceleration.y = Game.scale(-800);
-			velocity.y = Game.scale(300);
+			acceleration.y = ToolBox.scale(-800);
+			velocity.y = ToolBox.scale(300);
 			jump();
 		} else {
 			velocity.x = 0;
@@ -111,6 +122,11 @@ public class Block extends GameObject {
 		return super.touchDown(x, y, pointer, button);
 	}
 
+	public void setLocation(float x, float y) {
+		this.location.x = x;
+		this.location.y = y;
+	}
+	
 	public void draw() {
 		if (location.y < 0) {
 			velocity.x = 0;
@@ -119,10 +135,23 @@ public class Block extends GameObject {
 			acceleration.y = 0;
 			location.y = 0;
 		}
-		if (location.x + (width / 2) > Game.scale(Game.width)) {
+		if (location.x + (width / 2) > ToolBox.scale(ToolBox.width)) {
 			location.x = -width / 2;
 		}
-		move();
+		if (!isStatic) move();
 		getAnimation().getFrame().draw(this);
+	}
+
+	public void setStatic(boolean b) {
+		isStatic = b;
+	}
+	
+	@Override
+	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
+		if (!isStatic) {
+			turn();
+			velocity.x *= -1;
+		}
+		return super.onCollide(thisBound, thatBound, obj);
 	}
 }

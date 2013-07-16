@@ -1,4 +1,4 @@
-package com.blox.framework.v0.libgdx;
+package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

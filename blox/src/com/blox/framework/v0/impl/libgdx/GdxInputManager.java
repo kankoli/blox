@@ -1,4 +1,4 @@
-package com.blox.framework.v0.libgdx;
+package com.blox.framework.v0.impl.libgdx;
 
 import java.util.ArrayList;
 import java.util.List;

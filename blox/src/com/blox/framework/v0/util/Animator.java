@@ -7,43 +7,43 @@ import java.util.Map;
 
 import com.blox.framework.v0.IAnimationEndListener;
 
-class Animator {
+public class Animator {
 	private Animation currentAnimation;
 	private Map<String, Animation> animations;
 	private List<IAnimationEndListener> endListeners;
 
-	Animator() {
+	public Animator() {
 		animations = new HashMap<String, Animation>();
 		endListeners = new ArrayList<IAnimationEndListener>();
 	}
 
-	void addAnimation(Animation animation) {
+	public void addAnimation(Animation animation) {
 		animation.setManager(this);
 		animations.put(animation.getName(), animation);
 	}
 
-	void removeAnimation(String name) {
+	public void removeAnimation(String name) {
 		Animation animation = animations.remove(name);
 		animation.setManager(null);
 	}
 
-	void stop() {
+	public void stop() {
 		if (currentAnimation != null)
 			currentAnimation.stop();
 		currentAnimation = null;
 	}
 
-	Animation start() {
+	public Animation start() {
 		return start(false);
 	}
 
-	Animation start(boolean forceRestart) {
+	public Animation start(boolean forceRestart) {
 		if (currentAnimation != null)
 			currentAnimation.start(forceRestart);
 		return currentAnimation;
 	}
 
-	Animation start(String name) {
+	public Animation start(String name) {
 		if (currentAnimation != null)
 			currentAnimation.stop();
 		currentAnimation = animations.get(name);
@@ -51,24 +51,24 @@ class Animator {
 		return currentAnimation;
 	}
 
-	void pause() {
+	public void pause() {
 		if (currentAnimation != null)
 			currentAnimation.pause();
 	}
 
-	Animation getAnimation() {
+	public Animation getAnimation() {
 		return currentAnimation;
 	}
 
-	void registerEndListener(IAnimationEndListener listener) {
+	public void registerEndListener(IAnimationEndListener listener) {
 		endListeners.add(listener);
 	}
 
-	void unregisterEndListener(IAnimationEndListener listener) {
+	public void unregisterEndListener(IAnimationEndListener listener) {
 		endListeners.remove(listener);
 	}
 
-	void notifyEndListeners(Animation animation) {
+	public void notifyEndListeners(Animation animation) {
 		for (IAnimationEndListener listener : endListeners)
 			listener.onAnimationEnd(animation);
 	}

@@ -1,4 +1,4 @@
-package com.blox.framework.v0.libgdx;
+package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.blox.framework.v0.IDeltaTime;

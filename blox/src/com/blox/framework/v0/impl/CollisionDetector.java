@@ -1,10 +1,11 @@
-package com.blox.framework.v0.util;
+package com.blox.framework.v0.impl;
 
 import java.util.Iterator;
 
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionDetector;
+import com.blox.framework.v0.util.ToolBox;
 
 public final class CollisionDetector {	
 	private CollisionDetector() {
@@ -33,7 +34,7 @@ public final class CollisionDetector {
 	}
 
 	private static ICollisionDetector getDetector(int boundType1, int boundType2) {
-		return Game.getCollisionDetectorFactory().getDetector(boundType1,
+		return ToolBox.getCollisionDetectorFactory().getDetector(boundType1,
 				boundType2);
 	}
 }

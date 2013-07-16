@@ -1,4 +1,4 @@
-package com.blox.framework.v0.util;
+package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IDrawer;

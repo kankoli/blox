@@ -3,7 +3,7 @@ package com.blox.framework.v0.util;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.ITextureSplitter;
 
-class AnimationBuilder {
+public class AnimationBuilder {
 	private Animation animation;
 
 	private String mainTexturePath;
@@ -45,8 +45,8 @@ class AnimationBuilder {
 	}
 	
 	private void buildAnimation() {
-		ITexture mainTexture = Game.getResourceManager().loadTexture(mainTexturePath);
-		ITextureSplitter textureSplitter = Game.getTextureSplitter();
+		ITexture mainTexture = ToolBox.getResourceManager().loadTexture(mainTexturePath);
+		ITextureSplitter textureSplitter = ToolBox.getTextureSplitter();
 		ITexture[] frames = textureSplitter.split(mainTexture, animation.getWidth(), animation.getHeight());
 		animation.setFrames(frames);
 	}

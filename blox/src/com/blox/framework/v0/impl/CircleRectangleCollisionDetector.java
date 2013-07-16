@@ -1,9 +1,10 @@
-package com.blox.framework.v0.util;
+package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICircleBound;
 import com.blox.framework.v0.ICollisionDetector;
 import com.blox.framework.v0.IRectangleBound;
+import com.blox.framework.v0.util.Vector;
 
 public class CircleRectangleCollisionDetector implements ICollisionDetector {
 	@Override

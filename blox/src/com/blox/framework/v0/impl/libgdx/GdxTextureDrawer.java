@@ -1,9 +1,9 @@
-package com.blox.framework.v0.libgdx;
+package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IDrawer;
-import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.ToolBox;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
 
@@ -25,11 +25,11 @@ class GdxTextureDrawer implements IDrawer {
 		boolean flipY = drawable.isFlipY();
 
 		GdxGame.spriteBatch
-				.draw(texture, Game.descale(l.x), Game.descale(l.y),
-						Game.descale(r.origin.x), Game.descale(r.origin.y),
-						Game.descale(width), Game.descale(height), s.x,
-						s.y, Game.descale(r.rotation.z), 0, 0,
-						(int) Game.descale(width), (int) Game.descale(height),
+				.draw(texture, ToolBox.descale(l.x), ToolBox.descale(l.y),
+						ToolBox.descale(r.origin.x), ToolBox.descale(r.origin.y),
+						ToolBox.descale(width), ToolBox.descale(height), s.x,
+						s.y, ToolBox.descale(r.rotation.z), 0, 0,
+						(int) ToolBox.descale(width), (int) ToolBox.descale(height),
 						flipX, flipY);
 	}
 }
