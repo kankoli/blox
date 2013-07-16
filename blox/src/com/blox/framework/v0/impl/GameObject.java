@@ -229,7 +229,8 @@ public abstract class GameObject implements IGameObject {
 
 	@Override
 	public void draw() {
-		drawer.draw(this);
+		getAnimation().getFrame().draw(this);
+//		drawer.draw(this);
 	}
 
 	@Override

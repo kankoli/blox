@@ -19,8 +19,8 @@ public class BlockGame implements ApplicationListener {
 		batch = new SpriteBatch();
 
 		ToolBox.initialize(new GdxGameFactory(batch, null));
-		ToolBox.width = Gdx.graphics.getWidth();
-		ToolBox.height = Gdx.graphics.getHeight();
+		ToolBox.screenWidth = Gdx.graphics.getWidth();
+		ToolBox.screenHeight = Gdx.graphics.getHeight();
 		//Game.scale = 2 / 48f;
 
 		block = new Block();

@@ -135,7 +135,7 @@ public class Block extends GameObject {
 			acceleration.y = 0;
 			location.y = 0;
 		}
-		if (location.x + (width / 2) > ToolBox.scale(ToolBox.width)) {
+		if (location.x + (width / 2) > ToolBox.scale(ToolBox.screenWidth)) {
 			location.x = -width / 2;
 		}
 		if (!isStatic) move();

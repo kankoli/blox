@@ -2,6 +2,7 @@ package com.blox;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.blox.blockmaze.TurnMazeGame;
 import com.blox.game.BlockGame;
 import com.blox.maze.MazeGame;
 import com.blox.test.mummy.MummyGame;
@@ -15,7 +16,7 @@ public class Main {
 		cfg.height = 800;
 
 		//new LwjglApplication(new MazeGame(new MazeSaveHandler()), cfg);
-		new LwjglApplication(new BlockGame(), cfg);
+		new LwjglApplication(new TurnMazeGame(), cfg);
 		// new LwjglApplication(new MummyGame(), cfg);
 	}
 }

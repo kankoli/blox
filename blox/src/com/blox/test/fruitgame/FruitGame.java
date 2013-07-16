@@ -59,6 +59,7 @@ public class FruitGame implements ApplicationListener {
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT); // #14
+		
 		delta = Gdx.graphics.getDeltaTime();
 
 		spriteBatch.begin();

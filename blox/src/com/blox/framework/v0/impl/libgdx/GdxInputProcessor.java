@@ -34,17 +34,17 @@ class GdxInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return listener.touchUp(screenX, ToolBox.height - screenY, pointer, button);
+		return listener.touchUp(screenX, ToolBox.screenHeight - screenY, pointer, button);
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return listener.touchDragged(screenX, ToolBox.height - screenY, pointer);
+		return listener.touchDragged(screenX, ToolBox.screenHeight - screenY, pointer);
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		return listener.mouseMoved(screenX, ToolBox.height - screenY);
+		return listener.mouseMoved(screenX, ToolBox.screenHeight - screenY);
 	}
 
 	@Override

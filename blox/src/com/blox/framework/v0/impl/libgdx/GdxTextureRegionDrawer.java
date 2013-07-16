@@ -28,8 +28,8 @@ class GdxTextureRegionDrawer implements IDrawer {
 				textureRegion.isFlipY() != flipY);
 
 		GdxGame.spriteBatch.draw(textureRegion, ToolBox.descale(l.x),
-				ToolBox.descale(l.y), ToolBox.descale(r.origin.x),
-				ToolBox.descale(r.origin.y), ToolBox.descale(width), ToolBox.descale(height),
+				ToolBox.descale(l.y), ToolBox.descale(r.origin.x-l.x),
+				ToolBox.descale(r.origin.y-l.y), ToolBox.descale(width), ToolBox.descale(height),
 				s.x, s.y, ToolBox.descale(r.rotation.z));
 	}
 }

@@ -11,8 +11,8 @@ import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ITextureSplitter;
 
 public final class ToolBox {
-	public static float width = 480;
-	public static float height = 800;
+	public static float screenWidth = 480;
+	public static float screenHeight = 800;
 	public static float scale = 1.0f;
 	public static Vector gravity;
 
@@ -21,7 +21,8 @@ public final class ToolBox {
 	private static ITextureSplitter textureSplitter;
 	private static IInputManager inputManager;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
-
+	private static IDrawManager drawManager;
+	
 	private ToolBox() {
 
 	}
@@ -32,6 +33,7 @@ public final class ToolBox {
 		textureSplitter = factory.createTextureSplitter();
 		inputManager = factory.createInputManager();
 		collisionDetectorFactory = factory.createCollisionDetectorFactory();
+		drawManager = factory.createDrawManager();
 		
 		gravity = new Vector();
 		gravity.y = -9.8f;
@@ -63,5 +65,9 @@ public final class ToolBox {
 
 	public static ICollisionDetectorFactory getCollisionDetectorFactory() {
 		return collisionDetectorFactory;
+	}
+	
+	public static IDrawManager getDrawManager() {
+		return drawManager;
 	}
 }
