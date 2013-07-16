@@ -23,6 +23,8 @@ public abstract class BloxSprite extends Sprite implements InputDetector, Animat
 	
 	protected SpriteBatch spriteBatch;
 
+	public BloxSprite() { }
+	
 	public BloxSprite(SpriteBatch sb) {
 		spriteBatch = sb;
 		position = new Vector2();

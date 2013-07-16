@@ -5,7 +5,8 @@ import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.blox.maze.MazeGame;
+import com.badlogic.gdx.graphics.Texture;
+import com.blox.blockmaze.TurnMazeGame;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -17,6 +18,8 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = true;
 		cfg.useCompass = true;
 		
-		initialize(new MazeGame(), cfg);
+		Texture.setEnforcePotImages(false);
+		
+		initialize(new TurnMazeGame(), cfg);
     }
 }

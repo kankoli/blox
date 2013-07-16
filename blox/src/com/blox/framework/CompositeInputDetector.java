@@ -7,7 +7,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 
-public class CompositeInputDetector extends GestureDetector implements GestureListener {
+public abstract class CompositeInputDetector extends GestureDetector implements GestureListener {
 	private List<InputDetector> detectors;
 	
 	public CompositeInputDetector() {
