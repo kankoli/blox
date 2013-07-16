@@ -1,5 +1,7 @@
 package com.blox.framework.v0;
 
+import com.blox.framework.v0.util.Animation;
+
 public interface IAnimationEndListener {
-	void notifyAnimationEnd(IAnimation animation);
+	void onAnimationEnd(Animation animation);
 }

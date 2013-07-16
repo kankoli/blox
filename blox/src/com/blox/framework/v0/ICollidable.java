@@ -1,5 +1,17 @@
 package com.blox.framework.v0;
 
+import java.util.Iterator;
+
+import com.blox.framework.v0.util.Rotation;
+import com.blox.framework.v0.util.Vector;
+
 public interface ICollidable {
-	void onCollide(ICollidable obj);
+	Iterator<IBound> getBounds();
+	Vector getLocation();
+	Rotation getRotation();
+	float getWidth();
+	float getHeight();
+	boolean isFlipX();
+	boolean isFlipY();
+	boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj);
 }

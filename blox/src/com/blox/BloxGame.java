@@ -147,7 +147,7 @@ public class BloxGame implements ApplicationListener {
 
 		batch.begin();
 		font.drawMultiLine(batch, info, 10, screenHeight - 10);
-		shapeRenderer.setColor(255);
+		shapeRenderer.setColor(Color.WHITE);
 		shapeRenderer.circle(ball.position, ball.radius);
 		batch.end();
 

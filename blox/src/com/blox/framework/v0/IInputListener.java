@@ -1,5 +1,7 @@
 package com.blox.framework.v0;
 
+import com.blox.framework.v0.util.Vector;
+
 public interface IInputListener {
 	public boolean touchDown(float x, float y, int pointer, int button);
 

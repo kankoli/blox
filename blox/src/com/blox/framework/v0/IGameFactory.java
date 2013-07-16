@@ -3,5 +3,10 @@ package com.blox.framework.v0;
 public interface IGameFactory {
 	IResourceManager createResourceManager();
 	IDeltaTime createDeltaTime();
-	IAnimationDataFactory createAnimationDataFactory();
+	ITextureSplitter createTextureSplitter();
+	IInputManager createInputManager();
+	ICollisionDetectorFactory createCollisionDetectorFactory();
+	IDrawManager createDrawManager();
+	IMoveManager createMoveManager();
+	ICollisionManager createCollisionManager();
 }
