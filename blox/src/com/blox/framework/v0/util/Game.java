@@ -12,7 +12,7 @@ public final class Game {
 	public static float height = 800;
 	public static float scale = 1.0f;
 	public static Vector gravity;
-	
+
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
 	private static ITextureSplitter textureSplitter;
@@ -33,6 +33,14 @@ public final class Game {
 		gravity.y = -9.8f;
 	}
 
+	public static float scale(float f) {
+		return f * scale;
+	}
+
+	public static float descale(float f) {
+		return f / scale;
+	}
+
 	public static float getDeltaTime() {
 		return deltaTime.getDeltaTime();
 	}
@@ -44,7 +52,7 @@ public final class Game {
 	public static ITextureSplitter getTextureSplitter() {
 		return textureSplitter;
 	}
-	
+
 	public static IInputManager getInputManager() {
 		return inputManager;
 	}

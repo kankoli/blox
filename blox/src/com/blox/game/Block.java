@@ -2,6 +2,7 @@ package com.blox.game;
 
 import com.blox.framework.v0.util.Animation;
 import com.blox.framework.v0.util.DefaultMover;
+import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.GameObject;
 
 public class Block extends GameObject {
@@ -10,7 +11,7 @@ public class Block extends GameObject {
 		private static final String WalkImagePath = "mummyImages/mummyWalk.png";
 		private static final int WalkFrameWidth = 41;
 		private static final int WalkFrameHeight = 48;
-		private static final float WalkFrameDuration = 0.1f;
+		private static final float WalkFrameDuration = 0.033f;
 
 		private static final String Stand = "MummyStandAnimation";
 		private static final String StandImagePath = "mummyImages/mummyStand.png";
@@ -44,13 +45,13 @@ public class Block extends GameObject {
 		addAnimation(Animations.Turn, Animations.TurnImagePath,
 				Animations.TurnFrameDuration, Animations.TurnFrameWidth,
 				Animations.TurnFrameHeight);
-		
+
 		stand();
-		
+
 		mover = new DefaultMover();
 
-		width = 41;
-		height = 48;
+		width = Game.scale(41);
+		height = Game.scale(48);
 	}
 
 	@Override
@@ -81,7 +82,7 @@ public class Block extends GameObject {
 			flipX = !flipX;
 			if (flipX) {
 				walk();
-				velocity.x = 15;
+				velocity.x = Game.scale(63);
 			} else {
 				velocity.y = 0;
 				velocity.y = 0;
@@ -97,8 +98,8 @@ public class Block extends GameObject {
 		if (x > this.location.x && y > this.location.y
 				&& x < this.location.x + this.width
 				&& y < this.location.y + this.height) {
-			acceleration.y = -200;
-			velocity.y = 200;
+			acceleration.y = Game.scale(-800);
+			velocity.y = Game.scale(300);
 			jump();
 		} else {
 			velocity.x = 0;
@@ -117,6 +118,9 @@ public class Block extends GameObject {
 			acceleration.x = 0;
 			acceleration.y = 0;
 			location.y = 0;
+		}
+		if (location.x + (width / 2) > Game.scale(Game.width)) {
+			location.x = -width / 2;
 		}
 		move();
 		getAnimation().getFrame().draw(this);

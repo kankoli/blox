@@ -6,7 +6,6 @@ import com.blox.framework.v0.ICollisionDetector;
 import com.blox.framework.v0.IRectangleBound;
 
 public class CircleRectangleCollisionDetector implements ICollisionDetector {
-
 	@Override
 	public boolean detect(IBound bound1, IBound bound2) {
 		ICircleBound circleBound;
@@ -20,7 +19,7 @@ public class CircleRectangleCollisionDetector implements ICollisionDetector {
 			circleBound = (ICircleBound) bound2;
 		}
 
-		// TODO: roration
+		// TODO: rotation
 		Vector c = circleBound.getLocation();
 		float r = circleBound.getRadius();
 
@@ -30,24 +29,7 @@ public class CircleRectangleCollisionDetector implements ICollisionDetector {
 
 		float dx = Math.abs(c.x - l.x - w_2);
 		float dy = Math.abs(c.y - l.y - h_2);
-
-		if (dx > (w_2 + r)) {
-			return false;
-		}
-		if (dy > (h_2 + r)) {
-			return false;
-		}
-
-		return true;
 		
-		// Çemberle dikdörtgenin kesiþip keþimediðini anlamak için aþaðýdaki
-		// algoritma ile devam edilebilir
-		//
-		// if (dx <= w_2) { return true; }
-		// if (dy <= h_2) { return true; }
-		//
-		// float d2 = (float) (Math.pow((dx - w_2), 2) + Math.pow((dy - h_2), 2));		//
-		// return d2 <= (r * r);		
+		return dx <= (w_2 + r) && dy <= (h_2 + r);
 	}
-
 }

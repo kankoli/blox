@@ -19,6 +19,7 @@ public class BlockGame implements ApplicationListener {
 		Game.initialize(new GdxGameFactory(batch, null));
 		Game.width = Gdx.graphics.getWidth();
 		Game.height = Gdx.graphics.getHeight();
+		//Game.scale = 2 / 48f;
 
 		block = new Block();
 	}

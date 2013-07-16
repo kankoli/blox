@@ -272,8 +272,8 @@ public abstract class GameObject implements IGameObject {
 	}
 
 	@Override
-	public void onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
-		
+	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
+		return false;
 	}
 
 	// endregion
