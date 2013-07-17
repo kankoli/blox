@@ -1,10 +1,9 @@
 package com.blox.test.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 
-public class GameScreen implements Screen {
+public class GameScreen implements ISwitchableScreen {
 
 	MultiScreenGame game;
 
@@ -16,18 +15,21 @@ public class GameScreen implements Screen {
 
 	private Texture texture;
 
-	float vx = 190;
-	float vy = 180;
+	float vx = 90;
+	float vy = 80;
 	float px = 100;
 	float py = 100;
 
+	Texture bg;
 	GameScreen(MultiScreenGame game) {
 		this.game = game;
 		this.texture = new Texture(Gdx.files.internal("turnmaze/body_full.png"));
+		this.bg = new Texture(Gdx.files.internal("screen2.jpg"));
 	}
 
 	@Override
 	public void render(float dt) {
+		game.spriteBatch.draw(bg, 0, 0);
 		if (Gdx.input.justTouched()) {
 			game.setScreen(game.menuScreen);
 			return;
@@ -48,31 +50,38 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		System.out.println("game show");
+
 	}
 
 	@Override
 	public void hide() {
-		System.out.println("game hide");
+
 	}
 
 	@Override
 	public void dispose() {
-		System.out.println("game dispose");
+
 	}
 
 	@Override
 	public void resume() {
-		System.out.println("game resume");
+
 	}
 
 	@Override
 	public void resize(int arg0, int arg1) {
-		System.out.println("game resize");
+
 	}
 
 	@Override
 	public void pause() {
-		System.out.println("game pause");
+
+	}
+
+	@Override
+	public void drawSwitch(float alpha) {
+		game.spriteBatch.setColor(1, 1, 1, alpha);
+		game.spriteBatch.draw(bg, 0, 0);
+		game.spriteBatch.draw(texture, px, py);
 	}
 }
