@@ -2,6 +2,7 @@ package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.blox.framework.v0.IMusic;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISound;
@@ -16,6 +17,7 @@ class GdxResourceManager implements IResourceManager {
 	@Override
 	public ITexture loadTexture(String resourcePath) {
 		Texture texture = new Texture(Gdx.files.internal(resourcePath));
+		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		return new GdxTexture(texture);
 	}
 

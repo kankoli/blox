@@ -8,12 +8,12 @@ import com.blox.framework.v0.util.Vector;
 
 public class Block extends GameObject {
 
-	public static final int blockWidth = 20;
-	public static final int blockHeight = 20;
+	public static final int blockWidth = 40;
+	public static final int blockHeight = 40;
 	
 	private final class Animations {
 		private static final String Block = "Block";
-		private static final String BlockImagePath = "turnmaze/body_full.png";
+		private static final String BlockImagePath = "turnmaze/body_full40-2.png";
 		private static final int BlockFrameWidth = blockWidth;
 		private static final int BlockFrameHeight = blockHeight;
 		private static final float BlockFrameDuration = 1f;
