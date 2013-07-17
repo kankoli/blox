@@ -13,7 +13,7 @@ public class Main {
 		cfg.width = 480;
 		cfg.height = 800;
 
-		ILibGdxGame game = new TurnMazeGame();
-		new LwjglApplication(game.getApplicationListener(), cfg);
+		ILibGdxGame gdxGame = new TurnMazeGame();
+		new LwjglApplication(gdxGame.getApplicationListener(), cfg);
 	}
 }

@@ -16,15 +16,16 @@ public abstract class Screen extends GameObject implements IScreen {
 	private IDrawManager drawManager;
 	private ICollisionManager collisionManager;
 	private IInputManager inputManager;
+	
+	protected Screen() {
+	}
 
 	@Override
 	public void init() {
 		moveManager = ToolBox.getFactory().createMoveManager();
 		drawManager = ToolBox.getFactory().createDrawManager();
 		collisionManager = ToolBox.getFactory().createCollisionManager();
-		inputManager = ToolBox.getFactory().createInputManager();
-		
-		registerInputListener(this);
+		inputManager = ToolBox.getFactory().createInputManager();		
 	}
 
 	@Override

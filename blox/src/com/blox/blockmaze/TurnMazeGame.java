@@ -6,16 +6,13 @@ import com.blox.framework.v0.IScreen;
 import com.blox.framework.v0.impl.libgdx.GdxGame;
 import com.blox.framework.v0.impl.libgdx.ILibGdxGame;
 
-public class TurnMazeGame implements IGame, ILibGdxGame {
-	private final int mazeWidth = 12;
-	private final int mazeHeight = 12;
-	
+public class TurnMazeGame implements IGame, ILibGdxGame {	
 	private IScreen mazeScreen;
 	private ApplicationListener gdxApp;
 
 	public TurnMazeGame() {
-		mazeScreen = new TurnMaze(mazeWidth, mazeHeight);
 		gdxApp = GdxGame.create(this);
+		mazeScreen = new TurnMaze();
 	}
 
 	@Override
@@ -35,7 +32,7 @@ public class TurnMazeGame implements IGame, ILibGdxGame {
 
 	@Override
 	public void dispose() {
-		
+		gdxApp.dispose();
 	}
 
 	@Override
