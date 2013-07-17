@@ -6,7 +6,7 @@ import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.ToolBox;
 import com.blox.framework.v0.util.Vector;
 
-public class Block extends GameObject {
+class Block extends GameObject {
 
 	public static final int blockWidth = 20;
 	public static final int blockHeight = 20;
@@ -19,7 +19,7 @@ public class Block extends GameObject {
 		private static final float BlockFrameDuration = 1f;
 	}
 	
-	public Block(float x, float y) {
+	Block(float x, float y) {
 		this.location.x = x;
 		this.location.y = y;
 		addAnimation(Animations.Block, Animations.BlockImagePath,

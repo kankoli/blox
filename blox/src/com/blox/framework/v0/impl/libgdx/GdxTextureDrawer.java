@@ -24,7 +24,7 @@ class GdxTextureDrawer implements IDrawer {
 		boolean flipX = drawable.isFlipX();
 		boolean flipY = drawable.isFlipY();
 
-		GdxGame.spriteBatch
+		GdxTools.spriteBatch
 				.draw(texture, ToolBox.descale(l.x), ToolBox.descale(l.y),
 						ToolBox.descale(r.origin.x-l.x), ToolBox.descale(r.origin.y-l.y),
 						ToolBox.descale(width), ToolBox.descale(height), s.x,

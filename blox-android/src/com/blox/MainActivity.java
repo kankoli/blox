@@ -6,7 +6,7 @@ import android.view.WindowManager;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
-import com.blox.blockmaze.TurnMazeGame;
+import com.blox.test.screen.MultiScreenGame;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -20,6 +20,6 @@ public class MainActivity extends AndroidApplication {
 		
 		Texture.setEnforcePotImages(false);
 		
-		initialize(new TurnMazeGame(), cfg);
+		initialize(new MultiScreenGame(), cfg);
     }
 }

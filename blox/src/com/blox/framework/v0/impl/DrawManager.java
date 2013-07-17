@@ -29,6 +29,9 @@ public class DrawManager implements IDrawManager {
 
 	@Override
 	public void register(IDrawable obj, int layerIndex) {
+		
+		unregister(obj);
+		
 		int i = 0;
 		for (; i < layers.size(); i++) {
 			Layer layer = layers.get(i);
@@ -49,7 +52,8 @@ public class DrawManager implements IDrawManager {
 	@Override
 	public void unregister(IDrawable obj) {
 		for(int i = 0; i < layers.size(); i++) {
-			if (layers.get(i).unregister(obj)) return;
+			if (layers.get(i).unregister(obj)) 
+				return;
 		}
 	}
 
@@ -61,5 +65,4 @@ public class DrawManager implements IDrawManager {
 			}
 		}
 	}
-
 }

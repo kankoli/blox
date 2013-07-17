@@ -14,7 +14,6 @@ import com.blox.framework.v0.util.Animation;
 import com.blox.framework.v0.util.AnimationBuilder;
 import com.blox.framework.v0.util.Animator;
 import com.blox.framework.v0.util.Rotation;
-import com.blox.framework.v0.util.ToolBox;
 import com.blox.framework.v0.util.Vector;
 
 public abstract class GameObject implements IGameObject {
@@ -47,8 +46,6 @@ public abstract class GameObject implements IGameObject {
 
 		mover = IMover.NULL;
 		drawer = IDrawer.NULL;
-
-		ToolBox.getInputManager().register(this);
 	}
 
 	// region animations

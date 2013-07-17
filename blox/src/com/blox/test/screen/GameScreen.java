@@ -49,6 +49,13 @@ public class GameScreen implements ISwitchableScreen {
 	}
 
 	@Override
+	public void drawSwitch(float alpha) {
+		game.spriteBatch.setColor(1, 1, 1, alpha);
+		game.spriteBatch.draw(bg, 0, 0);
+		game.spriteBatch.draw(texture, px, py);
+	}
+
+	@Override
 	public void show() {
 
 	}
@@ -76,12 +83,5 @@ public class GameScreen implements ISwitchableScreen {
 	@Override
 	public void pause() {
 
-	}
-
-	@Override
-	public void drawSwitch(float alpha) {
-		game.spriteBatch.setColor(1, 1, 1, alpha);
-		game.spriteBatch.draw(bg, 0, 0);
-		game.spriteBatch.draw(texture, px, py);
 	}
 }
