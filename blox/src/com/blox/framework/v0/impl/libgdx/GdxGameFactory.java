@@ -11,6 +11,7 @@ import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ITextureSplitter;
+import com.blox.framework.v0.impl.CachedResourceManager;
 import com.blox.framework.v0.impl.CollisionDetectorFactory;
 import com.blox.framework.v0.impl.CollisionManager;
 import com.blox.framework.v0.impl.DrawManager;
@@ -24,7 +25,7 @@ public class GdxGameFactory implements IGameFactory {
 	
 	@Override
 	public IResourceManager createResourceManager() {
-		return new GdxResourceManager();
+		return new CachedResourceManager(new GdxResourceManager());
 	}
 
 	@Override

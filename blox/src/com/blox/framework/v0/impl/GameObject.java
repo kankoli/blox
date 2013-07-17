@@ -230,7 +230,6 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public void draw() {
 		getAnimation().getFrame().draw(this);
-//		drawer.draw(this);
 	}
 
 	@Override
