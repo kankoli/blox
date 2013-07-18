@@ -10,11 +10,13 @@ class TurnMaze extends Screen {
 	public void init() {
 		super.init();
 		
-		registerInputListener(this);
-		
-		int[][] data = new int[][] { { 1, 1, 1, 1, 1, 1 }, { 1, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 1 }, { 1, 0, 1, 1, 0, 1 },
-				{ 1, 0, 0, 0, 0, 1 }, { 1, 1, 1, 1, 1, 1 } };
+		int[][] data = new int[][] { 
+				{ 1, 1, 1, 1, 1, 1 }, 
+				{ 1, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 1 },
+				{ 1, 0, 1, 1, 0, 1 },
+				{ 1, 0, 0, 0, 0, 1 }, 
+				{ 1, 1, 1, 1, 1, 1 } };
 
 		int cols = data.length;
 		int rows = data[0].length;
@@ -27,14 +29,16 @@ class TurnMaze extends Screen {
 		rotation.origin.x = tx + mazeWidth / 2;
 		rotation.origin.y = ty + mazeHeight / 2;
 
-
+		super.registerInputListener(this);
+		super.registerDrawable(new Background(), 1);
+		
 		for (int i = 0; i < cols; i++) {
 			for (int j = 0; j < rows; j++) {
 				if (data[i][j] == 1) {
 					Block block = new Block(tx + i * Block.blockWidth, ty + j * Block.blockHeight);
 					block.setRotation(rotation);
 					
-					super.registerDrawable(block, 1);
+					super.registerDrawable(block, 2);
 				}
 			}
 		}

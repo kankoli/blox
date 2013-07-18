@@ -32,7 +32,7 @@ public class TurnMazeGame implements IGame, ILibGdxGame {
 
 	@Override
 	public void dispose() {
-		gdxApp.dispose();
+		
 	}
 
 	@Override

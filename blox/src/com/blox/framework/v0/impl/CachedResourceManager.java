@@ -8,56 +8,73 @@ import com.blox.framework.v0.IVideo;
 import com.blox.framework.v0.util.Cache;
 
 public class CachedResourceManager implements IResourceManager {
-
 	private Cache cache;
-	private IResourceManager resManager;
 
-	public CachedResourceManager(IResourceManager resManager) {
-		this.resManager = resManager;
-		cache = new Cache();
+	private IResourceLoader<ITexture> textureLoader;
+	private IResourceLoader<ISound> soundLoader;
+	private IResourceLoader<IMusic> musicLoader;
+	private IResourceLoader<IVideo> videoLoader;
+
+	public CachedResourceManager(final IResourceManager resManager) {
+		this.cache = new Cache();
+
+		this.textureLoader = new IResourceLoader<ITexture>() {
+			public ITexture load(String resourcePath) {
+				return resManager.loadTexture(resourcePath);
+			}
+		};
+
+		this.soundLoader = new IResourceLoader<ISound>() {
+			public ISound load(String resourcePath) {
+				return resManager.loadSound(resourcePath);
+			}
+		};
+
+		this.musicLoader = new IResourceLoader<IMusic>() {
+			public IMusic load(String resourcePath) {
+				return resManager.loadMusic(resourcePath);
+			}
+		};
+
+		this.videoLoader = new IResourceLoader<IVideo>() {
+			public IVideo load(String resourcePath) {
+				return resManager.loadVideo(resourcePath);
+			}
+		};
 	}
 
 	@Override
 	public ITexture loadTexture(String resourcePath) {
-		Object cacheVal = cache.get(resourcePath);
-		if (cacheVal != null)
-			return (ITexture) cacheVal;
-
-		ITexture texture = resManager.loadTexture(resourcePath);
-		cache.put(resourcePath, texture);
-		return texture;
-	}
-
-	@Override
-	public IMusic loadMusic(String resourcePath) {
-		Object cacheVal = cache.get(resourcePath);
-		if (cacheVal != null)
-			return (IMusic) cacheVal;
-
-		IMusic music = resManager.loadMusic(resourcePath);
-		cache.put(resourcePath, music);
-		return music;
+		return loadResource(resourcePath, textureLoader);
 	}
 
 	@Override
 	public ISound loadSound(String resourcePath) {
-		Object cacheVal = cache.get(resourcePath);
-		if (cacheVal != null)
-			return (ISound) cacheVal;
+		return loadResource(resourcePath, soundLoader);
+	}
 
-		ISound sound = resManager.loadSound(resourcePath);
-		cache.put(resourcePath, sound);
-		return sound;
+	@Override
+	public IMusic loadMusic(String resourcePath) {
+		return loadResource(resourcePath, musicLoader);
 	}
 
 	@Override
 	public IVideo loadVideo(String resourcePath) {
-		Object cacheVal = cache.get(resourcePath);
-		if (cacheVal != null)
-			return (IVideo) cacheVal;
+		return loadResource(resourcePath, videoLoader);
+	}
 
-		IVideo video = resManager.loadVideo(resourcePath);
-		cache.put(resourcePath, video);
-		return video;
+	@SuppressWarnings("unchecked")
+	private <T> T loadResource(String resourcePath, IResourceLoader<T> loader) {
+		Object resource = cache.get(resourcePath);
+		if (resource != null)
+			return (T) resource;
+
+		resource = loader.load(resourcePath);
+		cache.put(resourcePath, resource);
+		return (T) resource;
+	}
+
+	private interface IResourceLoader<T> {
+		T load(String resourcePath);
 	}
 }
