@@ -6,8 +6,8 @@ import android.view.WindowManager;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
-import com.blox.blockmaze.TurnMazeGame;
-import com.blox.framework.v0.impl.libgdx.ILibGdxGame;
+import com.blox.framework.v0.impl.libgdx.GdxGame;
+import com.blox.test.screen.TurnMazeGame;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -20,8 +20,7 @@ public class MainActivity extends AndroidApplication {
 		cfg.useCompass = true;
 		
 		Texture.setEnforcePotImages(false);
-		
-		ILibGdxGame gdxGame = new TurnMazeGame(); 
-		initialize(gdxGame.getApplicationListener(), cfg);
+
+		initialize(new GdxGame(new TurnMazeGame()), cfg);
     }
 }

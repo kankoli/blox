@@ -9,9 +9,10 @@ import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IScreen;
-import com.blox.framework.v0.util.ToolBox;
+import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.Vector;
 
-public abstract class Screen extends GameObject implements IScreen {
+public abstract class Screen implements IInputListener, IScreen {
 	private IMoveManager moveManager;
 	private IDrawManager drawManager;
 	private ICollisionManager collisionManager;
@@ -22,20 +23,10 @@ public abstract class Screen extends GameObject implements IScreen {
 
 	@Override
 	public void init() {
-		moveManager = ToolBox.getFactory().createMoveManager();
-		drawManager = ToolBox.getFactory().createDrawManager();
-		collisionManager = ToolBox.getFactory().createCollisionManager();
-		inputManager = ToolBox.getFactory().createInputManager();		
-	}
-
-	@Override
-	public void move() {
-		moveManager.move();
-	}
-
-	@Override
-	public void draw() {
-		drawManager.draw();
+		moveManager = Game.getProvider().createMoveManager();
+		drawManager = Game.getProvider().createDrawManager();
+		collisionManager = Game.getProvider().createCollisionManager();
+		inputManager = Game.getProvider().createInputManager();
 	}
 
 	@Override
@@ -49,6 +40,28 @@ public abstract class Screen extends GameObject implements IScreen {
 		draw();
 	}
 
+	@Override
+	public void show() {
+		inputManager.start();
+	}
+
+	@Override
+	public void hide() {
+		inputManager.stop();
+	}
+
+	protected final void move() {
+		moveManager.move();
+	}
+
+	protected final void draw() {
+		drawManager.draw();
+	}
+	
+	protected final void collide() {
+		collisionManager.collide();
+	}
+	
 	protected final void registerMovable(IMovable obj) {
 		moveManager.register(obj);
 	}
@@ -80,8 +93,74 @@ public abstract class Screen extends GameObject implements IScreen {
 	protected final void unregisterInputListener(IInputListener obj) {
 		inputManager.unregister(obj);
 	}
-	
-	public void collide() {
-		collisionManager.collide();
+
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(float x, float y, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(float x, float y, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean tap(float x, float y, int count, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean longPress(float x, float y) {
+		return false;
+	}
+
+	@Override
+	public boolean fling(float vx, float vy, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean pan(float x, float y, float dx, float xy) {
+		return false;
+	}
+
+	@Override
+	public boolean zoom(float initialDistance, float distance) {
+		return false;
+	}
+
+	@Override
+	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
+		return false;
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(float x, float y) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(float amount) {
+		return false;
 	}
 }

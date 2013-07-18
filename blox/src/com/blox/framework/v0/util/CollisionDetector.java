@@ -33,7 +33,7 @@ public final class CollisionDetector {
 	}
 
 	private static ICollisionDetector getDetector(int boundType1, int boundType2) {
-		return ToolBox.getCollisionDetectorFactory().getDetector(boundType1,
+		return Game.getCollisionDetectorFactory().getDetector(boundType1,
 				boundType2);
 	}
 }

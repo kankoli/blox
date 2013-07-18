@@ -1,6 +1,6 @@
 package com.blox.framework.v0;
 
-public interface IGameFactory {
+public interface IGameProvider {
 	IResourceManager createResourceManager();
 	IDeltaTime createDeltaTime();
 	ITextureSplitter createTextureSplitter();
@@ -9,4 +9,6 @@ public interface IGameFactory {
 	IDrawManager createDrawManager();
 	IMoveManager createMoveManager();
 	ICollisionManager createCollisionManager();
+	IScreenFader createScreenFader();
+	void exit();
 }

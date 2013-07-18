@@ -10,6 +10,10 @@ import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.IVideo;
 
 class GdxResourceManager implements IResourceManager {
+	GdxResourceManager() {
+		
+	}
+	
 	@Override
 	public ITexture loadTexture(String resourcePath) {
 		Texture texture = new Texture(Gdx.files.internal(resourcePath));

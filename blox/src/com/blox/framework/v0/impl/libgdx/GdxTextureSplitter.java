@@ -17,14 +17,12 @@ class GdxTextureSplitter implements ITextureSplitter {
 		int cols = (int) (gdxTexture.getWidth() / width);
 		int rows = (int) (gdxTexture.getHeight() / height);
 
-		TextureRegion[][] regions = TextureRegion.split(gdxTexture, width,
-				height);
+		TextureRegion[][] regions = TextureRegion.split(gdxTexture, width, height);
 
 		return toArray(cols, rows, regions);
 	}
 
-	private GdxTextureRegion[] toArray(int cols, int rows,
-			TextureRegion[][] regions) {
+	private GdxTextureRegion[] toArray(int cols, int rows, TextureRegion[][] regions) {
 		GdxTextureRegion[] gdxRegions = new GdxTextureRegion[cols * rows];
 		int index = 0;
 		for (int i = 0; i < rows; i++) {

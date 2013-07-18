@@ -93,7 +93,7 @@ public class Animation {
 
 	public ITexture getFrame() {
 		if (isAnimating)
-			frameTime += ToolBox.getDeltaTime();
+			frameTime += Game.getDeltaTime();
 
 		int frameIndex = (int) (frameTime / frameDuration);
 		if (frameIndex >= textures.length) {

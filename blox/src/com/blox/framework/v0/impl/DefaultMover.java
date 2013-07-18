@@ -2,13 +2,13 @@ package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMover;
-import com.blox.framework.v0.util.ToolBox;
+import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
 public class DefaultMover implements IMover {	
 	@Override
 	public void move(IMovable movable) {
-		float dt = ToolBox.getDeltaTime();
+		float dt = Game.getDeltaTime();
 		float dt2 = dt * dt;
 
 		Vector l = movable.getLocation();

@@ -1,14 +1,15 @@
 package com.blox.framework.v0.impl.libgdx;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Gdx;
 import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.IDeltaTime;
 import com.blox.framework.v0.IDrawManager;
-import com.blox.framework.v0.IGameFactory;
+import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IResourceManager;
+import com.blox.framework.v0.IScreenFader;
 import com.blox.framework.v0.ITextureSplitter;
 import com.blox.framework.v0.impl.CachedResourceManager;
 import com.blox.framework.v0.impl.CollisionDetectorFactory;
@@ -16,9 +17,9 @@ import com.blox.framework.v0.impl.CollisionManager;
 import com.blox.framework.v0.impl.DrawManager;
 import com.blox.framework.v0.impl.MoveManager;
 
-class GdxGameFactory implements IGameFactory {
-	GdxGameFactory(SpriteBatch spriteBatch) {
-		GdxTools.spriteBatch = spriteBatch;
+class GdxGameProvider implements IGameProvider {	
+	GdxGameProvider() {
+		
 	}
 	
 	@Override
@@ -59,5 +60,15 @@ class GdxGameFactory implements IGameFactory {
 	@Override
 	public ICollisionManager createCollisionManager() {
 		return new CollisionManager();
+	}
+
+	@Override
+	public IScreenFader createScreenFader() {
+		return new GdxScreenFader();
+	}
+
+	@Override
+	public void exit() {
+		Gdx.app.exit();
 	}
 }

@@ -2,7 +2,7 @@ package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.InputProcessor;
 import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.util.ToolBox;
+import com.blox.framework.v0.util.Game;
 
 class GdxInputProcessor implements InputProcessor {
 	private IInputListener listener;
@@ -34,17 +34,17 @@ class GdxInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return listener.touchUp(screenX, ToolBox.screenHeight - screenY, pointer, button);
+		return listener.touchUp(screenX, Game.world.screenHeight - screenY, pointer, button);
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return listener.touchDragged(screenX, ToolBox.screenHeight - screenY, pointer);
+		return listener.touchDragged(screenX, Game.world.screenHeight - screenY, pointer);
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		return listener.mouseMoved(screenX, ToolBox.screenHeight - screenY);
+		return listener.mouseMoved(screenX, Game.world.screenHeight - screenY);
 	}
 
 	@Override
