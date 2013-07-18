@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.blox.blockmaze.TurnMazeGame;
+import com.blox.framework.v0.impl.libgdx.ILibGdxGame;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -20,6 +21,7 @@ public class MainActivity extends AndroidApplication {
 		
 		Texture.setEnforcePotImages(false);
 		
-		initialize(new TurnMazeGame(), cfg);
+		ILibGdxGame gdxGame = new TurnMazeGame(); 
+		initialize(gdxGame.getApplicationListener(), cfg);
     }
 }

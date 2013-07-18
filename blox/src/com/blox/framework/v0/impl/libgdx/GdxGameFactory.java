@@ -1,7 +1,6 @@
 package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.IDeltaTime;
@@ -11,20 +10,20 @@ import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ITextureSplitter;
+import com.blox.framework.v0.impl.CachedResourceManager;
 import com.blox.framework.v0.impl.CollisionDetectorFactory;
 import com.blox.framework.v0.impl.CollisionManager;
 import com.blox.framework.v0.impl.DrawManager;
 import com.blox.framework.v0.impl.MoveManager;
 
-public class GdxGameFactory implements IGameFactory {
-	public GdxGameFactory(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
-		GdxGame.spriteBatch = spriteBatch;
-		GdxGame.shapeRenderer = shapeRenderer;
+class GdxGameFactory implements IGameFactory {
+	GdxGameFactory(SpriteBatch spriteBatch) {
+		GdxTools.spriteBatch = spriteBatch;
 	}
 	
 	@Override
 	public IResourceManager createResourceManager() {
-		return new GdxResourceManager();
+		return new CachedResourceManager(new GdxResourceManager());
 	}
 
 	@Override

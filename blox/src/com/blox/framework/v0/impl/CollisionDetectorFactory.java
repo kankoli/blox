@@ -20,7 +20,8 @@ public class CollisionDetectorFactory implements ICollisionDetectorFactory {
 	public ICollisionDetector getDetector(int boundType1, int boundType2) {
 		if (boundType1 == IBound.Circle && boundType2 == IBound.Circle)
 			return circCirc;
-		if (boundType1 == IBound.Circle && boundType2 == IBound.Rectangle)
+		if ((boundType1 == IBound.Circle && boundType2 == IBound.Rectangle) || 
+			(boundType1 == IBound.Rectangle && boundType2 == IBound.Circle))
 			return circRect;
 		if (boundType1 == IBound.Rectangle && boundType2 == IBound.Rectangle)
 			return rectRect;

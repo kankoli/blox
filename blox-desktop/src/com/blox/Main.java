@@ -3,6 +3,7 @@ package com.blox;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.blox.blockmaze.TurnMazeGame;
+import com.blox.framework.v0.impl.libgdx.ILibGdxGame;
 
 public class Main {
 	public static void main(String[] args) {
@@ -12,8 +13,7 @@ public class Main {
 		cfg.width = 480;
 		cfg.height = 800;
 
-		// new LwjglApplication(new MazeGame(new MazeSaveHandler()), cfg);
-		new LwjglApplication(new TurnMazeGame(), cfg);
-		// new LwjglApplication(new MummyGame(), cfg);
+		ILibGdxGame gdxGame = new TurnMazeGame();
+		new LwjglApplication(gdxGame.getApplicationListener(), cfg);
 	}
 }

@@ -10,10 +10,6 @@ import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.IVideo;
 
 class GdxResourceManager implements IResourceManager {
-	GdxResourceManager() {
-		
-	} 
-	
 	@Override
 	public ITexture loadTexture(String resourcePath) {
 		Texture texture = new Texture(Gdx.files.internal(resourcePath));
@@ -22,21 +18,17 @@ class GdxResourceManager implements IResourceManager {
 	}
 
 	@Override
-	public IMusic loadMusic(String resourcePath) {
-		// TODO Auto-generated method stub
-		return null;
+	public ISound loadSound(String resourcePath) {		
+		throw new UnsupportedOperationException("loadSound");
 	}
 
 	@Override
-	public ISound loadSound(String resourcePath) {
-		// TODO Auto-generated method stub
-		return null;
+	public IMusic loadMusic(String resourcePath) {
+		throw new UnsupportedOperationException("loadMusic");
 	}
 
 	@Override
 	public IVideo loadVideo(String resourcePath) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("loadVideo");
 	}
-
 }

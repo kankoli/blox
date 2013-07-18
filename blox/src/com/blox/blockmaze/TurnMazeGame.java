@@ -1,58 +1,42 @@
 package com.blox.blockmaze;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.blox.framework.v0.impl.libgdx.GdxGameFactory;
-import com.blox.framework.v0.util.ToolBox;
+import com.badlogic.gdx.ApplicationListener;
+import com.blox.framework.v0.IGame;
+import com.blox.framework.v0.IScreen;
+import com.blox.framework.v0.impl.libgdx.GdxGame;
+import com.blox.framework.v0.impl.libgdx.ILibGdxGame;
 
-public class TurnMazeGame extends Game {
-	private final int mazeWidth = 12;
-	private final int mazeHeight = 12;
-	TurnMaze maze;
-
-	Block block;
-	private SpriteBatch spriteBatch;
+public class TurnMazeGame implements IGame, ILibGdxGame {	
+	private IScreen mazeScreen;
+	private ApplicationListener gdxApp;
 
 	public TurnMazeGame() {
-
+		gdxApp = GdxGame.create(this);
+		mazeScreen = new TurnMaze();
 	}
 
 	@Override
-	public void create() {
-		spriteBatch = new SpriteBatch();
-		ToolBox.initialize(new GdxGameFactory(spriteBatch, null));
-
-		block = new Block(100, 100);
-
-		// World.scale = 1 / 28f;
-
-		maze = new TurnMaze(mazeWidth, mazeHeight);
-
-		// try {
-		// InputStream fis = Gdx.files.internal("maze.dat").read();
-		// ObjectInputStream ois = new ObjectInputStream(fis);
-		// int[][] arr = (int[][]) ois.readObject();
-		// maze.setWalls(arr);
-		// ois.close();
-		// fis.close();
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
+	public void init() {
+		mazeScreen.init();
 	}
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-		// Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		mazeScreen.render();
+	}
 
-		maze.update();
+	@Override
+	public void update() {
+		mazeScreen.update();		
+	}
 
-		spriteBatch.begin();
-		// block.draw();
-		ToolBox.getDrawManager().draw();
-		spriteBatch.end();
+	@Override
+	public void dispose() {
+		
+	}
+
+	@Override
+	public ApplicationListener getApplicationListener() {
+		return gdxApp;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionManager;
+import com.blox.framework.v0.util.CollisionDetector;
 
 public class CollisionManager implements ICollisionManager {
 	private List<ICollidable> objects; 
