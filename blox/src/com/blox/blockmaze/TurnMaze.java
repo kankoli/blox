@@ -128,7 +128,7 @@ public class TurnMaze extends GameObject {
 
 	@Override
 	public boolean touchDragged(float x, float y, int pointer) {
-		rotation.rotation.z += (rotateStart - x) / 10f;
+		rotation.rotation.z -= (rotateStart - x) / 3f;
 		rotateStart = x;
 		// tempRotation = (float) (Math.PI / 2 * ((rotateStart - x) /
 		// ToolBox.screenWidth));
