@@ -1,4 +1,4 @@
-package com.blox.blockmaze;
+package com.blox.maze;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.blox.framework.v0.IGame;
@@ -6,13 +6,13 @@ import com.blox.framework.v0.IScreen;
 import com.blox.framework.v0.impl.libgdx.GdxGame;
 import com.blox.framework.v0.impl.libgdx.ILibGdxGame;
 
-public class TurnMazeGame implements IGame, ILibGdxGame {	
+public class MazeGame implements IGame, ILibGdxGame {	
 	private IScreen mazeScreen;
 	private ApplicationListener gdxApp;
 
-	public TurnMazeGame() {
+	public MazeGame() {
 		gdxApp = GdxGame.create(this);
-		mazeScreen = new TurnMaze();
+		mazeScreen = new MazeScreen();
 	}
 
 	@Override

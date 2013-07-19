@@ -2,8 +2,8 @@ package com.blox;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.blox.blockmaze.TurnMazeGame;
 import com.blox.framework.v0.impl.libgdx.ILibGdxGame;
+import com.blox.maze.MazeGame;
 
 public class Main {
 	public static void main(String[] args) {
@@ -13,7 +13,7 @@ public class Main {
 		cfg.width = 480;
 		cfg.height = 800;
 
-		ILibGdxGame gdxGame = new TurnMazeGame();
+		ILibGdxGame gdxGame = new MazeGame();
 		new LwjglApplication(gdxGame.getApplicationListener(), cfg);
 	}
 }

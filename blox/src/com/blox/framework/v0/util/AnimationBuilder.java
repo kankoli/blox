@@ -34,8 +34,8 @@ public class AnimationBuilder {
 		return this;
 	}
 		
-	public AnimationBuilder setAsLooping() {
-		animation.setLooping(true);
+	public AnimationBuilder setLooping(boolean isLooping) {
+		animation.setLooping(isLooping);
 		return this;
 	}
 	
