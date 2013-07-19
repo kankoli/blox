@@ -1,5 +1,5 @@
 package com.blox.framework.v0;
 
-public interface IVideo {
+public interface IVideo extends IMedia {
 
 }

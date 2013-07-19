@@ -2,9 +2,11 @@ package com.blox.framework.v0.util;
 
 import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.IDeltaTime;
+import com.blox.framework.v0.IDisposeManager;
 import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.IScreenFader;
+import com.blox.framework.v0.ITextDrawer;
 import com.blox.framework.v0.ITextureSplitter;
 
 public final class Game {
@@ -17,6 +19,8 @@ public final class Game {
 	private static ITextureSplitter textureSplitter;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
 	private static IScreenFader screenFader;
+	private static ITextDrawer textDrawer;
+	private static IDisposeManager disposeManager;
 
 	private Game() {
 
@@ -24,12 +28,14 @@ public final class Game {
 
 	public static void initialize(IGameProvider provider) {
 		Game.provider = provider;
+		disposeManager = provider.createDisposeManager();
 		deltaTime = provider.createDeltaTime();
 		resourceManager = provider.createResourceManager();
 		textureSplitter = provider.createTextureSplitter();
 		collisionDetectorFactory = provider.createCollisionDetectorFactory();
 		screenFader = provider.createScreenFader();
-
+		textDrawer = provider.createTextDrawer();
+		
 		world.gravity.y = -9.8f;
 	}
 
@@ -55,6 +61,14 @@ public final class Game {
 
 	public static IScreenFader getScreenFader() {
 		return screenFader;
+	}
+
+	public static ITextDrawer getTextDrawer() {
+		return textDrawer;
+	}
+	
+	public static IDisposeManager getDisposeManager() {
+		return disposeManager;
 	}
 
 	public static void exit() {

@@ -5,4 +5,5 @@ public interface IResourceManager {
 	ISound loadSound(String resourcePath);
 	IMusic loadMusic(String resourcePath);
 	IVideo loadVideo(String resourcePath);
+	IFont loadFont(String resourcePath);
 }

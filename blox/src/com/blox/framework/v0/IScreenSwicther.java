@@ -5,4 +5,5 @@ public interface IScreenSwicther {
 	boolean isSwitching();
 	void switchTo(IScreen screen);
 	void render();
+	void setListener(IScreenSwitchListener listener);
 }

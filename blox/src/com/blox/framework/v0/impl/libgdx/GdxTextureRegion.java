@@ -16,5 +16,10 @@ class GdxTextureRegion implements ITexture {
 		GdxTextureRegionDrawer drawer = GdxTextureRegionDrawer.getInstance(); 
 		drawer.setTextureRegion(textureRegion);
 		drawer.draw(drawable);
+	}
+
+	@Override
+	public void dispose() {
+		
 	}	
 }

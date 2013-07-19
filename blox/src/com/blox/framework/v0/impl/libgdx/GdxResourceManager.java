@@ -3,6 +3,7 @@ package com.blox.framework.v0.impl.libgdx;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.IMusic;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISound;
@@ -35,4 +36,9 @@ class GdxResourceManager implements IResourceManager {
 	public IVideo loadVideo(String resourcePath) {
 		throw new UnsupportedOperationException("loadVideo");
 	}
+
+	@Override
+	public IFont loadFont(String resourcePath) {
+		return new GdxFont(resourcePath);
+	}	
 }

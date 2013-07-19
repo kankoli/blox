@@ -48,8 +48,8 @@ public class GdxGame implements ApplicationListener {
 
 	@Override
 	public void dispose() {
-		game.dispose();
 		spriteBatch.dispose();
+		Game.getDisposeManager().disposeAll();
 	}
 
 	@Override

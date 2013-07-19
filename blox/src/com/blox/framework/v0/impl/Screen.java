@@ -41,13 +41,13 @@ public abstract class Screen implements IInputListener, IScreen {
 	}
 
 	@Override
-	public void show() {
-		inputManager.start();
+	public void activated() {
+		inputManager.activate();
 	}
 
 	@Override
-	public void hide() {
-		inputManager.stop();
+	public void deactivated() {
+		inputManager.deactivate();
 	}
 
 	protected final void move() {

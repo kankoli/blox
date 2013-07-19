@@ -4,7 +4,7 @@ public interface IInputManager {
 	void register(IInputListener listener);	
 	void unregister(IInputListener listener);
 
-	void start();
-	void stop();
-	boolean isListening();
+	void activate();
+	void deactivate();
+	boolean isActive();
 }

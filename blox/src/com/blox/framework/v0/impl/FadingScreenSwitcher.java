@@ -1,7 +1,9 @@
 package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.IScreen;
+import com.blox.framework.v0.IScreenFader;
 import com.blox.framework.v0.IScreenSwicther;
+import com.blox.framework.v0.IScreenSwitchListener;
 import com.blox.framework.v0.util.Game;
 
 public class FadingScreenSwitcher implements IScreenSwicther {
@@ -11,9 +13,14 @@ public class FadingScreenSwitcher implements IScreenSwicther {
 	private IScreen newScreen;
 	private IScreen oldScreen;
 	
+	private IScreenFader fader;
+	
+	private IScreenSwitchListener listener;
+	
 	public FadingScreenSwitcher(float duration) {
 		this.duration = duration;
 		this.elapsed = duration;
+		this.fader = Game.getScreenFader();
 	}
 
 	@Override
@@ -31,7 +38,7 @@ public class FadingScreenSwitcher implements IScreenSwicther {
 			this.oldScreen = this.newScreen;
 		}
 		else {
-			screen.show();
+			screen.activated();
 		}
 		this.newScreen = screen;
 	}
@@ -40,20 +47,31 @@ public class FadingScreenSwitcher implements IScreenSwicther {
 	public void render() {
 		elapsed += Game.getDeltaTime();
 		
-		if (!isSwitching()) {
-			Game.getScreenFader().fade(1);
-			oldScreen.hide();
-			newScreen.show();
-			newScreen.render();
-			return;
-		}
-		
+		if (isSwitching())
+			renderFaded();
+		else
+			endFading();
+	}
+
+	@Override
+	public void setListener(IScreenSwitchListener listener) {
+		this.listener = listener;
+	}	
+
+	private void endFading() {
+		fader.fade(1);
+		if (listener != null)
+			listener.switchEnd(oldScreen, newScreen);
+		newScreen.render();
+	}
+
+	private void renderFaded() {
 		float alpha = elapsed / duration;
 
-		Game.getScreenFader().fade(1 - alpha);
+		fader.fade(1 - alpha);
 		oldScreen.render();
 
-		Game.getScreenFader().fade(alpha);
+		fader.fade(alpha);
 		newScreen.render();
-	}		
+	}	
 }

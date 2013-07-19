@@ -14,7 +14,7 @@ public class TurnMazeGame extends BaseGame {
 	}
 
 	@Override
-	public void init() {		
+	public void init() {
 		splashScreen.init();
 		mazeScreen.init();
 

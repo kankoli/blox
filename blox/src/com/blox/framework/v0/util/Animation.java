@@ -39,6 +39,10 @@ public class Animation {
 	void setFrames(ITexture... textures) {
 		this.textures = textures;
 	}
+	
+	public boolean isStatic() {
+		return textures.length == 1;
+	}
 
 	public int getWidth() {
 		return width;
@@ -92,13 +96,17 @@ public class Animation {
 	}
 
 	public ITexture getFrame() {
+		if (isStatic())
+			return textures[0];
+		
 		if (isAnimating)
 			frameTime += Game.getDeltaTime();
 
 		int frameIndex = (int) (frameTime / frameDuration);
 		if (frameIndex >= textures.length) {
-			if (isLooping)
+			if (isLooping) {
 				frameIndex = frameIndex % textures.length;
+			}
 			else {
 				frameIndex = textures.length - 1;
 				manager.notifyEndListeners(this);

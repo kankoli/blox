@@ -2,11 +2,11 @@ package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.IGame;
 import com.blox.framework.v0.IScreen;
+import com.blox.framework.v0.IScreenManager;
 import com.blox.framework.v0.IScreenSwicther;
-import com.blox.framework.v0.util.ScreenManager;
 
 public abstract class BaseGame implements IGame {
-	private ScreenManager screenManager;
+	private IScreenManager screenManager;
 	
 	protected BaseGame() {
 		screenManager = new ScreenManager();
@@ -32,11 +32,6 @@ public abstract class BaseGame implements IGame {
 	
 	@Override
 	public void init() {
-		
-	}
-
-	@Override
-	public void dispose() {
 		
 	}
 }

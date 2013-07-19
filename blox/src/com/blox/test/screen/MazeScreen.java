@@ -27,13 +27,15 @@ class MazeScreen extends Screen {
 		super.init();
 
 		maze.init();
+
+		super.registerDrawable(new Background("screen2.jpg"), 1);
 		
 		Iterator<Block> blocks = maze.getBlocks();
 		while (blocks.hasNext())
 			super.registerDrawable(blocks.next(), 2);
 
+		super.registerDrawable(maze, 3);
 		super.registerInputListener(this);
-		super.registerDrawable(new Background("screen2.jpg"), 1);
 	}
 
 	@Override
@@ -49,6 +51,12 @@ class MazeScreen extends Screen {
 		rotateStart.x = x;
 		rotateStart.y = y;
 		return false;
+	}
+	
+	@Override
+	public boolean scrolled(float amount) {
+		deltaRotation = amount * 10;
+		return super.scrolled(amount);
 	}
 
 	@Override

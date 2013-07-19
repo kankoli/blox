@@ -24,19 +24,19 @@ class GdxInputManager implements IInputManager, IInputListener {
 	}
 
 	@Override
-	public void start() {
+	public void activate() {
 		Gdx.input.setInputProcessor(multiplexer);
 		listening = true;
 	}
 
 	@Override
-	public void stop() {
+	public void deactivate() {
 		Gdx.input.setInputProcessor(null);
 		listening = false;
 	}
 
 	@Override
-	public boolean isListening() {
+	public boolean isActive() {
 		return listening;
 	}
 

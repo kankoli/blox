@@ -10,5 +10,7 @@ public interface IGameProvider {
 	IMoveManager createMoveManager();
 	ICollisionManager createCollisionManager();
 	IScreenFader createScreenFader();
+	ITextDrawer createTextDrawer();
+	IDisposeManager createDisposeManager();
 	void exit();
 }

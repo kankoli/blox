@@ -4,5 +4,4 @@ public interface IGame {
 	void init();
 	void update();
 	void render();
-	void dispose();
 }
