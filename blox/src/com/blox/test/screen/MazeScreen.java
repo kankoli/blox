@@ -21,7 +21,7 @@ class MazeScreen extends Screen {
 		this.maze = new Maze();
 		this.rotateStart = new Vector();
 	}
-
+	
 	@Override
 	public void init() {
 		super.init();
