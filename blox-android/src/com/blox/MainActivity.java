@@ -5,7 +5,6 @@ import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.graphics.Texture;
 import com.blox.framework.v0.impl.libgdx.GdxGame;
 import com.blox.test.screen.TurnMazeGame;
 
@@ -19,8 +18,6 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = true;
 		cfg.useCompass = true;
 		
-		Texture.setEnforcePotImages(false);
-
 		initialize(new GdxGame(new TurnMazeGame()), cfg);
     }
 }

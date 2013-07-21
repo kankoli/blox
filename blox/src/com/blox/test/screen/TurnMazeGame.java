@@ -3,6 +3,7 @@ package com.blox.test.screen;
 import com.blox.framework.v0.IScreen;
 import com.blox.framework.v0.impl.BaseGame;
 import com.blox.framework.v0.impl.FadingScreenSwitcher;
+import com.blox.framework.v0.util.Game;
 
 public class TurnMazeGame extends BaseGame {
 	private IScreen mazeScreen;
@@ -15,6 +16,8 @@ public class TurnMazeGame extends BaseGame {
 
 	@Override
 	public void init() {
+		Game.world.scale = 1 / 40f;
+		
 		splashScreen.init();
 		mazeScreen.init();
 

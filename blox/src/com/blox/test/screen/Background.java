@@ -5,9 +5,9 @@ import com.blox.framework.v0.util.Game;
 
 class Background extends GameObject {
 	Background(String path) {
-		addAnimation("bg", path, 1, (int)Game.world.screenWidth, (int)Game.world.screenHeight);
+		width = Game.world.scale(Game.world.screenWidth);
+		height = Game.world.scale(Game.world.screenHeight);
+		addAnimation("bg", path, 1, (int)width, (int)height);
 		startAnimation("bg");
-		width = Game.world.screenWidth;
-		height = Game.world.screenHeight;
 	}
 }

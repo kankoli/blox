@@ -32,8 +32,8 @@ public class Maze extends GameObject {
 		int mazeWidth = cols * Block.blockWidth;
 		int mazeHeight = rows * Block.blockHeight;
 
-		float tx = (Game.world.screenWidth - mazeWidth) / 2;
-		float ty = (Game.world.screenHeight - mazeHeight) / 2;
+		float tx = (Game.world.scale(Game.world.screenWidth) - mazeWidth) / 2;
+		float ty = (Game.world.scale(Game.world.screenHeight) - mazeHeight) / 2;
 
 		rotation.origin.x = tx + mazeWidth / 2;
 		rotation.origin.y = ty + mazeHeight / 2;
