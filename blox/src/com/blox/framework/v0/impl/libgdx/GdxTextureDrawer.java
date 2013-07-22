@@ -3,7 +3,6 @@ package com.blox.framework.v0.impl.libgdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IDrawer;
-import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
 
@@ -35,11 +34,11 @@ class GdxTextureDrawer implements IDrawer {
 		boolean flipY = drawable.isFlipY();
 
 		GdxGame.spriteBatch
-				.draw(texture, Game.world.descale(l.x), Game.world.descale(l.y),
-						Game.world.descale(r.origin.x-l.x), Game.world.descale(r.origin.y-l.y),
-						Game.world.descale(width), Game.world.descale(height), s.x,
-						s.y, Game.world.descale(r.rotation.z), 0, 0,
-						(int) Game.world.descale(width), (int) Game.world.descale(height),
+				.draw(texture, l.x, l.y,
+						r.origin.x-l.x, r.origin.y-l.y,
+						width, height, s.x,
+						s.y, r.rotation.z, 0, 0,
+						(int) width, (int) height,
 						flipX, flipY);
 	}
 }

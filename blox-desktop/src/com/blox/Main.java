@@ -10,13 +10,13 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "blox";
 		cfg.useGL20 = false;
-		
-		cfg.width = 480;
-		cfg.height = 800;
-		
-//		cfg.width = 720;
-//		cfg.height = 1280;
 
+		float w = 9;
+		float h = 16;		
+		
+		cfg.width = (int)(50 * w);
+		cfg.height = (int)(50 * h);
+		
 		new LwjglApplication(new GdxGame(new TurnMazeGame()), cfg);
 	}
 }

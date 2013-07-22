@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.ITextureSplitter;
-import com.blox.framework.v0.util.Game;
 
 class GdxTextureSplitter implements ITextureSplitter {
 	GdxTextureSplitter() {
@@ -15,18 +14,15 @@ class GdxTextureSplitter implements ITextureSplitter {
 	public ITexture[] split(ITexture texture, int width, int height) {
 		Texture gdxTexture = ((GdxTexture) texture).texture;
 
-		float w = Game.world.descale(width);
-		float h = Game.world.descale(height);
-
-		int cols = (int) (gdxTexture.getWidth() / w);
-		int rows = (int) (gdxTexture.getHeight() / h);
+		int cols = (int) (gdxTexture.getWidth() / width);
+		int rows = (int) (gdxTexture.getHeight() / height);
 
 		if (cols < 1 || rows < 1)
 			return new GdxTextureRegion[] { new GdxTextureRegion(
 					new TextureRegion(gdxTexture)) };
 
-		TextureRegion[][] regions = TextureRegion.split(gdxTexture, (int) w,
-				(int) h);
+		TextureRegion[][] regions = TextureRegion.split(gdxTexture, width,
+				height);
 
 		return toArray(cols, rows, regions);
 	}

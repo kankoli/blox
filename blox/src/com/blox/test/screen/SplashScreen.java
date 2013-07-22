@@ -35,7 +35,7 @@ class SplashScreen extends Screen {
 	@Override
 	public void render() {
 		super.render();
-		textDrawer.draw(loading ? "loading..." : new Date().toString(), 20, 780);
+		textDrawer.draw(loading ? "loading..." : new Date().toString(), 20, Game.world.screenHeight - 20);
 	}
 	
 	@Override

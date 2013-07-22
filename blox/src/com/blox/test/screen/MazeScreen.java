@@ -64,9 +64,9 @@ class MazeScreen extends Screen {
 		float dx = ((x - rotateStart.x) /  Game.world.screenWidth) * 90;
 		float dy = ((y - rotateStart.y) /  Game.world.screenWidth) * 90;
 
-		if (y > Game.world.scale(Game.world.screenHeight) / 2)
+		if (y > Game.world.screenHeight / 2)
 			dx = -dx;
-		if (x <  Game.world.scale(Game.world.screenWidth) / 2)
+		if (x <  Game.world.screenWidth / 2)
 			dy = -dy;
 
 		dx = ensureSpeed(dx);

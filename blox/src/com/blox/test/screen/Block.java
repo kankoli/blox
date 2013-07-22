@@ -6,8 +6,8 @@ import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
 
 class Block extends GameObject {
-	static final int blockWidth = 1;
-	static final int blockHeight = 1;
+	static final int blockWidth = 40;
+	static final int blockHeight = 40;
 
 	private final class Animations {
 		private static final String Block = "Block";
