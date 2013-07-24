@@ -270,8 +270,14 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public void move() {
 		mover.move(this);
+//		Vector vel = getVelocity();
+//		location.x += vel.x;
+//		location.y += vel.y;
+//		Vector acc = getAcceleration();
+//		vel.x += acc.x;
+//		vel.y += acc.y;
 	}
-
+	
 	@Override
 	public void setMover(IMover mover) {
 		this.mover = mover;
@@ -299,7 +305,18 @@ public abstract class GameObject implements IGameObject {
 	public Vector getLocation() {
 		return location;
 	}
+	
+	@Override
+	public void setVelocity(Vector vel) {
+		velocity = vel;
+	}
 
+	@Override
+	public void setVelocity(float x, float y) {
+		velocity.x = x;
+		velocity.y = y;
+	}
+	
 	// endregion
 	
 	// region ICollidable & IDrawable Common
@@ -307,6 +324,11 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public Rotation getRotation() {
 		return rotation;
+	}
+	
+	@Override
+	public void setRotation(Rotation r) {
+		rotation = r;
 	}
 	
 	// endregion

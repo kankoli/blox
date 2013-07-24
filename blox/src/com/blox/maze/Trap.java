@@ -28,8 +28,4 @@ public class Trap extends GameObject {
 		bounds.add(new RectangleBound(this, new Vector(0,0), Maze.blockWidth, Maze.blockHeight));
 		startAnimation(Animations.Trap);
 	}
-	
-	void setRotation(Rotation rotation) {
-		super.rotation = rotation;
-	}
 }

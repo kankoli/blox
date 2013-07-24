@@ -44,8 +44,4 @@ public class Portal extends GameObject {
 		
 		startAnimation(Animations.Portal);
 	}
-	
-	void setRotation(Rotation rotation) {
-		super.rotation = rotation;
-	}
 }
