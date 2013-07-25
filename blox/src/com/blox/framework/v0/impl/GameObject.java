@@ -10,6 +10,7 @@ import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IGameObject;
 import com.blox.framework.v0.IMover;
+import com.blox.framework.v0.IScreen;
 import com.blox.framework.v0.util.Animation;
 import com.blox.framework.v0.util.AnimationBuilder;
 import com.blox.framework.v0.util.Animator;
@@ -31,8 +32,15 @@ public abstract class GameObject implements IGameObject {
 	protected List<IBound> bounds;
 	protected IMover mover;
 	protected IDrawer drawer;
+	
+	protected Screen parent;
 
 	protected GameObject() {
+		this(null);
+	}
+	
+	protected GameObject(Screen p) {
+		parent = p;
 		location = new Vector();
 		velocity = new Vector();
 		acceleration = new Vector();
@@ -47,7 +55,7 @@ public abstract class GameObject implements IGameObject {
 		mover = IMover.NULL;
 		drawer = IDrawer.NULL;
 	}
-
+	
 	// region animations
 
 	private class AnimationEndListener implements IAnimationEndListener {
@@ -65,15 +73,19 @@ public abstract class GameObject implements IGameObject {
 
 	protected Animation addAnimation(String name, String resourcePath,
 			float frameDuration, int frameWidth, int frameHeight) {
+		return addAnimation(name, resourcePath, frameDuration, frameWidth, frameHeight, false);
+	}
+	
+	protected Animation addAnimation(String name, String resourcePath,
+			float frameDuration, int frameWidth, int frameHeight, boolean isLooping) {
 		Animation animation = AnimationBuilder.createAnimation(name)
 				.from(resourcePath).withFrameDuration(frameDuration)
-				.withFrameSize(frameWidth, frameHeight).build();
+				.withFrameSize(frameWidth, frameHeight).setLooping(isLooping).build();
 
 		animator.addAnimation(animation);
 
 		return animation;
 	}
-
 	protected void removeAnimation(String name) {
 		animator.removeAnimation(name);
 	}
@@ -258,8 +270,14 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public void move() {
 		mover.move(this);
+//		Vector vel = getVelocity();
+//		location.x += vel.x;
+//		location.y += vel.y;
+//		Vector acc = getAcceleration();
+//		vel.x += acc.x;
+//		vel.y += acc.y;
 	}
-
+	
 	@Override
 	public void setMover(IMover mover) {
 		this.mover = mover;
@@ -287,7 +305,7 @@ public abstract class GameObject implements IGameObject {
 	public Vector getLocation() {
 		return location;
 	}
-
+	
 	// endregion
 	
 	// region ICollidable & IDrawable Common
@@ -297,5 +315,15 @@ public abstract class GameObject implements IGameObject {
 		return rotation;
 	}
 	
+	@Override
+	public void setRotation(Rotation r) {
+		rotation = r;
+	}
+	
 	// endregion
+
+	public Screen getParent() {
+		return parent;
+	}
+
 }

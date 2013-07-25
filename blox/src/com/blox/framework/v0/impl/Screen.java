@@ -62,35 +62,35 @@ public abstract class Screen implements IInputListener, IScreen {
 		collisionManager.collide();
 	}
 	
-	protected final void registerMovable(IMovable obj) {
+	public final void registerMovable(IMovable obj) {
 		moveManager.register(obj);
 	}
 
-	protected final void unregisterMovable(IMovable obj) {
+	public final void unregisterMovable(IMovable obj) {
 		moveManager.unregister(obj);
 	}
 
-	protected final void registerDrawable(IDrawable obj, int layer) {
+	public final void registerDrawable(IDrawable obj, int layer) {
 		drawManager.register(obj, layer);
 	}
 
-	protected final void unregisterDrawable(IDrawable obj) {
+	public final void unregisterDrawable(IDrawable obj) {
 		drawManager.unregister(obj);
 	}
 
-	protected final void registerCollidable(ICollidable obj) {
+	public final void registerCollidable(ICollidable obj) {
 		collisionManager.register(obj);
 	}
 
-	protected final void unregisterCollidable(ICollidable obj) {
+	public final void unregisterCollidable(ICollidable obj) {
 		collisionManager.unregister(obj);
 	}
 
-	protected final void registerInputListener(IInputListener obj) {
+	public final void registerInputListener(IInputListener obj) {
 		inputManager.register(obj);
 	}
 
-	protected final void unregisterInputListener(IInputListener obj) {
+	public final void unregisterInputListener(IInputListener obj) {
 		inputManager.unregister(obj);
 	}
 

@@ -18,4 +18,12 @@ public class Rotation {
 		this.rotation = new Vector(rx, ry, rz);
 		this.origin = new Vector(ox, oy, oz);
 	}
+	
+	public void setRotationZ(float z) {
+		rotation.z = z;
+	}
+
+	public void addRotationZ(float z) {
+		rotation.z += z;
+	}
 }

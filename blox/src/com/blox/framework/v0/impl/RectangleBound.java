@@ -13,6 +13,7 @@ public class RectangleBound extends Bound implements IRectangleBound {
 		super(parent, offset);
 		this.width = width;
 		this.height = height;
+		this.invOffset = calculateInvOffset();
 	}
 	
 	@Override
@@ -40,4 +41,12 @@ public class RectangleBound extends Bound implements IRectangleBound {
 	public int getType() {
 		return IBound.Rectangle;
 	}
+
+	@Override
+	protected Vector calculateInvOffset() {
+		return new Vector(parent.getWidth() - (offset.x + this.width), parent.getHeight() - (offset.y + this.height)); 
+//		parent.getHeight() - (offset.y + this.height)
+//		(this.height - (thisBound.getOffset().y + ((RectangleBound)thisBound).getHeight()));
+	}
+	
 }

@@ -9,5 +9,7 @@ public interface IBound {
 
 	Vector getLocation();
 	Rotation getRotation();
+	Vector getOffset();
+	Vector getInvOffset();
 	int getType();
 }
