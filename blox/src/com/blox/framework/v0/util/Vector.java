@@ -25,10 +25,31 @@ public class Vector {
 		this.z = z;
 	}
 
+	public Vector set(Vector v) {
+		x = v.x;
+		y = v.y;
+		z = v.z;
+		return this;
+	}
+
+	public Vector set(float f) {
+		x = f;
+		y = f;
+		z = f;
+		return this;
+	}
+	
 	public Vector add(Vector v) {
 		x += v.x;
 		y += v.y;
 		z += v.z;
+		return this;
+	}
+
+	public Vector add(float f) {
+		x += f;
+		y += f;
+		z += f;
 		return this;
 	}
 

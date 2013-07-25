@@ -306,17 +306,6 @@ public abstract class GameObject implements IGameObject {
 		return location;
 	}
 	
-	@Override
-	public void setVelocity(Vector vel) {
-		velocity = vel;
-	}
-
-	@Override
-	public void setVelocity(float x, float y) {
-		velocity.x = x;
-		velocity.y = y;
-	}
-	
 	// endregion
 	
 	// region ICollidable & IDrawable Common

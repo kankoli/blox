@@ -25,10 +25,10 @@ class Maze extends GameObject {
 		
 		int[][] data = new int[][] { 
 				{ 1, 1, 1, 1, 1, 1 }, 
-				{ 1, 2, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 1 },
-				{ 1, 3, 1, 1, 0, 1 },
-				{ 1, 0, 0, 0, 4, 1 }, 
+				{ 1, 0, 0, 1, 0, 1 },
+				{ 1, 1, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 1, 1 },
+				{ 1, 0, 1, 0, 0, 1 }, 
 				{ 1, 1, 1, 1, 1, 1 } };
 
 		int cols = data.length;
@@ -91,10 +91,10 @@ class Maze extends GameObject {
 			float increment = rotationSpeed * ToolBox.getDeltaTime();
 			rotation.rotation.z += userRotation * increment;
 			mazeTempRotation -= increment;
-			if (mazeTempRotation <= 0 + epsilon) {
+			if (mazeTempRotation <= 0 + epsilon) { // MAZE_ROTATE FINISHED
 				rotation.rotation.z = mazeOldRotation + userRotation * 90;
 				currState = MazeState.WAITING;
-				((MazeScreen)parent).lokumFall();
+				MazeMover.instance.turn(userRotation == 1);
 			}
 		}
 	}

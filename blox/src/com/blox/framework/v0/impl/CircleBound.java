@@ -11,6 +11,7 @@ public class CircleBound extends Bound implements ICircleBound {
 	public CircleBound(ICollidable parent, Vector offset, float radius) {
 		super(parent, offset);
 		this.radius = radius;
+		this.invOffset = calculateInvOffset();
 	}
 
 	@Override
@@ -33,4 +34,11 @@ public class CircleBound extends Bound implements ICircleBound {
 	public int getType() {
 		return IBound.Circle;
 	}
+
+	@Override
+	protected Vector calculateInvOffset() {
+		return new Vector(parent.getWidth() - offset.x, parent.getHeight() - offset.y); 
+	}
+	
+	
 }

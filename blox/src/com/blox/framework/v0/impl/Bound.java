@@ -8,6 +8,7 @@ import com.blox.framework.v0.util.Vector;
 public abstract class Bound implements IBound {
 	protected ICollidable parent;
 	protected Vector offset;
+	protected Vector invOffset;
 	
 	protected Rotation rotation;
 	protected Vector location;
@@ -21,8 +22,20 @@ public abstract class Bound implements IBound {
 		this.location = new Vector();
 	}
 
+	protected abstract Vector calculateInvOffset();
+	
 	@Override
 	public Rotation getRotation() {
 		return rotation;
+	}
+	
+	@Override
+	public Vector getOffset() {
+		return offset;
+	}
+
+	@Override
+	public Vector getInvOffset() {
+		return invOffset;
 	}
 }

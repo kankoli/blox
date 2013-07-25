@@ -1,5 +1,7 @@
 package com.blox.maze;
 
+import com.blox.framework.v0.IBound;
+import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.impl.RectangleBound;
 import com.blox.framework.v0.util.Rotation;
@@ -43,5 +45,14 @@ public class Portal extends GameObject {
 					Animations.PortalFrameHeight, Animations.PortalIsLooping);
 		
 		startAnimation(Animations.Portal);
+	}
+	
+	@Override
+	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
+//		if (!(obj instanceof Lokum))
+//			return false;
+//		Lokum lokum = (Lokum)obj;
+//		if (lokum.getLocation().y 
+		return false;
 	}
 }
