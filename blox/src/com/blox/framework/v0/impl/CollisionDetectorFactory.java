@@ -13,19 +13,18 @@ public class CollisionDetectorFactory implements ICollisionDetectorFactory {
 
 	@Override
 	public void setSuccessor(ICollisionDetectorFactory successor) {
-		this.successor = successor;		
+		this.successor = successor;
 	}
 
 	@Override
 	public ICollisionDetector getDetector(int boundType1, int boundType2) {
 		if (boundType1 == IBound.Circle && boundType2 == IBound.Circle)
 			return circCirc;
-		if ((boundType1 == IBound.Circle && boundType2 == IBound.Rectangle) || 
-			(boundType1 == IBound.Rectangle && boundType2 == IBound.Circle))
+		if ((boundType1 == IBound.Circle && boundType2 == IBound.Rectangle) || (boundType1 == IBound.Rectangle && boundType2 == IBound.Circle))
 			return circRect;
 		if (boundType1 == IBound.Rectangle && boundType2 == IBound.Rectangle)
 			return rectRect;
 		return successor == null ? null : successor.getDetector(boundType1, boundType2);
 	}
-	
+
 }

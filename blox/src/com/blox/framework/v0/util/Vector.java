@@ -16,9 +16,9 @@ public class Vector {
 	}
 
 	public Vector(float x, float y) {
-		this(x,y,0);
+		this(x, y, 0);
 	}
-	
+
 	public Vector(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
@@ -38,7 +38,7 @@ public class Vector {
 		z = f;
 		return this;
 	}
-	
+
 	public Vector add(Vector v) {
 		x += v.x;
 		y += v.y;

@@ -6,23 +6,23 @@ import com.blox.framework.v0.IScreenSwicther;
 import com.blox.framework.v0.IScreenSwitchListener;
 
 public class ScreenManager implements IScreenManager, IScreenSwitchListener {
-	private IScreen currentScreen;	
-	private IScreenSwicther switcher; 
-	
+	private IScreen currentScreen;
+	private IScreenSwicther switcher;
+
 	public ScreenManager() {
 		this(new DefaultScreenSwitcher());
 	}
-	
+
 	public ScreenManager(IScreenSwicther switcher) {
 		setScreenSwitcher(switcher);
 	}
-	
+
 	@Override
 	public void setScreenSwitcher(IScreenSwicther switcher) {
 		this.switcher = switcher;
 		this.switcher.setListener(this);
 	}
-	
+
 	@Override
 	public void setScreen(IScreen screen) {
 		switcher.switchTo(screen);

@@ -11,7 +11,6 @@ public class CircleCircleCollisionDetector implements ICollisionDetector {
 		ICircleBound b2 = (ICircleBound) bound2;
 
 		// TODO: rotation
-		return b1.getLocation().dist(b2.getLocation()) <= b1.getRadius()
-				+ b2.getRadius();
+		return b1.getLocation().dist(b2.getLocation()) <= b1.getRadius() + b2.getRadius();
 	}
 }

@@ -9,14 +9,14 @@ import com.blox.framework.v0.util.Game;
 public class FadingScreenSwitcher implements IScreenSwicther {
 	private float elapsed;
 	private float duration;
-	
+
 	private IScreen newScreen;
 	private IScreen oldScreen;
-	
+
 	private IScreenFader fader;
-	
+
 	private IScreenSwitchListener listener;
-	
+
 	public FadingScreenSwitcher(float duration) {
 		this.duration = duration;
 		this.elapsed = duration;
@@ -32,12 +32,11 @@ public class FadingScreenSwitcher implements IScreenSwicther {
 	public void switchTo(IScreen screen) {
 		if (screen == newScreen)
 			return;
-		
+
 		if (newScreen != null) {
 			elapsed = 0;
 			this.oldScreen = this.newScreen;
-		}
-		else {
+		} else {
 			screen.activated();
 		}
 		this.newScreen = screen;
@@ -46,7 +45,7 @@ public class FadingScreenSwitcher implements IScreenSwicther {
 	@Override
 	public void render() {
 		elapsed += Game.getDeltaTime();
-		
+
 		if (isSwitching())
 			renderFaded();
 		else
@@ -56,7 +55,7 @@ public class FadingScreenSwitcher implements IScreenSwicther {
 	@Override
 	public void setListener(IScreenSwitchListener listener) {
 		this.listener = listener;
-	}	
+	}
 
 	private void endFading() {
 		fader.fade(1);
@@ -73,5 +72,5 @@ public class FadingScreenSwitcher implements IScreenSwicther {
 
 		fader.fade(alpha);
 		newScreen.render();
-	}	
+	}
 }

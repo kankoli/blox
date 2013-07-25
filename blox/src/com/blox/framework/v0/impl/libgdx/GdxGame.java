@@ -16,7 +16,7 @@ public class GdxGame implements ApplicationListener {
 	public GdxGame(IGame game) {
 		this.game = game;
 	}
-	
+
 	private void initGdx() {
 		Gdx.input.setCatchBackKey(true);
 		Texture.setEnforcePotImages(false);
@@ -28,9 +28,9 @@ public class GdxGame implements ApplicationListener {
 	@Override
 	public void create() {
 		initGdx();
-		
+
 		spriteBatch = new SpriteBatch();
-		
+
 		game.init();
 	}
 

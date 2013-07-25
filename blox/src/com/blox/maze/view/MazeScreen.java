@@ -1,33 +1,35 @@
-package com.blox.maze;
+package com.blox.maze.view;
 
 import com.blox.framework.v0.impl.Screen;
+import com.blox.maze.controller.MazeController;
+import com.blox.maze.model.Background;
 
 public class MazeScreen extends Screen {
 
-	private Maze maze;
-	private Lokum lokum;
-	
 	private MazeGame game;
+	private MazeController controller;
 	
 	public MazeScreen(MazeGame game) {
 		this.game = game;
 	}
+
 	@Override
 	public void init() {
 		super.init();
-		
+
 		registerDrawable(new Background(), 1);
-		maze = new Maze(this);
-		lokum = new Lokum(this, maze, 1, 4);
-		MazeMover.instance.register(lokum);
-		registerDrawable(lokum, 2);
-		registerMovable(lokum);
-		registerCollidable(lokum);
+		
+		controller = new MazeController(this);
+	}
+
+	@Override
+	public void update() {
+		controller.work();
+		super.update();
 	}
 	
 	@Override
-	public void update() {
-		maze.update();
-		super.update();
+	public void render() {
+		super.render();
 	}
 }

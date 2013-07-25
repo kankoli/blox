@@ -7,11 +7,22 @@ import com.blox.framework.v0.util.Vector;
 
 public interface ICollidable {
 	Iterator<IBound> getBounds();
+
 	Vector getLocation();
+
 	Rotation getRotation();
+
 	float getWidth();
+
 	float getHeight();
+
 	boolean isFlipX();
+
 	boolean isFlipY();
+
 	boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj);
+	
+	void registerCollisionListener(ICollisionListener listener);
+	
+	void unregisterCollisionListener(ICollisionListener listener);
 }

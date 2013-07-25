@@ -11,11 +11,11 @@ public class DrawManager implements IDrawManager {
 	private class Layer {
 		int index;
 		List<IDrawable> objects = new ArrayList<IDrawable>();
-		
-		void register (IDrawable obj) {
+
+		void register(IDrawable obj) {
 			objects.add(obj);
 		}
-		
+
 		boolean unregister(IDrawable obj) {
 			return objects.remove(obj);
 		}
@@ -29,9 +29,9 @@ public class DrawManager implements IDrawManager {
 
 	@Override
 	public void register(IDrawable obj, int layerIndex) {
-		
+
 		unregister(obj);
-		
+
 		int i = 0;
 		for (; i < layers.size(); i++) {
 			Layer layer = layers.get(i);
@@ -51,16 +51,16 @@ public class DrawManager implements IDrawManager {
 
 	@Override
 	public void unregister(IDrawable obj) {
-		for(int i = 0; i < layers.size(); i++) {
-			if (layers.get(i).unregister(obj)) 
+		for (int i = 0; i < layers.size(); i++) {
+			if (layers.get(i).unregister(obj))
 				return;
 		}
 	}
 
 	@Override
 	public void draw() {
-		for(int i = 0; i < layers.size(); i++) {
-			for(int j = 0; j < layers.get(i).objects.size(); j++) {
+		for (int i = 0; i < layers.size(); i++) {
+			for (int j = 0; j < layers.get(i).objects.size(); j++) {
 				layers.get(i).objects.get(j).draw();
 			}
 		}

@@ -7,9 +7,9 @@ import com.blox.framework.v0.IDisposable;
 import com.blox.framework.v0.IDisposeManager;
 
 public class DisposeManager implements IDisposeManager {
-	
+
 	private List<IDisposable> objects;
-	
+
 	public DisposeManager() {
 		objects = new ArrayList<IDisposable>();
 	}

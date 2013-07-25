@@ -8,18 +8,18 @@ import com.blox.framework.v0.util.Game;
 
 public class GdxFont implements IFont {
 	BitmapFont font;
-	
+
 	GdxFont() {
 		this(new BitmapFont());
 	}
-	
+
 	GdxFont(String fontFile) {
 		this(new BitmapFont(Gdx.files.internal(fontFile), false));
 	}
-	
+
 	GdxFont(BitmapFont font) {
 		this.font = font;
-		Game.getDisposeManager().register(this);		
+		Game.getDisposeManager().register(this);
 	}
 
 	@Override

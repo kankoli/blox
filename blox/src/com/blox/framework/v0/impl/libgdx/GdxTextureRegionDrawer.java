@@ -8,15 +8,15 @@ import com.blox.framework.v0.util.Vector;
 
 class GdxTextureRegionDrawer implements IDrawer {
 	private final static GdxTextureRegionDrawer instance = new GdxTextureRegionDrawer();
-	
+
 	private GdxTextureRegionDrawer() {
-		
+
 	}
-	
+
 	static GdxTextureRegionDrawer getInstance() {
 		return instance;
 	}
-	
+
 	private TextureRegion textureRegion;
 
 	void setTextureRegion(TextureRegion textureRegion) {
@@ -33,12 +33,8 @@ class GdxTextureRegionDrawer implements IDrawer {
 		boolean flipX = drawable.isFlipX();
 		boolean flipY = drawable.isFlipY();
 
-		textureRegion.flip(textureRegion.isFlipX() != flipX,
-				textureRegion.isFlipY() != flipY);
+		textureRegion.flip(textureRegion.isFlipX() != flipX, textureRegion.isFlipY() != flipY);
 
-		GdxGame.spriteBatch.draw(textureRegion, l.x,
-				l.y, r.origin.x-l.x,
-				r.origin.y-l.y, width, height,
-				s.x, s.y, r.rotation.z);
+		GdxGame.spriteBatch.draw(textureRegion, l.x, l.y, r.origin.x - l.x, r.origin.y - l.y, width, height, s.x, s.y, r.rotation.z);
 	}
 }

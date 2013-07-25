@@ -20,11 +20,11 @@ import com.blox.framework.v0.impl.DisposeManager;
 import com.blox.framework.v0.impl.DrawManager;
 import com.blox.framework.v0.impl.MoveManager;
 
-class GdxGameProvider implements IGameProvider {	
+class GdxGameProvider implements IGameProvider {
 	GdxGameProvider() {
-		
+
 	}
-	
+
 	@Override
 	public IResourceManager createResourceManager() {
 		return new CachedResourceManager(new GdxResourceManager());

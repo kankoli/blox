@@ -6,20 +6,20 @@ import com.blox.framework.v0.ITexture;
 
 class GdxTextureRegion implements ITexture {
 	private TextureRegion textureRegion;
-	
+
 	GdxTextureRegion(TextureRegion textureRegion) {
 		this.textureRegion = textureRegion;
 	}
 
 	@Override
 	public void draw(IDrawable drawable) {
-		GdxTextureRegionDrawer drawer = GdxTextureRegionDrawer.getInstance(); 
+		GdxTextureRegionDrawer drawer = GdxTextureRegionDrawer.getInstance();
 		drawer.setTextureRegion(textureRegion);
 		drawer.draw(drawable);
 	}
 
 	@Override
 	public void dispose() {
-		
-	}	
+
+	}
 }

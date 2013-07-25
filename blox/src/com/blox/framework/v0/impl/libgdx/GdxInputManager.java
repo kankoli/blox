@@ -123,8 +123,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	}
 
 	@Override
-	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End,
-			Vector p2End) {
+	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
 		for (IInputListener listener : listeners) {
 			if (listener.pinch(p1Start, p2Start, p1End, p2End))
 				return true;

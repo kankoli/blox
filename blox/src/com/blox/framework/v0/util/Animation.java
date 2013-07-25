@@ -23,11 +23,11 @@ public class Animation {
 	void setWidth(int width) {
 		this.width = width;
 	}
-	
+
 	void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	void setManager(Animator manager) {
 		this.manager = manager;
 	}
@@ -39,7 +39,7 @@ public class Animation {
 	void setFrames(ITexture... textures) {
 		this.textures = textures;
 	}
-	
+
 	public boolean isStatic() {
 		return textures.length == 1;
 	}
@@ -51,7 +51,7 @@ public class Animation {
 	public int getHeight() {
 		return height;
 	}
-	
+
 	public void setFrameDuration(float frameDuration) {
 		this.frameDuration = frameDuration;
 	}
@@ -98,7 +98,7 @@ public class Animation {
 	public ITexture getFrame() {
 		if (isStatic())
 			return textures[0];
-		
+
 		if (isAnimating)
 			frameTime += Game.getDeltaTime();
 
@@ -106,8 +106,7 @@ public class Animation {
 		if (frameIndex >= textures.length) {
 			if (isLooping) {
 				frameIndex = frameIndex % textures.length;
-			}
-			else {
+			} else {
 				frameIndex = textures.length - 1;
 				manager.notifyEndListeners(this);
 			}

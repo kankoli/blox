@@ -44,8 +44,7 @@ class GdxGestureListener implements GestureListener {
 	}
 
 	@Override
-	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
-			Vector2 pointer1, Vector2 pointer2) {
+	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
 		Vector ip1 = new Vector(initialPointer1.x, Game.world.screenHeight - initialPointer1.y, 0);
 		Vector ip2 = new Vector(initialPointer2.x, Game.world.screenHeight - initialPointer2.y, 0);
 		Vector p1 = new Vector(pointer1.x, Game.world.screenHeight - pointer1.y, 0);

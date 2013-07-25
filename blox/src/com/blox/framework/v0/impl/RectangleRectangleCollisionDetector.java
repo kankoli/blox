@@ -19,12 +19,11 @@ public class RectangleRectangleCollisionDetector implements ICollisionDetector {
 		float w2 = b2.getWidth();
 		float h2 = b2.getHeight();
 
-//		return ((l1.x + w1) >= l2.x && l1.x <= l2.x) || (l1.x < l2.x + w2 && l1.x + w1 > l2.x + w2) &&
-//				((l1.y + h1) >= l2.y && l1.y <= l2.y) || (l1.y < l2.y + h2 && l1.y + h1 > l2.y + h2);
+		// return ((l1.x + w1) >= l2.x && l1.x <= l2.x) || (l1.x < l2.x + w2 &&
+		// l1.x + w1 > l2.x + w2) &&
+		// ((l1.y + h1) >= l2.y && l1.y <= l2.y) || (l1.y < l2.y + h2 && l1.y +
+		// h1 > l2.y + h2);
 		// TODO: rotation
-		return !((l1.y >= l2.y + h2) || 
-				(l1.x >= l2.x + w2) ||
-				(l1.y + h1 <= l2.y) || 
-				(l1.x + w1 <= l2.x));
+		return !((l1.y >= l2.y + h2) || (l1.x >= l2.x + w2) || (l1.y + h1 <= l2.y) || (l1.x + w1 <= l2.x));
 	}
 }

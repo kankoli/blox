@@ -21,30 +21,35 @@ public class CachedResourceManager implements IResourceManager {
 		this.cache = new Cache();
 
 		this.textureLoader = new IResourceLoader<ITexture>() {
+			@Override
 			public ITexture load(String resourcePath) {
 				return resManager.loadTexture(resourcePath);
 			}
 		};
 
 		this.soundLoader = new IResourceLoader<ISound>() {
+			@Override
 			public ISound load(String resourcePath) {
 				return resManager.loadSound(resourcePath);
 			}
 		};
 
 		this.musicLoader = new IResourceLoader<IMusic>() {
+			@Override
 			public IMusic load(String resourcePath) {
 				return resManager.loadMusic(resourcePath);
 			}
 		};
 
 		this.videoLoader = new IResourceLoader<IVideo>() {
+			@Override
 			public IVideo load(String resourcePath) {
 				return resManager.loadVideo(resourcePath);
 			}
 		};
 
 		this.fontLoader = new IResourceLoader<IFont>() {
+			@Override
 			public IFont load(String resourcePath) {
 				return resManager.loadFont(resourcePath);
 			}
@@ -70,6 +75,7 @@ public class CachedResourceManager implements IResourceManager {
 	public IVideo loadVideo(String resourcePath) {
 		return loadResource(resourcePath, videoLoader);
 	}
+
 	@Override
 	public IFont loadFont(String resourcePath) {
 		return loadResource(resourcePath, fontLoader);

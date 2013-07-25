@@ -35,7 +35,7 @@ public final class Game {
 		collisionDetectorFactory = provider.createCollisionDetectorFactory();
 		screenFader = provider.createScreenFader();
 		textDrawer = provider.createTextDrawer();
-		
+
 		world.gravity.y = -9.8f;
 	}
 
@@ -66,7 +66,7 @@ public final class Game {
 	public static ITextDrawer getTextDrawer() {
 		return textDrawer;
 	}
-	
+
 	public static IDisposeManager getDisposeManager() {
 		return disposeManager;
 	}

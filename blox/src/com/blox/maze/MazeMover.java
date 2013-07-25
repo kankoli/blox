@@ -13,11 +13,13 @@ import com.blox.framework.v0.util.Vector;
 public class MazeMover extends DefaultMover {
 
 	public static final MazeMover instance = new MazeMover();
-	
-	private enum State { _0, _90, _180, _270 };
 
-	private final static float gravity = 579.8f;
-	
+	private enum State {
+		_0, _90, _180, _270
+	};
+
+	private final static float gravity = 779.8f;
+
 	private static Map<State, Vector> gravities = new HashMap<MazeMover.State, Vector>();
 	static {
 		gravities.put(State._0, new Vector(0, -1).mul(gravity));
@@ -29,28 +31,28 @@ public class MazeMover extends DefaultMover {
 	private List<IMovable> list;
 	private State currState;
 
-	private MazeMover() { 
+	private MazeMover() {
 		list = new ArrayList<IMovable>();
 		currState = State._0;
 	}
-	
+
 	public void register(IMovable obj) {
 		list.add(obj);
 		obj.setMover(this);
 	}
-	
+
 	public void unregister(IMovable obj) {
 		list.remove(obj);
 		obj.setMover(IMover.NULL);
 	}
-	
+
 	public void turn(boolean clockwise) {
 		int increment = clockwise ? 1 : -1;
-		
+
 		State[] values = State.values();
-		currState = values[(currState.ordinal()+increment+values.length)%values.length];
-		
-		for(IMovable obj : list) {
+		currState = values[(currState.ordinal() + increment + values.length) % values.length];
+
+		for (IMovable obj : list) {
 			obj.getAcceleration().set(gravities.get(currState));
 		}
 	}

@@ -3,8 +3,7 @@ package com.blox;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.blox.framework.v0.impl.libgdx.GdxGame;
-import com.blox.maze.MazeGame;
-import com.blox.test.screen.TurnMazeGame;
+import com.blox.maze.view.MazeGame;
 
 import android.os.Bundle;
 import android.view.WindowManager;

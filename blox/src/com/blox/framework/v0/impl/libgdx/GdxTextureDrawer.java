@@ -8,21 +8,21 @@ import com.blox.framework.v0.util.Vector;
 
 class GdxTextureDrawer implements IDrawer {
 	private final static GdxTextureDrawer instance = new GdxTextureDrawer();
-	
+
 	private GdxTextureDrawer() {
-		
+
 	}
-	
+
 	static GdxTextureDrawer getInstance() {
 		return instance;
 	}
-	
+
 	private Texture texture;
 
 	void setTexture(Texture texture) {
 		this.texture = texture;
 	}
-	
+
 	@Override
 	public void draw(IDrawable drawable) {
 		Vector l = drawable.getLocation();
@@ -33,12 +33,6 @@ class GdxTextureDrawer implements IDrawer {
 		boolean flipX = drawable.isFlipX();
 		boolean flipY = drawable.isFlipY();
 
-		GdxGame.spriteBatch
-				.draw(texture, l.x, l.y,
-						r.origin.x-l.x, r.origin.y-l.y,
-						width, height, s.x,
-						s.y, r.rotation.z, 0, 0,
-						(int) width, (int) height,
-						flipX, flipY);
+		GdxGame.spriteBatch.draw(texture, l.x, l.y, r.origin.x - l.x, r.origin.y - l.y, width, height, s.x, s.y, r.rotation.z, 0, 0, (int) width, (int) height, flipX, flipY);
 	}
 }

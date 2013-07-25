@@ -15,18 +15,18 @@ public class RectangleBound extends Bound implements IRectangleBound {
 		this.height = height;
 		this.invOffset = calculateInvOffset();
 	}
-	
+
 	@Override
 	public Vector getLocation() {
 		Vector pLocation = parent.getLocation();
 		float pWidth = parent.getWidth();
 		float pHeight = parent.getHeight();
-		
+
 		location.x = parent.isFlipX() ? pLocation.x + pWidth - (offset.x + width) : pLocation.x + offset.x;
 		location.y = parent.isFlipY() ? pLocation.y + pHeight - (offset.y + height) : pLocation.y + offset.y;
 		return location;
 	}
-	
+
 	@Override
 	public float getWidth() {
 		return width;
@@ -44,9 +44,10 @@ public class RectangleBound extends Bound implements IRectangleBound {
 
 	@Override
 	protected Vector calculateInvOffset() {
-		return new Vector(parent.getWidth() - (offset.x + this.width), parent.getHeight() - (offset.y + this.height)); 
-//		parent.getHeight() - (offset.y + this.height)
-//		(this.height - (thisBound.getOffset().y + ((RectangleBound)thisBound).getHeight()));
+		return new Vector(parent.getWidth() - (offset.x + this.width), parent.getHeight() - (offset.y + this.height));
+		// parent.getHeight() - (offset.y + this.height)
+		// (this.height - (thisBound.getOffset().y +
+		// ((RectangleBound)thisBound).getHeight()));
 	}
-	
+
 }

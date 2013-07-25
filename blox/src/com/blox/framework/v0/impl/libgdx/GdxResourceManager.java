@@ -12,9 +12,9 @@ import com.blox.framework.v0.IVideo;
 
 class GdxResourceManager implements IResourceManager {
 	GdxResourceManager() {
-		
+
 	}
-	
+
 	@Override
 	public ITexture loadTexture(String resourcePath) {
 		Texture texture = new Texture(Gdx.files.internal(resourcePath));
@@ -23,7 +23,7 @@ class GdxResourceManager implements IResourceManager {
 	}
 
 	@Override
-	public ISound loadSound(String resourcePath) {		
+	public ISound loadSound(String resourcePath) {
 		throw new UnsupportedOperationException("loadSound");
 	}
 
@@ -40,5 +40,5 @@ class GdxResourceManager implements IResourceManager {
 	@Override
 	public IFont loadFont(String resourcePath) {
 		return new GdxFont(resourcePath);
-	}	
+	}
 }

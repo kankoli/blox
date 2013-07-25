@@ -17,7 +17,7 @@ public abstract class Screen implements IInputListener, IScreen {
 	private IDrawManager drawManager;
 	private ICollisionManager collisionManager;
 	private IInputManager inputManager;
-	
+
 	protected Screen() {
 	}
 
@@ -57,11 +57,11 @@ public abstract class Screen implements IInputListener, IScreen {
 	protected final void draw() {
 		drawManager.draw();
 	}
-	
+
 	protected final void collide() {
 		collisionManager.collide();
 	}
-	
+
 	public final void registerMovable(IMovable obj) {
 		moveManager.register(obj);
 	}

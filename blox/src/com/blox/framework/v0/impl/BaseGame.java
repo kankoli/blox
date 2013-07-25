@@ -7,15 +7,15 @@ import com.blox.framework.v0.IScreenSwicther;
 
 public abstract class BaseGame implements IGame {
 	private IScreenManager screenManager;
-	
+
 	protected BaseGame() {
 		screenManager = new ScreenManager();
 	}
-	
+
 	protected void setScreen(IScreen screen) {
-		screenManager.setScreen(screen);		
+		screenManager.setScreen(screen);
 	}
-	
+
 	protected void setScreenSwitcher(IScreenSwicther switcher) {
 		screenManager.setScreenSwitcher(switcher);
 	}
@@ -29,9 +29,9 @@ public abstract class BaseGame implements IGame {
 	public void render() {
 		screenManager.render();
 	}
-	
+
 	@Override
 	public void init() {
-		
+
 	}
 }

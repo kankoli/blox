@@ -7,6 +7,7 @@ import java.util.List;
 import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
+import com.blox.framework.v0.ICollisionListener;
 import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IGameObject;
 import com.blox.framework.v0.IMover;
@@ -32,6 +33,8 @@ public abstract class GameObject implements IGameObject {
 	protected IMover mover;
 	protected IDrawer drawer;
 	
+	private List<ICollisionListener> collisionListeners; 
+
 	protected GameObject() {
 		location = new Vector();
 		velocity = new Vector();
@@ -43,11 +46,12 @@ public abstract class GameObject implements IGameObject {
 		animator.registerEndListener(new AnimationEndListener(this));
 
 		bounds = new ArrayList<IBound>();
-
+		collisionListeners = new ArrayList<ICollisionListener>();
+		
 		mover = IMover.NULL;
 		drawer = IDrawer.NULL;
 	}
-	
+
 	// region animations
 
 	private class AnimationEndListener implements IAnimationEndListener {
@@ -63,21 +67,18 @@ public abstract class GameObject implements IGameObject {
 		}
 	}
 
-	protected Animation addAnimation(String name, String resourcePath,
-			float frameDuration, int frameWidth, int frameHeight) {
+	protected Animation addAnimation(String name, String resourcePath, float frameDuration, int frameWidth, int frameHeight) {
 		return addAnimation(name, resourcePath, frameDuration, frameWidth, frameHeight, false);
 	}
-	
-	protected Animation addAnimation(String name, String resourcePath,
-			float frameDuration, int frameWidth, int frameHeight, boolean isLooping) {
-		Animation animation = AnimationBuilder.createAnimation(name)
-				.from(resourcePath).withFrameDuration(frameDuration)
-				.withFrameSize(frameWidth, frameHeight).setLooping(isLooping).build();
+
+	protected Animation addAnimation(String name, String resourcePath, float frameDuration, int frameWidth, int frameHeight, boolean isLooping) {
+		Animation animation = AnimationBuilder.createAnimation(name).from(resourcePath).withFrameDuration(frameDuration).withFrameSize(frameWidth, frameHeight).setLooping(isLooping).build();
 
 		animator.addAnimation(animation);
 
 		return animation;
 	}
+
 	protected void removeAnimation(String name) {
 		animator.removeAnimation(name);
 	}
@@ -108,95 +109,6 @@ public abstract class GameObject implements IGameObject {
 
 	protected Animation getAnimation() {
 		return animator.getAnimation();
-	}
-
-	// endregion
-
-	// region input handling
-
-	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(float x, float y, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean longPress(float x, float y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean fling(float vx, float vy, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean pan(float x, float y, float dx, float xy) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean zoom(float initialDistance, float distance) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End,
-			Vector p2End) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(float x, float y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(float amount) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	// endregion
@@ -262,14 +174,14 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public void move() {
 		mover.move(this);
-//		Vector vel = getVelocity();
-//		location.x += vel.x;
-//		location.y += vel.y;
-//		Vector acc = getAcceleration();
-//		vel.x += acc.x;
-//		vel.y += acc.y;
+		// Vector vel = getVelocity();
+		// location.x += vel.x;
+		// location.y += vel.y;
+		// Vector acc = getAcceleration();
+		// vel.x += acc.x;
+		// vel.y += acc.y;
 	}
-	
+
 	@Override
 	public void setMover(IMover mover) {
 		this.mover = mover;
@@ -286,9 +198,22 @@ public abstract class GameObject implements IGameObject {
 
 	@Override
 	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
+		for(ICollisionListener l : collisionListeners) {
+			l.collide(this, thisBound, obj, thatBound);
+		}
 		return false;
 	}
 
+	@Override
+	public void registerCollisionListener(ICollisionListener listener) {
+		collisionListeners.add(listener);
+	}
+
+	@Override
+	public void unregisterCollisionListener(ICollisionListener listener) {
+		collisionListeners.remove(listener);
+	}
+	
 	// endregion
 
 	// region IMovable & IDrawable Common
@@ -297,16 +222,16 @@ public abstract class GameObject implements IGameObject {
 	public Vector getLocation() {
 		return location;
 	}
-	
+
 	// endregion
-	
+
 	// region ICollidable & IDrawable Common
 
 	@Override
 	public Rotation getRotation() {
 		return rotation;
 	}
-	
+
 	// endregion
 
 }

@@ -1,4 +1,4 @@
-package com.blox.maze;
+package com.blox.maze.model;
 
 import com.blox.framework.v0.impl.GameObject;
 

@@ -9,26 +9,25 @@ public abstract class Bound implements IBound {
 	protected ICollidable parent;
 	protected Vector offset;
 	protected Vector invOffset;
-	
+
 	protected Rotation rotation;
 	protected Vector location;
-
 
 	protected Bound(ICollidable parent, Vector offset) {
 		this.parent = parent;
 		this.offset = offset;
-		
+
 		this.rotation = new Rotation();
 		this.location = new Vector();
 	}
 
 	protected abstract Vector calculateInvOffset();
-	
+
 	@Override
 	public Rotation getRotation() {
 		return rotation;
 	}
-	
+
 	@Override
 	public Vector getOffset() {
 		return offset;
