@@ -1,9 +1,8 @@
 package com.blox.maze.controller;
 
-import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.util.Game;
 
-public class MazeUserRotatingState extends State {
+public class MazeUserRotatingState extends MazeState {
 	private final static float maxTemp = 45;
 	private final static float minTemp = 15;
 	private MazeController controller;

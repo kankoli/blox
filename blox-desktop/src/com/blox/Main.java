@@ -11,11 +11,8 @@ public class Main {
 		cfg.title = "blox";
 		cfg.useGL20 = false;
 
-		float w = 9;
-		float h = 16;		
-		
-		cfg.width = (int)(50 * w);
-		cfg.height = (int)(50 * h);
+		cfg.width = 480;
+		cfg.height = 800;
 		
 		new LwjglApplication(new GdxGame(new MazeGame()), cfg);
 	}
