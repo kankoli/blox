@@ -5,13 +5,14 @@ import java.util.List;
 
 import com.blox.framework.v0.IState;
 import com.blox.framework.v0.IStateManager;
+import com.blox.maze.MazeGameObject;
 
 public abstract class StateManager implements IStateManager {
 	protected List<IState> objects;
 	protected IState currState;
-	protected GameObject parent;
+	protected MazeGameObject parent;
 	
-	public StateManager(GameObject parent) {
+	public StateManager(MazeGameObject parent) {
 		this.objects = new ArrayList<IState>();
 		this.parent = parent;
 	}

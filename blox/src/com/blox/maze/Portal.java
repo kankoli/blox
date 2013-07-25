@@ -2,13 +2,10 @@ package com.blox.maze;
 
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.impl.RectangleBound;
-import com.blox.framework.v0.util.Rotation;
-import com.blox.framework.v0.util.ToolBox;
 import com.blox.framework.v0.util.Vector;
 
-public class Portal extends GameObject {
+public class Portal extends MazeGameObject {
 	
 	public static enum PortalType { BLUE, GREEN };
 	
@@ -26,13 +23,14 @@ public class Portal extends GameObject {
 		private static final boolean PortalIsLooping = true;
 	}
 	
-	Portal(float x, float y, PortalType t) {
+	Portal(MazeScreen p, float x, float y, PortalType t) {
+		super(p);
 		this.location.x = x;
 		this.location.y = y;
 		this.type = t;
 
-		width = ToolBox.scale(Maze.blockWidth);
-		height = ToolBox.scale(Maze.blockHeight);
+		width = Maze.blockWidth;
+		height = Maze.blockHeight;
 		bounds.add(new RectangleBound(this, new Vector(0,0), Maze.blockWidth, Maze.blockHeight));
 		
 		if (type == PortalType.BLUE)

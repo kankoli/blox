@@ -1,12 +1,9 @@
 package com.blox.maze;
 
-import com.blox.framework.v0.impl.GameObject;
-import com.blox.framework.v0.impl.Screen;
-import com.blox.framework.v0.util.ToolBox;
+import com.blox.framework.v0.util.Game;
 import com.blox.maze.Portal.PortalType;
-import com.blox.maze.states.MazeStateManager;
 
-class Maze extends GameObject {
+class Maze extends MazeGameObject {
 //	private MazeStateManager stateManager;
  	private enum MazeState {
  		WAITING, USER_ROTATING, MAZE_ROTATING
@@ -20,7 +17,7 @@ class Maze extends GameObject {
 	public float tx;
 	public float ty;
 	
-	public Maze(Screen p) {
+	public Maze(MazeScreen p) {
 		super(p);
 		
 		int[][] data = new int[][] { 
@@ -36,47 +33,47 @@ class Maze extends GameObject {
 		int mazeWidth = cols * blockWidth;
 		int mazeHeight = rows * blockHeight;
 
-		tx = (ToolBox.screenWidth - mazeWidth) / 2;
-		ty = (ToolBox.screenHeight - mazeHeight) / 2;
+		tx = (Game.world.screenWidth - mazeWidth) / 2;
+		ty = (Game.world.screenHeight - mazeHeight) / 2;
 
 		rotation.origin.x = tx + mazeWidth / 2;
 		rotation.origin.y = ty + mazeHeight / 2;
 
-		parent.registerInputListener(this);
+		getScreen().registerInputListener(this);
 		
 		for (int i = 0; i < cols; i++) {
 			for (int j = 0; j < rows; j++) {
 				if (data[i][j] == 1) {
-					Block block = new Block(tx + i * blockWidth, ty + j * blockHeight);
+					Block block = new Block(getScreen(), tx + i * blockWidth, ty + j * blockHeight);
 					block.setRotation(rotation);
 					
-					parent.registerDrawable(block, 2);
-					parent.registerCollidable(block);
+					getScreen().registerDrawable(block, 2);
+					getScreen().registerCollidable(block);
 				}
 				else if (data[i][j] == 2) {
-					Trap trap = new Trap(tx + i * blockWidth, ty + j * blockHeight);
+					Trap trap = new Trap(getScreen(), tx + i * blockWidth, ty + j * blockHeight);
 					trap.setRotation(rotation);
 					
-					parent.registerDrawable(trap, 2);
-					parent.registerCollidable(trap);
+					getScreen().registerDrawable(trap, 2);
+					getScreen().registerCollidable(trap);
 				}
 				else if (data[i][j] == 3) {
-					Portal portal = new Portal(tx + i * blockWidth, ty + j * blockHeight, PortalType.BLUE);
+					Portal portal = new Portal(getScreen(), tx + i * blockWidth, ty + j * blockHeight, PortalType.BLUE);
 					portal.setRotation(rotation);
 					
-					parent.registerDrawable(portal, 2);
-					parent.registerCollidable(portal);
+					getScreen().registerDrawable(portal, 2);
+					getScreen().registerCollidable(portal);
 				}
 				else if (data[i][j] == 4) {
-					Portal portal = new Portal(tx + i * blockWidth, ty + j * blockHeight, PortalType.GREEN);
+					Portal portal = new Portal(getScreen(), tx + i * blockWidth, ty + j * blockHeight, PortalType.GREEN);
 					portal.setRotation(rotation);
 					
-					parent.registerDrawable(portal, 2);
-					parent.registerCollidable(portal);
+					getScreen().registerDrawable(portal, 2);
+					getScreen().registerCollidable(portal);
 				}
 			}
 		}
-		parent.registerInputListener(this);
+		getScreen().registerInputListener(this);
 //		stateManager = new MazeStateManager(this);
 		currState = MazeState.WAITING;
 	}
@@ -88,7 +85,7 @@ class Maze extends GameObject {
 	public void update() {
 //		stateManager.work();
 		if (currState == MazeState.MAZE_ROTATING) {
-			float increment = rotationSpeed * ToolBox.getDeltaTime();
+			float increment = rotationSpeed * Game.getDeltaTime();
 			rotation.rotation.z += userRotation * increment;
 			mazeTempRotation -= increment;
 			if (mazeTempRotation <= 0 + epsilon) { // MAZE_ROTATE FINISHED

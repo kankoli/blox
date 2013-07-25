@@ -10,7 +10,7 @@ public class ScreenManager implements IScreenManager, IScreenSwitchListener {
 	private IScreenSwicther switcher; 
 	
 	public ScreenManager() {
-		switcher = new DefaultScreenSwitcher();
+		this(new DefaultScreenSwitcher());
 	}
 	
 	public ScreenManager(IScreenSwicther switcher) {

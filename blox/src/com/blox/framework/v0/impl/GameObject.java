@@ -10,7 +10,6 @@ import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IGameObject;
 import com.blox.framework.v0.IMover;
-import com.blox.framework.v0.IScreen;
 import com.blox.framework.v0.util.Animation;
 import com.blox.framework.v0.util.AnimationBuilder;
 import com.blox.framework.v0.util.Animator;
@@ -33,14 +32,7 @@ public abstract class GameObject implements IGameObject {
 	protected IMover mover;
 	protected IDrawer drawer;
 	
-	protected Screen parent;
-
 	protected GameObject() {
-		this(null);
-	}
-	
-	protected GameObject(Screen p) {
-		parent = p;
 		location = new Vector();
 		velocity = new Vector();
 		acceleration = new Vector();
@@ -315,15 +307,6 @@ public abstract class GameObject implements IGameObject {
 		return rotation;
 	}
 	
-	@Override
-	public void setRotation(Rotation r) {
-		rotation = r;
-	}
-	
 	// endregion
-
-	public Screen getParent() {
-		return parent;
-	}
 
 }

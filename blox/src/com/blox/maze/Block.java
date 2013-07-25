@@ -1,10 +1,9 @@
 package com.blox.maze;
 
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.impl.RectangleBound;
 import com.blox.framework.v0.util.Vector;
 
-class Block extends GameObject {
+class Block extends MazeGameObject {
 	
 	private final class Animations {
 		private static final String Block = "Block";
@@ -14,7 +13,8 @@ class Block extends GameObject {
 		private static final float BlockFrameDuration = 1f;
 	}
 	
-	Block(float x, float y) {
+	Block(MazeScreen p, float x, float y) {
+		super(p);
 		this.location.x = x;
 		this.location.y = y;
 		addAnimation(Animations.Block, Animations.BlockImagePath,

@@ -1,12 +1,9 @@
 package com.blox.maze;
 
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.impl.RectangleBound;
-import com.blox.framework.v0.util.Rotation;
-import com.blox.framework.v0.util.ToolBox;
 import com.blox.framework.v0.util.Vector;
 
-public class Trap extends GameObject {
+public class Trap extends MazeGameObject {
 	
 	private final class Animations {
 		private static final String Trap = "Trap";
@@ -17,14 +14,15 @@ public class Trap extends GameObject {
 		private static final boolean TrapIsLooping = true;
 	}
 	
-	Trap(float x, float y) {
+	Trap(MazeScreen p, float x, float y) {
+		super(p);
 		this.location.x = x;
 		this.location.y = y;
 		addAnimation(Animations.Trap, Animations.TrapImagePath,
 				Animations.TrapFrameDuration, Animations.TrapFrameWidth,
 				Animations.TrapFrameHeight, Animations.TrapIsLooping);
-		width = ToolBox.scale(Maze.blockWidth);
-		height = ToolBox.scale(Maze.blockHeight);
+		width = Maze.blockWidth;
+		height = Maze.blockHeight;
 		bounds.add(new RectangleBound(this, new Vector(0,0), Maze.blockWidth, Maze.blockHeight));
 		startAnimation(Animations.Trap);
 	}

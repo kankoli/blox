@@ -9,7 +9,6 @@ public interface IDrawable {
 	Vector getLocation();
 	Vector getScale();
 	Rotation getRotation();
-	void setRotation(Rotation r);
 	boolean isFlipX();
 	boolean isFlipY();
 	void draw();

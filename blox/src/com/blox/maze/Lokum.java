@@ -2,14 +2,10 @@ package com.blox.maze;
 
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
-import com.blox.framework.v0.impl.DefaultMover;
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.impl.RectangleBound;
-import com.blox.framework.v0.impl.Screen;
-import com.blox.framework.v0.util.ToolBox;
 import com.blox.framework.v0.util.Vector;
 
-public class Lokum extends GameObject {
+public class Lokum extends MazeGameObject {
  	
 	private Maze maze;
 	
@@ -21,7 +17,7 @@ public class Lokum extends GameObject {
 		private static final float LokumFrameDuration = 0.1f;
 	}
 		
-	Lokum(Screen p, Maze maze, float x, float y) {
+	Lokum(MazeScreen p, Maze maze, float x, float y) {
 		super(p);
 		this.maze = maze;
 		this.location.x = maze.tx + x * Maze.blockWidth;
@@ -29,8 +25,8 @@ public class Lokum extends GameObject {
 		addAnimation(Animations.Lokum, Animations.LokumImagePath,
 				Animations.LokumFrameDuration, Animations.LokumFrameWidth,
 				Animations.LokumFrameHeight);
-		width = ToolBox.scale(Maze.blockWidth);
-		height = ToolBox.scale(Maze.blockHeight);
+		width = Maze.blockWidth;
+		height = Maze.blockHeight;
 		bounds.add(new RectangleBound(this, new Vector(2,2), Maze.blockWidth-4, Maze.blockHeight-4));
 //		bounds.add(new RectangleBound(this, new Vector(0,0), Maze.blockWidth, Maze.blockHeight));
 		startAnimation(Animations.Lokum);

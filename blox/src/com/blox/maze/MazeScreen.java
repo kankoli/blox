@@ -1,13 +1,17 @@
 package com.blox.maze;
 
 import com.blox.framework.v0.impl.Screen;
-import com.blox.framework.v0.util.ToolBox;
 
 public class MazeScreen extends Screen {
 
 	private Maze maze;
 	private Lokum lokum;
 	
+	private MazeGame game;
+	
+	public MazeScreen(MazeGame game) {
+		this.game = game;
+	}
 	@Override
 	public void init() {
 		super.init();
