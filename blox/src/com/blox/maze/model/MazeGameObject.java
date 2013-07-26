@@ -1,5 +1,6 @@
 package com.blox.maze.model;
 
+import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Rotation;
 
@@ -18,5 +19,13 @@ public class MazeGameObject extends GameObject {
 
 	public float getRotationZ() {
 		return this.rotation.rotation.z;
+	}
+	
+	public void registerAnimationEndListener(IAnimationEndListener listener) {
+		animator.registerEndListener(listener);
+	}
+
+	public void unregisterAnimationEndListener(IAnimationEndListener listener) {
+		animator.unregisterEndListener(listener);
 	}
 }

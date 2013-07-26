@@ -1,4 +1,4 @@
-package com.blox.maze;
+package com.blox.maze.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,5 +55,9 @@ public class MazeMover extends DefaultMover {
 		for (IMovable obj : list) {
 			obj.getAcceleration().set(gravities.get(currState));
 		}
+	}
+	
+	public void resetRotation() {
+		currState = State._0;
 	}
 }

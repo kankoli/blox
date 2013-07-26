@@ -1,6 +1,9 @@
 package com.blox.framework.v0.impl;
 
+import com.blox.framework.v0.IBound;
+import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.IState;
+import com.blox.framework.v0.util.Animation;
 import com.blox.framework.v0.util.Vector;
 
 public class State implements IState {
@@ -96,5 +99,17 @@ public class State implements IState {
 	public boolean scrolled(float amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onAnimationEnd(Animation animation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
+		// TODO Auto-generated method stub
+		
 	}
 }

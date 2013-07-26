@@ -19,10 +19,4 @@ public class MazeMazeRotatingState extends State {
 		increment = rotationSpeed * Game.getDeltaTime();
 		controller.mazeRotate(increment);
 	}
-
-	// public void update() {
-	// if (currState == MazeState.MAZE_ROTATING) {
-	//
-	// }
-	// }
 }

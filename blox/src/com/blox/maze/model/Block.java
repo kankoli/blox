@@ -3,7 +3,7 @@ package com.blox.maze.model;
 import com.blox.framework.v0.impl.RectangleBound;
 import com.blox.framework.v0.util.Vector;
 
-class Block extends MazeGameObject {
+public class Block extends MazeGameObject {
 
 	private final class Animations {
 		private static final String Block = "Block";

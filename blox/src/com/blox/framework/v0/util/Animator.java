@@ -3,9 +3,11 @@ package com.blox.framework.v0.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import com.blox.framework.v0.IAnimationEndListener;
+import com.blox.framework.v0.ICollisionListener;
 
 public class Animator {
 	private Animation currentAnimation;
@@ -69,7 +71,10 @@ public class Animator {
 	}
 
 	public void notifyEndListeners(Animation animation) {
-		for (IAnimationEndListener listener : endListeners)
-			listener.onAnimationEnd(animation);
+		ListIterator<IAnimationEndListener> itr = endListeners.listIterator();
+		while(itr.hasNext()) {
+			IAnimationEndListener l = itr.next();
+			l.onAnimationEnd(animation);
+		}
 	}
 }

@@ -13,12 +13,43 @@ public class Lokum extends MazeGameObject {
 		private static final int LokumFrameWidth = Maze.blockWidth;
 		private static final int LokumFrameHeight = Maze.blockHeight;
 		private static final float LokumFrameDuration = 0.1f;
+		
+		private static final String FellOnTrap = "FellOnTrap";
+		private static final String FellOnTrapImagePath = "turnmaze/lokumtrap.png";
+		private static final int FellOnTrapFrameWidth = Maze.blockWidth;
+		private static final int FellOnTrapFrameHeight = Maze.blockHeight;
+		private static final float FellOnTrapFrameDuration = 0.15f;
+		
+		private static final String FellOnObjective = "FellOnObjective";
+		private static final String FellOnObjectiveImagePath = "turnmaze/lokumobj.png";
+		private static final int FellOnObjectiveFrameWidth = Maze.blockWidth;
+		private static final int FellOnObjectiveFrameHeight = Maze.blockHeight;
+		private static final float FellOnObjectiveFrameDuration = 0.1f;
+		
+		private static final String FellOnPortal = "FellOnPortal";
+		private static final String FellOnPortalImagePath = "turnmaze/lokum.png";
+		private static final int FellOnPortalFrameWidth = Maze.blockWidth;
+		private static final int FellOnPortalFrameHeight = Maze.blockHeight;
+		private static final float FellOnPortalFrameDuration = 0.15f;
+		
 	}
 
+	private Vector startLocation;
+	
 	public Lokum(Maze maze, float x, float y) {
-		this.location.x = maze.tx + x * Maze.blockWidth;
-		this.location.y = maze.ty + y * Maze.blockHeight;
+		this.startLocation = new Vector();
+		this.startLocation.x = maze.tx + x * Maze.blockWidth;
+		this.startLocation.y = maze.ty + y * Maze.blockHeight;
+		this.location.x = this.startLocation.x;
+		this.location.y = this.startLocation.y;
 		addAnimation(Animations.Lokum, Animations.LokumImagePath, Animations.LokumFrameDuration, Animations.LokumFrameWidth, Animations.LokumFrameHeight);
+		addAnimation(Animations.FellOnTrap, Animations.FellOnTrapImagePath, Animations.FellOnTrapFrameDuration, 
+				Animations.FellOnTrapFrameWidth, Animations.FellOnTrapFrameHeight);
+		addAnimation(Animations.FellOnObjective, Animations.FellOnObjectiveImagePath, Animations.FellOnObjectiveFrameDuration, 
+				Animations.FellOnObjectiveFrameWidth, Animations.FellOnObjectiveFrameHeight);
+		addAnimation(Animations.FellOnPortal, Animations.FellOnPortalImagePath, Animations.FellOnPortalFrameDuration, 
+				Animations.FellOnPortalFrameWidth, Animations.FellOnPortalFrameHeight);
+		
 		width = Maze.blockWidth;
 		height = Maze.blockHeight;
 //		bounds.add(new RectangleBound(this, new Vector(2, 2), Maze.blockWidth - 4, Maze.blockHeight - 4));
@@ -27,10 +58,7 @@ public class Lokum extends MazeGameObject {
 		this.rotation = maze.getRotation();
 	}
 
-	@Override
-	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
-		if (obj instanceof Portal)
-			return false;
+	public void fellOnBlock(IBound thisBound, IBound thatBound, ICollidable obj) {
 		if (this.acceleration.y < 0)
 			this.location.y = thatBound.getLocation().y + ((RectangleBound) thatBound).getHeight() - thisBound.getOffset().y;
 		else if (this.acceleration.x < 0)
@@ -42,6 +70,24 @@ public class Lokum extends MazeGameObject {
 
 		getAcceleration().set(0);
 		getVelocity().set(0);
-		return super.onCollide(thisBound, thatBound, obj);
+	}
+	
+	public void fellOnTrap() {
+		startAnimation(Animations.FellOnTrap);
+		System.out.println("started fell on trap");
+	}
+	
+	public void fellOnPortal() {
+		startAnimation(Animations.FellOnPortal);
+	}
+	
+	public void fellOnObjective() {
+		startAnimation(Animations.FellOnObjective);
+	}
+
+	public void reset() {
+		this.location.x = this.startLocation.x;
+		this.location.y = this.startLocation.y;
+		startAnimation(Animations.Lokum);
 	}
 }

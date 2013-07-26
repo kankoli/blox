@@ -3,6 +3,7 @@ package com.blox.framework.v0.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.IBound;
@@ -198,7 +199,9 @@ public abstract class GameObject implements IGameObject {
 
 	@Override
 	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
-		for(ICollisionListener l : collisionListeners) {
+		ListIterator<ICollisionListener> itr = collisionListeners.listIterator();
+		while(itr.hasNext()) {
+			ICollisionListener l = itr.next();
 			l.collide(this, thisBound, obj, thatBound);
 		}
 		return false;
