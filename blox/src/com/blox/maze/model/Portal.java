@@ -1,53 +1,93 @@
 package com.blox.maze.model;
 
-import com.blox.framework.v0.IBound;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.ICollidable;
-import com.blox.framework.v0.impl.RectangleBound;
-import com.blox.framework.v0.util.Vector;
+import com.blox.framework.v0.ICollisionListener;
+import com.blox.framework.v0.util.Rotation;
+import com.blox.maze.model.PortalDoor.DoorType;
+import com.blox.maze.view.MazeScreen;
 
 public class Portal extends MazeGameObject {
 
-	public static enum PortalType {
-		BLUE, GREEN
-	};
+	private PortalDoor blueDoor;
+	private PortalDoor greenDoor;
+	
+	public Portal(MazeScreen screen, float blueX, float blueY, float greenX, float greenY) {
+		blueDoor = new PortalDoor(this, blueX, blueY, PortalDoor.DoorType.BLUE);
+		greenDoor = new PortalDoor(this, greenX, greenY, PortalDoor.DoorType.GREEN);
 
-	private PortalType type;
+		screen.registerDrawable(blueDoor, 2);
+		screen.registerCollidable(blueDoor);
 
-	private final class Animations {
-		private static final String Portal = "Portal";
-
-		private static final String BlueImagePath = "turnmaze/portalblue.png";
-		private static final String GreenImagePath = "turnmaze/portalgreen.png";
-
-		private static final int PortalFrameWidth = Maze.blockWidth;
-		private static final int PortalFrameHeight = Maze.blockHeight;
-		private static final float PortalFrameDuration = 0.3f;
-		private static final boolean PortalIsLooping = true;
+		screen.registerDrawable(greenDoor, 2);
+		screen.registerCollidable(greenDoor);
 	}
-
-	Portal(float x, float y, PortalType t) {
-		this.location.x = x;
-		this.location.y = y;
-		this.type = t;
-
-		width = Maze.blockWidth;
-		height = Maze.blockHeight;
-		bounds.add(new RectangleBound(this, new Vector(0, 0), Maze.blockWidth, Maze.blockHeight));
-
-		if (type == PortalType.BLUE)
-			addAnimation(Animations.Portal, Animations.BlueImagePath, Animations.PortalFrameDuration, Animations.PortalFrameWidth, Animations.PortalFrameHeight, Animations.PortalIsLooping);
-		else if (type == PortalType.GREEN)
-			addAnimation(Animations.Portal, Animations.GreenImagePath, Animations.PortalFrameDuration, Animations.PortalFrameWidth, Animations.PortalFrameHeight, Animations.PortalIsLooping);
-
-		startAnimation(Animations.Portal);
-	}
-
+	
 	@Override
-	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
-		// if (!(obj instanceof Lokum))
-		// return false;
-		// Lokum lokum = (Lokum)obj;
-		// if (lokum.getLocation().y
-		return false;
+	public void setRotation(Rotation r) {
+		blueDoor.setRotation(r);
+		greenDoor.setRotation(r);
+	}
+
+	public void enterPortal(PortalDoor door) {
+		if (door.getType() == DoorType.BLUE) 
+			enterBluePortal();
+		else
+			enterGreenPortal();
+	}
+	
+	public void enterBluePortal() {
+		blueDoor.startEnter();
+		greenDoor.startExit();
+	}
+	
+	public void enterGreenPortal() {
+		greenDoor.startEnter();
+		blueDoor.startExit();
+	}
+
+	public void finishPortal() {
+		greenDoor.finish();
+		blueDoor.finish();
+	}
+	
+	@Override
+	public void registerCollisionListener(ICollisionListener listener) {
+		blueDoor.registerCollisionListener(listener);
+		greenDoor.registerCollisionListener(listener);
+	}
+	
+	@Override
+	public void unregisterCollisionListener(ICollisionListener listener) {
+		blueDoor.unregisterCollisionListener(listener);
+		greenDoor.unregisterCollisionListener(listener);
+	}
+	
+	@Override
+	public void registerAnimationEndListener(IAnimationEndListener listener) {
+		blueDoor.registerAnimationEndListener(listener);
+		greenDoor.registerAnimationEndListener(listener);
+	}
+	
+	@Override
+	public void unregisterAnimationEndListener(IAnimationEndListener listener) {
+		blueDoor.unregisterAnimationEndListener(listener);
+		greenDoor.unregisterAnimationEndListener(listener);
+	}
+
+	public PortalDoor getOther(PortalDoor portalDoor) {
+		if (portalDoor.equals(blueDoor))
+			return greenDoor;
+		return blueDoor;
+	}
+
+	public List<PortalDoor> getDoors() {
+		List<PortalDoor> list = new ArrayList<PortalDoor>();
+		list.add(blueDoor);
+		list.add(greenDoor);
+		return list;
 	}
 }

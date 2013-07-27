@@ -4,7 +4,7 @@ import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.impl.State;
 import com.blox.maze.model.Objective;
-import com.blox.maze.model.Portal;
+import com.blox.maze.model.PortalDoor;
 import com.blox.maze.model.Trap;
 import com.blox.maze.model.Block;
 
@@ -26,9 +26,9 @@ public class MazeLokumFallingState extends State {
 		else if (thatObj instanceof Objective) {
 			controller.lokumFallOnObjective();
 		}
-		else if (thatObj instanceof Portal) {
-			// check if collided entry door
-			controller.lokumFallOnPortal();
+		else if (thatObj instanceof PortalDoor) {
+			controller.lokumFallOnPortal((PortalDoor)thatObj);
 		}
+		controller.readdOldPortalExitDoor();
 	}
 }

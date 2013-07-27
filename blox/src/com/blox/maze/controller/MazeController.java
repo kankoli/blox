@@ -1,5 +1,7 @@
 package com.blox.maze.controller;
 
+import java.util.List;
+
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.IState;
@@ -7,6 +9,8 @@ import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.impl.StateManager;
 import com.blox.maze.model.Lokum;
 import com.blox.maze.model.Maze;
+import com.blox.maze.model.Portal;
+import com.blox.maze.model.PortalDoor;
 import com.blox.maze.view.MazeScreen;
 
 public class MazeController extends StateManager {
@@ -22,6 +26,7 @@ public class MazeController extends StateManager {
 	private MazeScreen screen;
 
 	private Maze maze;
+	private List<Portal> portals;
 	private Lokum lokum;
 	
 	public MazeController(MazeScreen parent) {
@@ -36,6 +41,7 @@ public class MazeController extends StateManager {
 		lokumOnPortal = new MazeLokumOnPortalState(this);
 		
 		maze = new Maze(this.screen);
+		portals = maze.getPortals();
 		lokum = new Lokum(maze, 1, 1);
 		
 		MazeMover.instance.register(lokum);
@@ -51,12 +57,16 @@ public class MazeController extends StateManager {
 			screen.unregisterInputListener(currState);
 			lokum.unregisterCollisionListener(currState);
 			lokum.unregisterAnimationEndListener(currState);
+			maze.unregisterPortalsCollisionListener(currState);
+			maze.unregisterPortalsAnimationEndListener(currState);
 		}
 		currState = s;
 		if (s instanceof State) {
 			screen.registerInputListener(s);
 			lokum.registerCollisionListener(currState);
 			lokum.registerAnimationEndListener(currState);
+			maze.registerPortalsCollisionListener(currState);
+			maze.registerPortalsAnimationEndListener(currState);
 		}
 	}
 	
@@ -133,8 +143,30 @@ public class MazeController extends StateManager {
 		resetMap();
 	}
 
-	public void lokumFallOnPortal() {
-		// teleport lokum
+	private PortalDoor door;
+	private PortalDoor doorPair;
+	public void lokumFallOnPortal(PortalDoor door) {
+		this.door = door;
+		this.doorPair = this.door.getPair();
+		doorPair.registerAnimationEndListener(lokumOnPortal);
+		
+		maze.collidedPortalDoor(this.door);
+		screen.unregisterCollidable(this.doorPair);
+		screen.unregisterDrawable(lokum);
+		this.door.registerAnimationEndListener(lokumOnPortal);
 		setCurrState(lokumOnPortal);
+	}
+
+	public void portalFinished() {
+		lokum.teleport(this.door.getPair());
+		this.door.unregisterAnimationEndListener(lokumOnPortal);
+		maze.finishedPortal(this.door);
+		screen.registerDrawable(lokum, 2);
+		setCurrState(waiting);
+	}
+
+	public void readdOldPortalExitDoor() {
+//		if (this.doorPair != null)
+//			screen.registerCollidable(this.doorPair);
 	}
 }

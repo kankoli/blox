@@ -74,7 +74,6 @@ public class Lokum extends MazeGameObject {
 	
 	public void fellOnTrap() {
 		startAnimation(Animations.FellOnTrap);
-		System.out.println("started fell on trap");
 	}
 	
 	public void fellOnPortal() {
@@ -89,5 +88,9 @@ public class Lokum extends MazeGameObject {
 		this.location.x = this.startLocation.x;
 		this.location.y = this.startLocation.y;
 		startAnimation(Animations.Lokum);
+	}
+
+	public void teleport(ICollidable pair) {
+		this.location.set(pair.getLocation());
 	}
 }
