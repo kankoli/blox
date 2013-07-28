@@ -1,16 +1,22 @@
 package com.blox.maze.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
+import com.blox.framework.v0.ICollisionListener;
 import com.blox.framework.v0.IState;
+import com.blox.framework.v0.impl.CollisionGroup;
 import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.impl.StateManager;
+import com.blox.maze.model.Block;
 import com.blox.maze.model.Lokum;
 import com.blox.maze.model.Maze;
+import com.blox.maze.model.Objective;
 import com.blox.maze.model.Portal;
 import com.blox.maze.model.PortalDoor;
+import com.blox.maze.model.Trap;
 import com.blox.maze.view.MazeScreen;
 
 public class MazeController extends StateManager {
@@ -26,8 +32,17 @@ public class MazeController extends StateManager {
 	private MazeScreen screen;
 
 	private Maze maze;
-	private List<Portal> portals;
+	private List<ICollidable> blocks;
+	private List<ICollidable> traps;
+	private List<ICollidable> objectives;
+	private List<ICollidable> portals;
 	private Lokum lokum;
+	
+	private CollisionGroup lokumToBlocks;
+	private CollisionGroup lokumToTraps;
+	private CollisionGroup lokumToObjectives;
+	private CollisionGroup lokumToPortals;
+	private CollisionGroup lokumNotCollide;
 	
 	public MazeController(MazeScreen parent) {
 		this.screen = parent;
@@ -39,33 +54,62 @@ public class MazeController extends StateManager {
 		lokumOnTrap = new MazeLokumOnTrapState(this);
 		lokumOnObjective = new MazeLokumOnObjectiveState(this);
 		lokumOnPortal = new MazeLokumOnPortalState(this);
-		
+
 		maze = new Maze(this.screen);
+		blocks = maze.getBlocks();
+		traps = maze.getTraps();
+		objectives = maze.getObjectives();
 		portals = maze.getPortals();
 		lokum = new Lokum(maze, 1, 1);
+		
+		lokumToBlocks = new CollisionGroup(lokum, blocks);
+		lokumToTraps = new CollisionGroup(lokum, traps);
+		lokumToObjectives = new CollisionGroup(lokum, objectives);
+		lokumToPortals = new CollisionGroup(lokum, portals);
+		lokumNotCollide = new CollisionGroup(lokum, new ArrayList<ICollidable>());
+
+		lokumNotCollide.registerNotCollisionListener(lokumFalling);
 		
 		MazeMover.instance.register(lokum);
 		this.screen.registerDrawable(lokum, 2);
 		this.screen.registerMovable(lokum);
-		this.screen.registerCollidable(lokum);
+
+		this.screen.registerCollisionGroup(lokumToBlocks);
+		this.screen.registerCollisionGroup(lokumToTraps);
+		this.screen.registerCollisionGroup(lokumToObjectives);
+		this.screen.registerCollisionGroup(lokumToPortals);
+		this.screen.registerCollisionGroup(lokumNotCollide);
 
 		setCurrState(waiting);
 	}
 
+	private void registerToLokumCollisionGroups(ICollisionListener listener) {
+		lokumToBlocks.registerCollisionListener(listener);
+		lokumToTraps.registerCollisionListener(listener);
+		lokumToObjectives.registerCollisionListener(listener);
+		lokumToPortals.registerCollisionListener(listener);
+	}
+	
+	private void unregisterFromLokumCollisionGroups(ICollisionListener listener) {
+		lokumToBlocks.unregisterCollisionListener(listener);
+		lokumToTraps.unregisterCollisionListener(listener);
+		lokumToObjectives.unregisterCollisionListener(listener);
+		lokumToPortals.unregisterCollisionListener(listener);
+	}
+	
 	private void setCurrState(IState s) {
 		if (currState instanceof State) {
 			screen.unregisterInputListener(currState);
-			lokum.unregisterCollisionListener(currState);
+			unregisterFromLokumCollisionGroups(currState);
 			lokum.unregisterAnimationEndListener(currState);
-			maze.unregisterPortalsCollisionListener(currState);
 			maze.unregisterPortalsAnimationEndListener(currState);
 		}
 		currState = s;
-		if (s instanceof State) {
-			screen.registerInputListener(s);
-			lokum.registerCollisionListener(currState);
+		System.out.println(currState.getClass().getName());
+		if (currState instanceof State) {
+			screen.registerInputListener(currState);
+			registerToLokumCollisionGroups(currState);
 			lokum.registerAnimationEndListener(currState);
-			maze.registerPortalsCollisionListener(currState);
 			maze.registerPortalsAnimationEndListener(currState);
 		}
 	}
@@ -112,11 +156,16 @@ public class MazeController extends StateManager {
 	}
 
 	public void lokumFallOnBlock(IBound thisBound, IBound thatBound, ICollidable thatObj) {
-		lokum.fellOnBlock(thisBound, thatBound, thatObj);
+		lokumStopOnBlock(thisBound, thatBound, thatObj);
 		setCurrState(waiting);
 	}
 
-	public void lokumFinishOnBlock(IBound thisBound, IBound thatBound, ICollidable thatObj) {
+	public void lokumStopOnBlock(IBound thisBound, IBound thatBound, ICollidable thatObj) {
+		lokumOnBlock(thisBound, thatBound, thatObj);
+		lokum.stopLokum();
+	}
+	
+	public void lokumOnBlock(IBound thisBound, IBound thatBound, ICollidable thatObj) {
 		lokum.fellOnBlock(thisBound, thatBound, thatObj);
 	}
 	
@@ -148,10 +197,8 @@ public class MazeController extends StateManager {
 	public void lokumFallOnPortal(PortalDoor door) {
 		this.door = door;
 		this.doorPair = this.door.getPair();
-		doorPair.registerAnimationEndListener(lokumOnPortal);
 		
 		maze.collidedPortalDoor(this.door);
-		screen.unregisterCollidable(this.doorPair);
 		screen.unregisterDrawable(lokum);
 		this.door.registerAnimationEndListener(lokumOnPortal);
 		setCurrState(lokumOnPortal);
@@ -159,14 +206,18 @@ public class MazeController extends StateManager {
 
 	public void portalFinished() {
 		lokum.teleport(this.door.getPair());
+		screen.registerDrawable(lokum, 2);
 		this.door.unregisterAnimationEndListener(lokumOnPortal);
 		maze.finishedPortal(this.door);
-		screen.registerDrawable(lokum, 2);
-		setCurrState(waiting);
+		
+		setCurrState(lokumFalling);
+		
+		lokumToPortals.unregisterSecond(this.doorPair);
+		lokumNotCollide.registerSecond(this.doorPair);
 	}
 
-	public void readdOldPortalExitDoor() {
-//		if (this.doorPair != null)
-//			screen.registerCollidable(this.doorPair);
+	public void lokumUncollidedObject(ICollidable obj) {
+		lokumToPortals.registerSecond(obj);
+		lokumNotCollide.unregisterSecond(obj);
 	}
 }

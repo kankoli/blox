@@ -112,4 +112,10 @@ public class State implements IState {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void notCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
+		// TODO Auto-generated method stub
+		
+	}
 }

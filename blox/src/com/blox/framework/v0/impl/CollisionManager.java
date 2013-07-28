@@ -4,32 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blox.framework.v0.ICollidable;
+import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.util.CollisionDetector;
 
 public class CollisionManager implements ICollisionManager {
-	private List<ICollidable> objects;
+	private List<ICollisionGroup> groups;
 
 	public CollisionManager() {
-		objects = new ArrayList<ICollidable>();
+		groups = new ArrayList<ICollisionGroup>();
 	}
 
 	@Override
-	public void register(ICollidable obj) {
-		objects.add(obj);
+	public void register(ICollisionGroup obj) {
+		groups.add(obj);
 	}
 
 	@Override
-	public void unregister(ICollidable obj) {
-		objects.remove(obj);
+	public void unregister(ICollisionGroup obj) {
+		groups.remove(obj);
 	}
 
 	@Override
 	public void collide() {
-		for (int i = 0; i < objects.size(); i++) {
-			ICollidable obj1 = objects.get(i);
-			for (int j = i + 1; j < objects.size(); j++) {
-				CollisionDetector.detect(obj1, objects.get(j));
+		ICollisionGroup group;
+		List<ICollidable> first, second;
+		for (int i = 0; i < groups.size(); i++) {
+			group = groups.get(i);
+			if (group.isActive()) {
+				first = group.getFirst();
+				second = group.getSecond();
+				for (int j = 0; j < first.size(); j++) {
+					for (int k = 0; k < second.size(); k++) {
+						CollisionDetector.detect(group, first.get(j), second.get(k));
+					}
+				}
 			}
 		}
 	}

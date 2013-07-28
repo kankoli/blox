@@ -1,6 +1,7 @@
 package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.ICollidable;
+import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.IDrawManager;
 import com.blox.framework.v0.IDrawable;
@@ -78,11 +79,11 @@ public abstract class Screen implements IInputListener, IScreen {
 		drawManager.unregister(obj);
 	}
 
-	public final void registerCollidable(ICollidable obj) {
+	public final void registerCollisionGroup(ICollisionGroup obj) {
 		collisionManager.register(obj);
 	}
 
-	public final void unregisterCollidable(ICollidable obj) {
+	public final void unregisterCollisionGroup(ICollisionGroup obj) {
 		collisionManager.unregister(obj);
 	}
 

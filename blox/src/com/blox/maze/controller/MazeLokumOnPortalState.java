@@ -21,7 +21,7 @@ public class MazeLokumOnPortalState extends State {
 	@Override
 	public void collide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
 		if (thatObj instanceof Block) {
-			controller.lokumFinishOnBlock(thisBound, thatBound, thatObj);
+			controller.lokumOnBlock(thisBound, thatBound, thatObj);
 		}
 	}
 }

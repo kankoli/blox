@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blox.framework.v0.IAnimationEndListener;
-import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionListener;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.maze.model.PortalDoor.DoorType;
@@ -20,10 +19,7 @@ public class Portal extends MazeGameObject {
 		greenDoor = new PortalDoor(this, greenX, greenY, PortalDoor.DoorType.GREEN);
 
 		screen.registerDrawable(blueDoor, 2);
-		screen.registerCollidable(blueDoor);
-
 		screen.registerDrawable(greenDoor, 2);
-		screen.registerCollidable(greenDoor);
 	}
 	
 	@Override
@@ -32,6 +28,13 @@ public class Portal extends MazeGameObject {
 		greenDoor.setRotation(r);
 	}
 
+	public List<PortalDoor> getDoors() {
+		List<PortalDoor> list = new ArrayList<PortalDoor>();
+		list.add(blueDoor);
+		list.add(greenDoor);
+		return list;
+	}
+	
 	public void enterPortal(PortalDoor door) {
 		if (door.getType() == DoorType.BLUE) 
 			enterBluePortal();
@@ -54,40 +57,33 @@ public class Portal extends MazeGameObject {
 		blueDoor.finish();
 	}
 	
-	@Override
-	public void registerCollisionListener(ICollisionListener listener) {
-		blueDoor.registerCollisionListener(listener);
-		greenDoor.registerCollisionListener(listener);
-	}
-	
-	@Override
-	public void unregisterCollisionListener(ICollisionListener listener) {
-		blueDoor.unregisterCollisionListener(listener);
-		greenDoor.unregisterCollisionListener(listener);
-	}
-	
-	@Override
-	public void registerAnimationEndListener(IAnimationEndListener listener) {
-		blueDoor.registerAnimationEndListener(listener);
-		greenDoor.registerAnimationEndListener(listener);
-	}
-	
-	@Override
-	public void unregisterAnimationEndListener(IAnimationEndListener listener) {
-		blueDoor.unregisterAnimationEndListener(listener);
-		greenDoor.unregisterAnimationEndListener(listener);
-	}
+//	@Override
+//	public void registerCollisionListener(ICollisionListener listener) {
+//		blueDoor.registerCollisionListener(listener);
+//		greenDoor.registerCollisionListener(listener);
+//	}
+//	
+//	@Override
+//	public void unregisterCollisionListener(ICollisionListener listener) {
+//		blueDoor.unregisterCollisionListener(listener);
+//		greenDoor.unregisterCollisionListener(listener);
+//	}
+//	
+//	@Override
+//	public void registerAnimationEndListener(IAnimationEndListener listener) {
+//		blueDoor.registerAnimationEndListener(listener);
+//		greenDoor.registerAnimationEndListener(listener);
+//	}
+//	
+//	@Override
+//	public void unregisterAnimationEndListener(IAnimationEndListener listener) {
+//		blueDoor.unregisterAnimationEndListener(listener);
+//		greenDoor.unregisterAnimationEndListener(listener);
+//	}
 
 	public PortalDoor getOther(PortalDoor portalDoor) {
 		if (portalDoor.equals(blueDoor))
 			return greenDoor;
 		return blueDoor;
-	}
-
-	public List<PortalDoor> getDoors() {
-		List<PortalDoor> list = new ArrayList<PortalDoor>();
-		list.add(blueDoor);
-		list.add(greenDoor);
-		return list;
 	}
 }

@@ -1,8 +1,6 @@
 package com.blox.maze.model;
 
-import com.blox.framework.v0.impl.GameObject;
-
-public class Background extends GameObject {
+public class Background extends MazeGameObject {
 	public Background() {
 		addAnimation("bg", "screen2.jpg", 1, 480, 800);
 		startAnimation("bg");

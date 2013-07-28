@@ -67,7 +67,9 @@ public class Lokum extends MazeGameObject {
 			this.location.y = thatBound.getLocation().y - ((RectangleBound) thatBound).getHeight() + thisBound.getInvOffset().y;
 		else if (this.acceleration.x > 0)
 			this.location.x = thatBound.getLocation().x - ((RectangleBound) thatBound).getWidth() + thisBound.getInvOffset().x;
-
+	}
+	
+	public void stopLokum() {
 		getAcceleration().set(0);
 		getVelocity().set(0);
 	}

@@ -29,6 +29,10 @@ public class MazeLokumFallingState extends State {
 		else if (thatObj instanceof PortalDoor) {
 			controller.lokumFallOnPortal((PortalDoor)thatObj);
 		}
-		controller.readdOldPortalExitDoor();
+	}
+	
+	@Override
+	public void notCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
+		controller.lokumUncollidedObject(thatObj);
 	}
 }

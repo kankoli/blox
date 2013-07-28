@@ -21,8 +21,6 @@ public interface ICollidable {
 	boolean isFlipY();
 
 	boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj);
-	
-	void registerCollisionListener(ICollisionListener listener);
-	
-	void unregisterCollisionListener(ICollisionListener listener);
+
+	boolean onNotCollide(IBound thisBound, IBound thatBound, ICollidable obj);
 }

@@ -22,7 +22,7 @@ public class MazeLokumOnTrapState extends State {
 	@Override
 	public void collide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
 		if (thatObj instanceof Block) {
-			controller.lokumFinishOnBlock(thisBound, thatBound, thatObj);
+			controller.lokumStopOnBlock(thisBound, thatBound, thatObj);
 		}
 	}
 }

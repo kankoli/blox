@@ -18,7 +18,7 @@ public class MazeMover extends DefaultMover {
 		_0, _90, _180, _270
 	};
 
-	private final static float gravity = 779.8f;
+	private final static float gravity = 279.8f;
 
 	private static Map<State, Vector> gravities = new HashMap<MazeMover.State, Vector>();
 	static {

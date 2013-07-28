@@ -4,7 +4,7 @@ import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Rotation;
 
-public class MazeGameObject extends GameObject {
+public abstract class MazeGameObject extends GameObject {
 
 	public MazeGameObject() {
 	}

@@ -34,8 +34,6 @@ public abstract class GameObject implements IGameObject {
 	protected IMover mover;
 	protected IDrawer drawer;
 	
-	private List<ICollisionListener> collisionListeners; 
-
 	protected GameObject() {
 		location = new Vector();
 		velocity = new Vector();
@@ -47,7 +45,6 @@ public abstract class GameObject implements IGameObject {
 		animator.registerEndListener(new AnimationEndListener(this));
 
 		bounds = new ArrayList<IBound>();
-		collisionListeners = new ArrayList<ICollisionListener>();
 		
 		mover = IMover.NULL;
 		drawer = IDrawer.NULL;
@@ -196,25 +193,15 @@ public abstract class GameObject implements IGameObject {
 	public Iterator<IBound> getBounds() {
 		return bounds.iterator();
 	}
-
+	
 	@Override
 	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
-		ListIterator<ICollisionListener> itr = collisionListeners.listIterator();
-		while(itr.hasNext()) {
-			ICollisionListener l = itr.next();
-			l.collide(this, thisBound, obj, thatBound);
-		}
 		return false;
 	}
 
 	@Override
-	public void registerCollisionListener(ICollisionListener listener) {
-		collisionListeners.add(listener);
-	}
-
-	@Override
-	public void unregisterCollisionListener(ICollisionListener listener) {
-		collisionListeners.remove(listener);
+	public boolean onNotCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
+		return false;
 	}
 	
 	// endregion
