@@ -3,6 +3,12 @@ package com.blox.maze.model;
 import com.blox.framework.v0.impl.RectangleBound;
 import com.blox.framework.v0.util.Vector;
 
+/***
+ * Block elements of {@link Maze}.
+ * 
+ * @author kadirello
+ * 
+ */
 public class Block extends MazeGameObject {
 
 	private final class Animations {

@@ -8,7 +8,7 @@ public class MazeScreen extends Screen {
 
 	private MazeGame game;
 	private MazeController controller;
-	
+
 	public MazeScreen(MazeGame game) {
 		this.game = game;
 	}
@@ -18,7 +18,7 @@ public class MazeScreen extends Screen {
 		super.init();
 
 		registerDrawable(new Background(), 1);
-		
+
 		controller = new MazeController(this);
 	}
 
@@ -27,7 +27,7 @@ public class MazeScreen extends Screen {
 		controller.work();
 		super.update();
 	}
-	
+
 	@Override
 	public void render() {
 		super.render();

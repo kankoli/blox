@@ -1,6 +1,7 @@
 package com.blox.framework.v0.util;
 
 import java.util.Iterator;
+
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionDetector;
@@ -20,7 +21,7 @@ public final class CollisionDetector {
 			while (bounds2.hasNext()) {
 				IBound bound2 = bounds2.next();
 				ICollisionDetector detector = getDetector(bound1.getType(), bound2.getType());
-				if (detector.detect(bound1, bound2)) {  // colliding
+				if (detector.detect(bound1, bound2)) { // colliding
 					boolean exit = false;
 					exit = exit || obj1.onCollide(bound1, bound2, obj2);
 					exit = exit || obj2.onCollide(bound2, bound1, obj1);
@@ -28,8 +29,7 @@ public final class CollisionDetector {
 					group.onCollide(obj1, bound1, obj2, bound2);
 					if (exit)
 						return true;
-				}
-				else {									// not colliding
+				} else { // not colliding
 					group.onNotCollide(obj1, bound1, obj2, bound2);
 				}
 			}

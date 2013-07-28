@@ -3,6 +3,7 @@ package com.blox.framework.v0.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
@@ -30,7 +31,7 @@ public abstract class GameObject implements IGameObject {
 	protected List<IBound> bounds;
 	protected IMover mover;
 	protected IDrawer drawer;
-	
+
 	protected GameObject() {
 		location = new Vector();
 		velocity = new Vector();
@@ -42,7 +43,7 @@ public abstract class GameObject implements IGameObject {
 		animator.registerEndListener(new AnimationEndListener(this));
 
 		bounds = new ArrayList<IBound>();
-		
+
 		mover = IMover.NULL;
 		drawer = IDrawer.NULL;
 	}
@@ -190,7 +191,7 @@ public abstract class GameObject implements IGameObject {
 	public Iterator<IBound> getBounds() {
 		return bounds.iterator();
 	}
-	
+
 	@Override
 	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
 		return false;
@@ -200,7 +201,7 @@ public abstract class GameObject implements IGameObject {
 	public boolean onNotCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
 		return false;
 	}
-	
+
 	// endregion
 
 	// region IMovable & IDrawable Common

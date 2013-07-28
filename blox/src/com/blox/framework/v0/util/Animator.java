@@ -71,7 +71,7 @@ public class Animator {
 
 	public void notifyEndListeners(Animation animation) {
 		ListIterator<IAnimationEndListener> itr = endListeners.listIterator();
-		while(itr.hasNext()) {
+		while (itr.hasNext()) {
 			IAnimationEndListener l = itr.next();
 			l.onAnimationEnd(animation);
 		}

@@ -12,12 +12,12 @@ public class MazeLokumOnObjectiveState extends State {
 	public MazeLokumOnObjectiveState(MazeController parent) {
 		this.controller = parent;
 	}
-	
+
 	@Override
 	public void onAnimationEnd(Animation animation) {
 		controller.finishMap();
 	}
-	
+
 	@Override
 	public void collide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
 		if (thatObj instanceof Block) {

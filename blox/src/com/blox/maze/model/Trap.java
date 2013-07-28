@@ -3,6 +3,12 @@ package com.blox.maze.model;
 import com.blox.framework.v0.impl.RectangleBound;
 import com.blox.framework.v0.util.Vector;
 
+/***
+ * Trap elements of {@link Maze}.
+ * 
+ * @author kadirello
+ * 
+ */
 public class Trap extends MazeGameObject {
 
 	private final class Animations {

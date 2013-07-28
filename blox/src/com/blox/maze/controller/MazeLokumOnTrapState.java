@@ -13,12 +13,12 @@ public class MazeLokumOnTrapState extends State {
 	public MazeLokumOnTrapState(MazeController parent) {
 		this.controller = parent;
 	}
-	
+
 	@Override
 	public void onAnimationEnd(Animation animation) {
 		controller.resetMap();
 	}
-	
+
 	@Override
 	public void collide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
 		if (thatObj instanceof Block) {

@@ -20,7 +20,7 @@ public abstract class MazeGameObject extends GameObject {
 	public float getRotationZ() {
 		return this.rotation.rotation.z;
 	}
-	
+
 	public void registerAnimationEndListener(IAnimationEndListener listener) {
 		animator.registerEndListener(listener);
 	}

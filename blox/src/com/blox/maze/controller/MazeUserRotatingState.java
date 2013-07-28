@@ -21,7 +21,7 @@ public class MazeUserRotatingState extends State {
 								// animation is finished
 
 	@Override
-	public boolean touchDragged(float x, float y, int pointer) {		
+	public boolean touchDragged(float x, float y, int pointer) {
 		float dx = ((x - rotateStartX) / (Game.world.screenWidth)) * 90;
 		float dy = ((y - rotateStartY) / (Game.world.screenWidth)) * 90;
 
@@ -32,10 +32,10 @@ public class MazeUserRotatingState extends State {
 
 		userTempRotation += dx + dy;
 		userTempRotation = limitAngle(userTempRotation);
-		
+
 		rotateStartX = x;
 		rotateStartY = y;
-		
+
 		controller.userRotated(userTempRotation);
 		return false;
 

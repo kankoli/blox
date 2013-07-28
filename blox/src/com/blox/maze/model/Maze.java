@@ -8,6 +8,13 @@ import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.util.Game;
 import com.blox.maze.view.MazeScreen;
 
+/***
+ * Wrapper class for game objects in the Maze; {@link Block}s, {@link Trap}s,
+ * {@link Portal}s, and the {@link Objective}(s).
+ * 
+ * @author kadirello
+ * 
+ */
 public class Maze extends MazeGameObject {
 
 	private static enum DataType {
@@ -17,6 +24,7 @@ public class Maze extends MazeGameObject {
 	public static final int blockWidth = 40;
 	public static final int blockHeight = 40;
 
+	// Maze translations
 	public float tx;
 	public float ty;
 
@@ -24,20 +32,23 @@ public class Maze extends MazeGameObject {
 	private List<ICollidable> traps;
 	private List<ICollidable> objectives;
 	private List<ICollidable> portalDoors;
-	
+
 	public Maze(MazeScreen screen) {
 		int[][] data = new int[][] { 
 				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
-				{ 1, 0, 0, 0, 0, 2, 0, 0, 0, 1 }, 
-				{ 1, 1, 1, 1, 0, 1, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 }, 
 				{ 1, 0, 0, 0, 0, 1, 0, 0, 0, 1 }, 
+				{ 1, 1, 1, 1, 0, 1, 0, 0, 1, 1 },
+				{ 1, 0, 0, 0, 0, 1, 3, 0, 0, 1 }, 
 				{ 1, 0, 0, 0, 0, 1, 0, 0, 0, 1 }, 
 				{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 }, 
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 3, 1 }, 
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
 				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
 
-		int[][][] portalData = new int[][][] { { { 1, 8 }, { 2, 1 } } };
+		int[][][] portalData = new int[][][] { 
+				{ { 2, 4 }, { 5, 1 } } , 
+				{ { 5, 4 }, { 7, 1 } } };
+//		 int[][][] portalData = new int[][][] { };
 
 		int cols = data.length;
 		int rows = data[0].length;
@@ -61,7 +72,7 @@ public class Maze extends MazeGameObject {
 					block.setRotation(rotation);
 
 					screen.registerDrawable(block, 2);
-					
+
 					blocks.add(block);
 				} else if (data[i][j] == DataType.TRAP.ordinal()) {
 					Trap trap = new Trap(tx + i * blockWidth, ty + j * blockHeight);
@@ -75,7 +86,7 @@ public class Maze extends MazeGameObject {
 					objective.setRotation(rotation);
 
 					screen.registerDrawable(objective, 2);
-					
+
 					objectives.add(objective);
 				}
 			}
@@ -88,7 +99,7 @@ public class Maze extends MazeGameObject {
 			float greenY = ty + portalData[i][1][1] * Maze.blockHeight;
 			Portal portal = new Portal(screen, blueX, blueY, greenX, greenY);
 			portal.setRotation(rotation);
-			
+
 			portalDoors.addAll(portal.getDoors());
 		}
 	}
@@ -96,7 +107,7 @@ public class Maze extends MazeGameObject {
 	public List<ICollidable> getBlocks() {
 		return blocks;
 	}
-	
+
 	public List<ICollidable> getTraps() {
 		return traps;
 	}
@@ -104,32 +115,65 @@ public class Maze extends MazeGameObject {
 	public List<ICollidable> getObjectives() {
 		return objectives;
 	}
-	
+
 	public List<ICollidable> getPortals() {
 		return portalDoors;
 	}
-	
+
+	/***
+	 * Resets {@link Maze} to its starting state.
+	 */
 	public void reset() {
 		rotation.rotation.z = 0;
 	}
 
+	/***
+	 * Signals the {@link Portal} of the given {@link PortalDoor} to start
+	 * portal animations.
+	 * 
+	 * @param door
+	 * @see {@link com.blox.maze.controller.MazeController#lokumFallOnPortal(PortalDoor)
+	 *      lokumFallOnPortal(PortalDoor)}
+	 */
 	public void collidedPortalDoor(PortalDoor door) {
 		door.getParent().enterPortal(door);
 	}
 
+	/***
+	 * Signals the {@link Portal} of the given {@link PortalDoor} to stop portal
+	 * animations.
+	 * 
+	 * @param door
+	 * @see {@link com.blox.maze.controller.MazeController#portalFinished()
+	 *      portalFinished()}
+	 */
 	public void finishedPortal(PortalDoor door) {
 		door.getParent().finishPortal();
 	}
 
+	/***
+	 * Registers given {@link com.blox.framework.v0.IAnimationEndListener
+	 * IAnimationEndListener} implementer to listen for {@link PortalDoor}
+	 * animation-ends.
+	 * 
+	 * @param listener
+	 */
 	public void registerPortalsAnimationEndListener(IAnimationEndListener listener) {
-		for(ICollidable p : portalDoors) {
-			((MazeGameObject)p).registerAnimationEndListener(listener);
+		for (ICollidable p : portalDoors) {
+			((MazeGameObject) p).registerAnimationEndListener(listener);
 		}
 	}
 
+	/***
+	 * Unregisters given {@link com.blox.framework.v0.IAnimationEndListener
+	 * IAnimationEndListener} implementer to listen for {@link PortalDoor}
+	 * animation-ends.
+	 * 
+	 * @param listener
+	 */
 	public void unregisterPortalsAnimationEndListener(IAnimationEndListener listener) {
-		for(ICollidable p : portalDoors) {
-			((MazeGameObject)p).unregisterAnimationEndListener(listener);
+		for (ICollidable p : portalDoors) {
+			((MazeGameObject) p).unregisterAnimationEndListener(listener);
 		}
 	}
 }

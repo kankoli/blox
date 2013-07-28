@@ -7,11 +7,17 @@ import com.blox.framework.v0.util.Rotation;
 import com.blox.maze.model.PortalDoor.DoorType;
 import com.blox.maze.view.MazeScreen;
 
+/***
+ * {@link PortalDoor}s holder class.
+ * 
+ * @author kadirello
+ * 
+ */
 public class Portal extends MazeGameObject {
 
 	private PortalDoor blueDoor;
 	private PortalDoor greenDoor;
-	
+
 	public Portal(MazeScreen screen, float blueX, float blueY, float greenX, float greenY) {
 		blueDoor = new PortalDoor(this, blueX, blueY, PortalDoor.DoorType.BLUE);
 		greenDoor = new PortalDoor(this, greenX, greenY, PortalDoor.DoorType.GREEN);
@@ -19,7 +25,7 @@ public class Portal extends MazeGameObject {
 		screen.registerDrawable(blueDoor, 2);
 		screen.registerDrawable(greenDoor, 2);
 	}
-	
+
 	@Override
 	public void setRotation(Rotation r) {
 		blueDoor.setRotation(r);
@@ -32,52 +38,67 @@ public class Portal extends MazeGameObject {
 		list.add(greenDoor);
 		return list;
 	}
-	
+
+	/***
+	 * Starts portal animations.
+	 * 
+	 * @param door
+	 * @see {@link Maze#collidedPortalDoor(PortalDoor)
+	 *      collidedPortalDoor(PortalDoor)}
+	 */
 	public void enterPortal(PortalDoor door) {
-		if (door.getType() == DoorType.BLUE) 
+		if (door.getType() == DoorType.BLUE)
 			enterBluePortal();
 		else
 			enterGreenPortal();
 	}
-	
+
 	public void enterBluePortal() {
 		blueDoor.startEnter();
 		greenDoor.startExit();
 	}
-	
+
 	public void enterGreenPortal() {
 		greenDoor.startEnter();
 		blueDoor.startExit();
 	}
 
+	/***
+	 * Finishes portal animations.
+	 * 
+	 * @param door
+	 * @see {@link Maze#finishedPortal(PortalDoor) finishedPortal(PortalDoor)}
+	 */
 	public void finishPortal() {
 		greenDoor.finish();
 		blueDoor.finish();
 	}
-	
-//	@Override
-//	public void registerCollisionListener(ICollisionListener listener) {
-//		blueDoor.registerCollisionListener(listener);
-//		greenDoor.registerCollisionListener(listener);
-//	}
-//	
-//	@Override
-//	public void unregisterCollisionListener(ICollisionListener listener) {
-//		blueDoor.unregisterCollisionListener(listener);
-//		greenDoor.unregisterCollisionListener(listener);
-//	}
-//	
-//	@Override
-//	public void registerAnimationEndListener(IAnimationEndListener listener) {
-//		blueDoor.registerAnimationEndListener(listener);
-//		greenDoor.registerAnimationEndListener(listener);
-//	}
-//	
-//	@Override
-//	public void unregisterAnimationEndListener(IAnimationEndListener listener) {
-//		blueDoor.unregisterAnimationEndListener(listener);
-//		greenDoor.unregisterAnimationEndListener(listener);
-//	}
+
+	// @Override
+	// public void registerCollisionListener(ICollisionListener listener) {
+	// blueDoor.registerCollisionListener(listener);
+	// greenDoor.registerCollisionListener(listener);
+	// }
+	//
+	// @Override
+	// public void unregisterCollisionListener(ICollisionListener listener) {
+	// blueDoor.unregisterCollisionListener(listener);
+	// greenDoor.unregisterCollisionListener(listener);
+	// }
+	//
+	// @Override
+	// public void registerAnimationEndListener(IAnimationEndListener listener)
+	// {
+	// blueDoor.registerAnimationEndListener(listener);
+	// greenDoor.registerAnimationEndListener(listener);
+	// }
+	//
+	// @Override
+	// public void unregisterAnimationEndListener(IAnimationEndListener
+	// listener) {
+	// blueDoor.unregisterAnimationEndListener(listener);
+	// greenDoor.unregisterAnimationEndListener(listener);
+	// }
 
 	public PortalDoor getOther(PortalDoor portalDoor) {
 		if (portalDoor.equals(blueDoor))

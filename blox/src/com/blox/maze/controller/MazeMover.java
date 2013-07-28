@@ -56,7 +56,7 @@ public class MazeMover extends DefaultMover {
 			obj.getAcceleration().set(gravities.get(currState));
 		}
 	}
-	
+
 	public void resetRotation() {
 		currState = State._0;
 	}

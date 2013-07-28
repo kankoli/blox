@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionGroup;
@@ -11,21 +12,21 @@ import com.blox.framework.v0.ICollisionListener;
 
 public class CollisionGroup implements ICollisionGroup {
 
-	protected List<ICollisionListener> collisionListeners; 
-	protected List<ICollisionListener> notCollisionListeners; 
+	protected List<ICollisionListener> collisionListeners;
+	protected List<ICollisionListener> notCollisionListeners;
 
 	protected List<ICollidable> first;
 	protected List<ICollidable> second;
 	protected boolean active;
-	
+
 	public CollisionGroup(ICollidable firstObj, ICollidable secondObj) {
 		this(firstObj, Arrays.asList(secondObj));
 	}
-	
+
 	public CollisionGroup(ICollidable firstObj, List<ICollidable> secondList) {
 		this(Arrays.asList(firstObj), secondList);
 	}
-	
+
 	public CollisionGroup(List<ICollidable> firstList, List<ICollidable> secondList) {
 		this.first = firstList;
 		this.second = secondList;
@@ -33,7 +34,7 @@ public class CollisionGroup implements ICollisionGroup {
 		notCollisionListeners = new ArrayList<ICollisionListener>();
 		activate();
 	}
-	
+
 	@Override
 	public void registerFirst(ICollidable obj) {
 		if (!first.contains(obj))
@@ -80,11 +81,11 @@ public class CollisionGroup implements ICollisionGroup {
 	public void deactivate() {
 		active = false;
 	}
-	
+
 	@Override
 	public boolean onCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
 		Iterator<ICollisionListener> itr = collisionListeners.iterator();
-		while(itr.hasNext()) {
+		while (itr.hasNext()) {
 			ICollisionListener l = itr.next();
 			l.collide(thisObj, thisBound, thatObj, thatBound);
 		}
@@ -107,13 +108,13 @@ public class CollisionGroup implements ICollisionGroup {
 	@Override
 	public boolean onNotCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
 		Iterator<ICollisionListener> itr = notCollisionListeners.iterator();
-		while(itr.hasNext()) {
+		while (itr.hasNext()) {
 			ICollisionListener l = itr.next();
 			l.notCollide(thisObj, thisBound, thatObj, thatBound);
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void registerNotCollisionListener(ICollisionListener listener) {
 		notCollisionListeners.add(listener);

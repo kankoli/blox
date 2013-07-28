@@ -104,18 +104,18 @@ public class State implements IState {
 	@Override
 	public void onAnimationEnd(Animation animation) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void collide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void notCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
