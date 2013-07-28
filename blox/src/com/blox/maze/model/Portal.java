@@ -3,8 +3,6 @@ package com.blox.maze.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blox.framework.v0.IAnimationEndListener;
-import com.blox.framework.v0.ICollisionListener;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.maze.model.PortalDoor.DoorType;
 import com.blox.maze.view.MazeScreen;

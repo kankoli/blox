@@ -1,6 +1,5 @@
 package com.blox.framework.v0.impl;
 
-import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.IDrawManager;

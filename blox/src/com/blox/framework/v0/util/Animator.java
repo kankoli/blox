@@ -7,7 +7,6 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import com.blox.framework.v0.IAnimationEndListener;
-import com.blox.framework.v0.ICollisionListener;
 
 public class Animator {
 	private Animation currentAnimation;

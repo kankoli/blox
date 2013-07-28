@@ -1,13 +1,10 @@
 package com.blox.framework.v0.util;
 
 import java.util.Iterator;
-import java.util.ListIterator;
-
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionDetector;
 import com.blox.framework.v0.ICollisionGroup;
-import com.blox.framework.v0.ICollisionListener;
 
 public final class CollisionDetector {
 	private CollisionDetector() {

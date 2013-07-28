@@ -1,7 +1,6 @@
 package com.blox.framework.v0;
 
 import java.util.List;
-import java.util.ListIterator;
 
 public interface ICollisionGroup {
 	void registerFirst(ICollidable obj);

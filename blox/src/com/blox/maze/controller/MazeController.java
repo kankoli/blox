@@ -10,13 +10,9 @@ import com.blox.framework.v0.IState;
 import com.blox.framework.v0.impl.CollisionGroup;
 import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.impl.StateManager;
-import com.blox.maze.model.Block;
 import com.blox.maze.model.Lokum;
 import com.blox.maze.model.Maze;
-import com.blox.maze.model.Objective;
-import com.blox.maze.model.Portal;
 import com.blox.maze.model.PortalDoor;
-import com.blox.maze.model.Trap;
 import com.blox.maze.view.MazeScreen;
 
 public class MazeController extends StateManager {

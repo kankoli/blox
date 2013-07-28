@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.ICollidable;
-import com.blox.framework.v0.ICollisionListener;
 import com.blox.framework.v0.util.Game;
 import com.blox.maze.view.MazeScreen;
 
