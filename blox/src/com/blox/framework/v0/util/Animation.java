@@ -79,8 +79,6 @@ public class Animation {
 	public void start(boolean forceRestart) {
 		if (forceRestart)
 			reset();
-		if (isAnimating)
-			return;
 		isAnimating = true;
 	}
 

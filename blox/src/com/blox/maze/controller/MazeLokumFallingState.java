@@ -2,13 +2,14 @@ package com.blox.maze.controller;
 
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
-import com.blox.framework.v0.impl.State;
+import com.blox.framework.v0.ICollisionListener;
 import com.blox.maze.model.Block;
 import com.blox.maze.model.Objective;
 import com.blox.maze.model.PortalDoor;
 import com.blox.maze.model.Trap;
 
-public class MazeLokumFallingState extends State {
+public class MazeLokumFallingState extends MazeState implements ICollisionListener {
+
 	private MazeController controller;
 
 	public MazeLokumFallingState(MazeController parent) {

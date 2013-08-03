@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.blox.framework.v0.impl.libgdx.GdxGame;
 import com.blox.maze.view.MazeGame;
+import com.blox.test.camera.ViewportGame;
 
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -18,6 +19,6 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = true;
 		cfg.useCompass = true;
 		
-		initialize(new GdxGame(new MazeGame()), cfg);
+		initialize(new ViewportGame(), cfg);
     }
 }

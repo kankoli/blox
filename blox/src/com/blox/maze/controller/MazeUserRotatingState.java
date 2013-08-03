@@ -1,9 +1,8 @@
 package com.blox.maze.controller;
 
-import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.util.Game;
 
-public class MazeUserRotatingState extends State {
+public class MazeUserRotatingState extends MazeState {
 	private final static float maxTemp = 45;
 	private final static float minTemp = 15;
 	private MazeController controller;
@@ -21,13 +20,17 @@ public class MazeUserRotatingState extends State {
 								// animation is finished
 
 	@Override
-	public boolean touchDragged(float x, float y, int pointer) {
-		float dx = ((x - rotateStartX) / (Game.world.screenWidth)) * 90;
-		float dy = ((y - rotateStartY) / (Game.world.screenWidth)) * 90;
+	public boolean touchDragged(float x, float y, int pointer) {		
+		
+		float sw = Game.world.getScreenWidth();
+		float sh = Game.world.getScreenHeight();
+		
+		float dx = ((x - rotateStartX) / sw) * 90;
+		float dy = ((y - rotateStartY) / sh) * 90;
 
-		if (y > Game.world.screenHeight / 2)
+		if (y > sh / 2)
 			dx = -dx;
-		if (x < Game.world.screenWidth / 2)
+		if (x < sw / 2)
 			dy = -dy;
 
 		userTempRotation += dx + dy;

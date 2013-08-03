@@ -1,8 +1,7 @@
 package com.blox.maze.controller;
 
-import com.blox.framework.v0.impl.State;
 
-public class MazeWaitingState extends State {
+public class MazeWaitingState extends MazeState {
 	private MazeController controller;
 
 	public MazeWaitingState(MazeController parent) {

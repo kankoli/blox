@@ -1,9 +1,8 @@
 package com.blox.maze.controller;
 
-import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.util.Game;
 
-public class MazeMazeRotatingState extends State {
+public class MazeMazeRotatingState extends MazeState {
 
 	private MazeController controller;
 

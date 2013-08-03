@@ -2,8 +2,7 @@ package com.blox;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.blox.framework.v0.impl.libgdx.GdxGame;
-import com.blox.maze.view.MazeGame;
+import com.blox.test.camera.ViewportGame;
 
 public class Main {
 	public static void main(String[] args) {
@@ -11,12 +10,9 @@ public class Main {
 		cfg.title = "blox";
 		cfg.useGL20 = false;
 
-		float w = 9;
-		float h = 16;		
+		cfg.width = 480;
+		cfg.height = 800;
 		
-		cfg.width = (int)(50 * w);
-		cfg.height = (int)(50 * h);
-		
-		new LwjglApplication(new GdxGame(new MazeGame()), cfg);
+		new LwjglApplication(new ViewportGame(), cfg);
 	}
 }
