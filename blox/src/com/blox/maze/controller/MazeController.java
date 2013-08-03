@@ -97,7 +97,7 @@ public class MazeController extends StateManager {
 
 		MazeMover.instance.register(lokum); // MazeMover is delegated to handle
 											// Lokum movement.
-		this.screen.registerDrawable(lokum, 2);
+		this.screen.registerDrawable(lokum, 3);
 		this.screen.registerMovable(lokum);
 
 		// The collision groups are registered to the collision manager of the

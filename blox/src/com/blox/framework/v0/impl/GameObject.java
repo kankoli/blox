@@ -146,6 +146,16 @@ public abstract class GameObject implements IGameObject {
 		this.drawer = drawer;
 	}
 
+	@Override
+	public boolean ignoreViewportOffset() {
+		return false;
+	}
+
+	@Override
+	public boolean ignoreViewportScaling() {
+		return false;
+	}
+	
 	protected void flipX() {
 		flipX = !flipX;
 	}

@@ -15,17 +15,17 @@ class GdxGestureListener implements GestureListener {
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		return listener.touchDown(x, Game.world.getScreenHeight() - y, pointer, button);
+		return listener.touchDown(x, Game.getScreenHeight() - y, pointer, button);
 	}
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		return listener.tap(x, Game.world.getScreenHeight() - y, count, button);
+		return listener.tap(x, Game.getScreenHeight() - y, count, button);
 	}
 
 	@Override
 	public boolean longPress(float x, float y) {
-		return listener.longPress(x, Game.world.getScreenHeight() - y);
+		return listener.longPress(x, Game.getScreenHeight() - y);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ class GdxGestureListener implements GestureListener {
 
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		return listener.pan(x, Game.world.getScreenHeight() - y, deltaX, deltaY);
+		return listener.pan(x, Game.getScreenHeight() - y, deltaX, deltaY);
 	}
 
 	@Override
@@ -45,10 +45,10 @@ class GdxGestureListener implements GestureListener {
 
 	@Override
 	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-		Vector ip1 = new Vector(initialPointer1.x, Game.world.getScreenHeight() - initialPointer1.y, 0);
-		Vector ip2 = new Vector(initialPointer2.x, Game.world.getScreenHeight() - initialPointer2.y, 0);
-		Vector p1 = new Vector(pointer1.x, Game.world.getScreenHeight() - pointer1.y, 0);
-		Vector p2 = new Vector(pointer2.x, Game.world.getScreenHeight() - pointer2.y, 0);
+		Vector ip1 = new Vector(initialPointer1.x, Game.getScreenHeight() - initialPointer1.y, 0);
+		Vector ip2 = new Vector(initialPointer2.x, Game.getScreenHeight() - initialPointer2.y, 0);
+		Vector p1 = new Vector(pointer1.x, Game.getScreenHeight() - pointer1.y, 0);
+		Vector p2 = new Vector(pointer2.x, Game.getScreenHeight() - pointer2.y, 0);
 
 		return listener.pinch(ip1, ip2, p1, p2);
 	}

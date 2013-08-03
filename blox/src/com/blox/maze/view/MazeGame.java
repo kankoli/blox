@@ -4,6 +4,9 @@ import com.blox.framework.v0.IScreen;
 import com.blox.framework.v0.impl.BaseGame;
 
 public class MazeGame extends BaseGame {
+	public static final float virtualWidth = 550;
+	public static final float virtualHeight = 800;
+	
 	private IScreen mazeScreen;
 
 	public MazeGame() {
@@ -18,12 +21,12 @@ public class MazeGame extends BaseGame {
 	}
 
 	@Override
-	public float getVirtualHeight() {
-		return 800;
-	}
-
-	@Override
 	public float getVirtualWidth() {
-		return 500;
+		return virtualWidth;
+	}
+	
+	@Override
+	public float getVirtualHeight() {
+		return virtualHeight;
 	}
 }

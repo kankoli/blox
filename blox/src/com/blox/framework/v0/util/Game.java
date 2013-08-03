@@ -10,7 +10,8 @@ import com.blox.framework.v0.ITextDrawer;
 import com.blox.framework.v0.ITextureSplitter;
 
 public final class Game {
-	public static final GameWorld world = new GameWorld();
+	private static Vector gravity = new Vector();
+	private static Viewport viewport;
 
 	private static IGameProvider provider;
 
@@ -25,7 +26,7 @@ public final class Game {
 	private Game() {
 
 	}
-
+	
 	public static void initialize(IGameProvider provider) {
 		Game.provider = provider;
 		disposeManager = provider.createDisposeManager();
@@ -35,8 +36,7 @@ public final class Game {
 		collisionDetectorFactory = provider.createCollisionDetectorFactory();
 		screenFader = provider.createScreenFader();
 		textDrawer = provider.createTextDrawer();
-
-		world.gravity.y = -9.8f;
+		gravity.y = -9.8f;
 	}
 
 	public static IGameProvider getProvider() {
@@ -74,4 +74,60 @@ public final class Game {
 	public static void exit() {
 		provider.exit();
 	}
+
+	// region viewport
+
+	public static float scale(float f) {
+		return f * getScale();
+	}
+
+	public static float descale(float f) {
+		return f / getScale();
+	}
+	
+	public static void initViewport(float virtualWidth, float virtualHeight, float screenWidth, float screenHeight) {
+		viewport = Viewport.create(virtualWidth, virtualHeight, screenWidth, screenHeight);
+	}
+	
+	public static void updateViewport(float screenWidth, float screenHeight) {
+		viewport.update(screenWidth, screenHeight);
+	}
+	
+	public static float getViewportWidth() {
+		return viewport.getWidth();
+	}
+
+	public static float getViewportHeight() {
+		return viewport.getHeight();
+	}
+
+	public static float getScale() {
+		return viewport.getScale();
+	}
+
+	public static float getViewportOffsetX() {
+		return viewport.getOffsetX();
+	}
+
+	public static float getViewportOffsetY() {
+		return viewport.getOffsetY();
+	}
+
+	public static float getVirtualWidth() {
+		return viewport.getVirtualWidth();
+	}
+
+	public static float getVirtualHeight() {
+		return viewport.getVirtualHeight();
+	}
+
+	public static float getScreenWidth() {
+		return viewport.getScreenWidth();
+	}
+
+	public static float getScreenHeight() {
+		return viewport.getScreenHeight();
+	}
+
+	// endregion viewport
 }

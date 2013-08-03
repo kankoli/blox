@@ -1,49 +1,76 @@
 package com.blox.framework.v0.util;
 
 public class Viewport {
+	private float width;
+	private float height;
+	private float virtualWidth;
+	private float virtualHeight;
+	private float screenWidth;
+	private float screenHeight;
 	private float scale;
-	private Vector offset;
+	private float offsetX;
+	private float offsetY;
 
-	private Viewport(float scale, Vector offset) {
-		this.scale = scale;
-		this.offset = new Vector(offset);
+	private Viewport(float virtualWidth, float virtualHeight) {
+		this.virtualWidth = virtualWidth;
+		this.virtualHeight = virtualHeight;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public float getHeight() {
+		return height;
 	}
 
 	public float getScale() {
 		return scale;
 	}
 
-	public Vector getOffset() {
-		return offset;
+	public float getOffsetX() {
+		return offsetX;
 	}
 
-	public static Viewport create(float width, float height, float screenWidth, float screenHeight) {
-		float aspect = width / height;
+	public float getOffsetY() {
+		return offsetY;
+	}
 
-		float sa = screenWidth / screenHeight;
+	public float getVirtualWidth() {
+		return virtualWidth;
+	}
 
-		float w, h, scale;
-		Vector offset = new Vector();
-		
-		if (sa < aspect) {
-			scale = screenWidth / width;
-			
-			w = screenWidth;
-			h = scale  * height;
-			
-			offset.x = 0;
-			offset.y = (screenHeight - h) / 2;
-		}
-		else {
-			scale = screenHeight / height;
-			
-			h = screenHeight;
-			w = scale  * width;
-			
-			offset.x = (screenWidth - w) / 2;
-			offset.y = 0;
-		}
+	public float getVirtualHeight() {
+		return virtualHeight;
+	}
 
-		return new Viewport(scale, offset);
+	public float getScreenWidth() {
+		return screenWidth;
+	}
+
+	public float getScreenHeight() {
+		return screenHeight;
+	}
+
+	public void update(float screenWidth, float screenHeight) {
+		float wScale = screenWidth / virtualWidth;
+		float hScale = screenHeight / virtualHeight;
+
+		this.scale = Math.min(wScale, hScale);
+
+		this.width = scale * virtualWidth;
+		this.height = scale * virtualHeight;
+
+		this.offsetX = (screenWidth - width) / 2;
+		this.offsetY = (screenHeight - height) / 2;
+
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
+	}
+
+	public static Viewport create(float virtualWidth, float virtualHeight, float screenWidth, float screenHeight) {
+		Viewport viewport = new Viewport(virtualWidth, virtualHeight);
+		viewport.update(screenWidth, screenHeight);
+		return viewport;
 	}
 }

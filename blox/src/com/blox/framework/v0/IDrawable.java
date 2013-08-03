@@ -21,4 +21,8 @@ public interface IDrawable {
 	void draw();
 
 	void setDrawer(IDrawer drawer);
+
+	boolean ignoreViewportOffset();
+	
+	boolean ignoreViewportScaling();
 }

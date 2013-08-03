@@ -43,6 +43,7 @@ public class Maze extends MazeGameObject {
 				{ 1, 0, 0, 0, 0, 1, 0, 0, 0, 1 }, 
 				{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 }, 
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
 				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
 
 		int[][][] portalData = new int[][][] { 
@@ -54,9 +55,8 @@ public class Maze extends MazeGameObject {
 		int mazeWidth = cols * blockWidth;
 		int mazeHeight = rows * blockHeight;
 
-		// burasý virtual width
-		tx = (Game.world.getScreenWidth() - mazeWidth) / 2;
-		ty = (Game.world.getScreenHeight() - mazeHeight) / 2;
+		tx = (Game.getVirtualWidth() - mazeWidth) / 2;
+		ty = (Game.getVirtualHeight() - mazeHeight) / 2;
 
 		rotation.origin.x = tx + mazeWidth / 2;
 		rotation.origin.y = ty + mazeHeight / 2;

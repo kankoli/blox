@@ -21,7 +21,7 @@ public class GdxGame implements ApplicationListener {
 		Gdx.input.setCatchBackKey(true);
 		Texture.setEnforcePotImages(false);
 		Game.initialize(new GdxGameProvider());
-		Game.world.setViewport(game.getVirtualWidth(), game.getVirtualHeight(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Game.initViewport(game.getVirtualWidth(), game.getVirtualHeight(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	@Override
