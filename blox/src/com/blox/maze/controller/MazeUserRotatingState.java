@@ -21,12 +21,16 @@ public class MazeUserRotatingState extends MazeState {
 
 	@Override
 	public boolean touchDragged(float x, float y, int pointer) {		
-		float dx = ((x - rotateStartX) / (Game.world.screenWidth)) * 90;
-		float dy = ((y - rotateStartY) / (Game.world.screenWidth)) * 90;
+		
+		float sw = Game.world.getScreenWidth();
+		float sh = Game.world.getScreenHeight();
+		
+		float dx = ((x - rotateStartX) / sw) * 90;
+		float dy = ((y - rotateStartY) / sh) * 90;
 
-		if (y > Game.world.screenHeight / 2)
+		if (y > sh / 2)
 			dx = -dx;
-		if (x < Game.world.screenWidth / 2)
+		if (x < sw / 2)
 			dy = -dy;
 
 		userTempRotation += dx + dy;

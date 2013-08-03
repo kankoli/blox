@@ -1,20 +1,35 @@
 package com.blox.framework.v0.util;
 
 public class GameWorld {
-	public float screenWidth = 480;
-	public float screenHeight = 800;
-	// public float scale = 1.0f;
-	public Vector gravity;
+	private float screenWidth;
+	private float screenHeight;
+	private Viewport viewport;
+	
+	public final Vector gravity;
 
 	GameWorld() {
 		gravity = new Vector();
 	}
+	
+	public void setViewport(float width, float height, float screenWidth, float screenHeight) {
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
+		viewport = Viewport.create(width, height, screenWidth, screenHeight);
+	}
 
-	// public float scale(float f) {
-	// return f * scale;
-	// }
-	//
-	// public float descale(float f) {
-	// return f / scale;
-	// }
+	public float getScreenHeight() {
+		return screenHeight;
+	}
+
+	public float getScreenWidth() {
+		return screenWidth;
+	}
+	
+	public float getScale() {
+		return viewport.getScale();
+	}
+	
+	public Vector getOffset() {
+		return viewport.getOffset();
+	}
 }

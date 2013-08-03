@@ -2,7 +2,7 @@ package com.blox;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.blox.test.camera.Camera2;
+import com.blox.test.camera.ViewportGame;
 
 public class Main {
 	public static void main(String[] args) {
@@ -13,6 +13,6 @@ public class Main {
 		cfg.width = 480;
 		cfg.height = 800;
 		
-		new LwjglApplication(new Camera2(), cfg);
+		new LwjglApplication(new ViewportGame(), cfg);
 	}
 }

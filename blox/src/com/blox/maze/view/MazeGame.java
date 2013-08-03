@@ -16,4 +16,14 @@ public class MazeGame extends BaseGame {
 
 		setScreen(mazeScreen);
 	}
+
+	@Override
+	public float getVirtualHeight() {
+		return 800;
+	}
+
+	@Override
+	public float getVirtualWidth() {
+		return 500;
+	}
 }
