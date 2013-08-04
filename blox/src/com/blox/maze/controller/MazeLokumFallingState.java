@@ -3,6 +3,7 @@ package com.blox.maze.controller;
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionListener;
+import com.blox.framework.v0.util.CollisionEvent;
 import com.blox.maze.model.Block;
 import com.blox.maze.model.Objective;
 import com.blox.maze.model.PortalDoor;
@@ -17,7 +18,10 @@ public class MazeLokumFallingState extends MazeState implements ICollisionListen
 	}
 
 	@Override
-	public void collide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
+	public void onCollide(CollisionEvent event) {
+		IBound thisBound = event.getThisBound();
+		ICollidable thatObj = event.getThatObj();
+		IBound thatBound = event.getThatBound();
 		if (thatObj instanceof Block) {
 			controller.lokumFallOnBlock(thisBound, thatBound, thatObj);
 		} else if (thatObj instanceof Trap) {
@@ -30,7 +34,7 @@ public class MazeLokumFallingState extends MazeState implements ICollisionListen
 	}
 
 	@Override
-	public void notCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
-		controller.lokumUncollidedPortalDoor(thatObj);
+	public void onNotCollide(CollisionEvent event) {
+		controller.lokumUncollidedPortalDoor(event.getThatObj());
 	}
 }

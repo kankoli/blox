@@ -20,7 +20,4 @@ public interface ICollidable {
 
 	boolean isFlipY();
 
-	boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj);
-
-	boolean onNotCollide(IBound thisBound, IBound thatBound, ICollidable obj);
 }

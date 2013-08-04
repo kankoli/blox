@@ -14,7 +14,7 @@ public class MazeMover extends DefaultMover {
 
 	public static final MazeMover instance = new MazeMover();
 
-	private enum State {
+	private static enum State {
 		_0, _90, _180, _270
 	};
 
@@ -22,12 +22,14 @@ public class MazeMover extends DefaultMover {
 
 	private static Map<State, Vector> gravities = new HashMap<MazeMover.State, Vector>();
 	static {
-		gravities.put(State._0, new Vector(0, -1).mul(gravity));
-		gravities.put(State._90, new Vector(-1, 0).mul(gravity));
-		gravities.put(State._180, new Vector(0, 1).mul(gravity));
-		gravities.put(State._270, new Vector(1, 0).mul(gravity));
+		gravities.put(State._0, new Vector(0, -gravity));
+		gravities.put(State._90, new Vector(-gravity, 0));
+		gravities.put(State._180, new Vector(0, gravity));
+		gravities.put(State._270, new Vector(gravity, 0));
 	}
 
+	private static State[] stateValues = State.values();
+	
 	private List<IMovable> list;
 	private State currState;
 
@@ -49,8 +51,7 @@ public class MazeMover extends DefaultMover {
 	public void turn(boolean clockwise) {
 		int increment = clockwise ? 1 : -1;
 
-		State[] values = State.values();
-		currState = values[(currState.ordinal() + increment + values.length) % values.length];
+		currState = stateValues[(currState.ordinal() + increment + stateValues.length) % stateValues.length];
 
 		for (IMovable obj : list) {
 			obj.getAcceleration().set(gravities.get(currState));

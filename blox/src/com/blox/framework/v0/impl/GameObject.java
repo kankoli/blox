@@ -6,12 +6,12 @@ import java.util.List;
 
 import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.IBound;
-import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IGameObject;
 import com.blox.framework.v0.IMover;
 import com.blox.framework.v0.util.Animation;
 import com.blox.framework.v0.util.AnimationBuilder;
+import com.blox.framework.v0.util.AnimationInfo;
 import com.blox.framework.v0.util.Animator;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
@@ -63,12 +63,13 @@ public abstract class GameObject implements IGameObject {
 		}
 	}
 
-	protected Animation addAnimation(String name, String resourcePath, float frameDuration, int frameWidth, int frameHeight) {
-		return addAnimation(name, resourcePath, frameDuration, frameWidth, frameHeight, false);
-	}
-
-	protected Animation addAnimation(String name, String resourcePath, float frameDuration, int frameWidth, int frameHeight, boolean isLooping) {
-		Animation animation = AnimationBuilder.createAnimation(name).from(resourcePath).withFrameDuration(frameDuration).withFrameSize(frameWidth, frameHeight).setLooping(isLooping).build();
+	protected Animation addAnimation(AnimationInfo info) {
+		Animation animation = AnimationBuilder.createAnimation(info.getName())
+				.from(info.getImagePath())
+				.withFrameDuration(info.getFrameDuration())
+				.withFrameSize(info.getFrameWidth(), info.getFrameHeight())
+				.setLooping(info.isLooping())
+				.build();
 
 		animator.addAnimation(animation);
 
@@ -93,6 +94,10 @@ public abstract class GameObject implements IGameObject {
 
 	protected Animation startAnimation(boolean forceRestart) {
 		return animator.start(forceRestart);
+	}
+
+	protected Animation startAnimation(AnimationInfo info) {
+		return animator.start(info.getName());
 	}
 
 	protected Animation startAnimation(String name) {
@@ -200,16 +205,6 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public Iterator<IBound> getBounds() {
 		return bounds.iterator();
-	}
-
-	@Override
-	public boolean onCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
-		return false;
-	}
-
-	@Override
-	public boolean onNotCollide(IBound thisBound, IBound thatBound, ICollidable obj) {
-		return false;
 	}
 
 	// endregion

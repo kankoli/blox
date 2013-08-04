@@ -2,6 +2,8 @@ package com.blox.framework.v0;
 
 import java.util.List;
 
+import com.blox.framework.v0.util.CollisionEvent;
+
 public interface ICollisionGroup {
 	void registerFirst(ICollidable obj);
 
@@ -21,10 +23,10 @@ public interface ICollisionGroup {
 
 	void deactivate();
 
-	boolean onCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound);
+	boolean onCollide(CollisionEvent event);
 
-	boolean onNotCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound);
-
+	boolean onNotCollide(CollisionEvent event);
+	
 	void registerCollisionListener(ICollisionListener listener);
 
 	void unregisterCollisionListener(ICollisionListener listener);

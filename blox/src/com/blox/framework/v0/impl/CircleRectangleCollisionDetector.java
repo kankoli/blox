@@ -31,6 +31,6 @@ public class CircleRectangleCollisionDetector implements ICollisionDetector {
 		float dx = Math.abs(c.x - l.x - w_2);
 		float dy = Math.abs(c.y - l.y - h_2);
 
-		return dx <= (w_2 + r) && dy <= (h_2 + r);
+		return (dx <= (w_2 + r) && dy <= (h_2 + r));
 	}
 }

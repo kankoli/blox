@@ -7,9 +7,9 @@ import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionListener;
 import com.blox.framework.v0.IState;
-import com.blox.framework.v0.impl.CollisionGroup;
 import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.impl.StateManager;
+import com.blox.framework.v0.util.CollisionGroup;
 import com.blox.maze.model.Lokum;
 import com.blox.maze.model.Maze;
 import com.blox.maze.model.PortalDoor;
@@ -18,6 +18,23 @@ import com.blox.maze.view.MazeScreen;
 public class MazeController extends StateManager {
 
 	private MazeScreen screen; // Parent screen.
+	
+	/**
+	 * Keeps the rotation before the user input starts.
+	 */
+	private float mazeOldRotation;
+	/**
+	 * Values -1 or 1 for maze rotation direction (Right, Left).
+	 */
+	private int userRotation;
+	/**
+	 * Angle of rotation that completes user rotation to 90 degrees.
+	 */
+	private float mazeTempRotation;
+	
+	private float epsilon = 0.1f;
+	private PortalDoor door;
+	private PortalDoor doorPair;
 
 	// FSM States implementing IState
 	/**
@@ -137,8 +154,8 @@ public class MazeController extends StateManager {
 	}
 
 	/***
-	 * Sets current FSM state to given state. Stops the listening (Collision &
-	 * Animation End) of the old state and starts the listening of the given
+	 * Sets current FSM state to given state. Stops listening (Collision &
+	 * Animation End) of old state and starts listening of the given
 	 * state.
 	 * 
 	 * @param s
@@ -159,11 +176,6 @@ public class MazeController extends StateManager {
 			maze.registerPortalsAnimationEndListener(currState);
 		}
 	}
-
-	/**
-	 * Keeps the rotation before the user input starts.
-	 */
-	private float mazeOldRotation;
 
 	/***
 	 * Called by {@link com.blox.maze.controller.MazeController#waiting waiting}
@@ -203,15 +215,6 @@ public class MazeController extends StateManager {
 		setCurrState(waiting);
 	}
 
-	/**
-	 * Values -1 or 1 for maze rotation direction (Right, Left).
-	 */
-	private int userRotation;
-	/**
-	 * Angle of rotation that completes user rotation to 90 degrees.
-	 */
-	private float mazeTempRotation;
-
 	/***
 	 * Called by {@link com.blox.maze.controller.MazeController#userRotating
 	 * userRotating} state when user input ends. Needed rotation angle to
@@ -227,8 +230,6 @@ public class MazeController extends StateManager {
 		mazeTempRotation = 90 - userRotation * userAngle;
 		setCurrState(mazeRotating);
 	}
-
-	private float epsilon = 0.1f;
 
 	/***
 	 * Called by {@link com.blox.maze.controller.MazeController#mazeRotating
@@ -297,9 +298,6 @@ public class MazeController extends StateManager {
 		lokum.fellOnObjective();
 		setCurrState(lokumOnObjective);
 	}
-
-	private PortalDoor door;
-	private PortalDoor doorPair;
 
 	/***
 	 * Called by {@link com.blox.maze.controller.MazeController#lokumFalling

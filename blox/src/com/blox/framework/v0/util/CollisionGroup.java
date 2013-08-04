@@ -1,11 +1,10 @@
-package com.blox.framework.v0.impl;
+package com.blox.framework.v0.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICollisionListener;
@@ -83,11 +82,11 @@ public class CollisionGroup implements ICollisionGroup {
 	}
 
 	@Override
-	public boolean onCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
+	public boolean onCollide(CollisionEvent event) {
 		Iterator<ICollisionListener> itr = collisionListeners.iterator();
 		while (itr.hasNext()) {
 			ICollisionListener l = itr.next();
-			l.collide(thisObj, thisBound, thatObj, thatBound);
+			l.onCollide(event);
 		}
 		return false;
 	}
@@ -106,11 +105,11 @@ public class CollisionGroup implements ICollisionGroup {
 	}
 
 	@Override
-	public boolean onNotCollide(ICollidable thisObj, IBound thisBound, ICollidable thatObj, IBound thatBound) {
+	public boolean onNotCollide(CollisionEvent event) {
 		Iterator<ICollisionListener> itr = notCollisionListeners.iterator();
 		while (itr.hasNext()) {
 			ICollisionListener l = itr.next();
-			l.notCollide(thisObj, thisBound, thatObj, thatBound);
+			l.onNotCollide(event);
 		}
 		return false;
 	}

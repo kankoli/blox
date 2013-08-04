@@ -34,21 +34,10 @@ public class Maze extends MazeGameObject {
 	private List<ICollidable> portalDoors;
 
 	public Maze(MazeScreen screen) {
-		int[][] data = new int[][] { 
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 }, 
-				{ 1, 0, 0, 0, 0, 1, 0, 0, 0, 1 }, 
-				{ 1, 1, 1, 1, 0, 1, 0, 0, 1, 1 },
-				{ 1, 0, 0, 0, 0, 1, 3, 0, 0, 1 }, 
-				{ 1, 0, 0, 0, 0, 1, 0, 0, 0, 1 }, 
-				{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 }, 
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
-
-		int[][][] portalData = new int[][][] { 
-				{ { 2, 4 }, { 5, 1 } } , 
-				{ { 5, 4 }, { 7, 1 } } };
+		Level level = Level.loadCurrentLevel();
+		
+		int[][] data = level.getMazeData();
+		int[][][] portalData = level.getPortalData();
 
 		int cols = data.length;
 		int rows = data[0].length;

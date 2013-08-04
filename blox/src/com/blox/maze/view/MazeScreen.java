@@ -1,24 +1,24 @@
 package com.blox.maze.view;
 
-import com.blox.framework.v0.impl.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.blox.maze.controller.MazeController;
 import com.blox.maze.model.Background;
+import com.blox.maze.model.GameOptions;
+import com.blox.maze.util.R;
 
-public class MazeScreen extends Screen {
-
-	private MazeGame game;
+public class MazeScreen extends MazeScreenBase {
 	private MazeController controller;
 
 	public MazeScreen(MazeGame game) {
-		this.game = game;
+		super(game);
 	}
 
 	@Override
 	public void init() {
 		super.init();
-
-		registerDrawable(new Background(), 1);
-
+		GameOptions.currentLevel = 1;
+		registerDrawable(new Background(R.animations.Background.zeroth), 1);
+		registerInputListener(this);
 		controller = new MazeController(this);
 	}
 
@@ -27,9 +27,11 @@ public class MazeScreen extends Screen {
 		controller.work();
 		super.update();
 	}
-
+   
 	@Override
-	public void render() {
-		super.render();
-	}
+    public boolean keyDown(int keycode) {
+    	if (keycode == Keys.BACK || keycode == Keys.ESCAPE)
+    		game.showMainMenu();
+    	return super.keyDown(keycode);
+    }
 }
