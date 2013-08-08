@@ -4,6 +4,9 @@ import com.blox.framework.v0.util.AnimationInfo;
 import com.blox.maze.model.Maze;
 
 public final class R {
+	private R() {
+	}
+
 	public static final class animations {
 		public static final class Block {
 			public static final AnimationInfo def = new AnimationInfo("Block", "turnmaze/body_full40-2.png", 1, Maze.blockWidth, Maze.blockHeight, false);
@@ -46,5 +49,17 @@ public final class R {
 			public static final AnimationInfo first = new AnimationInfo("bg", "screen1.jpg", 1, 480, 800, false);
 			public static final AnimationInfo second = new AnimationInfo("bg", "screen2.jpg", 1, 480, 800, false);
 		}
+	}
+
+	public static final class menus {
+		public static final class main {
+			public static final String xmlPath = "menus/mainMenu.xml";
+			public static final String btnNewGame = "btnNewGame";
+		}
+	}
+	
+	public static final class textures {
+		public static final String buttonLightBlue = "btn-lightblue.png";
+		public static final String buttonPink = "btn-pink.png";		
 	}
 }

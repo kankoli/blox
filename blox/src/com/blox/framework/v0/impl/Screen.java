@@ -9,6 +9,8 @@ import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IScreen;
+import com.blox.framework.v0.IUpdatable;
+import com.blox.framework.v0.IUpdateManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
@@ -17,6 +19,7 @@ public abstract class Screen implements IInputListener, IScreen {
 	private IDrawManager drawManager;
 	private ICollisionManager collisionManager;
 	private IInputManager inputManager;
+	private IUpdateManager updateManager;
 
 	protected Screen() {
 	}
@@ -27,10 +30,12 @@ public abstract class Screen implements IInputListener, IScreen {
 		drawManager = Game.getProvider().createDrawManager();
 		collisionManager = Game.getProvider().createCollisionManager();
 		inputManager = Game.getProvider().createInputManager();
+		updateManager = Game.getProvider().createUpdateManager();
 	}
 
 	@Override
 	public void update() {
+		updateManager.update();
 		move();
 		collide();
 	}
@@ -94,6 +99,15 @@ public abstract class Screen implements IInputListener, IScreen {
 		inputManager.unregister(obj);
 	}
 
+	public final void registerUpdatable(IUpdatable obj) {
+		updateManager.register(obj);
+	}
+
+	public final void unregisterUpdatable(IUpdatable obj) {
+		updateManager.unregister(obj);
+	}
+
+	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		return false;

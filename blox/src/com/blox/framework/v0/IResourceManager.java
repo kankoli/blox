@@ -1,5 +1,7 @@
 package com.blox.framework.v0;
 
+import java.io.InputStream;
+
 public interface IResourceManager {
 	ITexture loadTexture(String resourcePath);
 
@@ -10,4 +12,6 @@ public interface IResourceManager {
 	IVideo loadVideo(String resourcePath);
 
 	IFont loadFont(String resourcePath);
+	
+	InputStream readFile(String resourcePath);
 }

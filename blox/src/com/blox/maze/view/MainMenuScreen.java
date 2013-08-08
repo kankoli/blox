@@ -1,15 +1,17 @@
 package com.blox.maze.view;
 
 import com.badlogic.gdx.Input.Keys;
-import com.blox.framework.v0.forms.Button;
-import com.blox.framework.v0.forms.ControlBase;
-import com.blox.framework.v0.forms.ControlManager;
-import com.blox.framework.v0.forms.IClickListener;
+import com.blox.framework.v0.forms.xml.Button;
+import com.blox.framework.v0.forms.xml.Control;
+import com.blox.framework.v0.forms.xml.IClickListener;
+import com.blox.framework.v0.forms.xml.Panel;
 import com.blox.framework.v0.util.Game;
 import com.blox.maze.model.Background;
 import com.blox.maze.util.R;
 
 public class MainMenuScreen extends MazeScreenBase implements IClickListener {
+	private Panel panel;
+	
 	public MainMenuScreen(MazeGame game) {
 		super(game);
 	}
@@ -17,19 +19,21 @@ public class MainMenuScreen extends MazeScreenBase implements IClickListener {
 	@Override
 	public void init() {
 		super.init();
-		registerDrawable(new Background(R.animations.Background.first), 1);
+		
+		panel = Panel.load(R.menus.main.xmlPath);
+		
+		Button btnNew = panel.getControl(R.menus.main.btnNewGame);
+		btnNew.addClickListener(this);
+		
+		registerInputListener(panel.getInputListener());
 		registerInputListener(this);
-		
-		Button btn = new Button();
-		btn.setLocation(162, 380);
-		btn.setSize(125, 40);
-		btn.setText("New Game");
-		btn.registerClickListener(this);
-		registerDrawable(btn, 2);
-		
-		ControlManager mgr = new ControlManager();
-		mgr.register(btn);
-		registerInputListener(mgr);
+		registerDrawable(new Background(R.animations.Background.first), 1);
+	}
+	
+	@Override
+	public void render() {
+		super.render();
+		panel.draw();
 	}
 			
 	@Override
@@ -40,7 +44,7 @@ public class MainMenuScreen extends MazeScreenBase implements IClickListener {
     }
 
 	@Override
-	public void clicked(ControlBase control) {
-		game.showMaze();
+	public void onClick(Control control) {
+		game.showMaze();		
 	}
 }

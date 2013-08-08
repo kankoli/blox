@@ -23,5 +23,7 @@ public interface IGameProvider {
 
 	IDisposeManager createDisposeManager();
 
+	IUpdateManager createUpdateManager();
+	
 	void exit();
 }

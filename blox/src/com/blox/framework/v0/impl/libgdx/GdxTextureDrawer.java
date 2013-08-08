@@ -38,7 +38,7 @@ class GdxTextureDrawer implements IDrawer {
 		Vector s = drawable.getScale();
 		boolean flipX = drawable.isFlipX();
 		boolean flipY = drawable.isFlipY();
-
+		
 		GdxGame.spriteBatch.draw(texture,
 				scale * l.x + offsetX, 
 				scale * l.y + offsetY,
@@ -46,9 +46,9 @@ class GdxTextureDrawer implements IDrawer {
 				scale * (r.origin.y - l.y), 
 				scale * width, 
 				scale * height, 
-				s.x, s.y, r.rotation.z, 0, 0, 
-				(int) (scale * width),
-				(int) (scale * height), 
+				s.x, s.y, r.rotation.z, 0, 0,
+				texture.getWidth(),
+				texture.getHeight(),
 				flipX, flipY);
 	}
 }

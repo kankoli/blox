@@ -1,5 +1,7 @@
 package com.blox.framework.v0.impl.libgdx;
 
+import java.io.InputStream;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -40,5 +42,10 @@ class GdxResourceManager implements IResourceManager {
 	@Override
 	public IFont loadFont(String resourcePath) {
 		return new GdxFont(resourcePath);
+	}
+
+	@Override
+	public InputStream readFile(String resourcePath) {		
+		return Gdx.files.internal(resourcePath).read();
 	}
 }

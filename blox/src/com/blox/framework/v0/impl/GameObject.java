@@ -227,4 +227,12 @@ public abstract class GameObject implements IGameObject {
 
 	// endregion
 
+	// region IUpdatable
+	
+	@Override
+	public void update() {
+		
+	}
+	
+	// endregion
 }

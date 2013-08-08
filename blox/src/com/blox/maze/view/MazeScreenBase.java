@@ -7,5 +7,5 @@ public abstract class MazeScreenBase extends Screen {
 	
 	MazeScreenBase(MazeGame game) {
 		this.game = game;
-	}
+	}	
 }

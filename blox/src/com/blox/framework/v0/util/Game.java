@@ -4,6 +4,7 @@ import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.IDeltaTime;
 import com.blox.framework.v0.IDisposeManager;
 import com.blox.framework.v0.IGameProvider;
+import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.IScreenFader;
 import com.blox.framework.v0.ITextDrawer;
@@ -22,6 +23,8 @@ public final class Game {
 	private static IScreenFader screenFader;
 	private static ITextDrawer textDrawer;
 	private static IDisposeManager disposeManager;
+	
+	public static IInputManager currentInputManager;
 
 	private Game() {
 
@@ -87,6 +90,7 @@ public final class Game {
 	
 	public static void initViewport(float virtualWidth, float virtualHeight, float screenWidth, float screenHeight) {
 		viewport = Viewport.create(virtualWidth, virtualHeight, screenWidth, screenHeight);
+		textDrawer.getFont().setScale(1);
 	}
 	
 	public static void updateViewport(float screenWidth, float screenHeight) {

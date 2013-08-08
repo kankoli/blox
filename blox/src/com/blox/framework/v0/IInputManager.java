@@ -10,4 +10,10 @@ public interface IInputManager {
 	void deactivate();
 
 	boolean isActive();
+	
+	float getX();
+	
+	float getY();
+	
+	boolean isTouched();
 }
