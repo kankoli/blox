@@ -22,6 +22,7 @@ public class GdxGame implements ApplicationListener {
 		Texture.setEnforcePotImages(false);
 		Game.initialize(new GdxGameProvider());
 		Game.initViewport(game.getVirtualWidth(), game.getVirtualHeight(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Game.getInputManager().activate();
 	}
 
 	@Override

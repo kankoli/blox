@@ -25,7 +25,6 @@ public class MainMenuScreen extends MazeScreenBase implements IClickListener {
 		Button btnNew = panel.getControl(R.menus.main.btnNewGame);
 		btnNew.addClickListener(this);
 		
-		registerInputListener(panel.getInputListener());
 		registerInputListener(this);
 		registerDrawable(new Background(R.animations.Background.first), 1);
 	}

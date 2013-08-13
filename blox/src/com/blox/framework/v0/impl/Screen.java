@@ -2,15 +2,13 @@ package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICollisionManager;
+import com.blox.framework.v0.ICompositeInputListener;
 import com.blox.framework.v0.IDrawManager;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IScreen;
-import com.blox.framework.v0.IUpdatable;
-import com.blox.framework.v0.IUpdateManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
@@ -18,8 +16,7 @@ public abstract class Screen implements IInputListener, IScreen {
 	private IMoveManager moveManager;
 	private IDrawManager drawManager;
 	private ICollisionManager collisionManager;
-	private IInputManager inputManager;
-	private IUpdateManager updateManager;
+	private ICompositeInputListener inputListener;
 
 	protected Screen() {
 	}
@@ -29,13 +26,12 @@ public abstract class Screen implements IInputListener, IScreen {
 		moveManager = Game.getProvider().createMoveManager();
 		drawManager = Game.getProvider().createDrawManager();
 		collisionManager = Game.getProvider().createCollisionManager();
-		inputManager = Game.getProvider().createInputManager();
-		updateManager = Game.getProvider().createUpdateManager();
+		inputListener = new CompositeInputListener();
+		inputListener.register(this);
 	}
 
 	@Override
 	public void update() {
-		updateManager.update();
 		move();
 		collide();
 	}
@@ -47,12 +43,12 @@ public abstract class Screen implements IInputListener, IScreen {
 
 	@Override
 	public void activated() {
-		inputManager.activate();
+		inputListener.activate();
 	}
 
 	@Override
 	public void deactivated() {
-		inputManager.deactivate();
+		inputListener.deactivate();
 	}
 
 	protected final void move() {
@@ -92,21 +88,12 @@ public abstract class Screen implements IInputListener, IScreen {
 	}
 
 	public final void registerInputListener(IInputListener obj) {
-		inputManager.register(obj);
+		inputListener.register(obj);
 	}
 
 	public final void unregisterInputListener(IInputListener obj) {
-		inputManager.unregister(obj);
+		inputListener.unregister(obj);
 	}
-
-	public final void registerUpdatable(IUpdatable obj) {
-		updateManager.register(obj);
-	}
-
-	public final void unregisterUpdatable(IUpdatable obj) {
-		updateManager.unregister(obj);
-	}
-
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {

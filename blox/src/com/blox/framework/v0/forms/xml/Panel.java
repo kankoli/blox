@@ -14,19 +14,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.IUpdatable;
 import com.blox.framework.v0.util.Game;
 
-public class Panel implements IUpdatable  {
+public class Panel  {
 	protected int rows;
 	protected int cols;
 	private Map<String, Control> controls;
-	private ControlInputListener inputListener;
 
 	private Panel() {
 		controls = new HashMap<String, Control>();
-		inputListener = new ControlInputListener();
 	}
 
 	public void addControl(Control control) {
@@ -34,15 +30,12 @@ public class Panel implements IUpdatable  {
 			control.getPanel().removeControl(control.id);
 		controls.put(control.id, control);
 		control.panel = this;
-		registerInputListener(control);
 	}
 
 	public void removeControl(String id) {
 		Control control = controls.remove(id);
-		if (control != null && control.panel != null) {
-			unregisterInputListener(control);
+		if (control != null && control.panel != null)
 			control.panel = null;
-		}
 	}
 
 	public Collection<Control> getControls() {
@@ -66,25 +59,7 @@ public class Panel implements IUpdatable  {
 		for (Control control : getControls())
 			control.draw();
 	}
-
-	public IInputListener getInputListener() {
-		return inputListener;
-	}
 	
-	private void registerInputListener(Control control) {
-		inputListener.controls.add(control);
-	}
-	
-	private void unregisterInputListener(Control control) {
-		inputListener.controls.remove(control);
-	}
-	
-	@Override
-	public void update() {
-		for (Control control : getControls())
-			control.update();
-	}
-
 	private void load(Element node) {
 		NodeList children = node.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {

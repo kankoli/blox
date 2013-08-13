@@ -13,7 +13,12 @@ public class SplashScreen extends MazeScreenBase {
 	public void init() {
 		super.init();
 		registerDrawable(new Background(R.animations.Background.second), 1);
+	}
+	
+	@Override
+	public void activated() {
 		load();
+		super.activated();
 	}
 	
 	@Override

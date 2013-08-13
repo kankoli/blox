@@ -28,7 +28,7 @@ public class MazeGame extends BaseGame {
 		Game.getTextDrawer().getFont().setScale(1.25f);
 		
 		setScreenSwitcher(new FadingScreenSwitcher(0.5f));
-		setScreen(splashScreen);
+		setScreen(mazeScreen);
 	}
 	
 	void showSplash() {

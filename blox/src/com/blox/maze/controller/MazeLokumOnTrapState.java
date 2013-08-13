@@ -1,12 +1,11 @@
 package com.blox.maze.controller;
 
 import com.blox.framework.v0.ICollidable;
-import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.util.Animation;
 import com.blox.framework.v0.util.CollisionEvent;
 import com.blox.maze.model.Block;
 
-public class MazeLokumOnTrapState extends State {
+public class MazeLokumOnTrapState extends MazeState {
 
 	private MazeController controller;
 

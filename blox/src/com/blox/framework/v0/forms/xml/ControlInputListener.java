@@ -3,14 +3,26 @@ package com.blox.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.util.Vector;
+import com.blox.framework.v0.impl.CompositeInputListener;
+import com.blox.framework.v0.util.Game;
 
-class ControlInputListener implements IInputListener {
-	List<Control> controls;
+class ControlInputListener extends CompositeInputListener {
+	private List<Control> controls;
+	
+	static final ControlInputListener instance = new ControlInputListener();
 
-	ControlInputListener() {
+	private ControlInputListener() {
 		controls = new ArrayList<Control>();
+		Game.getInputManager().register(this);
+	}
+	
+	void register(Control control) {
+		if (!controls.contains(control))
+			controls.add(control);
+	}
+	
+	void unregister(Control control) {
+		controls.remove(control);
 	}
 
 	@Override
@@ -59,26 +71,6 @@ class ControlInputListener implements IInputListener {
 	}
 
 	@Override
-	public boolean fling(float vx, float vy, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean pan(float x, float y, float dx, float xy) {
-		return false;
-	}
-
-	@Override
-	public boolean zoom(float initialDistance, float distance) {
-		return false;
-	}
-
-	@Override
-	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
-		return false;
-	}
-
-	@Override
 	public boolean keyDown(int keycode) {
 		for (Control control : controls) {
 			control.onKeyDown(keycode);
@@ -107,11 +99,6 @@ class ControlInputListener implements IInputListener {
 		for (Control control : controls) {
 			control.onMouseOver();
 		}
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(float amount) {
 		return false;
 	}
 }

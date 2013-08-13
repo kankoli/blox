@@ -23,7 +23,7 @@ final class ControlDrawableAdapter implements IDrawable {
 		location = new Vector();
 	}
 
-	void update(Control control) {
+	void setCurrentControl(Control control) {
 		if (currentControl == control)
 			return;		
 		currentControl = control;

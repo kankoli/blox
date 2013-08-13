@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel cols="16" rows="32">
-	<button id="btnNewGame" text="New Game" x="5" y="15" cols="6" rows="2" />
+	<button id="btnNewGame" text="New Game" x="0" y="30" cols="4" rows="2" />
 </panel>

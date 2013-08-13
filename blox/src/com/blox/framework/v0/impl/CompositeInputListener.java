@@ -1,46 +1,22 @@
-package com.blox.framework.v0.impl.libgdx;
+package com.blox.framework.v0.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.input.GestureDetector;
+import com.blox.framework.v0.ICompositeInputListener;
 import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
-class GdxInputManager implements IInputManager, IInputListener {
+public class CompositeInputListener implements ICompositeInputListener {
+
 	private List<IInputListener> listeners;
-	private InputMultiplexer multiplexer;
 	private boolean listening;
 
-	GdxInputManager() {		
+	public CompositeInputListener() {		
 		listeners = new ArrayList<IInputListener>();
-
-		multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(new GdxInputProcessor(this));
-		multiplexer.addProcessor(new GestureDetector(new GdxGestureListener(this)));
 	}
-
-	@Override
-	public void activate() {
-		Gdx.input.setInputProcessor(multiplexer);
-		listening = true;
-	}
-
-	@Override
-	public void deactivate() {
-		Gdx.input.setInputProcessor(null);
-		listening = false;
-	}
-
-	@Override
-	public boolean isActive() {
-		return listening;
-	}
-
+	
 	@Override
 	public void register(IInputListener listener) {
 		if (!listeners.contains(listener))
@@ -53,24 +29,28 @@ class GdxInputManager implements IInputManager, IInputListener {
 	}
 
 	@Override
-	public float getX() {
-		return Gdx.input.getX();
+	public void activate() {
+		if (!listening)
+			Game.getInputManager().register(this);
+		listening = true;
 	}
-	
+
 	@Override
-	public float getY() {
-		return Game.getScreenHeight() - Gdx.input.getY();
+	public void deactivate() {
+		if (listening)
+			Game.getInputManager().unregister(this);
+		listening = false;
 	}
-	
+
 	@Override
-	public boolean isTouched() {
-		return Gdx.input.isTouched();
+	public boolean isActive() {
+		return listening;
 	}
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		for (IInputListener listener : listeners) {
-			if (listener.touchDown(x, Game.getScreenHeight() - y, pointer, button))
+			if (listener.touchDown(x, y, pointer, button))
 				return true;
 		}
 		return false;
@@ -79,7 +59,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	@Override
 	public boolean touchUp(float x, float y, int pointer, int button) {
 		for (IInputListener listener : listeners) {
-			if (listener.touchUp(x, Game.getScreenHeight() - y, pointer, button))
+			if (listener.touchUp(x, y, pointer, button))
 				return true;
 		}
 		return false;
@@ -88,7 +68,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	@Override
 	public boolean touchDragged(float x, float y, int pointer) {
 		for (IInputListener listener : listeners) {
-			if (listener.touchDragged(x, Game.getScreenHeight() - y, pointer))
+			if (listener.touchDragged(x, y, pointer))
 				return true;
 		}
 		return false;
@@ -97,7 +77,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		for (IInputListener listener : listeners) {
-			if (listener.tap(x, Game.getScreenHeight() - y, count, button))
+			if (listener.tap(x, y, count, button))
 				return true;
 		}
 		return false;
@@ -106,7 +86,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	@Override
 	public boolean longPress(float x, float y) {
 		for (IInputListener listener : listeners) {
-			if (listener.longPress(x, Game.getScreenHeight() - y))
+			if (listener.longPress(x, y))
 				return true;
 		}
 		return false;
@@ -124,7 +104,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	@Override
 	public boolean pan(float x, float y, float dx, float xy) {
 		for (IInputListener listener : listeners) {
-			if (listener.pan(x, Game.getScreenHeight() - y, dx, xy))
+			if (listener.pan(x, y, dx, xy))
 				return true;
 		}
 		return false;
@@ -141,10 +121,10 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
-		p1Start.y = Game.getScreenHeight() - p1Start.y;
-		p2Start.y = Game.getScreenHeight() - p2Start.y;
-		p1End.y = Game.getScreenHeight() - p1End.y;
-		p2End.y = Game.getScreenHeight() - p2End.y;
+		p1Start.y = p1Start.y;
+		p2Start.y = p2Start.y;
+		p1End.y = p1End.y;
+		p2End.y = p2End.y;
 		
 		for (IInputListener listener : listeners) {
 			if (listener.pinch(p1Start, p2Start, p1End, p2End))
@@ -156,7 +136,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	@Override
 	public boolean mouseMoved(float x, float y) {
 		for (IInputListener listener : listeners) {
-			if (listener.mouseMoved(x, Game.getScreenHeight() - y))
+			if (listener.mouseMoved(x, y))
 				return true;
 		}
 		return false;

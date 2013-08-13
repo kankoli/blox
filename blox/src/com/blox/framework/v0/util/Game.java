@@ -24,7 +24,7 @@ public final class Game {
 	private static ITextDrawer textDrawer;
 	private static IDisposeManager disposeManager;
 	
-	public static IInputManager currentInputManager;
+	private static IInputManager inputManager;
 
 	private Game() {
 
@@ -39,6 +39,7 @@ public final class Game {
 		collisionDetectorFactory = provider.createCollisionDetectorFactory();
 		screenFader = provider.createScreenFader();
 		textDrawer = provider.createTextDrawer();
+		inputManager = provider.createInputManager();
 		gravity.y = -9.8f;
 	}
 
@@ -70,6 +71,10 @@ public final class Game {
 		return textDrawer;
 	}
 
+	public static IInputManager getInputManager() {
+		return inputManager;
+	}
+	
 	public static IDisposeManager getDisposeManager() {
 		return disposeManager;
 	}

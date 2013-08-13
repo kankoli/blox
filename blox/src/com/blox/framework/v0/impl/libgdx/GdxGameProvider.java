@@ -13,14 +13,12 @@ import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.IScreenFader;
 import com.blox.framework.v0.ITextDrawer;
 import com.blox.framework.v0.ITextureSplitter;
-import com.blox.framework.v0.IUpdateManager;
 import com.blox.framework.v0.impl.CachedResourceManager;
 import com.blox.framework.v0.impl.CollisionDetectorFactory;
 import com.blox.framework.v0.impl.CollisionManager;
 import com.blox.framework.v0.impl.DisposeManager;
 import com.blox.framework.v0.impl.DrawManager;
 import com.blox.framework.v0.impl.MoveManager;
-import com.blox.framework.v0.impl.UpdateManager;
 
 class GdxGameProvider implements IGameProvider {
 	GdxGameProvider() {
@@ -80,11 +78,6 @@ class GdxGameProvider implements IGameProvider {
 	@Override
 	public IDisposeManager createDisposeManager() {
 		return new DisposeManager();
-	}
-
-	@Override
-	public IUpdateManager createUpdateManager() {
-		return new UpdateManager();
 	}
 
 	@Override

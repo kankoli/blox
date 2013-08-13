@@ -7,7 +7,6 @@ import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionListener;
 import com.blox.framework.v0.IState;
-import com.blox.framework.v0.impl.State;
 import com.blox.framework.v0.impl.StateManager;
 import com.blox.framework.v0.util.CollisionGroup;
 import com.blox.maze.model.Lokum;
@@ -18,7 +17,7 @@ import com.blox.maze.view.MazeScreen;
 public class MazeController extends StateManager {
 
 	private MazeScreen screen; // Parent screen.
-	
+
 	/**
 	 * Keeps the rotation before the user input starts.
 	 */
@@ -31,7 +30,7 @@ public class MazeController extends StateManager {
 	 * Angle of rotation that completes user rotation to 90 degrees.
 	 */
 	private float mazeTempRotation;
-	
+
 	private float epsilon = 0.1f;
 	private PortalDoor door;
 	private PortalDoor doorPair;
@@ -155,26 +154,23 @@ public class MazeController extends StateManager {
 
 	/***
 	 * Sets current FSM state to given state. Stops listening (Collision &
-	 * Animation End) of old state and starts listening of the given
-	 * state.
+	 * Animation End) of old state and starts listening of the given state.
 	 * 
 	 * @param s
 	 */
 	private void setCurrState(IState s) {
-		if (currState instanceof State) {
+		if (currState != null) {
 			screen.unregisterInputListener(currState);
 			unregisterFromLokumCollisionGroups(currState);
 			lokum.unregisterAnimationEndListener(currState);
 			maze.unregisterPortalsAnimationEndListener(currState);
 		}
 		currState = s;
-		// System.out.println(currState.getClass().getName());
-		if (currState instanceof State) {
-			screen.registerInputListener(currState);
-			registerToLokumCollisionGroups(currState);
-			lokum.registerAnimationEndListener(currState);
-			maze.registerPortalsAnimationEndListener(currState);
-		}
+
+		screen.registerInputListener(currState);
+		registerToLokumCollisionGroups(currState);
+		lokum.registerAnimationEndListener(currState);
+		maze.registerPortalsAnimationEndListener(currState);
 	}
 
 	/***

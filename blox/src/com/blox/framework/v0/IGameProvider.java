@@ -22,8 +22,6 @@ public interface IGameProvider {
 	ITextDrawer createTextDrawer();
 
 	IDisposeManager createDisposeManager();
-
-	IUpdateManager createUpdateManager();
 	
 	void exit();
 }
