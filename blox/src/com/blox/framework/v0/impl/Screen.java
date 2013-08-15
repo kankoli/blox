@@ -9,6 +9,8 @@ import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IScreen;
+import com.blox.framework.v0.forms.xml.Layout;
+import com.blox.framework.v0.forms.xml.UIManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
@@ -17,7 +19,7 @@ public abstract class Screen implements IInputListener, IScreen {
 	private IDrawManager drawManager;
 	private ICollisionManager collisionManager;
 	private ICompositeInputListener inputListener;
-
+	
 	protected Screen() {
 	}
 
@@ -63,6 +65,10 @@ public abstract class Screen implements IInputListener, IScreen {
 		collisionManager.collide();
 	}
 
+	protected final void setLayout(Layout layout) {
+		UIManager.setLayout(layout, drawManager);
+	}
+	
 	public final void registerMovable(IMovable obj) {
 		moveManager.register(obj);
 	}

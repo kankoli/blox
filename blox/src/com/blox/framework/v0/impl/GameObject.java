@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.IBound;
-import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IGameObject;
 import com.blox.framework.v0.IMover;
 import com.blox.framework.v0.util.Animation;
@@ -30,8 +29,7 @@ public abstract class GameObject implements IGameObject {
 	protected Animator animator;
 	protected List<IBound> bounds;
 	protected IMover mover;
-	protected IDrawer drawer;
-
+	
 	protected GameObject() {
 		location = new Vector();
 		velocity = new Vector();
@@ -45,7 +43,6 @@ public abstract class GameObject implements IGameObject {
 		bounds = new ArrayList<IBound>();
 
 		mover = IMover.NULL;
-		drawer = IDrawer.NULL;
 	}
 
 	// region animations
@@ -144,11 +141,6 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public void draw() {
 		getAnimation().getFrame().draw(this);
-	}
-
-	@Override
-	public void setDrawer(IDrawer drawer) {
-		this.drawer = drawer;
 	}
 
 	@Override

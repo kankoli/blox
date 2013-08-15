@@ -3,6 +3,7 @@ package com.blox.framework.v0.forms.xml;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
@@ -18,14 +19,17 @@ public abstract class Control {
 	protected int rows;
 	protected boolean isVisible;
 	protected boolean isEnabled;
-	protected Panel panel;
+	
+	protected ControlDrawableAdapter drawable;
 
-	protected Control() {
+	protected Control() {		
 		setVisible(true);
 		setEnabled(true);
-		ControlInputListener.instance.register(this);
-	}
 
+		ControlInputListener.instance.register(this);
+		drawable = new ControlDrawableAdapter(this);
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -78,10 +82,6 @@ public abstract class Control {
 		setEnabled(false);
 	}
 
-	public Panel getPanel() {
-		return panel;
-	}
-
 	protected void setAttribute(String attribute, String value) {
 		if ("id".equals(attribute))
 			id = value;
@@ -99,27 +99,22 @@ public abstract class Control {
 			setVisible("true".equals(value));
 	}
 
-	protected void load(Node node) {
+	protected void load(Node node, Layout layout) {
 		NamedNodeMap attributes = node.getAttributes();
 		for (int i = 0; i < attributes.getLength(); i++) {
 			Node attribute = attributes.item(i);
 			setAttribute(attribute.getNodeName(), attribute.getNodeValue());
 		}
+		drawable.update(layout);
 	}
 
 	protected void draw() {
-		if (!isVisible)
-			return;
-
-		ControlDrawableAdapter.instance.setCurrentControl(this);
-
-		ITexture texture = getTexture();
-		if (texture != null) {
-			texture.draw(ControlDrawableAdapter.instance);
-		}
-		else {
-			// TODO: draw rect
-		}
+		if (isVisible)
+			drawable.draw();
+	}
+	
+	protected IDrawable getDrawable() {
+		return drawable;
 	}
 
 	protected boolean isTouched() {
@@ -133,11 +128,9 @@ public abstract class Control {
 	}
 
 	protected boolean isIn(float x, float y) {
-		ControlDrawableAdapter.instance.setCurrentControl(this);
-
-		Vector loc = ControlDrawableAdapter.instance.getLocation();
-		float width = ControlDrawableAdapter.instance.getWidth();
-		float height = ControlDrawableAdapter.instance.getHeight();
+		Vector loc = drawable.getLocation();
+		float width = drawable.getWidth();
+		float height = drawable.getHeight();
 
 		return x > loc.x && x < loc.x + width && y > loc.y && y < loc.y + height;
 	}

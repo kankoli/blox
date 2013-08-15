@@ -6,7 +6,7 @@ import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 
 class GdxTexture implements ITexture {
-	Texture texture;
+	final Texture texture;
 
 	GdxTexture(Texture texture) {
 		this.texture = texture;
@@ -14,12 +14,10 @@ class GdxTexture implements ITexture {
 	}
 
 	@Override
-	public void draw(IDrawable drawable) {
-		GdxTextureDrawer drawer = GdxTextureDrawer.getInstance();
-		drawer.setTexture(texture);
-		drawer.draw(drawable);
+	public void draw(IDrawable drawinfo) {
+		GdxTextureDrawer.instance.draw(texture, drawinfo);
 	}
-
+	
 	@Override
 	public void dispose() {
 		if (texture != null)

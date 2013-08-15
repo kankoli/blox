@@ -1,41 +1,35 @@
 package com.blox.framework.v0.forms.xml;
 
 import com.blox.framework.v0.IDrawable;
-import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
 
-final class ControlDrawableAdapter implements IDrawable {
-	final static ControlDrawableAdapter instance = new ControlDrawableAdapter();
+class ControlDrawableAdapter implements IDrawable {
 	
 	private static final Vector noScale = new Vector(1, 1, 1);
-	private static final Rotation noRotation = new Rotation(0, 0, 0, 0, 0, 0);
+	private static final Rotation noRotation = new Rotation();
 
 	private float width;
 	private float height;
 	private Vector location;
+	
+	private final Control control;
 
-	private IDrawer drawer;
-	private Control currentControl;
-
-	private ControlDrawableAdapter() {
-		location = new Vector();
+	protected ControlDrawableAdapter(Control control) {
+		this.control = control;
+		this.location = new Vector();	
 	}
-
-	void setCurrentControl(Control control) {
-		if (currentControl == control)
-			return;		
-		currentControl = control;
-		
-		float xScale = Game.getScreenWidth() / control.panel.getCols();
-		float yScale = Game.getScreenHeight() / control.panel.getRows();
+	
+	protected void update(Layout layout) {
+		float xScale = Game.getScreenWidth() / layout.getCols();
+		float yScale = Game.getScreenHeight() / layout.getRows();
 
 		location.x = xScale * control.getX();
 		location.y = yScale * control.getY();
 
 		width = xScale * control.getCols();
-		height = yScale * control.getRows();
+		height = yScale * control.getRows();		
 	}
 
 	@Override
@@ -54,7 +48,7 @@ final class ControlDrawableAdapter implements IDrawable {
 	}
 
 	@Override
-	public Vector getScale() {
+	public Vector getScale() {		
 		return noScale;
 	}
 
@@ -74,16 +68,6 @@ final class ControlDrawableAdapter implements IDrawable {
 	}
 
 	@Override
-	public void draw() {
-		drawer.draw(this);
-	}
-
-	@Override
-	public void setDrawer(IDrawer drawer) {
-		this.drawer = drawer;
-	}
-
-	@Override
 	public boolean ignoreViewportOffset() {
 		return true;
 	}
@@ -93,4 +77,8 @@ final class ControlDrawableAdapter implements IDrawable {
 		return true;
 	}
 
+	@Override
+	public void draw() {
+		control.getTexture().draw(this);
+	}
 }
