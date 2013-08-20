@@ -137,6 +137,20 @@ public final class Game {
 	public static float getScreenHeight() {
 		return viewport.getScreenHeight();
 	}
+	
+	public static float screenToViewportX(float x) {
+		return descale(x - getViewportOffsetX());
+	}
+	
+	public static float screenToViewportY(float y) {
+		return descale(y - getViewportOffsetY());
+	}
+	
+	public static Vector screenToViewport(Vector v) {
+		v.x = screenToViewportX(v.x);
+		v.y = screenToViewportY(v.y);
+		return v;
+	}
 
 	// endregion viewport
 }
