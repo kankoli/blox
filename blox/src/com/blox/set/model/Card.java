@@ -44,7 +44,7 @@ public class Card extends CardGameObject {
 				for (int k = 0; k < counts.length; k++) {
 					for (int n = 0; n < patterns.length; n++) {
 						Card card = new Card(table);
-						card.setAttributes(colors[i], shapes[j], counts[k], patterns[n]);
+						card.attributes = new CardAttributes(colors[i], shapes[j], counts[k], patterns[n]);
 						deck[i + j * 3 + k * 9 + n * 27] = card;
 					}
 				}
@@ -64,33 +64,14 @@ public class Card extends CardGameObject {
 		}
 	}
 
-	private static boolean isColorSet(Card card1, Card card2, Card card3) {
-		return CardAttributes.isSet(card1.color, card2.color, card3.color);
-	}
-
-	private static boolean isShapeSet(Card card1, Card card2, Card card3) {
-		return CardAttributes.isSet(card1.shape, card2.shape, card3.shape);
-	}
-
-	private static boolean isCountSet(Card card1, Card card2, Card card3) {
-		return CardAttributes.isSet(card1.count, card2.count, card3.count);
-	}
-
-	private static boolean isPatternSet(Card card1, Card card2, Card card3) {
-		return CardAttributes.isSet(card1.pattern, card2.pattern, card3.pattern);
-	}
-
 	public static boolean isSet(Card card1, Card card2, Card card3) {
-		return isColorSet(card1, card2, card3) && isShapeSet(card1, card2, card3) && isCountSet(card1, card2, card3) && isPatternSet(card1, card2, card3);
+		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
 	}
 
 	// endregion
 	
-	private int color;
-	private int shape;
-	private int count;
-	private int pattern;
-
+	private CardAttributes attributes;
+	
 	private GameTable table;
 	
 	private boolean isOpened;
@@ -104,13 +85,6 @@ public class Card extends CardGameObject {
 		this.height = Card.Height;
 	}
 
-	public void setAttributes(int color, int shape, int count, int pattern) {
-		this.color = color;
-		this.shape = shape;
-		this.count = count;
-		this.pattern = pattern;
-	}
-
 	private ITexture getTexture() {
 		if (!isOpened)
 			return textureClosed;
@@ -118,7 +92,8 @@ public class Card extends CardGameObject {
 		if (texture != null)
 			return texture;
 
-		String textureName = "setcards/" + color + shape + count + pattern + ".png";
+		String textureName = "setcards/" + attributes.getColor() + attributes.getShape() + attributes.getCount() + 
+				attributes.getPattern() + ".png";
 		texture = Game.getResourceManager().loadTexture(textureName);
 		return texture;
 	}
@@ -164,5 +139,9 @@ public class Card extends CardGameObject {
 		getTexture().draw(this);
 		if (isSelected)
 			textureBorder.draw(this);
+	}
+
+	public CardAttributes getAttributes() {
+		return attributes;
 	}
 }
