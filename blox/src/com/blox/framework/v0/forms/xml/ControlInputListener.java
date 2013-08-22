@@ -8,26 +8,27 @@ import com.blox.framework.v0.util.Game;
 
 class ControlInputListener extends CompositeInputListener {
 	private List<Control> controls;
-	
+
 	static final ControlInputListener instance = new ControlInputListener();
 
 	private ControlInputListener() {
 		controls = new ArrayList<Control>();
 		Game.getInputManager().register(this);
 	}
-	
+
 	void register(Control control) {
 		if (!controls.contains(control))
 			controls.add(control);
 	}
-	
+
 	void unregister(Control control) {
 		controls.remove(control);
 	}
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			if (control.isIn(x, y))
 				control.onTouchDown();
 		}
@@ -36,7 +37,8 @@ class ControlInputListener extends CompositeInputListener {
 
 	@Override
 	public boolean touchUp(float x, float y, int pointer, int button) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			if (control.isIn(x, y))
 				control.onTouchUp();
 		}
@@ -45,7 +47,8 @@ class ControlInputListener extends CompositeInputListener {
 
 	@Override
 	public boolean touchDragged(float x, float y, int pointer) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			if (control.isIn(x, y))
 				control.onTouchDragged();
 		}
@@ -54,7 +57,8 @@ class ControlInputListener extends CompositeInputListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			if (control.isIn(x, y))
 				control.onTap();
 		}
@@ -63,7 +67,8 @@ class ControlInputListener extends CompositeInputListener {
 
 	@Override
 	public boolean longPress(float x, float y) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			if (control.isIn(x, y))
 				control.onLongPress();
 		}
@@ -72,7 +77,8 @@ class ControlInputListener extends CompositeInputListener {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			control.onKeyDown(keycode);
 		}
 		return false;
@@ -80,7 +86,8 @@ class ControlInputListener extends CompositeInputListener {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			control.onKeyUp(keycode);
 		}
 		return false;
@@ -88,7 +95,8 @@ class ControlInputListener extends CompositeInputListener {
 
 	@Override
 	public boolean keyTyped(char character) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			control.onKeyTyped(character);
 		}
 		return false;
@@ -96,7 +104,8 @@ class ControlInputListener extends CompositeInputListener {
 
 	@Override
 	public boolean mouseMoved(float x, float y) {
-		for (Control control : controls) {
+		for (int i = controls.size() - 1; i >= 0; i--) {
+			Control control = controls.get(i);
 			control.onMouseOver();
 		}
 		return false;

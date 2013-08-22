@@ -8,6 +8,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.blox.framework.v0.impl.libgdx.GdxGame;
 import com.blox.maze.view.MazeGame;
 import com.blox.set.view.CardGame;
+import com.blox.set.view.SetGame;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -19,6 +20,6 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = false;
 		cfg.useCompass = false;
 		
-		initialize(new GdxGame(new CardGame()), cfg);
+		initialize(new GdxGame(new SetGame()), cfg);
     }
 }

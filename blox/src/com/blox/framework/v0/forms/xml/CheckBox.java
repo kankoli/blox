@@ -29,6 +29,11 @@ public class CheckBox extends Control {
 	}
 
 	@Override
+	protected String getNodeName() {
+		return "checkbox";
+	}
+
+	@Override
 	protected void onTap() {
 		isChecked = !isChecked;
 		super.onTap();

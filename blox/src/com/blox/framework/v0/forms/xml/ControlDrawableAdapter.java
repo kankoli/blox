@@ -79,6 +79,9 @@ class ControlDrawableAdapter implements IDrawable {
 
 	@Override
 	public void draw() {
+		if (!control.isVisible)
+			return;
 		control.getTexture().draw(this);
+		control.draw();
 	}
 }

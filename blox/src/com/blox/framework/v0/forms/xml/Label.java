@@ -52,6 +52,11 @@ public class Label extends Control {
 	protected ITexture getTexture() {
 		return null;
 	}
+
+	@Override
+	protected String getNodeName() {
+		return "label";
+	}
 		
 	@Override
 	protected void setAttribute(String attribute, String value) {

@@ -8,13 +8,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.blox.framework.v0.util.Utils;
+
 public class Layout  {
 	protected int rows;
 	protected int cols;
 	private Map<String, Control> controls;
+	private String skinId;
 
 	protected Layout() {
 		controls = new HashMap<String, Control>();
+		skinId = "default";
 	}
 
 	public void addControl(Control control) {
@@ -47,7 +51,20 @@ public class Layout  {
 			control.draw();
 	}
 	
+	protected void setAttribute(String attribute, String value) {
+		if ("cols".equals(attribute))
+			cols = Integer.parseInt(value);
+		else if ("rows".equals(attribute))
+			rows = Integer.parseInt(value);
+	}
+	
 	void load(Element node) {
+		String sid = Utils.getAttributeValue(node, "skinId");
+		if (sid != null && !"".equals(sid))
+			skinId = sid;
+		
+		loadSkin();
+		
 		NodeList children = node.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
@@ -57,5 +74,18 @@ public class Layout  {
 			control.load(child, this);			
 			addControl(control);
 		}
+	}
+	
+	private void loadSkin() {
+		Skin skin = UIManager.getSkin(skinId);
+		if (skin == null) 
+			return;
+		
+		Map<String, String> skinValues = skin.get("layout");		
+		if (skinValues == null)
+			return;
+		
+		for (String key : skinValues.keySet())
+			setAttribute(key, skinValues.get(key));
 	}
 }

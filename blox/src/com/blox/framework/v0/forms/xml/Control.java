@@ -1,5 +1,7 @@
 package com.blox.framework.v0.forms.xml;
 
+import java.util.Map;
+
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -7,6 +9,7 @@ import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
 public abstract class Control {
@@ -19,14 +22,16 @@ public abstract class Control {
 	protected int rows;
 	protected boolean isVisible;
 	protected boolean isEnabled;
+	protected String skinId;
 	
 	protected ControlDrawableAdapter drawable;
 
 	protected Control() {		
 		setVisible(true);
 		setEnabled(true);
+		
+		skinId = "default";
 
-		ControlInputListener.instance.register(this);
 		drawable = new ControlDrawableAdapter(this);
 	}
 	
@@ -100,6 +105,12 @@ public abstract class Control {
 	}
 
 	protected void load(Node node, Layout layout) {
+		String sid = Utils.getAttributeValue(node, "skinId");
+		if (sid != null && !"".equals(sid))
+			skinId = sid;
+		
+		loadSkin();
+		
 		NamedNodeMap attributes = node.getAttributes();
 		for (int i = 0; i < attributes.getLength(); i++) {
 			Node attribute = attributes.item(i);
@@ -109,8 +120,7 @@ public abstract class Control {
 	}
 
 	protected void draw() {
-		if (isVisible)
-			drawable.draw();
+
 	}
 	
 	protected IDrawable getDrawable() {
@@ -129,13 +139,28 @@ public abstract class Control {
 
 	protected boolean isIn(float x, float y) {
 		Vector loc = drawable.getLocation();
+
 		float width = drawable.getWidth();
 		float height = drawable.getHeight();
 
-		return x > loc.x && x < loc.x + width && y > loc.y && y < loc.y + height;
+		return Utils.isIn(Game.viewportToScreenX(x), Game.viewportToScreenY(y), loc, width, height);
 	}
 
+	private void loadSkin() {		
+		Skin skin = UIManager.getSkin(skinId);
+		if (skin == null) 
+			return;
+		
+		Map<String, String> skinValues = skin.get(getNodeName());		
+		if (skinValues == null)
+			return;
+		
+		for (String key : skinValues.keySet())
+			setAttribute(key, skinValues.get(key));
+	}
+	
 	protected abstract ITexture getTexture();
+	protected abstract String getNodeName();
 
 	@Override
 	public String toString() {

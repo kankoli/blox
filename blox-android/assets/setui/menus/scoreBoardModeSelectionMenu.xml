@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <button
+        id="btnBack"
+        text="Back"
+        x="3"
+        y="4" />
+
+</layout>

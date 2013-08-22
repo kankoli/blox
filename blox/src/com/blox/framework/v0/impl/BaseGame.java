@@ -13,6 +13,7 @@ public abstract class BaseGame implements IGame {
 	}
 
 	protected void setScreen(IScreen screen) {
+		screen.init();
 		screenManager.setScreen(screen);
 	}
 

@@ -10,6 +10,11 @@ public class Image extends Control {
 	protected ITexture getTexture() {
 		return texture;
 	}
+
+	@Override
+	protected String getNodeName() {
+		return "image";
+	}
 	
 	@Override
 	protected void setAttribute(String attribute, String value) {

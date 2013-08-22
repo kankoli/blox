@@ -137,7 +137,7 @@ public final class Game {
 	public static float getScreenHeight() {
 		return viewport.getScreenHeight();
 	}
-	
+
 	public static float screenToViewportX(float x) {
 		return descale(x - getViewportOffsetX());
 	}
@@ -145,10 +145,24 @@ public final class Game {
 	public static float screenToViewportY(float y) {
 		return descale(y - getViewportOffsetY());
 	}
-	
+
 	public static Vector screenToViewport(Vector v) {
 		v.x = screenToViewportX(v.x);
 		v.y = screenToViewportY(v.y);
+		return v;
+	}
+	
+	public static float viewportToScreenX(float x) {
+		return scale(x) + getViewportOffsetX();
+	}
+	
+	public static float viewportToScreenY(float y) {
+		return scale(y) + getViewportOffsetY();
+	}
+	
+	public static Vector viewportToScreen(Vector v) {
+		v.x = viewportToScreenX(v.x);
+		v.y = viewportToScreenY(v.y);
 		return v;
 	}
 

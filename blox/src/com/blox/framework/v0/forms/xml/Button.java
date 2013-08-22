@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.Vector;
 
 public class Button extends Control {
 	private List<IClickListener> clickListeners;
+	private String text;
 
 	private Style style;
 
@@ -15,7 +17,7 @@ public class Button extends Control {
 		style = new Style();
 		clickListeners = new ArrayList<IClickListener>();
 
-		drawable = new AnimatedControlDrawableAdapter(this, 2f, 5f, 0.03f, 0.01f);
+		drawable = new ControlDrawableAdapter(this);
 	}
 
 	public void addClickListener(IClickListener listener) {
@@ -47,6 +49,9 @@ public class Button extends Control {
 		else if ("texture-disabled".equals(attribute))
 			style.textureDisabled = Game.getResourceManager().loadTexture(value);
 
+		else if ("text".equals(attribute))
+			text = value;
+
 		else
 			super.setAttribute(attribute, value);
 	}
@@ -58,7 +63,17 @@ public class Button extends Control {
 		return isTouched() ? style.textureFocused : style.textureDefault;
 	}
 
+	@Override
+	protected String getNodeName() {
+		return "button";
+	}
 
+	@Override
+	protected void draw() {
+		Vector loc = getDrawable().getLocation();
+		Game.getTextDrawer().draw(text, loc.x + 50, loc.y + 40);
+	}
+	
 	protected class Style {
 		public ITexture textureDefault;
 		public ITexture textureFocused;

@@ -6,6 +6,7 @@ import com.blox.framework.v0.impl.libgdx.GdxGame;
 import com.blox.maze.view.MazeGame;
 import com.blox.test.movers.MoverGame;
 import com.blox.set.view.CardGame;
+import com.blox.set.view.SetGame;
 
 public class Main {
 	public static void main(String[] args) {
@@ -22,6 +23,6 @@ public class Main {
 
 		// new LwjglApplication(new GdxGame(new MoverGame()), cfg);
 
-		new LwjglApplication(new GdxGame(new CardGame()), cfg);
+		new LwjglApplication(new GdxGame(new SetGame()), cfg);
 	}
 }
