@@ -28,8 +28,9 @@ public class DisposeManager implements IDisposeManager {
 
 	@Override
 	public void disposeAll() {
-		for (IDisposable disposable : objects)
-			disposable.dispose();
+		for (IDisposable disposable : objects) {
+			disposable.dispose();	
+		}
 		objects.clear();
 	}
 }
