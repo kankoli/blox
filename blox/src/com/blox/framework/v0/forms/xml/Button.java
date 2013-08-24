@@ -3,19 +3,23 @@ package com.blox.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blox.framework.v0.IActionHandler;
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.TextDrawer;
 
-public class Button extends Control {
+public class Button extends DrawableControl {
 	private List<IClickListener> clickListeners;
-
+	private String text;
+	private IFont font;
 	private Style style;
 
 	Button() {
 		style = new Style();
 		clickListeners = new ArrayList<IClickListener>();
-
-		drawable = new AnimatedControlDrawableAdapter(this, 2f, 5f, 0.03f, 0.01f);
+		font = FontManager.defaultFont;
 	}
 
 	public void addClickListener(IClickListener listener) {
@@ -47,8 +51,25 @@ public class Button extends Control {
 		else if ("texture-disabled".equals(attribute))
 			style.textureDisabled = Game.getResourceManager().loadTexture(value);
 
+		else if ("text".equals(attribute))
+			text = value;
+
+		else if ("font".equals(attribute))
+			font = FontManager.get(value);
+		
 		else
 			super.setAttribute(attribute, value);
+	}
+
+	@Override
+	protected void setAction(String action) {
+		final IActionHandler handler = Game.getActionHandlerFactory().create(action);
+		addClickListener(new IClickListener() {
+			@Override
+			public void onClick(Control control) {
+				handler.handle();				
+			}
+		});
 	}
 
 	@Override
@@ -58,7 +79,18 @@ public class Button extends Control {
 		return isTouched() ? style.textureFocused : style.textureDefault;
 	}
 
+	@Override
+	protected String getNodeName() {
+		return "button";
+	}
 
+	@Override
+	protected void draw() {
+		super.draw();
+		if (text != null && !"".equals(text.trim()))
+			TextDrawer.draw(font, text, drawable);
+	}
+	
 	protected class Style {
 		public ITexture textureDefault;
 		public ITexture textureFocused;

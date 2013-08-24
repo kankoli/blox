@@ -1,45 +1,29 @@
 package com.blox.framework.v0.forms.xml;
 
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
+import java.util.Map;
 
-import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IInputManager;
-import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.Vector;
 
 public abstract class Control {
 	protected static final IInputManager inputManager = Game.getInputManager();
 
 	protected String id;
-	protected int x;
-	protected int y;
 	protected int cols;
 	protected int rows;
 	protected boolean isVisible;
 	protected boolean isEnabled;
-	
-	protected ControlDrawableAdapter drawable;
+	protected String skinId;
 
-	protected Control() {		
-		setVisible(true);
-		setEnabled(true);
-
-		ControlInputListener.instance.register(this);
-		drawable = new ControlDrawableAdapter(this);
+	protected Control() {
+		isVisible = true;
+		isEnabled = true;
+		
+		skinId = Game.getParam("default-skin");
 	}
 	
 	public String getId() {
 		return id;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
 	}
 
 	public int getCols() {
@@ -85,10 +69,6 @@ public abstract class Control {
 	protected void setAttribute(String attribute, String value) {
 		if ("id".equals(attribute))
 			id = value;
-		else if ("x".equals(attribute))
-			x = Integer.parseInt(value);
-		else if ("y".equals(attribute))
-			y = Integer.parseInt(value);
 		else if ("cols".equals(attribute))
 			cols = Integer.parseInt(value);
 		else if ("rows".equals(attribute))
@@ -99,82 +79,35 @@ public abstract class Control {
 			setVisible("true".equals(value));
 	}
 
-	protected void load(Node node, Layout layout) {
-		NamedNodeMap attributes = node.getAttributes();
-		for (int i = 0; i < attributes.getLength(); i++) {
-			Node attribute = attributes.item(i);
-			setAttribute(attribute.getNodeName(), attribute.getNodeValue());
-		}
-		drawable.update(layout);
+	protected void loadSkin() {
+		Skin skin = UIManager.getSkin(skinId);
+		if (skin == null) 
+			return;
+		
+		Map<String, String> skinValues = skin.get(getNodeName());		
+		if (skinValues == null)
+			return;
+		
+		for (String key : skinValues.keySet())
+			setAttribute(key, skinValues.get(key));
 	}
 
-	protected void draw() {
-		if (isVisible)
-			drawable.draw();
+	protected void initAttributes(Map<String, String> attributes) {
+		String sid = attributes.get("skin-id");
+		if (sid != null && !"".equals(sid))
+			skinId = sid;
+		
+		loadSkin();
+		
+		for (String key : attributes.keySet())
+			setAttribute(key, attributes.get(key));
 	}
 	
-	protected IDrawable getDrawable() {
-		return drawable;
-	}
-
-	protected boolean isTouched() {
-		if (!inputManager.isTouched())
-			return false;
-
-		float x = inputManager.getX();
-		float y = inputManager.getY();
-
-		return isIn(x, y);
-	}
-
-	protected boolean isIn(float x, float y) {
-		Vector loc = drawable.getLocation();
-		float width = drawable.getWidth();
-		float height = drawable.getHeight();
-
-		return x > loc.x && x < loc.x + width && y > loc.y && y < loc.y + height;
-	}
-
-	protected abstract ITexture getTexture();
+	protected abstract String getNodeName();
 
 	@Override
 	public String toString() {
 		return id;
 	}
 
-	protected void onTouchDown() {
-
-	}
-
-	protected void onTouchUp() {
-
-	}
-
-	protected void onTouchDragged() {
-
-	}
-
-	protected void onTap() {
-
-	}
-
-	protected void onLongPress() {
-
-	}
-
-	protected void onKeyDown(int keycode) {
-
-	}
-
-	protected void onKeyUp(int keycode) {
-
-	}
-
-	protected void onKeyTyped(char character) {
-
-	}
-
-	protected void onMouseOver() {
-
-	}
 }

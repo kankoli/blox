@@ -1,11 +1,13 @@
 package com.blox.framework.v0;
 
 public interface IScreenManager {
+	void init();
+	
 	void update();
 
 	void render();
 
-	void setScreen(IScreen screen);
-
-	void setScreenSwitcher(IScreenSwicther switcher);
+	void switchTo(String screenId);
+	
+	IScreen getScreen(String screenId);
 }

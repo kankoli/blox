@@ -3,33 +3,55 @@ package com.blox.framework.v0.impl;
 import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.ICompositeInputListener;
-import com.blox.framework.v0.IDrawManager;
+import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IScreen;
-import com.blox.framework.v0.forms.xml.Layout;
-import com.blox.framework.v0.forms.xml.UIManager;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.GameMetadata;
+import com.blox.framework.v0.util.ScreenMetadata;
+import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
 public abstract class Screen implements IInputListener, IScreen {
+	private String id;
 	private IMoveManager moveManager;
-	private IDrawManager drawManager;
+	private IDrawer drawer;
 	private ICollisionManager collisionManager;
 	private ICompositeInputListener inputListener;
-	
+
+	private boolean hasInited;
+
 	protected Screen() {
+	}
+
+	public static Screen load(String screenId) {
+		ScreenMetadata metadata = GameMetadata.getScreen(screenId);
+		if (metadata == null)
+			return null;
+
+		Screen screen = (Screen) Utils.createInstance(metadata.getScreenClass());
+		screen.id = screenId;
+		return screen;
+	}
+
+	@Override
+	public String getId() {
+		return id;
 	}
 
 	@Override
 	public void init() {
-		moveManager = Game.getProvider().createMoveManager();
-		drawManager = Game.getProvider().createDrawManager();
-		collisionManager = Game.getProvider().createCollisionManager();
+		if (hasInited)
+			return;
+		moveManager = Game.createMoveManager();
+		drawer = Game.createDrawer();
+		collisionManager = Game.createCollisionManager();
 		inputListener = new CompositeInputListener();
 		inputListener.register(this);
+		hasInited = true;
 	}
 
 	@Override
@@ -58,17 +80,13 @@ public abstract class Screen implements IInputListener, IScreen {
 	}
 
 	protected final void draw() {
-		drawManager.draw();
+		drawer.draw();
 	}
 
 	protected final void collide() {
 		collisionManager.collide();
 	}
 
-	protected final void setLayout(Layout layout) {
-		UIManager.setLayout(layout, drawManager);
-	}
-	
 	public final void registerMovable(IMovable obj) {
 		moveManager.register(obj);
 	}
@@ -78,11 +96,11 @@ public abstract class Screen implements IInputListener, IScreen {
 	}
 
 	public final void registerDrawable(IDrawable obj, int layer) {
-		drawManager.register(obj, layer);
+		drawer.register(obj, layer);
 	}
 
 	public final void unregisterDrawable(IDrawable obj) {
-		drawManager.unregister(obj);
+		drawer.unregister(obj);
 	}
 
 	public final void registerCollisionGroup(ICollisionGroup obj) {
@@ -100,7 +118,7 @@ public abstract class Screen implements IInputListener, IScreen {
 	public final void unregisterInputListener(IInputListener obj) {
 		inputListener.unregister(obj);
 	}
-	
+
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		return false;

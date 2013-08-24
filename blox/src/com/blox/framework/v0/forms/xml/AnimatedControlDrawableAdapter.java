@@ -14,7 +14,7 @@ class AnimatedControlDrawableAdapter extends ControlDrawableAdapter {
 	private float dx;
 	private float dy;
 
-	protected AnimatedControlDrawableAdapter(Control control, float cx, float cy, float dx, float dy) {
+	protected AnimatedControlDrawableAdapter(DrawableControl control, float cx, float cy, float dx, float dy) {
 		super(control);
 		scale = new Vector();
 		rotation = new Rotation();
@@ -25,7 +25,7 @@ class AnimatedControlDrawableAdapter extends ControlDrawableAdapter {
 	}
 
 	@Override
-	protected void update(Layout layout) {
+	protected void update(Form layout) {
 		super.update(layout);
 
 		rotation.origin.x = getLocation().x + getWidth() / 2;

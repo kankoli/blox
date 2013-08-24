@@ -3,7 +3,7 @@ package com.blox.framework.v0.forms.xml;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 
-public class CheckBox extends Control {
+public class CheckBox extends DrawableControl {
 	private boolean isChecked;
 	private Style style;
 	
@@ -26,6 +26,11 @@ public class CheckBox extends Control {
 	@Override
 	protected ITexture getTexture() {
 		return isChecked ? style.textureChecked : style.textureUnchecked;
+	}
+
+	@Override
+	protected String getNodeName() {
+		return "checkbox";
 	}
 
 	@Override

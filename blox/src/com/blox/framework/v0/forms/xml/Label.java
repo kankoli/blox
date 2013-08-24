@@ -1,13 +1,17 @@
 package com.blox.framework.v0.forms.xml;
 
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Color;
+import com.blox.framework.v0.util.FontManager;
+import com.blox.framework.v0.util.TextDrawer;
 
-public class Label extends Control {
+public class Label extends DrawableControl {
 	private String text;
 	private Color color;
 	private boolean centered;
-	private float fontScale;
+	private IFont font;
+	private int alignment;
 	
 	public String getText() {
 		return text;
@@ -35,34 +39,41 @@ public class Label extends Control {
 	public void setCentered(boolean centered) {
 		this.centered = centered;
 	}
-
-	public float getFontScale() {
-		return fontScale;
-	}
-
-	public void setFontScale(float fontScale) {
-		this.fontScale = fontScale;
-	}
 	
 	public Label() {
-		drawable = new LabelDrawableAdapter(this);
+		font = FontManager.defaultFont;
 	}
 	
 	@Override
 	protected ITexture getTexture() {
 		return null;
 	}
-		
+
+	@Override
+	protected String getNodeName() {
+		return "label";
+	}
+	
+	@Override
+	protected void draw() {
+		TextDrawer.draw(font, text, drawable, alignment);
+	}
+	
 	@Override
 	protected void setAttribute(String attribute, String value) {
 		if ("text".equals(attribute))
 			text = value;
-		if ("color".equals(attribute))
+		
+		else if ("color".equals(attribute))
 			color = Color.fromHex(value);
-		if ("centered".equals(attribute))
-			setCentered("true".equals(value));
-		if ("font-scale".equals(attribute))
-			setFontScale(Float.parseFloat(value));
-		super.setAttribute(attribute, value);
+		
+		else if ("align".equals(attribute))
+			alignment = TextDrawer.getAlignment(value);
+		
+		else if ("font".equals(attribute))
+			font = FontManager.get(value);
+		
+		else 
+			super.setAttribute(attribute, value);
 	}
 }

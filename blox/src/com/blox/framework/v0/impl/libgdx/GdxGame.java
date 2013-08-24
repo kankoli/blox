@@ -7,21 +7,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.blox.framework.v0.IGame;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.GameMetadata;
+import com.blox.framework.v0.util.Utils;
 
 public class GdxGame implements ApplicationListener {
 	static SpriteBatch spriteBatch;
 
+	private String gameXml;
 	private IGame game;
 
-	public GdxGame(IGame game) {
-		this.game = game;
+	public GdxGame(String gameXml) {
+		this.gameXml = gameXml;
 	}
 
 	private void initGdx() {
 		Gdx.input.setCatchBackKey(true);
 		Texture.setEnforcePotImages(false);
-		Game.initialize(new GdxGameProvider());
-		Game.initViewport(game.getVirtualWidth(), game.getVirtualHeight(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Game.initialize(new GdxGameProvider(gameXml));
 		Game.getInputManager().activate();
 	}
 
@@ -31,6 +33,7 @@ public class GdxGame implements ApplicationListener {
 
 		spriteBatch = new SpriteBatch();
 
+		game = (IGame) Utils.createInstance(GameMetadata.getGameClass());
 		game.init();
 	}
 

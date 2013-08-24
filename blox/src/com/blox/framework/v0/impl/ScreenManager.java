@@ -1,32 +1,59 @@
 package com.blox.framework.v0.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.blox.framework.v0.IScreen;
 import com.blox.framework.v0.IScreenManager;
-import com.blox.framework.v0.IScreenSwicther;
-import com.blox.framework.v0.IScreenSwitchListener;
+import com.blox.framework.v0.IView;
+import com.blox.framework.v0.IViewFinder;
+import com.blox.framework.v0.IViewSwitcher;
+import com.blox.framework.v0.util.Game;
 
-public class ScreenManager implements IScreenManager, IScreenSwitchListener {
+public final class ScreenManager implements IScreenManager, IViewFinder {
+
+	public static final IScreenManager instance = new ScreenManager();
+
+	private Map<String, IScreen> screens;
+
 	private IScreen currentScreen;
-	private IScreenSwicther switcher;
+	private IViewSwitcher switcher;
 
-	public ScreenManager() {
-		this(new DefaultScreenSwitcher());
+	private ScreenManager() {
+		screens = new HashMap<String, IScreen>();
 	}
 
-	public ScreenManager(IScreenSwicther switcher) {
-		setScreenSwitcher(switcher);
+	private void initScreenSwitcher() {
+		String screenSwitcher = Game.getParam("screen-switcher");
+		switcher = ViewSwitcher.createInstance(screenSwitcher);
+		switcher.setViewFinder(this);
+	}
+
+	private void switchToDefaultScreen() {
+		switchTo(Game.getParam("default-screen"));
 	}
 
 	@Override
-	public void setScreenSwitcher(IScreenSwicther switcher) {
-		this.switcher = switcher;
-		this.switcher.setListener(this);
+	public IScreen getScreen(String screenId) {
+		if (screens.containsKey(screenId))
+			return screens.get(screenId);
+
+		IScreen screen = Screen.load(screenId);
+		screen.init();
+		screens.put(screenId, screen);
+		return screen;
 	}
 
 	@Override
-	public void setScreen(IScreen screen) {
-		switcher.switchTo(screen);
-		currentScreen = screen;
+	public void init() {
+		initScreenSwitcher();
+		switchToDefaultScreen();
+	}
+
+	@Override
+	public void switchTo(String screenId) {
+		switcher.switchTo(screenId);
+		currentScreen = getScreen(screenId);
 	}
 
 	@Override
@@ -44,9 +71,7 @@ public class ScreenManager implements IScreenManager, IScreenSwitchListener {
 	}
 
 	@Override
-	public void switchEnd(IScreen oldScreen, IScreen newScreen) {
-		if (oldScreen != null)
-			oldScreen.deactivated();
-		newScreen.activated();
+	public IView findView(String id) {
+		return getScreen(id);
 	}
 }

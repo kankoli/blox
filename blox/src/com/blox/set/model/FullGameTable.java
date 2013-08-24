@@ -13,7 +13,6 @@ public class FullGameTable extends GameObject {
 	private static final int setCardCount = 3;
 	private static final int numberOfCards = rows * cols;
 
-	private static final int TableWidth = 550;
 	private static final int TableHeight = 550;
 	
 	private Card[] deck;

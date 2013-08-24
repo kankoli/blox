@@ -1,6 +1,5 @@
 package com.blox.maze.view;
 
-import com.blox.framework.v0.util.Game;
 import com.blox.maze.model.Background;
 import com.blox.maze.util.R;
 
@@ -24,7 +23,6 @@ public class SplashScreen extends MazeScreenBase {
 	@Override
 	public void render() {
 		super.render();
-		Game.getTextDrawer().draw("Loading...", Game.getScreenWidth() / 2 - 30, Game.getScreenHeight() / 2 - 10);
 	}
 	
 	private void load() {

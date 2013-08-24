@@ -10,14 +10,4 @@ public class MoverGame extends BaseGame {
 		sc.init();
 		setScreen(sc);
 	}
-	
-	@Override
-	public float getVirtualHeight() {
-		return 800;
-	}
-
-	@Override
-	public float getVirtualWidth() {
-		return 450;
-	}
 }

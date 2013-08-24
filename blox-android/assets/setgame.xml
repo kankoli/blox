@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game
+    id="SetGame"
+    class="com.blox.set.view.SetGame" >
+
+    <params>
+
+        <param
+            key="virtual-width"
+            value="550" />
+
+        <param
+            key="virtual-height"
+            value="800" />
+
+        <param
+            key="default-font"
+            value="open-sans-400" />
+
+        <param
+            key="default-skin"
+            value="ppt" />
+
+        <param
+            key="default-screen"
+            value="menu" />
+
+        <param
+            key="screen-switcher"
+            value="sliding,0.5" />
+    </params>
+
+    <screens>
+
+        <screen
+            id="challenge"
+            class="com.blox.set.view.ChallengeModeScreen" />
+
+        <screen
+            id="learning"
+            class="com.blox.set.view.LearningModeScreen" />
+
+        <screen
+            id="multiplayer"
+            class="com.blox.set.view.MultiplayerModeScreen" />
+
+        <screen
+            id="menu"
+            class="com.blox.set.view.MenuScreen" />
+
+        <screen
+            id="practice"
+            class="com.blox.set.view.PracticeModeScreen" />
+
+        <screen
+            id="relax"
+            class="com.blox.set.view.RelaxModeScreen" />
+
+        <screen
+            id="splash"
+            class="com.blox.set.view.SplashScreen" />
+
+        <screen
+            id="scoreBoard"
+            class="com.blox.set.view.ScoreBoardScreen" />
+    </screens>
+
+    <forms>
+
+        <form id="mainMenu" >
+
+            <button
+                id="btnPlay"
+                action="form=modeSelection"
+                text="Play"
+                y="24" />
+
+            <button
+                id="btnSetting"
+                action="form=settings"
+                text="Settings"
+                y="20" />
+
+            <button
+                id="btnLogin"
+                action="form=login"
+                text="Login"
+                y="16" />
+
+            <button
+                id="btnScoreBoard"
+                action="form=scoreBoardModeSelection"
+                text="Score Board"
+                y="12" />
+
+            <button
+                id="btnExitGame"
+                action="exit"
+                text="Exit Game"
+                y="4" />
+        </form>
+
+        <form id="modeSelection" >
+
+            <button
+                id="btnLearning"
+                action="screen=learning"
+                text="Learning"
+                y="26" />
+
+            <button
+                id="btnPractice"
+                action="screen=practice"
+                text="Practice"
+                y="22" />
+
+            <button
+                id="btnRelax"
+                action="screen=relax"
+                text="Relax"
+                y="18" />
+
+            <button
+                id="btnChallenge"
+                action="screen=challenge"
+                text="Challenge"
+                y="14" />
+
+            <button
+                id="btnMultiplayer"
+                action="screen=multiplayer"
+                text="Multiplayer"
+                y="10" />
+
+            <button
+                id="btnBack"
+                action="form=mainMenu"
+                text="Back"
+                y="4" />
+        </form>
+
+        <form id="settings" >
+
+            <label
+                id="lblSound"
+                cols="10"
+                text="Sound"
+                x="2"
+                y="22" />
+
+            <checkbox
+                id="chkSounds"
+                action="toggle=sound"
+                cols="2"
+                x="13"
+                y="22" />
+
+            <label
+                id="lblMusic"
+                cols="10"
+                text="Music"
+                x="2"
+                y="18" />
+
+            <checkbox
+                id="chkMusic"
+                action="toggle=music"
+                cols="2"
+                x="13"
+                y="18" />
+
+            <label
+                id="lblVibration"
+                cols="10"
+                text="Vibration"
+                x="2"
+                y="14" />
+
+            <checkbox
+                id="chkVibration"
+                action="toggle=vibration"
+                cols="2"
+                x="13"
+                y="14" />
+
+            <button
+                id="btnBack"
+                action="form=mainMenu"
+                text="Back"
+                y="4" />
+        </form>
+
+        <form id="login" >
+
+            <button
+                id="txtUsername"
+                cols="14"
+                text="Username"
+                x="1"
+                y="24" />
+
+            <button
+                id="txtPassword"
+                cols="14"
+                text="Password"
+                x="1"
+                y="21" />
+
+            <button
+                id="btnLogin"
+                action="login"
+                cols="6"
+                text="Login"
+                x="1"
+                y="17" />
+
+            <button
+                id="btnSignUp"
+                action="form=signup"
+                cols="6"
+                text="Sign Up"
+                x="9"
+                y="17" />
+
+            <button
+                id="btnLoginFacebook"
+                cols="14"
+                text="Login With Facebook"
+                x="1"
+                y="10" />
+
+            <button
+                id="btnBack"
+                action="form=mainMenu"
+                text="Back"
+                y="4" />
+        </form>
+
+        <form id="signup" >
+
+            <button
+                id="txtUsername"
+                cols="14"
+                text="Username"
+                x="1"
+                y="24" />
+
+            <button
+                id="txtEmail"
+                cols="14"
+                text="Email"
+                x="1"
+                y="21" />
+
+            <button
+                id="txtPassword"
+                cols="14"
+                text="Password"
+                x="1"
+                y="18" />
+
+            <button
+                id="txtPasswordRepeat"
+                cols="14"
+                text="Password Repeat"
+                x="1"
+                y="15" />
+
+            <button
+                id="btnSignUp"
+                action="signup"
+                text="Sign Up"
+                y="10" />
+
+            <button
+                id="btnBack"
+                action="form=login"
+                text="Back"
+                y="4" />
+        </form>
+
+        <form id="scoreBoardModeSelection" >
+
+            <button
+                id="btnPractice"
+                text="Practice"
+                action="screen=scoreBoard"
+                y="20" />
+
+            <button
+                id="btnChallenge"
+                text="Challenge"
+                action="screen=scoreBoard"
+                y="16" />
+
+            <button
+                id="btnMultiplayer"
+                text="Multiplayer"
+                action="screen=scoreBoard"
+                y="12" />
+
+            <button
+                id="btnBack"
+                action="form=mainMenu"
+                text="Back"
+                y="4" />
+        </form>
+    </forms>
+
+    <fonts>
+
+        <font
+            id="open-sans-300"
+            path="fonts/open-sans-300.otf"
+            sizes="12,18,24,36,48,60,72" />
+
+        <font
+            id="open-sans-400"
+            path="fonts/open-sans-400.otf"
+            sizes="12,18,24,36,48,60,72" />
+    </fonts>
+
+    <skins>
+
+        <skin id="ppt" >
+
+            <form
+                cols="16"
+                rows="32" />
+
+            <button
+                cols="8"
+                rows="2"
+                texture-default="setui/button-default.png"
+                texture-disabled="setui/button-disabled.png"
+                texture-focused="setui/button-focused.png"
+                x="4" />
+
+            <checkbox
+                rows="2"
+                texture-checked="setui/checkbox-checked.png"
+                texture-unchecked="setui/checkbox-unchecked.png" />
+
+            <label
+                align="W"
+                rows="2"
+                color="#fff" />
+        </skin>
+    </skins>
+
+</game>

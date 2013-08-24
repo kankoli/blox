@@ -10,8 +10,6 @@ public interface IResourceManager {
 	IMusic loadMusic(String resourcePath);
 
 	IVideo loadVideo(String resourcePath);
-
-	IFont loadFont(String resourcePath);
 	
 	InputStream readFile(String resourcePath);
 }

@@ -15,7 +15,6 @@ public class Mover2 extends Mover1 {
 	private float slowDownStartPos;
 	private float slowDownStartTime;
 	private int state;
-	private float timeElapsed;
 	private float slowDownTimeElapsed;
 
 	private SlowDownCalculator calcX;
@@ -53,7 +52,6 @@ public class Mover2 extends Mover1 {
 			loc.y = start.y;
 		}
 		else {
-			timeElapsed += dt;
 			float dist = target.dist(loc);
 
 			if (dist > distToTarget) {
@@ -63,7 +61,6 @@ public class Mover2 extends Mover1 {
 				}
 
 				state = SpeedUp;
-				timeElapsed = 0;
 				slowDownTimeElapsed = 0;
 
 				loc.x = target.x;
@@ -111,8 +108,8 @@ public class Mover2 extends Mover1 {
 	}
 
 	public void drawInfo() {
-		Game.getTextDrawer().draw(slowDownTimeElapsed + "", 10, Game.getViewportHeight() - 20);
-		Game.getTextDrawer().draw(timeElapsed + "", 10, Game.getViewportHeight() - 40);
+//		Game.getTextDrawer().draw(slowDownTimeElapsed + "", 10, Game.getViewportHeight() - 20);
+//		Game.getTextDrawer().draw(timeElapsed + "", 10, Game.getViewportHeight() - 40);
 	}
 
 	public static class SlowDownCalculator {

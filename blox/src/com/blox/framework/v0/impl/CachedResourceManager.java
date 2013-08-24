@@ -2,7 +2,6 @@ package com.blox.framework.v0.impl;
 
 import java.io.InputStream;
 
-import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.IMusic;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISound;
@@ -19,7 +18,6 @@ public class CachedResourceManager implements IResourceManager {
 	private IResourceLoader<ISound> soundLoader;
 	private IResourceLoader<IMusic> musicLoader;
 	private IResourceLoader<IVideo> videoLoader;
-	private IResourceLoader<IFont> fontLoader;
 
 	public CachedResourceManager(final IResourceManager resManager) {
 		this.cache = new Cache();
@@ -51,13 +49,6 @@ public class CachedResourceManager implements IResourceManager {
 				return resManager.loadVideo(resourcePath);
 			}
 		};
-
-		this.fontLoader = new IResourceLoader<IFont>() {
-			@Override
-			public IFont load(String resourcePath) {
-				return resManager.loadFont(resourcePath);
-			}
-		};
 	
 		this.resManager = resManager;
 	}
@@ -80,11 +71,6 @@ public class CachedResourceManager implements IResourceManager {
 	@Override
 	public IVideo loadVideo(String resourcePath) {
 		return loadResource(resourcePath, videoLoader);
-	}
-
-	@Override
-	public IFont loadFont(String resourcePath) {
-		return loadResource(resourcePath, fontLoader);
 	}
 
 	@Override

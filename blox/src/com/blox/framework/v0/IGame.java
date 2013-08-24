@@ -6,8 +6,4 @@ public interface IGame {
 	void update();
 
 	void render();
-
-	float getVirtualHeight();
-
-	float getVirtualWidth();
 }

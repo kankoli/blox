@@ -300,7 +300,7 @@ public class MazeController extends StateManager {
 	 * lokumFalling} state when {@link com.blox.maze.model.Lokum Lokum} lands on
 	 * an {@link com.blox.maze.model.PortalDoor PortalDoor}. The collided
 	 * PortalDoor's are recorded. Lokum is unregistered from the
-	 * {@link com.blox.framework.v0.impl.DrawManager DrawManager}. FSM is
+	 * {@link com.blox.framework.v0.impl.Drawer DrawManager}. FSM is
 	 * advanced to the next state,
 	 * {@link com.blox.maze.controller.MazeController#lokumOnlokumOnPortal
 	 * lokumOnPortal}, which is registered to listen for animation-end of the
@@ -371,7 +371,7 @@ public class MazeController extends StateManager {
 	 * lokumOnPortal} state (when animation ends). Teleports
 	 * {@link com.blox.maze.model.Lokum Lokum} to the exit
 	 * {@link com.blox.maze.model.PortalDoor PortalDoor}. Lokum is registered
-	 * back to the {@link com.blox.framework.v0.impl.DrawManager DrawManager}
+	 * back to the {@link com.blox.framework.v0.impl.Drawer DrawManager}
 	 * and {@link com.blox.maze.controller.MazeController#lokumOnlokumOnPortal
 	 * lokumOnPortal} is unregistered from listening to PortalDoor
 	 * animation-end. FSM is advanced to
