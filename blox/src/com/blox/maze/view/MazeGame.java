@@ -1,8 +1,6 @@
 package com.blox.maze.view;
 
 import com.blox.framework.v0.impl.BaseGame;
-import com.blox.framework.v0.impl.FadingScreenSwitcher;
-import com.blox.framework.v0.util.Game;
 
 public class MazeGame extends BaseGame {
 	public static final float virtualWidth = 550;
@@ -24,10 +22,7 @@ public class MazeGame extends BaseGame {
 		splashScreen.init();
 		mainMenuScreen.init();
 		mazeScreen.init();
-
-		Game.getTextDrawer().getFont().setScale(1.25f);
 		
-		setScreenSwitcher(new FadingScreenSwitcher(0.5f));
 		setScreen(mainMenuScreen);
 	}
 	
@@ -41,15 +36,5 @@ public class MazeGame extends BaseGame {
 	
 	void showMaze() {
 		setScreen(mazeScreen);
-	}
-
-	@Override
-	public float getVirtualWidth() {
-		return virtualWidth;
-	}
-	
-	@Override
-	public float getVirtualHeight() {
-		return virtualHeight;
 	}
 }

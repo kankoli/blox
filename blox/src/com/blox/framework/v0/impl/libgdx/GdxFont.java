@@ -1,6 +1,5 @@
 package com.blox.framework.v0.impl.libgdx;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.blox.framework.v0.IFont;
@@ -10,23 +9,12 @@ import com.blox.framework.v0.util.Vector;
 
 public class GdxFont implements IFont {
 	BitmapFont font;
-
-	GdxFont() {
-		this(new BitmapFont());
-	}
-
-	GdxFont(String fontFile) {
-		this(new BitmapFont(Gdx.files.internal(fontFile), false));
-	}
+	private Vector size;
 
 	GdxFont(BitmapFont font) {
 		this.font = font;
+		this.size = new Vector();
 		Game.getDisposeManager().register(this);
-	}
-
-	@Override
-	public void setScale(float scale) {
-		font.setScale(Game.scale(scale));
 	}
 
 	@Override
@@ -39,10 +27,8 @@ public class GdxFont implements IFont {
 		font.dispose();
 	}
 
-	private Vector size = new Vector();
-
 	@Override
-	public Vector calculateSize(String text) {
+	public Vector getSize(String text) {
 		TextBounds bounds = font.getBounds(text);
 		size.x = bounds.width;
 		size.y = bounds.height;
@@ -50,7 +36,9 @@ public class GdxFont implements IFont {
 	}
 
 	@Override
-	public float getLineHeight() {
-		return font.getLineHeight();
+	public void draw(String text, float x, float y) {
+		com.badlogic.gdx.graphics.Color fontColor = font.getColor();
+		font.setColor(fontColor.r, fontColor.g, fontColor.b, Game.renderingAlpha);
+		font.drawMultiLine(GdxGame.spriteBatch, text, x, y);
 	}
 }

@@ -1,5 +1,6 @@
 package com.blox.set.view;
 
-public class RelaxModeScreen {
+
+public class RelaxModeScreen extends SetGameScreen {
 
 }

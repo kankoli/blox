@@ -3,32 +3,32 @@ package com.blox.framework.v0.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blox.framework.v0.IDrawManager;
-import com.blox.framework.v0.IDrawable;
+import com.blox.framework.v0.IDrawer;
+import com.blox.framework.v0.IDrawerManager;
 
-public class DrawManager implements IDrawManager {
+public class DrawerManager implements IDrawerManager {
 
 	private class Layer {
-		int index;
-		List<IDrawable> objects = new ArrayList<IDrawable>();
+		private int index;
+		private List<IDrawer> objects = new ArrayList<IDrawer>();
 
-		void register(IDrawable obj) {
+		private void register(IDrawer obj) {
 			objects.add(obj);
 		}
 
-		boolean unregister(IDrawable obj) {
+		private boolean unregister(IDrawer obj) {
 			return objects.remove(obj);
 		}
 	}
 
-	List<Layer> layers;
+	private List<Layer> layers;
 
-	public DrawManager() {
+	public DrawerManager() {
 		layers = new ArrayList<Layer>();
 	}
 
 	@Override
-	public void register(IDrawable obj, int layerIndex) {
+	public void register(IDrawer obj, int layerIndex) {
 
 		unregister(obj);
 
@@ -50,18 +50,18 @@ public class DrawManager implements IDrawManager {
 	}
 
 	@Override
-	public void unregister(IDrawable obj) {
-		for (int i = 0; i < layers.size(); i++) {
-			if (layers.get(i).unregister(obj))
+	public void unregister(IDrawer obj) {
+		for (Layer layer : layers) {
+			if (layer.unregister(obj))
 				return;
 		}
 	}
 
 	@Override
 	public void draw() {
-		for (int i = 0; i < layers.size(); i++) {
-			for (int j = 0; j < layers.get(i).objects.size(); j++) {
-				layers.get(i).objects.get(j).draw();
+		for (Layer layer : layers) {
+			for (IDrawer drawer : layer.objects) {
+				drawer.draw();
 			}
 		}
 	}

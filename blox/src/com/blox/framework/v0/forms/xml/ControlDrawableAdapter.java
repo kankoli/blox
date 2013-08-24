@@ -14,14 +14,14 @@ class ControlDrawableAdapter implements IDrawable {
 	private float height;
 	private Vector location;
 	
-	private final Control control;
+	private final DrawableControl control;
 
-	protected ControlDrawableAdapter(Control control) {
+	protected ControlDrawableAdapter(DrawableControl control) {
 		this.control = control;
 		this.location = new Vector();	
 	}
 	
-	protected void update(Layout layout) {
+	protected void update(Form layout) {
 		float xScale = Game.getScreenWidth() / layout.getCols();
 		float yScale = Game.getScreenHeight() / layout.getRows();
 
@@ -79,9 +79,6 @@ class ControlDrawableAdapter implements IDrawable {
 
 	@Override
 	public void draw() {
-		if (!control.isVisible)
-			return;
-		control.getTexture().draw(this);
 		control.draw();
 	}
 }

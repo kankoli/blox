@@ -1,5 +1,6 @@
 package com.blox.framework.v0;
 
+
 public interface IGameProvider {
 	IResourceManager createResourceManager();
 
@@ -11,17 +12,21 @@ public interface IGameProvider {
 
 	ICollisionDetectorFactory createCollisionDetectorFactory();
 
-	IDrawManager createDrawManager();
+	IDrawer createDrawer();
+
+	IDrawerManager createDrawerManager();
 
 	IMoveManager createMoveManager();
 
 	ICollisionManager createCollisionManager();
 
-	IScreenFader createScreenFader();
-
-	ITextDrawer createTextDrawer();
+	IFontFactory createFontFactory();
 
 	IDisposeManager createDisposeManager();
+	
+	IActionHandlerFactory createActionHandlerFactory();
+	
+	String getMetadataFile();
 	
 	void exit();
 }

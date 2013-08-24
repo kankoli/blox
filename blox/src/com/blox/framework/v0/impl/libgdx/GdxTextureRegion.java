@@ -12,8 +12,8 @@ class GdxTextureRegion implements ITexture {
 	}
 
 	@Override
-	public void draw(IDrawable drawinfo) {
-		GdxTextureRegionDrawer.instance.draw(textureRegion, drawinfo);
+	public void draw(IDrawable drawable) {
+		GdxTextureRegionDrawer.instance.draw(textureRegion, drawable);
 	}
 
 	@Override

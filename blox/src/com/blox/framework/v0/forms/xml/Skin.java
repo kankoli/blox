@@ -1,7 +1,12 @@
 package com.blox.framework.v0.forms.xml;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.blox.framework.v0.util.ControlMetadata;
+import com.blox.framework.v0.util.GameMetadata;
+import com.blox.framework.v0.util.SkinMetadata;
 
 public class Skin {
 	private Map<String, Map<String, String>> values;
@@ -30,5 +35,23 @@ public class Skin {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	static Skin load(String skinId) {
+		SkinMetadata metadata = GameMetadata.getSkin(skinId);
+		if (metadata == null)
+			return null;
+		
+		Skin skin = new Skin();
+		skin.id = metadata.getId();
+		
+		List<ControlMetadata> controlsMetadata = metadata.getControls();
+		for (ControlMetadata controlMetadata : controlsMetadata) {
+			for (String key : controlMetadata.getAttributes().keySet()) {
+				skin.put(controlMetadata.getTag(), key, controlMetadata.getAttributes().get(key));
+			}
+		}
+		
+		return skin;
 	}
 }

@@ -13,25 +13,27 @@ class GdxTextureRegionDrawer {
 
 	}
 
-	public void draw(TextureRegion textureRegion , IDrawable drawinfo) {
+	public void draw(TextureRegion textureRegion , IDrawable drawable) {
 
-		float scale = drawinfo.ignoreViewportScaling() ? 1f : Game.getScale();
-		float offsetX = drawinfo.ignoreViewportOffset() ? 0f : Game.getViewportOffsetX();
-		float offsetY = drawinfo.ignoreViewportOffset() ? 0f : Game.getViewportOffsetY();
+		float scale = drawable.ignoreViewportScaling() ? 1f : Game.getScale();
+		float offsetX = drawable.ignoreViewportOffset() ? 0f : Game.getViewportOffsetX();
+		float offsetY = drawable.ignoreViewportOffset() ? 0f : Game.getViewportOffsetY();
 
-		Vector l = drawinfo.getLocation();
-		Rotation r = drawinfo.getRotation();
-		Vector s = drawinfo.getScale();
+		Vector l = drawable.getLocation();
+		Rotation r = drawable.getRotation();
+		Vector s = drawable.getScale();
 
-		textureRegion.flip(textureRegion.isFlipX() != drawinfo.isFlipX(), textureRegion.isFlipY() != drawinfo.isFlipY());
+		textureRegion.flip(textureRegion.isFlipX() != drawable.isFlipX(), textureRegion.isFlipY() != drawable.isFlipY());
 
+		GdxGame.spriteBatch.setColor(1, 1, 1, Game.renderingAlpha);
+		
 		GdxGame.spriteBatch.draw(textureRegion,
 				scale * l.x + offsetX, 
 				scale * l.y + offsetY, 
 				scale * (r.origin.x - l.x), 
 				scale * (r.origin.y - l.y), 
-				scale * drawinfo.getWidth(),
-				scale * drawinfo.getHeight(), 
+				scale * drawable.getWidth(),
+				scale * drawable.getHeight(), 
 				s.x, s.y, r.rotation.z);
 	}
 }

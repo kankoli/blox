@@ -3,7 +3,7 @@ package com.blox.framework.v0.forms.xml;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 
-public class Image extends Control {
+public class Image extends DrawableControl {
 	private ITexture texture;
 
 	@Override

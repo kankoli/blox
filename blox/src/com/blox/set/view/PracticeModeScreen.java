@@ -1,5 +1,6 @@
 package com.blox.set.view;
 
-public class PracticeModeScreen {
+
+public class PracticeModeScreen extends SetGameScreen {
 
 }

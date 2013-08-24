@@ -1,30 +1,63 @@
 package com.blox.framework.v0.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.blox.framework.v0.IScreen;
 import com.blox.framework.v0.IScreenManager;
 import com.blox.framework.v0.IScreenSwicther;
 import com.blox.framework.v0.IScreenSwitchListener;
+import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.Utils;
 
-public class ScreenManager implements IScreenManager, IScreenSwitchListener {
+public final class ScreenManager implements IScreenManager, IScreenSwitchListener {
+
+	public static final IScreenManager instance = new ScreenManager();
+
+	private Map<String, IScreen> screens;
+
 	private IScreen currentScreen;
 	private IScreenSwicther switcher;
 
-	public ScreenManager() {
-		this(new DefaultScreenSwitcher());
+	private ScreenManager() {
+		screens = new HashMap<String, IScreen>();
 	}
 
-	public ScreenManager(IScreenSwicther switcher) {
-		setScreenSwitcher(switcher);
+	private IScreen getScreen(String screenId) {
+		if (screens.containsKey(screenId))
+			return screens.get(screenId);
+
+		IScreen screen = Screen.load(screenId);
+		screen.init();
+		screens.put(screenId, screen);
+		return screen;
 	}
 
 	@Override
-	public void setScreenSwitcher(IScreenSwicther switcher) {
-		this.switcher = switcher;
-		this.switcher.setListener(this);
+	public void init() {
+		initScreenSwitcher();
+		switchToDefaultScreen();
+	}
+
+	private void initScreenSwitcher() {
+		String screenSwitcher = Game.getParam("screen-switcher");
+		if (screenSwitcher.startsWith("fading,")) {
+			String duration = screenSwitcher.substring(7);
+			switcher = new FadingScreenSwitcher(Utils.parseFloat(duration));
+		}
+		else {
+			switcher = new DefaultScreenSwitcher();
+		}
+		switcher.setListener(this);
+	}
+
+	private void switchToDefaultScreen() {
+		switchTo(Game.getParam("default-screen"));
 	}
 
 	@Override
-	public void setScreen(IScreen screen) {
+	public void switchTo(String screenId) {
+		IScreen screen = getScreen(screenId);
 		switcher.switchTo(screen);
 		currentScreen = screen;
 	}

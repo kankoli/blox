@@ -1,5 +1,6 @@
 package com.blox.set.view;
 
-public class ScoreBoardScreen {
+
+public class ScoreBoardScreen extends SetGameScreen {
 
 }

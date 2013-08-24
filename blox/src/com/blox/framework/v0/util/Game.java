@@ -1,13 +1,18 @@
 package com.blox.framework.v0.util;
 
+import com.badlogic.gdx.Gdx;
+import com.blox.framework.v0.IActionHandlerFactory;
 import com.blox.framework.v0.ICollisionDetectorFactory;
+import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.IDeltaTime;
 import com.blox.framework.v0.IDisposeManager;
+import com.blox.framework.v0.IDrawer;
+import com.blox.framework.v0.IDrawerManager;
+import com.blox.framework.v0.IFontFactory;
 import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
+import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IResourceManager;
-import com.blox.framework.v0.IScreenFader;
-import com.blox.framework.v0.ITextDrawer;
 import com.blox.framework.v0.ITextureSplitter;
 
 public final class Game {
@@ -20,16 +25,18 @@ public final class Game {
 	private static IResourceManager resourceManager;
 	private static ITextureSplitter textureSplitter;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
-	private static IScreenFader screenFader;
-	private static ITextDrawer textDrawer;
 	private static IDisposeManager disposeManager;
-	
+	private static IFontFactory fontFactory;
 	private static IInputManager inputManager;
+	private static IDrawerManager drawerManager;
+	private static IActionHandlerFactory actionHandlerFactory;
+	
+	public static float renderingAlpha = 1;
 
 	private Game() {
 
 	}
-	
+
 	public static void initialize(IGameProvider provider) {
 		Game.provider = provider;
 		disposeManager = provider.createDisposeManager();
@@ -37,14 +44,15 @@ public final class Game {
 		resourceManager = provider.createResourceManager();
 		textureSplitter = provider.createTextureSplitter();
 		collisionDetectorFactory = provider.createCollisionDetectorFactory();
-		screenFader = provider.createScreenFader();
-		textDrawer = provider.createTextDrawer();
 		inputManager = provider.createInputManager();
+		drawerManager = provider.createDrawerManager();
+		fontFactory = provider.createFontFactory();
+		actionHandlerFactory = provider.createActionHandlerFactory();
 		gravity.y = -9.8f;
-	}
 
-	public static IGameProvider getProvider() {
-		return provider;
+		GameMetadata.load(provider.getMetadataFile());
+
+		initViewport();
 	}
 
 	public static float getDeltaTime() {
@@ -63,24 +71,44 @@ public final class Game {
 		return collisionDetectorFactory;
 	}
 
-	public static IScreenFader getScreenFader() {
-		return screenFader;
-	}
-
-	public static ITextDrawer getTextDrawer() {
-		return textDrawer;
+	public static IFontFactory getFontFactory() {
+		return fontFactory;
 	}
 
 	public static IInputManager getInputManager() {
 		return inputManager;
 	}
-	
+
+	public static IDrawerManager getDrawerManager() {
+		return drawerManager;
+	}
+
 	public static IDisposeManager getDisposeManager() {
 		return disposeManager;
 	}
 
+	public static IActionHandlerFactory getActionHandlerFactory() {
+		return actionHandlerFactory;
+	}
+	
+	public static IDrawer createDrawer() {
+		return provider.createDrawer();
+	}
+	
+	public static IMoveManager createMoveManager() {
+		return provider.createMoveManager();
+	}
+	
+	public static ICollisionManager createCollisionManager() {
+		return provider.createCollisionManager();
+	}
+
 	public static void exit() {
 		provider.exit();
+	}
+
+	public static String getParam(String key) {
+		return GameMetadata.getParam(key);
 	}
 
 	// region viewport
@@ -92,16 +120,20 @@ public final class Game {
 	public static float descale(float f) {
 		return f / getScale();
 	}
-	
-	public static void initViewport(float virtualWidth, float virtualHeight, float screenWidth, float screenHeight) {
+
+	private static void initViewport() {
+		float virtualWidth = Utils.parseFloat(getParam("virtual-width"));
+		float virtualHeight = Utils.parseFloat(getParam("virtual-height"));
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
+
 		viewport = Viewport.create(virtualWidth, virtualHeight, screenWidth, screenHeight);
-		textDrawer.getFont().setScale(1);
 	}
-	
+
 	public static void updateViewport(float screenWidth, float screenHeight) {
 		viewport.update(screenWidth, screenHeight);
 	}
-	
+
 	public static float getViewportWidth() {
 		return viewport.getWidth();
 	}
@@ -141,7 +173,7 @@ public final class Game {
 	public static float screenToViewportX(float x) {
 		return descale(x - getViewportOffsetX());
 	}
-	
+
 	public static float screenToViewportY(float y) {
 		return descale(y - getViewportOffsetY());
 	}
@@ -151,15 +183,15 @@ public final class Game {
 		v.y = screenToViewportY(v.y);
 		return v;
 	}
-	
+
 	public static float viewportToScreenX(float x) {
 		return scale(x) + getViewportOffsetX();
 	}
-	
+
 	public static float viewportToScreenY(float y) {
 		return scale(y) + getViewportOffsetY();
 	}
-	
+
 	public static Vector viewportToScreen(Vector v) {
 		v.x = viewportToScreenX(v.x);
 		v.y = viewportToScreenY(v.y);

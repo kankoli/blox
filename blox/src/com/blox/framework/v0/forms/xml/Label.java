@@ -2,8 +2,10 @@ package com.blox.framework.v0.forms.xml;
 
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Color;
+import com.blox.framework.v0.util.TextDrawer;
+import com.blox.set.utils.SetFonts;
 
-public class Label extends Control {
+public class Label extends DrawableControl {
 	private String text;
 	private Color color;
 	private boolean centered;
@@ -45,7 +47,6 @@ public class Label extends Control {
 	}
 	
 	public Label() {
-		drawable = new LabelDrawableAdapter(this);
 	}
 	
 	@Override
@@ -57,7 +58,12 @@ public class Label extends Control {
 	protected String getNodeName() {
 		return "label";
 	}
-		
+	
+	@Override
+	protected void draw() {
+		TextDrawer.draw(SetFonts.font24, text, drawable, TextDrawer.AlignW);
+	}
+	
 	@Override
 	protected void setAttribute(String attribute, String value) {
 		if ("text".equals(attribute))

@@ -1,5 +1,5 @@
 package com.blox.set.view;
 
-public class ChallengeModeScreen {
+public class ChallengeModeScreen extends SetGameScreen {
 
 }

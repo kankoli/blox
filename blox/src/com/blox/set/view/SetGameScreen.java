@@ -1,24 +1,29 @@
 package com.blox.set.view;
 
+import com.badlogic.gdx.Input.Keys;
 import com.blox.framework.v0.impl.Screen;
+import com.blox.framework.v0.impl.ScreenManager;
+import com.blox.framework.v0.util.TextDrawer;
+import com.blox.set.utils.SetFonts;
 
 public abstract class SetGameScreen extends Screen {
-	private boolean hasInited;
-	
-	protected SetGame game;
-
-	protected SetGameScreen(SetGame game) {
-		this.game = game;
-	}
-
 	@Override
 	public void init() {
-		if (hasInited)
-			return;
 		super.init();
-		onInit();
-		hasInited = true;
+		registerInputListener(this);
 	}
 	
-	protected abstract void onInit();
+	@Override
+	public void render() {
+		super.render();
+		TextDrawer.draw(SetFonts.font48, getId());
+	}
+	
+	 
+	@Override
+    public boolean keyDown(int keycode) {
+    	if (keycode == Keys.BACK || keycode == Keys.ESCAPE)
+    		ScreenManager.instance.switchTo("menu");
+    	return super.keyDown(keycode);
+    }
 }
