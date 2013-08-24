@@ -26,10 +26,12 @@ class GdxTextureRegionDrawer {
 		textureRegion.flip(textureRegion.isFlipX() != drawable.isFlipX(), textureRegion.isFlipY() != drawable.isFlipY());
 
 		GdxGame.spriteBatch.setColor(1, 1, 1, Game.renderingAlpha);
+		float dx = Game.viewportToScreenX(Game.renderingShiftX);
+		float dy = Game.viewportToScreenX(Game.renderingShiftY);
 		
 		GdxGame.spriteBatch.draw(textureRegion,
-				scale * l.x + offsetX, 
-				scale * l.y + offsetY, 
+				scale * (l.x + dx) + offsetX, 
+				scale * (l.y + dy) + offsetY, 
 				scale * (r.origin.x - l.x), 
 				scale * (r.origin.y - l.y), 
 				scale * drawable.getWidth(),

@@ -25,9 +25,12 @@ class GdxTextureDrawer {
 		
 		GdxGame.spriteBatch.setColor(1, 1, 1, Game.renderingAlpha);
 		
+		float dx = Game.viewportToScreenX(Game.renderingShiftX);
+		float dy = Game.viewportToScreenX(Game.renderingShiftY);
+		
 		GdxGame.spriteBatch.draw(texture,
-				scale * l.x + offsetX, 
-				scale * l.y + offsetY,
+				scale * (l.x + dx) + offsetX, 
+				scale * (l.y + dy) + offsetY,
 				scale * (r.origin.x - l.x), 
 				scale * (r.origin.y - l.y), 
 				scale * drawable.getWidth(), 

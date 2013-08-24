@@ -1,9 +1,7 @@
 package com.blox.set.utils;
 
 import com.blox.framework.v0.IFont;
-import com.blox.framework.v0.IFontFactory;
 import com.blox.framework.v0.util.FontManager;
-import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.GameMetadata;
 
 public class SetFonts {
@@ -17,25 +15,15 @@ public class SetFonts {
 	public static final IFont font72;
 	
 	static {
-
 		String fontId = GameMetadata.getParam("default-font");
-		
-		IFontFactory factory = Game.getFontFactory();
-		font12 = factory.create(fontId, 12);
-		font18 = factory.create(fontId, 18);
-		font24 = factory.create(fontId, 24);
-		font36 = factory.create(fontId, 36);
-		font48 = factory.create(fontId, 48);
-		font60 = factory.create(fontId, 60);
-		font72 = factory.create(fontId, 72);
-
-		FontManager.put(fontId + "-12", font12);
-		FontManager.put(fontId + "-18", font18);
-		FontManager.put(fontId + "-24", font24);
-		FontManager.put(fontId + "-36", font36);
-		FontManager.put(fontId + "-48", font48);
-		FontManager.put(fontId + "-60", font60);
-		FontManager.put(fontId + "-72", font72);
+				
+		font12 = FontManager.get(fontId, 12);
+		font18 = FontManager.get(fontId, 18);
+		font24 = FontManager.get(fontId, 24);
+		font36 = FontManager.get(fontId, 36);
+		font48 = FontManager.get(fontId, 48);
+		font60 = FontManager.get(fontId, 60);
+		font72 = FontManager.get(fontId, 72);
 	}
 	
 	private SetFonts() {

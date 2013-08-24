@@ -4,20 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blox.framework.v0.IActionHandler;
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
-import com.blox.set.utils.SetFonts;
 
 public class Button extends DrawableControl {
 	private List<IClickListener> clickListeners;
 	private String text;
-
+	private IFont font;
 	private Style style;
 
 	Button() {
 		style = new Style();
 		clickListeners = new ArrayList<IClickListener>();
+		font = FontManager.defaultFont;
 	}
 
 	public void addClickListener(IClickListener listener) {
@@ -51,6 +53,9 @@ public class Button extends DrawableControl {
 
 		else if ("text".equals(attribute))
 			text = value;
+
+		else if ("font".equals(attribute))
+			font = FontManager.get(value);
 		
 		else
 			super.setAttribute(attribute, value);
@@ -83,7 +88,7 @@ public class Button extends DrawableControl {
 	protected void draw() {
 		super.draw();
 		if (text != null && !"".equals(text.trim()))
-			TextDrawer.draw(SetFonts.font24, text, drawable);
+			TextDrawer.draw(font, text, drawable);
 	}
 	
 	protected class Style {

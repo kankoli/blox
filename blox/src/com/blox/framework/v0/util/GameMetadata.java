@@ -3,6 +3,7 @@ package com.blox.framework.v0.util;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -46,6 +47,10 @@ public class GameMetadata {
 
 	public static FontMetadata getFont(String id) {
 		return instance.fonts.get(id);
+	}
+	
+	public static Set<String> getFontNames() {
+		return instance.fonts.keySet();
 	}
 	
 	public static SkinMetadata getSkin(String id) {

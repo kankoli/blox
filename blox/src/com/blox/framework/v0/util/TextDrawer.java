@@ -23,6 +23,31 @@ public final class TextDrawer {
 
 	}
 
+	public static int getAlignment(String key) {
+		key = key.toUpperCase();
+
+		if ("N".equals(key))
+			return AlignN;
+		if ("NE".equals(key))
+			return AlignNE;
+		if ("E".equals(key))
+			return AlignE;
+		if ("SE".equals(key))
+			return AlignSE;
+		if ("S".equals(key))
+			return AlignS;
+		if ("SW".equals(key))
+			return AlignSW;
+		if ("W".equals(key))
+			return AlignW;
+		if ("NW".equals(key))
+			return AlignNW;
+		if ("CENTERED".equals(key))
+			return AlignCentered;
+		
+		return AlignW;
+	}
+	
 	public static void draw(IFont font, String text, float x, float y) {
 		font.draw(text, x, y);
 	}

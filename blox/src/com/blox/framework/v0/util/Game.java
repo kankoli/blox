@@ -30,8 +30,10 @@ public final class Game {
 	private static IInputManager inputManager;
 	private static IDrawerManager drawerManager;
 	private static IActionHandlerFactory actionHandlerFactory;
-	
+
 	public static float renderingAlpha = 1;
+	public static float renderingShiftX = 0;
+	public static float renderingShiftY = 0;
 
 	private Game() {
 

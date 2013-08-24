@@ -8,4 +8,6 @@ public interface IScreenManager {
 	void render();
 
 	void switchTo(String screenId);
+	
+	IScreen getScreen(String screenId);
 }

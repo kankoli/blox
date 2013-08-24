@@ -27,7 +27,7 @@
 
         <param
             key="screen-switcher"
-            value="fading,0.5" />
+            value="sliding,0.5" />
     </params>
 
     <screens>
@@ -342,6 +342,7 @@
                 texture-unchecked="setui/checkbox-unchecked.png" />
 
             <label
+                align="W"
                 rows="2"
                 color="#fff" />
         </skin>

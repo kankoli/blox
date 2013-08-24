@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.blox.framework.v0.IDrawer;
+import com.blox.framework.v0.IView;
 import com.blox.framework.v0.util.ControlMetadata;
 import com.blox.framework.v0.util.FormMetadata;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.GameMetadata;
 
-public class Form extends Control {
+public class Form extends Control implements IView {
 	private Map<String, Control> controls;
 	private IDrawer formDrawer;
 	private ControlInputListener inputListener;
@@ -57,9 +58,9 @@ public class Form extends Control {
 		return cols;
 	}
 
+	@Override
 	public void render() {
-		if (isVisible)
-			formDrawer.draw();
+		formDrawer.draw();
 	}
 
 	@Override
@@ -100,5 +101,15 @@ public class Form extends Control {
 				((DrawableControl) control).updateDrawable(this);
 			addControl(control);
 		}
+	}
+
+	@Override
+	public void activated() {
+		show();
+	}
+
+	@Override
+	public void deactivated() {
+		hide();
 	}
 }
