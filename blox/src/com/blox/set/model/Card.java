@@ -22,13 +22,19 @@ public class Card extends CardGameObject {
 		textureBorder = Game.getResourceManager().loadTexture("setcards/border.png");
 	}
 	
-	public static Card[] getDeck(GameTable table) {
+	public static Card[] getDeck(FullGameTable table) {
 		createDeck(table);
 		shuffleDeck();		
 		return deck;
 	}
+	
+	public static Card[] getDeck(SingleGameTable table) {
+		createDeck(null);
+		shuffleDeck();		
+		return deck;
+	}
 
-	private static void createDeck(GameTable table) {
+	private static void createDeck(FullGameTable table) {
 		if (deck != null)
 			return;
 		
@@ -72,14 +78,14 @@ public class Card extends CardGameObject {
 	
 	private CardAttributes attributes;
 	
-	private GameTable table;
+	private FullGameTable table;
 	
 	private boolean isOpened;
 	private boolean isSelected;
 	
 	private ITexture texture;
 	
-	public Card(GameTable table) {
+	public Card(FullGameTable table) {
 		this.table = table;
 		this.width = Card.Width;
 		this.height = Card.Height;
@@ -116,6 +122,8 @@ public class Card extends CardGameObject {
 	}
 
 	public void switchSelected() {
+		if (table == null) return;
+		
 		if (isOpened) {
 			isSelected = !isSelected;
 			if (isSelected) {

@@ -3,16 +3,16 @@ package com.blox.set.view;
 import com.badlogic.gdx.Input.Keys;
 import com.blox.framework.v0.impl.Screen;
 import com.blox.framework.v0.util.Game;
-import com.blox.set.model.FullGameTable;
+import com.blox.set.model.SingleGameTable;
 
-public class CardScreen extends Screen {
+public class LearningModeScreen extends Screen {
 
-	private FullGameTable gameTable;
+	private SingleGameTable gameTable;
 	
 	@Override
 	public void init() {
 		super.init();
-		gameTable = new FullGameTable();
+		gameTable = new SingleGameTable();
 		super.registerDrawable(gameTable, 1);
 	}
 	

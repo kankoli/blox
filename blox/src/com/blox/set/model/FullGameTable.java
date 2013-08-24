@@ -7,7 +7,7 @@ import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
-public class GameTable extends GameObject {
+public class FullGameTable extends GameObject {
 	private static final int rows = 3;
 	private static final int cols = 4 + 1;
 	private static final int setCardCount = 3;
@@ -21,7 +21,7 @@ public class GameTable extends GameObject {
 	private List<Card> selectedCards;
 	private int index = 0;
 
-	public GameTable() {
+	public FullGameTable() {
 		deck = Card.getDeck(this);
 		selectedCards = new ArrayList<Card>();
 
