@@ -3,11 +3,12 @@ package com.blox.set.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
+import com.blox.set.controller.SelectedState;
+import com.blox.set.controller.WaitingState;
 
-public class FullGameTable extends GameObject {
+public class FullGameTable extends TableObject {
 	private static final int rows = 3;
 	private static final int cols = 4 + 1;
 	private static final int setCardCount = 3;
@@ -21,7 +22,7 @@ public class FullGameTable extends GameObject {
 	private int index = 0;
 
 	public FullGameTable() {
-		deck = Card.getDeck(this);
+		deck = Card.getDeck();
 		selectedCards = new ArrayList<Card>();
 
 		initCardsOnTable();
@@ -77,6 +78,8 @@ public class FullGameTable extends GameObject {
 			for (int i = selectedCards.size() - 1; i >= 0; i--)
 				selectedCards.get(i).switchSelected();
 		}
+
+		selectedCards.clear();
 		
 		printSets();
 	}
@@ -116,7 +119,6 @@ public class FullGameTable extends GameObject {
 					cardsOnTable[i][j] = extraCard;
 					
 					card.deactivate();
-					selectedCards.remove(card);
 				}
 			}
 		}
@@ -153,11 +155,13 @@ public class FullGameTable extends GameObject {
 		return null;
 	}
 
+	@Override
 	public void cardSelected(Card card) {
 		selectedCards.add(card);
 		checkSet();
 	}
-
+	
+	@Override
 	public void cardUnselected(Card card) {
 		selectedCards.remove(card);
 	}
@@ -183,5 +187,31 @@ public class FullGameTable extends GameObject {
 		for (int i = 0; i < 3; i++) {
 			cardsOnTable[cols-1][i].draw();
 		}
+	}
+
+	@Override
+	public void registerWaiting(WaitingState waitingState) {
+		for (int i = 0; i < deck.length; i++) {
+			deck[i].registerTappedListener(waitingState);
+		}
+	}
+
+	@Override
+	public void unregisterWaiting(WaitingState waitingState) {
+		for (int i = 0; i < deck.length; i++) {
+			deck[i].unregisterTappedListener(waitingState);
+		}
+	}
+
+	@Override
+	public void registerSelected(SelectedState selectedState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unregisterSelected(SelectedState selectedState) {
+		// TODO Auto-generated method stub
+		
 	}
 }

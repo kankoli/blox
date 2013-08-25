@@ -1,14 +1,11 @@
 package com.blox.set.model;
 
-import java.util.ResourceBundle;
-
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Vector;
-import com.blox.set.util.R;
+import com.blox.set.controller.SelectedState;
+import com.blox.set.controller.WaitingState;
+import com.blox.set.utils.R;
 
-public class SingleGameTable extends GameObject {
-
-	private ResourceBundle bundle;
+public class SingleGameTable extends TableObject {
 	
 	private Card[] deck;
 	private Card[] cardsOnTable;
@@ -18,7 +15,7 @@ public class SingleGameTable extends GameObject {
 	private int index = 0;
 	
 	public SingleGameTable() {
-		deck = Card.getDeck(this);
+		deck = Card.getUnshuffledDeck();
 
 		cardsOnTable = new Card[2];
 		cardsToSelect = new Card[3];
@@ -29,12 +26,9 @@ public class SingleGameTable extends GameObject {
 		dealTheTwo();
 		
 		dealTheThree();
-		
-		index = 5;
-		
-		if (!thereIsSet()) {
+				
+		while (!thereIsSet()) {
 			dealTheTwo();
-			index += 2;
 		}
 	}
 
@@ -48,6 +42,8 @@ public class SingleGameTable extends GameObject {
 			cardsOnTable[i].open();
 			cardsOnTable[i].activate();
 		}
+
+		index += 2;
 	}
 	
 	private void dealTheThree() {
@@ -60,6 +56,8 @@ public class SingleGameTable extends GameObject {
 			cardsToSelect[i].open();
 			cardsToSelect[i].activate();
 		}
+
+		index += 3;
 	}
 
 	private boolean thereIsSet() {
@@ -92,5 +90,52 @@ public class SingleGameTable extends GameObject {
 		for (int i = 0; i < 3; i++) {
 				cardsToSelect[i].draw();
 		}
+	}
+
+	private void checkSet() {
+		if (Card.isSet(cardsOnTable[0], cardsOnTable[1], selectedCard)) {
+			deal();
+		}
+		else {
+			selectedCard.switchSelected();
+		}
+	}
+	
+	@Override
+	public void registerWaiting(WaitingState waitingState) {
+		for (int i = 0; i < 3; i++) {
+			cardsToSelect[i].registerTappedListener(waitingState);
+		}
+	}
+
+	@Override
+	public void unregisterWaiting(WaitingState waitingState) {
+		for (int i = 0; i < 3; i++) {
+			cardsToSelect[i].registerTappedListener(waitingState);
+		}
+	}
+
+	@Override
+	public void registerSelected(SelectedState selectedState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unregisterSelected(SelectedState selectedState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cardSelected(Card card) {
+		selectedCard = card;
+		checkSet();
+	}
+
+	@Override
+	public void cardUnselected(Card card) {
+		// TODO Auto-generated method stub
+		
 	}
 }

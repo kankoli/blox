@@ -1,7 +1,10 @@
 package com.blox.set.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import com.blox.framework.v0.ITappedListener;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 
@@ -17,24 +20,25 @@ public class Card extends CardGameObject {
 	private static ITexture textureClosed;
 	private static ITexture textureBorder;
 	
+	private List<ITappedListener> tappedListeners;
+	
 	static {
 		textureClosed = Game.getResourceManager().loadTexture("setcards/closed.png");
 		textureBorder = Game.getResourceManager().loadTexture("setcards/border.png");
 	}
 	
-	public static Card[] getDeck(FullGameTable table) {
-		createDeck(table);
-		shuffleDeck();		
-		return deck;
-	}
-	
-	public static Card[] getDeck(SingleGameTable table) {
-		createDeck(null);
+	public static Card[] getDeck() {
+		createDeck();
 		shuffleDeck();		
 		return deck;
 	}
 
-	private static void createDeck(FullGameTable table) {
+	public static Card[] getUnshuffledDeck() {
+		createDeck();
+		return deck;
+	}
+	
+	private static void createDeck() {
 		if (deck != null)
 			return;
 		
@@ -49,7 +53,7 @@ public class Card extends CardGameObject {
 			for (int j = 0; j < shapes.length; j++) {
 				for (int k = 0; k < counts.length; k++) {
 					for (int n = 0; n < patterns.length; n++) {
-						Card card = new Card(table);
+						Card card = new Card();
 						card.attributes = new CardAttributes(colors[i], shapes[j], counts[k], patterns[n]);
 						deck[i + j * 3 + k * 9 + n * 27] = card;
 					}
@@ -78,17 +82,16 @@ public class Card extends CardGameObject {
 	
 	private CardAttributes attributes;
 	
-	private FullGameTable table;
 	
 	private boolean isOpened;
 	private boolean isSelected;
 	
 	private ITexture texture;
 	
-	public Card(FullGameTable table) {
-		this.table = table;
+	public Card() {
 		this.width = Card.Width;
 		this.height = Card.Height;
+		this.tappedListeners = new ArrayList<ITappedListener>();
 	}
 
 	private ITexture getTexture() {
@@ -104,9 +107,23 @@ public class Card extends CardGameObject {
 		return texture;
 	}
 	
+	public void registerTappedListener(ITappedListener listener) {
+		tappedListeners.add(listener);
+	}
+
+	public void unregisterTappedListener(ITappedListener listener) {
+		tappedListeners.remove(listener);
+	}
+
+	public void notifyTappedListeners() {
+		for (int i = tappedListeners.size()-1; i >= 0; i--) {
+			tappedListeners.get(i).onTapped(this);
+		}
+	}
+	
 	@Override
 	protected void onTap() {
-		switchSelected();
+		notifyTappedListeners();
 	}
 	
 	public void open() {
@@ -122,20 +139,7 @@ public class Card extends CardGameObject {
 	}
 
 	public void switchSelected() {
-		if (table == null) return;
-		
-		if (isOpened) {
-			isSelected = !isSelected;
-			if (isSelected) {
-				table.cardSelected(this);
-			}
-			else {
-				table.cardUnselected(this);
-			}
-		}
-		else {
-			table.openExtraCards();
-		}
+		isSelected = !isSelected;
 	}
 	
 	public boolean isSelected() {
