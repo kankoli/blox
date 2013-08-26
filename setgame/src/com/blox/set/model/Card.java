@@ -7,43 +7,43 @@ import java.util.Random;
 import com.blox.framework.v0.ITappedListener;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
+import com.blox.set.utils.R;
 
 public class Card extends CardGameObject {
 
 	// region static
 	
-	public static final int Width = 100;
-	public static final int Height = 175;
+	public static final float scale = 0.7f;
+	public static final int Width = (int) (140*scale);
+	public static final int Height = (int) (240*scale);
+	public static final int SymbolWidth = (int) (50*scale);
+	public static final int SymbolHeight = (int) (50*scale);
 	public static final int Space = 7;
 	
-	private static Card[] deck;
 	private static ITexture textureClosed;
 	private static ITexture textureBorder;
 	
 	private List<ITappedListener> tappedListeners;
 	
 	static {
-		textureClosed = Game.getResourceManager().loadTexture("setcards/closed.png");
+		textureClosed = Game.getResourceManager().loadTexture("setcards/closedcard.png");
 		textureBorder = Game.getResourceManager().loadTexture("setcards/border.png");
 	}
 	
 	public static Card[] getDeck() {
-		createDeck();
-		shuffleDeck();		
+		Card[] deck = new Card[81];
+		createDeck(deck);
+		shuffleDeck(deck);		
 		return deck;
 	}
 
 	public static Card[] getUnshuffledDeck() {
-		createDeck();
+		Card[] deck = new Card[81];
+		createDeck(deck);
 		return deck;
 	}
 	
-	private static void createDeck() {
-		if (deck != null)
-			return;
-		
-		deck = new Card[81];
-
+	private static void createDeck(Card[] deck) {
 		int[] colors = new int[] { CardAttributes.Color_Red, CardAttributes.Color_Green, CardAttributes.Color_Blue };
 		int[] shapes = new int[] { CardAttributes.Shape_Circle, CardAttributes.Shape_Square, CardAttributes.Shape_Triangle };
 		int[] counts = new int[] { CardAttributes.Count_1, CardAttributes.Count_2, CardAttributes.Count_3 };
@@ -53,8 +53,7 @@ public class Card extends CardGameObject {
 			for (int j = 0; j < shapes.length; j++) {
 				for (int k = 0; k < counts.length; k++) {
 					for (int n = 0; n < patterns.length; n++) {
-						Card card = new Card();
-						card.attributes = new CardAttributes(colors[i], shapes[j], counts[k], patterns[n]);
+						Card card = new Card(new CardAttributes(colors[i], shapes[j], counts[k], patterns[n]));
 						deck[i + j * 3 + k * 9 + n * 27] = card;
 					}
 				}
@@ -62,7 +61,7 @@ public class Card extends CardGameObject {
 		}		
 	}
 	
-	private static void shuffleDeck() {
+	private static void shuffleDeck(Card[] deck) {
 		Random rnd = new Random(3);
 		for (int i = 0; i < deck.length * deck.length; i++) {
 			int x = rnd.nextInt(deck.length);
@@ -82,29 +81,41 @@ public class Card extends CardGameObject {
 	
 	private CardAttributes attributes;
 	
-	
 	private boolean isOpened;
 	private boolean isSelected;
 	
 	private ITexture texture;
+	private List<Symbol> symbols;
 	
-	public Card() {
+	public Card(CardAttributes cardAttributes) {
+		this.attributes = cardAttributes;
 		this.width = Card.Width;
 		this.height = Card.Height;
 		this.tappedListeners = new ArrayList<ITappedListener>();
-	}
-
-	private ITexture getTexture() {
-		if (!isOpened)
-			return textureClosed;
 		
-		if (texture != null)
-			return texture;
+		calculateTextures();
+	}
+	
+	private void calculateTextures() {
+		texture = Game.getResourceManager().loadTexture("setcards/emptycard.png");
 
-		String textureName = "setcards/" + attributes.getColor() + attributes.getShape() + attributes.getCount() + 
+		String symbolName = "setcards/" + attributes.getColor() + attributes.getShape() + 
 				attributes.getPattern() + ".png";
-		texture = Game.getResourceManager().loadTexture(textureName);
-		return texture;
+		
+		ITexture symbolTexture = Game.getResourceManager().loadTexture(symbolName);
+		symbols = new ArrayList<Symbol>();
+		if (attributes.getCount() == 1) {
+			symbols.add(new Symbol(symbolTexture, R.symbolpositions.firstOfOne, this.location));
+		}
+		else if (attributes.getCount() == 2) {
+			symbols.add(new Symbol(symbolTexture, R.symbolpositions.firstOfTwo, this.location));
+			symbols.add(new Symbol(symbolTexture, R.symbolpositions.secondOfTwo, this.location));
+		}
+		else if (attributes.getCount() == 4) {
+			symbols.add(new Symbol(symbolTexture, R.symbolpositions.firstOfThree, this.location));
+			symbols.add(new Symbol(symbolTexture, R.symbolpositions.secondOfThree, this.location));
+			symbols.add(new Symbol(symbolTexture, R.symbolpositions.thirdOfThree, this.location));
+		}
 	}
 	
 	public void registerTappedListener(ITappedListener listener) {
@@ -148,7 +159,15 @@ public class Card extends CardGameObject {
 	
 	@Override
 	public void draw() {
-		getTexture().draw(this);
+		if (!isOpened) {
+			textureClosed.draw(this);
+			return;
+		}
+
+		texture.draw(this);
+		for (int i = 0; i < symbols.size(); i++) {
+			symbols.get(i).draw();
+		}
 		if (isSelected)
 			textureBorder.draw(this);
 	}

@@ -47,4 +47,15 @@ public final class R {
 				cardToSelect2Pos, cardToSelect3Pos};
 		}
 	}
+	
+	public static final class symbolpositions {
+		public static final Vector firstOfOne = new Vector((Card.Width - Card.SymbolWidth) / 2, (Card.Height - Card.SymbolHeight) / 2);
+
+		public static final Vector firstOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height/2 - Card.SymbolHeight * 1.25f);
+		public static final Vector secondOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height/2 + Card.SymbolHeight * 0.25f);
+
+		public static final Vector firstOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height/2 - Card.SymbolHeight * 2.0f);
+		public static final Vector secondOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height/2 - Card.SymbolHeight * 0.5f);
+		public static final Vector thirdOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2,  Card.Height/2 + Card.SymbolHeight * 1.0f);
+	}
 }
