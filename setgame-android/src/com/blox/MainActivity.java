@@ -17,7 +17,7 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = false;
 		cfg.useCompass = false;
 		
-		initialize(new GdxGame("setgame.xml"), cfg);
+		initialize(new GdxGame(), cfg);
     }
     
     @Override

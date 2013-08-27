@@ -1,26 +1,24 @@
 package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.ICollisionGroup;
-import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.ICompositeInputListener;
-import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.IMovable;
-import com.blox.framework.v0.IMoveManager;
-import com.blox.framework.v0.IScreen;
-import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.GameMetadata;
-import com.blox.framework.v0.util.ScreenMetadata;
+import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.IView;
+import com.blox.framework.v0.metadata.GameMetadata;
+import com.blox.framework.v0.metadata.ScreenMetadata;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
-public abstract class Screen implements IInputListener, IScreen {
+public abstract class Screen implements IInputListener, IView {
 	private String id;
-	private IMoveManager moveManager;
-	private IDrawer drawer;
-	private ICollisionManager collisionManager;
+	private MoveManager moveManager;
+	private Drawer drawer;
+	private CollisionManager collisionManager;
 	private ICompositeInputListener inputListener;
+	private ITexture background;
 
 	private boolean hasInited;
 
@@ -42,27 +40,27 @@ public abstract class Screen implements IInputListener, IScreen {
 		return id;
 	}
 
-	@Override
 	public void init() {
 		if (hasInited)
 			return;
-		moveManager = Game.createMoveManager();
-		drawer = Game.createDrawer();
-		collisionManager = Game.createCollisionManager();
+		drawer = new Drawer();
+		moveManager = new MoveManager();
+		collisionManager = new CollisionManager();
 		inputListener = new CompositeInputListener();
 		inputListener.register(this);
 		hasInited = true;
 	}
 
-	@Override
 	public void update() {
-		move();
-		collide();
+		moveManager.execute();
+		collisionManager.execute();
 	}
 
 	@Override
 	public void render() {
-		draw();
+		drawer.draw();
+		if (background != null)
+			background.draw(IDrawable.background);
 	}
 
 	@Override
@@ -73,18 +71,6 @@ public abstract class Screen implements IInputListener, IScreen {
 	@Override
 	public void deactivated() {
 		inputListener.deactivate();
-	}
-
-	protected final void move() {
-		moveManager.move();
-	}
-
-	protected final void draw() {
-		drawer.draw();
-	}
-
-	protected final void collide() {
-		collisionManager.collide();
 	}
 
 	public final void registerMovable(IMovable obj) {

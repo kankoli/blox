@@ -1,6 +1,7 @@
 package com.blox.framework.v0.util;
 
 import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.metadata.AnimationMetadata;
 
 public class Animation {
 	private float frameTime;
@@ -104,11 +105,21 @@ public class Animation {
 		if (frameIndex >= textures.length) {
 			if (isLooping) {
 				frameIndex = frameIndex % textures.length;
-			} else {
+			}
+			else {
 				frameIndex = textures.length - 1;
 				manager.notifyEndListeners(this);
 			}
 		}
 		return textures[frameIndex];
+	}
+
+	public static Animation fromMetadata(AnimationMetadata metadata) {
+		return AnimationBuilder
+				.createAnimation(metadata.getId())
+				.from(metadata.getTextureId())
+				.withFrameDuration(metadata.getDuration())
+				.withFrameSize(metadata.getWidth(), metadata.getHeight())
+				.setLooping(metadata.isLooping()).build();
 	}
 }

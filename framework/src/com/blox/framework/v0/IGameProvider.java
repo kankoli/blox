@@ -10,23 +10,11 @@ public interface IGameProvider {
 
 	IInputManager createInputManager();
 
-	ICollisionDetectorFactory createCollisionDetectorFactory();
-
-	IDrawer createDrawer();
-
-	IDrawerManager createDrawerManager();
-
-	IMoveManager createMoveManager();
-
-	ICollisionManager createCollisionManager();
-
 	IFontFactory createFontFactory();
 
-	IDisposeManager createDisposeManager();
+	ICollisionDetectorFactory createCollisionDetectorFactory();
 	
 	IActionHandlerFactory createActionHandlerFactory();
-	
-	String getMetadataFile();
 	
 	void exit();
 }

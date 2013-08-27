@@ -16,14 +16,13 @@ public abstract class SetGameScreen extends Screen {
 	@Override
 	public void render() {
 		super.render();
-		TextDrawer.draw(SetFonts.font48, getId());
-	}
-	
+		TextDrawer.draw(SetFonts.font48, getId(), TextDrawer.AlignN);
+	}	
 	 
 	@Override
     public boolean keyDown(int keycode) {
     	if (keycode == Keys.BACK || keycode == Keys.ESCAPE)
-    		ScreenManager.instance.switchTo("menu");
+    		ScreenManager.instance.switchTo("menu", true);
     	return super.keyDown(keycode);
     }
 }

@@ -8,9 +8,9 @@ import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.IBound;
 import com.blox.framework.v0.IGameObject;
 import com.blox.framework.v0.IMover;
+import com.blox.framework.v0.metadata.AnimationMetadata;
+import com.blox.framework.v0.metadata.GameMetadata;
 import com.blox.framework.v0.util.Animation;
-import com.blox.framework.v0.util.AnimationBuilder;
-import com.blox.framework.v0.util.AnimationInfo;
 import com.blox.framework.v0.util.Animator;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
@@ -60,13 +60,9 @@ public abstract class GameObject implements IGameObject {
 		}
 	}
 
-	protected Animation addAnimation(AnimationInfo info) {
-		Animation animation = AnimationBuilder.createAnimation(info.getName())
-				.from(info.getImagePath())
-				.withFrameDuration(info.getFrameDuration())
-				.withFrameSize(info.getFrameWidth(), info.getFrameHeight())
-				.setLooping(info.isLooping())
-				.build();
+	protected Animation addAnimation(String animationId) {
+		AnimationMetadata metadata = GameMetadata.getAnimation(animationId);
+		Animation animation = Animation.fromMetadata(metadata);
 
 		animator.addAnimation(animation);
 
@@ -93,12 +89,8 @@ public abstract class GameObject implements IGameObject {
 		return animator.start(forceRestart);
 	}
 
-	protected Animation startAnimation(AnimationInfo info) {
-		return animator.start(info.getName());
-	}
-
-	protected Animation startAnimation(String name) {
-		return animator.start(name);
+	protected Animation startAnimation(String animationId) {
+		return animator.start(animationId);
 	}
 
 	protected void pauseAnimation() {

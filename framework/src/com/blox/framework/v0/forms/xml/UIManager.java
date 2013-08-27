@@ -3,7 +3,7 @@ package com.blox.framework.v0.forms.xml;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.blox.framework.v0.util.ControlMetadata;
+import com.blox.framework.v0.metadata.ControlMetadata;
 
 public final class UIManager {
 	private static Map<String, Form> forms = new HashMap<String, Form>();

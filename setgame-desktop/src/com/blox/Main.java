@@ -17,7 +17,7 @@ public class Main {
 		cfg.width = (int) (x * w);
 		cfg.height = (int) (x * h);
 
-		new LwjglApplication(new GdxGame("setgame.xml"), cfg);
+		new LwjglApplication(new GdxGame(), cfg);
 
 		// new LwjglApplication(new FontGame(), cfg);
 	}

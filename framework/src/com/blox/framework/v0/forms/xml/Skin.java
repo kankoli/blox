@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.blox.framework.v0.util.ControlMetadata;
-import com.blox.framework.v0.util.GameMetadata;
-import com.blox.framework.v0.util.SkinMetadata;
+import com.blox.framework.v0.metadata.ControlMetadata;
+import com.blox.framework.v0.metadata.GameMetadata;
+import com.blox.framework.v0.metadata.SkinMetadata;
 
 public class Skin {
 	private Map<String, Map<String, String>> values;

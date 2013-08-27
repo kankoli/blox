@@ -10,15 +10,10 @@ public class RelaxModeScreen extends SetGameScreen {
 		super.init();
 		controller = new RelaxModeController(this);
 	}
-	
-	@Override
-	public void render() {
-		draw();
-	}
-	
+		
 	@Override
 	public void update() {
-		controller.work();
+		controller.execute();
 		super.update();
 	}
 }

@@ -5,10 +5,9 @@ import java.util.List;
 
 import com.blox.framework.v0.ICollidable;
 import com.blox.framework.v0.ICollisionGroup;
-import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.util.CollisionDetector;
 
-public class CollisionManager implements ICollisionManager {
+public class CollisionManager extends Manager<ICollisionGroup> {
 	private List<ICollisionGroup> groups;
 
 	public CollisionManager() {
@@ -26,19 +25,15 @@ public class CollisionManager implements ICollisionManager {
 	}
 
 	@Override
-	public void collide() {
-		ICollisionGroup group;
-		List<ICollidable> first, second;
-		for (int i = 0; i < groups.size(); i++) {
-			group = groups.get(i);
-			if (group.isActive()) {
-				first = group.getFirst();
-				second = group.getSecond();
-				for (int j = 0; j < first.size(); j++) {
-					for (int k = 0; k < second.size(); k++) {
-						CollisionDetector.detect(group, first.get(j), second.get(k));
-					}
-				}
+	protected void execute(ICollisionGroup group) {
+		if (!group.isActive())
+			return;
+
+		List<ICollidable> first = group.getFirst();
+		List<ICollidable> second = group.getSecond();
+		for (int j = 0; j < first.size(); j++) {
+			for (int k = 0; k < second.size(); k++) {
+				CollisionDetector.detect(group, first.get(j), second.get(k));
 			}
 		}
 	}

@@ -10,7 +10,7 @@ class GdxTexture implements ITexture {
 
 	GdxTexture(Texture texture) {
 		this.texture = texture;
-		Game.getDisposeManager().register(this);
+		Game.registerDisposable(this);
 	}
 
 	@Override

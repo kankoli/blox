@@ -12,28 +12,28 @@ import com.blox.set.utils.R;
 public class Card extends CardGameObject {
 
 	// region static
-	
+
 	public static final float scale = 0.7f;
-	public static final int Width = (int) (140*scale);
-	public static final int Height = (int) (240*scale);
-	public static final int SymbolWidth = (int) (50*scale);
-	public static final int SymbolHeight = (int) (50*scale);
+	public static final int Width = (int) (140 * scale);
+	public static final int Height = (int) (240 * scale);
+	public static final int SymbolWidth = (int) (50 * scale);
+	public static final int SymbolHeight = (int) (50 * scale);
 	public static final int Space = 7;
-	
+
 	private static ITexture textureClosed;
 	private static ITexture textureBorder;
-	
+
 	private List<ITappedListener> tappedListeners;
-	
+
 	static {
-		textureClosed = Game.getResourceManager().loadTexture("setcards/closedcard.png");
-		textureBorder = Game.getResourceManager().loadTexture("setcards/border.png");
+		textureClosed = Game.getResourceManager().loadTexture(R.game.textures.cardEmpty);
+		textureBorder = Game.getResourceManager().loadTexture(R.game.textures.cardBorder);
 	}
-	
+
 	public static Card[] getDeck() {
 		Card[] deck = new Card[81];
 		createDeck(deck);
-		shuffleDeck(deck);		
+		shuffleDeck(deck);
 		return deck;
 	}
 
@@ -42,7 +42,7 @@ public class Card extends CardGameObject {
 		createDeck(deck);
 		return deck;
 	}
-	
+
 	private static void createDeck(Card[] deck) {
 		int[] colors = new int[] { CardAttributes.Color_Red, CardAttributes.Color_Green, CardAttributes.Color_Blue };
 		int[] shapes = new int[] { CardAttributes.Shape_Circle, CardAttributes.Shape_Square, CardAttributes.Shape_Triangle };
@@ -58,16 +58,16 @@ public class Card extends CardGameObject {
 					}
 				}
 			}
-		}		
+		}
 	}
-	
+
 	private static void shuffleDeck(Card[] deck) {
 		Random rnd = new Random(3);
 		for (int i = 0; i < deck.length * deck.length; i++) {
 			int x = rnd.nextInt(deck.length);
 			int y = rnd.nextInt(deck.length);
-			
-			Card tmp = deck[x];			
+
+			Card tmp = deck[x];
 			deck[x] = deck[y];
 			deck[y] = tmp;
 		}
@@ -78,30 +78,29 @@ public class Card extends CardGameObject {
 	}
 
 	// endregion
-	
+
 	private CardAttributes attributes;
-	
+
 	private boolean isOpened;
 	private boolean isSelected;
-	
+
 	private ITexture texture;
 	private List<Symbol> symbols;
-	
+
 	public Card(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
 		this.width = Card.Width;
 		this.height = Card.Height;
 		this.tappedListeners = new ArrayList<ITappedListener>();
-		
+
 		calculateTextures();
 	}
-	
-	private void calculateTextures() {
-		texture = Game.getResourceManager().loadTexture("setcards/emptycard.png");
 
-		String symbolName = "setcards/" + attributes.getColor() + attributes.getShape() + 
-				attributes.getPattern() + ".png";
-		
+	private void calculateTextures() {
+		texture = Game.getResourceManager().loadTexture(R.game.textures.cardEmpty);
+
+		String symbolName = "card-" + attributes.getColor() + attributes.getShape() + attributes.getPattern();
+
 		ITexture symbolTexture = Game.getResourceManager().loadTexture(symbolName);
 		symbols = new ArrayList<Symbol>();
 		if (attributes.getCount() == 1) {
@@ -117,7 +116,7 @@ public class Card extends CardGameObject {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.thirdOfThree, this.location));
 		}
 	}
-	
+
 	public void registerTappedListener(ITappedListener listener) {
 		tappedListeners.add(listener);
 	}
@@ -127,24 +126,24 @@ public class Card extends CardGameObject {
 	}
 
 	public void notifyTappedListeners() {
-		for (int i = tappedListeners.size()-1; i >= 0; i--) {
+		for (int i = tappedListeners.size() - 1; i >= 0; i--) {
 			tappedListeners.get(i).onTapped(this);
 		}
 	}
-	
+
 	@Override
 	protected void onTap() {
 		notifyTappedListeners();
 	}
-	
+
 	public void open() {
 		isOpened = true;
 	}
-	
+
 	public void close() {
 		isOpened = false;
 	}
-	
+
 	public boolean isOpened() {
 		return isOpened;
 	}
@@ -152,11 +151,11 @@ public class Card extends CardGameObject {
 	public void switchSelected() {
 		isSelected = !isSelected;
 	}
-	
+
 	public boolean isSelected() {
 		return isSelected;
 	}
-	
+
 	@Override
 	public void draw() {
 		if (!isOpened) {

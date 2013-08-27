@@ -14,6 +14,7 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 	protected IView oldView;
 
 	protected IViewFinder viewFinder;
+	private boolean back;
 
 	public ViewSwitcher(float duration) {
 		this.duration = duration;
@@ -26,7 +27,9 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 	}
 
 	@Override
-	public void switchTo(String id) {
+	public void switchTo(String id, boolean back) {
+		this.back = back;
+		
 		IView view = viewFinder.findView(id);
 		if (view == newView)
 			return;
@@ -47,7 +50,7 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 		elapsed += Game.getDeltaTime();
 
 		if (isSwitching())
-			renderSwitching();
+			renderSwitching(back);
 		else
 			onSwitchEnd(true);
 	}
@@ -66,7 +69,7 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 			newView.render();
 	}
 
-	protected abstract void renderSwitching();
+	protected abstract void renderSwitching(boolean back);
 
 	public static IViewSwitcher createInstance(String key) {
 		if (key.startsWith("fading,")) {

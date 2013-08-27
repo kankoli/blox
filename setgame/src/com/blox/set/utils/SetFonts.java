@@ -1,8 +1,8 @@
 package com.blox.set.utils;
 
 import com.blox.framework.v0.IFont;
+import com.blox.framework.v0.metadata.GameMetadata;
 import com.blox.framework.v0.util.FontManager;
-import com.blox.framework.v0.util.GameMetadata;
 
 public class SetFonts {
 	
@@ -13,6 +13,10 @@ public class SetFonts {
 	public static final IFont font48;
 	public static final IFont font60;
 	public static final IFont font72;
+	
+	public static void init() {
+		
+	}
 	
 	static {
 		String fontId = GameMetadata.getParam("default-font");

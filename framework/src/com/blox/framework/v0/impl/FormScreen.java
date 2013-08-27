@@ -17,21 +17,21 @@ public class FormScreen extends Screen implements IViewFinder {
 		
 	}
 
-	private void initScreenSwitcher() {
-		String screenSwitcher = Game.getParam("screen-switcher");
+	private void initFormSwitcher() {
+		String screenSwitcher = Game.getParam("form-switcher");
 		switcher = ViewSwitcher.createInstance(screenSwitcher);
 		switcher.setViewFinder(this);
 	}
 
-	protected void setForm(String formId) {
-		switcher.switchTo(formId);
+	protected void setForm(String formId, boolean back) {
+		switcher.switchTo(formId, back);
 		currentForm = UIManager.getForm(formId);
 	}
 	
 	@Override
 	public void init() {
 		super.init();
-		initScreenSwitcher();
+		initFormSwitcher();
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class FormScreen extends Screen implements IViewFinder {
 		return UIManager.getForm(id);
 	}
 
-	public static void switchTo(String formId) {
-		currentScreen.setForm(formId);
+	public static void switchTo(String formId, boolean back) {
+		currentScreen.setForm(formId, back);
 	}
 }

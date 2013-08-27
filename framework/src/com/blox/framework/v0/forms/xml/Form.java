@@ -5,21 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IView;
-import com.blox.framework.v0.util.ControlMetadata;
-import com.blox.framework.v0.util.FormMetadata;
-import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.GameMetadata;
+import com.blox.framework.v0.impl.Drawer;
+import com.blox.framework.v0.metadata.ControlMetadata;
+import com.blox.framework.v0.metadata.FormMetadata;
+import com.blox.framework.v0.metadata.GameMetadata;
 
 public class Form extends Control implements IView {
 	private Map<String, Control> controls;
-	private IDrawer formDrawer;
+	private Drawer formDrawer;
 	private ControlInputListener inputListener;
 
 	protected Form() {
 		controls = new HashMap<String, Control>();
-		formDrawer = Game.createDrawer();
+		formDrawer = new Drawer();
 		inputListener = new ControlInputListener();
 	}
 
@@ -59,21 +58,12 @@ public class Form extends Control implements IView {
 	}
 
 	@Override
-	public void render() {
-		formDrawer.draw();
-	}
-
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-		if (visible) {
-			Game.getDrawerManager().register(formDrawer, 1000);
+		if (visible)
 			inputListener.activate();
-		}
-		else {
-			Game.getDrawerManager().unregister(formDrawer);
+		else
 			inputListener.deactivate();
-		}
 	}
 
 	@Override
@@ -101,6 +91,11 @@ public class Form extends Control implements IView {
 				((DrawableControl) control).updateDrawable(this);
 			addControl(control);
 		}
+	}
+
+	@Override
+	public void render() {
+		formDrawer.draw();
 	}
 
 	@Override

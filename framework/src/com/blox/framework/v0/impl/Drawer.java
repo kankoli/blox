@@ -3,10 +3,9 @@ package com.blox.framework.v0.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blox.framework.v0.IDrawer;
 import com.blox.framework.v0.IDrawable;
 
-public class Drawer implements IDrawer {
+public class Drawer {
 
 	private class Layer {
 		private int index;
@@ -24,10 +23,9 @@ public class Drawer implements IDrawer {
 	private List<Layer> layers;
 
 	public Drawer() {
-		layers = new ArrayList<Layer>();
+		this.layers = new ArrayList<Layer>();
 	}
 
-	@Override
 	public void register(IDrawable obj, int layerIndex) {
 
 		unregister(obj);
@@ -49,7 +47,6 @@ public class Drawer implements IDrawer {
 		layers.add(i, newLayer);
 	}
 
-	@Override
 	public void unregister(IDrawable obj) {
 		for (Layer layer : layers) {
 			if (layer.unregister(obj))
@@ -57,7 +54,6 @@ public class Drawer implements IDrawer {
 		}
 	}
 
-	@Override
 	public void draw() {
 		for (Layer layer : layers) {
 			for (IDrawable drawable : layer.objects) {

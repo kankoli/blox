@@ -1,30 +1,39 @@
 package com.blox.framework.v0.impl.libgdx;
 
+import java.io.InputStream;
+
+import org.w3c.dom.Document;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.blox.framework.v0.IGame;
+import com.blox.framework.v0.metadata.GameMetadata;
 import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.GameMetadata;
 import com.blox.framework.v0.util.Utils;
 
 public class GdxGame implements ApplicationListener {
 	static SpriteBatch spriteBatch;
 
-	private String gameXml;
 	private IGame game;
 
-	public GdxGame(String gameXml) {
-		this.gameXml = gameXml;
+	public GdxGame() {
+
 	}
 
 	private void initGdx() {
 		Gdx.input.setCatchBackKey(true);
 		Texture.setEnforcePotImages(false);
-		Game.initialize(new GdxGameProvider(gameXml));
+
+		Game.initialize(getGameXml());
 		Game.getInputManager().activate();
+	}
+
+	private static Document getGameXml() {
+		InputStream is = Gdx.files.internal("game.xml").read();
+		return Utils.loadXml(is);
 	}
 
 	@Override
@@ -52,7 +61,7 @@ public class GdxGame implements ApplicationListener {
 	@Override
 	public void dispose() {
 		spriteBatch.dispose();
-		Game.getDisposeManager().disposeAll();
+		Game.dispose();
 	}
 
 	@Override

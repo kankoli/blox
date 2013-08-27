@@ -1,23 +1,17 @@
 package com.blox.framework.v0.impl;
 
-import java.io.InputStream;
-
 import com.blox.framework.v0.IMusic;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
-import com.blox.framework.v0.IVideo;
 import com.blox.framework.v0.util.Cache;
 
 public class CachedResourceManager implements IResourceManager {
 	private Cache cache;
-	
-	private IResourceManager resManager;
-	
+
 	private IResourceLoader<ITexture> textureLoader;
 	private IResourceLoader<ISound> soundLoader;
 	private IResourceLoader<IMusic> musicLoader;
-	private IResourceLoader<IVideo> videoLoader;
 
 	public CachedResourceManager(final IResourceManager resManager) {
 		this.cache = new Cache();
@@ -42,15 +36,6 @@ public class CachedResourceManager implements IResourceManager {
 				return resManager.loadMusic(resourcePath);
 			}
 		};
-
-		this.videoLoader = new IResourceLoader<IVideo>() {
-			@Override
-			public IVideo load(String resourcePath) {
-				return resManager.loadVideo(resourcePath);
-			}
-		};
-	
-		this.resManager = resManager;
 	}
 
 	@Override
@@ -68,16 +53,6 @@ public class CachedResourceManager implements IResourceManager {
 		return loadResource(resourcePath, musicLoader);
 	}
 
-	@Override
-	public IVideo loadVideo(String resourcePath) {
-		return loadResource(resourcePath, videoLoader);
-	}
-
-	@Override
-	public InputStream readFile(String resourcePath) {
-		return resManager.readFile(resourcePath);
-	}
-	
 	@SuppressWarnings("unchecked")
 	private <T> T loadResource(String resourcePath, IResourceLoader<T> loader) {
 		Object resource = cache.get(resourcePath);

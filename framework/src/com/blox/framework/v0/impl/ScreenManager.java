@@ -3,24 +3,22 @@ package com.blox.framework.v0.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.blox.framework.v0.IScreen;
-import com.blox.framework.v0.IScreenManager;
 import com.blox.framework.v0.IView;
 import com.blox.framework.v0.IViewFinder;
 import com.blox.framework.v0.IViewSwitcher;
 import com.blox.framework.v0.util.Game;
 
-public final class ScreenManager implements IScreenManager, IViewFinder {
+public final class ScreenManager implements IViewFinder {
 
-	public static final IScreenManager instance = new ScreenManager();
+	public static final ScreenManager instance = new ScreenManager();
 
-	private Map<String, IScreen> screens;
+	private Map<String, Screen> screens;
 
-	private IScreen currentScreen;
+	private Screen currentScreen;
 	private IViewSwitcher switcher;
 
 	private ScreenManager() {
-		screens = new HashMap<String, IScreen>();
+		screens = new HashMap<String, Screen>();
 	}
 
 	private void initScreenSwitcher() {
@@ -30,44 +28,39 @@ public final class ScreenManager implements IScreenManager, IViewFinder {
 	}
 
 	private void switchToDefaultScreen() {
-		switchTo(Game.getParam("default-screen"));
+		switchTo(Game.getParam("default-screen"), false);
 	}
 
-	@Override
-	public IScreen getScreen(String screenId) {
+	public Screen getScreen(String screenId) {
 		if (screens.containsKey(screenId))
 			return screens.get(screenId);
 
-		IScreen screen = Screen.load(screenId);
+		Screen screen = Screen.load(screenId);
 		screen.init();
 		screens.put(screenId, screen);
 		return screen;
 	}
 
-	@Override
 	public void init() {
 		initScreenSwitcher();
 		switchToDefaultScreen();
 	}
 
-	@Override
-	public void switchTo(String screenId) {
-		switcher.switchTo(screenId);
-		currentScreen = getScreen(screenId);
-	}
-
-	@Override
 	public void update() {
 		if (!switcher.isSwitching())
 			currentScreen.update();
 	}
 
-	@Override
 	public void render() {
 		if (switcher.isSwitching())
 			switcher.render();
 		else
 			currentScreen.render();
+	}
+
+	public void switchTo(String screenId, boolean back) {
+		switcher.switchTo(screenId, back);
+		currentScreen = getScreen(screenId);
 	}
 
 	@Override

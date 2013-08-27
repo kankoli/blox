@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.IFontFactory;
+import com.blox.framework.v0.metadata.FontMetadata;
+import com.blox.framework.v0.metadata.GameMetadata;
 
 public final class FontManager {
 	private FontManager() {
@@ -20,7 +22,7 @@ public final class FontManager {
 
 	static {
 		loadFonts();
-		
+
 		String defaultFontName = GameMetadata.getParam("default-font");
 		int defaultFontSize = 24;
 		if (Game.getScreenHeight() > 1000)
@@ -30,8 +32,8 @@ public final class FontManager {
 
 		FontMetadata defaultFontMeta = GameMetadata.getFont(defaultFontName);
 		int[] sizes = defaultFontMeta.getSizes();
-		
-		minFont = get(defaultFontName, sizes[0]);		
+
+		minFont = get(defaultFontName, sizes[0]);
 		maxFont = get(defaultFontName, sizes[sizes.length - 1]);
 	}
 
@@ -50,10 +52,9 @@ public final class FontManager {
 
 		for (String fontName : fontNames) {
 			FontMetadata fontMeta = GameMetadata.getFont(fontName);
-			int[] sizes = fontMeta.getSizes();
-			for (int i = 0; i < sizes.length; i++) {
-				IFont font = factory.create(fontMeta.getPath(), sizes[i]);
-				fonts.put(fontName + ":" + sizes[i], font);
+			Map<Integer, IFont> fonts = factory.create(fontMeta);
+			for (int size : fonts.keySet()) {
+				FontManager.fonts.put(fontName + ":" + size, fonts.get(size));
 			}
 		}
 	}

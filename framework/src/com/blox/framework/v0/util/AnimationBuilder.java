@@ -3,7 +3,7 @@ package com.blox.framework.v0.util;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.ITextureSplitter;
 
-public class AnimationBuilder {
+final class AnimationBuilder {
 	private Animation animation;
 
 	private String mainTexturePath;

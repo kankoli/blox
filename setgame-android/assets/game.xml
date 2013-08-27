@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game
+    id="SetGame"
+    class="com.blox.set.view.SetGame" >
+
+    <params>
+
+        <param
+            key="provider"
+            value="com.blox.framework.v0.impl.libgdx.GdxGameProvider" />
+
+        <param
+            key="virtual-width"
+            value="550" />
+
+        <param
+            key="virtual-height"
+            value="800" />
+
+        <param
+            key="default-font"
+            value="open-sans-400" />
+
+        <param
+            key="default-skin"
+            value="ppt" />
+
+        <param
+            key="default-screen"
+            value="splash" />
+
+        <param
+            key="screen-switcher"
+            value="sliding,0.5" />
+
+        <param
+            key="form-switcher"
+            value="sliding,0.25" />
+    </params>
+
+    <screens>
+
+        <screen
+            id="challenge"
+            class="com.blox.set.view.ChallengeModeScreen" />
+
+        <screen
+            id="learning"
+            class="com.blox.set.view.LearningModeScreen" />
+
+        <screen
+            id="multiplayer"
+            class="com.blox.set.view.MultiplayerModeScreen" />
+
+        <screen
+            id="menu"
+            class="com.blox.set.view.MenuScreen" />
+
+        <screen
+            id="practice"
+            class="com.blox.set.view.PracticeModeScreen" />
+
+        <screen
+            id="relax"
+            class="com.blox.set.view.RelaxModeScreen" />
+
+        <screen
+            id="splash"
+            class="com.blox.set.view.SplashScreen" />
+
+        <screen
+            id="scoreBoard"
+            class="com.blox.set.view.ScoreBoardScreen" />
+    </screens>
+
+    <forms>
+
+        <form id="mainMenu" >
+
+            <button
+                id="btnPlay"
+                action="form=modeSelection"
+                text="Play"
+                y="24" />
+
+            <button
+                id="btnSetting"
+                action="form=settings"
+                text="Settings"
+                y="20" />
+
+            <button
+                id="btnLogin"
+                action="form=login"
+                text="Login"
+                y="16" />
+
+            <button
+                id="btnScoreBoard"
+                action="form=scoreBoardModeSelection"
+                text="Score Board"
+                y="12" />
+
+            <button
+                id="btnExitGame"
+                action="exit"
+                text="Exit Game"
+                y="4" />
+        </form>
+
+        <form id="modeSelection" >
+
+            <button
+                id="btnLearning"
+                action="screen=learning"
+                text="Learning"
+                y="26" />
+
+            <button
+                id="btnPractice"
+                action="screen=practice"
+                text="Practice"
+                y="22" />
+
+            <button
+                id="btnRelax"
+                action="screen=relax"
+                text="Relax"
+                y="18" />
+
+            <button
+                id="btnChallenge"
+                action="screen=challenge"
+                text="Challenge"
+                y="14" />
+
+            <button
+                id="btnMultiplayer"
+                action="screen=multiplayer"
+                text="Multiplayer"
+                y="10" />
+
+            <button
+                id="btnBack"
+                action="formback=mainMenu"
+                text="Back"
+                y="4" />
+        </form>
+
+        <form id="settings" >
+
+            <label
+                id="lblSound"
+                cols="10"
+                text="Sound"
+                x="2"
+                y="22" />
+
+            <checkbox
+                id="chkSounds"
+                action="toggle=sound"
+                cols="2"
+                x="13"
+                y="22" />
+
+            <label
+                id="lblMusic"
+                cols="10"
+                text="Music"
+                x="2"
+                y="18" />
+
+            <checkbox
+                id="chkMusic"
+                action="toggle=music"
+                cols="2"
+                x="13"
+                y="18" />
+
+            <label
+                id="lblVibration"
+                cols="10"
+                text="Vibration"
+                x="2"
+                y="14" />
+
+            <checkbox
+                id="chkVibration"
+                action="toggle=vibration"
+                cols="2"
+                x="13"
+                y="14" />
+
+            <button
+                id="btnBack"
+                action="formback=mainMenu"
+                text="Back"
+                y="4" />
+        </form>
+
+        <form id="login" >
+
+            <button
+                id="txtUsername"
+                cols="14"
+                text="Username"
+                x="1"
+                y="24" />
+
+            <button
+                id="txtPassword"
+                cols="14"
+                text="Password"
+                x="1"
+                y="21" />
+
+            <button
+                id="btnLogin"
+                action="login"
+                cols="6"
+                text="Login"
+                x="1"
+                y="17" />
+
+            <button
+                id="btnSignUp"
+                action="form=signup"
+                cols="6"
+                text="Sign Up"
+                x="9"
+                y="17" />
+
+            <button
+                id="btnLoginFacebook"
+                cols="14"
+                text="Login With Facebook"
+                x="1"
+                y="10" />
+
+            <button
+                id="btnBack"
+                action="formback=mainMenu"
+                text="Back"
+                y="4" />
+        </form>
+
+        <form id="signup" >
+
+            <button
+                id="txtUsername"
+                cols="14"
+                text="Username"
+                x="1"
+                y="24" />
+
+            <button
+                id="txtEmail"
+                cols="14"
+                text="Email"
+                x="1"
+                y="21" />
+
+            <button
+                id="txtPassword"
+                cols="14"
+                text="Password"
+                x="1"
+                y="18" />
+
+            <button
+                id="txtPasswordRepeat"
+                cols="14"
+                text="Password Repeat"
+                x="1"
+                y="15" />
+
+            <button
+                id="btnSignUp"
+                action="signup"
+                text="Sign Up"
+                y="10" />
+
+            <button
+                id="btnBack"
+                action="formback=login"
+                text="Back"
+                y="4" />
+        </form>
+
+        <form id="scoreBoardModeSelection" >
+
+            <button
+                id="btnPractice"
+                action="screen=scoreBoard"
+                text="Practice"
+                y="20" />
+
+            <button
+                id="btnChallenge"
+                action="screen=scoreBoard"
+                text="Challenge"
+                y="16" />
+
+            <button
+                id="btnMultiplayer"
+                action="screen=scoreBoard"
+                text="Multiplayer"
+                y="12" />
+
+            <button
+                id="btnBack"
+                action="formback=mainMenu"
+                text="Back"
+                y="4" />
+        </form>
+    </forms>
+
+    <animations>
+    </animations>
+
+    <resources>
+
+        <textures>
+
+            <texture
+                id="ppt-button-default"
+                path="img/ui/button-default.png" />
+
+            <texture
+                id="ppt-button-disabled"
+                path="img/ui/button-disabled.png" />
+
+            <texture
+                id="ppt-button-focused"
+                path="img/ui/button-focused.png" />
+
+            <texture
+                id="ppt-checkbox-checked"
+                path="img/ui/checkbox-checked.png" />
+
+            <texture
+                id="ppt-checkbox-unchecked"
+                path="img/ui/checkbox-unchecked.png" />
+
+            <texture
+                id="card-111"
+                path="img/cards/111.png" />
+
+            <texture
+                id="card-112"
+                path="img/cards/112.png" />
+
+            <texture
+                id="card-114"
+                path="img/cards/114.png" />
+
+            <texture
+                id="card-121"
+                path="img/cards/121.png" />
+
+            <texture
+                id="card-122"
+                path="img/cards/122.png" />
+
+            <texture
+                id="card-124"
+                path="img/cards/124.png" />
+
+            <texture
+                id="card-141"
+                path="img/cards/141.png" />
+
+            <texture
+                id="card-142"
+                path="img/cards/142.png" />
+
+            <texture
+                id="card-144"
+                path="img/cards/144.png" />
+
+            <texture
+                id="card-211"
+                path="img/cards/211.png" />
+
+            <texture
+                id="card-212"
+                path="img/cards/212.png" />
+
+            <texture
+                id="card-214"
+                path="img/cards/214.png" />
+
+            <texture
+                id="card-221"
+                path="img/cards/221.png" />
+
+            <texture
+                id="card-222"
+                path="img/cards/222.png" />
+
+            <texture
+                id="card-224"
+                path="img/cards/224.png" />
+
+            <texture
+                id="card-241"
+                path="img/cards/241.png" />
+
+            <texture
+                id="card-242"
+                path="img/cards/242.png" />
+
+            <texture
+                id="card-244"
+                path="img/cards/244.png" />
+
+            <texture
+                id="card-411"
+                path="img/cards/411.png" />
+
+            <texture
+                id="card-412"
+                path="img/cards/412.png" />
+
+            <texture
+                id="card-414"
+                path="img/cards/414.png" />
+
+            <texture
+                id="card-421"
+                path="img/cards/421.png" />
+
+            <texture
+                id="card-422"
+                path="img/cards/422.png" />
+
+            <texture
+                id="card-424"
+                path="img/cards/424.png" />
+
+            <texture
+                id="card-441"
+                path="img/cards/441.png" />
+
+            <texture
+                id="card-442"
+                path="img/cards/442.png" />
+
+            <texture
+                id="card-444"
+                path="img/cards/444.png" />
+
+            <texture
+                id="card-border"
+                path="img/cards/border.png" />
+
+            <texture
+                id="card-closed"
+                path="img/cards/closedcard.png" />
+
+            <texture
+                id="card-empty"
+                path="img/cards/emptycard.png" />
+        </textures>
+
+        <sounds>
+        </sounds>
+
+        <musics>
+        </musics>
+
+        <fonts>
+
+            <font
+                id="open-sans-300"
+                path="fonts/open-sans-300.otf"
+                sizes="12,18,24,36,48,60,72" />
+
+            <font
+                id="open-sans-400"
+                path="fonts/open-sans-400.otf"
+                sizes="12,18,24,36,48,60,72" />
+        </fonts>
+    </resources>
+
+    <skins>
+
+        <skin id="ppt" >
+
+            <form
+                cols="16"
+                rows="32" />
+
+            <button
+                cols="8"
+                rows="2"
+                texture-default="ppt-button-default"
+                texture-disabled="ppt-button-disabled"
+                texture-focused="ppt-button-focused"
+                x="4" />
+
+            <checkbox
+                rows="2"
+                texture-checked="ppt-checkbox-checked"
+                texture-unchecked="ppt-checkbox-unchecked" />
+
+            <label
+                align="W"
+                rows="2"
+                color="#fff" />
+        </skin>
+    </skins>
+
+</game>

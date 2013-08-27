@@ -14,7 +14,7 @@ public class GdxFont implements IFont {
 	GdxFont(BitmapFont font) {
 		this.font = font;
 		this.size = new Vector();
-		Game.getDisposeManager().register(this);
+		Game.registerDisposable(this);
 	}
 
 	@Override

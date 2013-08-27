@@ -95,11 +95,8 @@ public class Utils {
 		return null;
 	}
 
-	public static Document loadXml(String resourcePath) {
-		InputStream is = null;
+	public static Document loadXml(InputStream is) {
 		try {
-			is = Game.getResourceManager().readFile(resourcePath);
-
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			return builder.parse(is);

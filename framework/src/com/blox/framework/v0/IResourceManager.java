@@ -1,15 +1,9 @@
 package com.blox.framework.v0;
 
-import java.io.InputStream;
-
 public interface IResourceManager {
-	ITexture loadTexture(String resourcePath);
+	ITexture loadTexture(String id);
 
-	ISound loadSound(String resourcePath);
+	ISound loadSound(String id);
 
-	IMusic loadMusic(String resourcePath);
-
-	IVideo loadVideo(String resourcePath);
-	
-	InputStream readFile(String resourcePath);
+	IMusic loadMusic(String id);
 }

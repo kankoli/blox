@@ -1,34 +1,33 @@
 package com.blox.framework.v0.util;
 
+import org.w3c.dom.Document;
+
 import com.badlogic.gdx.Gdx;
 import com.blox.framework.v0.IActionHandlerFactory;
 import com.blox.framework.v0.ICollisionDetectorFactory;
-import com.blox.framework.v0.ICollisionManager;
 import com.blox.framework.v0.IDeltaTime;
-import com.blox.framework.v0.IDisposeManager;
-import com.blox.framework.v0.IDrawer;
-import com.blox.framework.v0.IDrawerManager;
+import com.blox.framework.v0.IDisposable;
 import com.blox.framework.v0.IFontFactory;
 import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
-import com.blox.framework.v0.IMoveManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ITextureSplitter;
+import com.blox.framework.v0.impl.DisposeManager;
+import com.blox.framework.v0.metadata.GameMetadata;
 
 public final class Game {
 	private static Vector gravity = new Vector();
 	private static Viewport viewport;
 
 	private static IGameProvider provider;
-
+	
+	private static DisposeManager disposeManager;
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
 	private static ITextureSplitter textureSplitter;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
-	private static IDisposeManager disposeManager;
 	private static IFontFactory fontFactory;
 	private static IInputManager inputManager;
-	private static IDrawerManager drawerManager;
 	private static IActionHandlerFactory actionHandlerFactory;
 
 	public static float renderingAlpha = 1;
@@ -39,21 +38,22 @@ public final class Game {
 
 	}
 
-	public static void initialize(IGameProvider provider) {
-		Game.provider = provider;
-		disposeManager = provider.createDisposeManager();
+	public static void initialize(Document gameXml) {
+		GameMetadata.load(gameXml);
+		
+		provider = (IGameProvider)Utils.createInstance(GameMetadata.getParam("provider"));
+		
 		deltaTime = provider.createDeltaTime();
 		resourceManager = provider.createResourceManager();
 		textureSplitter = provider.createTextureSplitter();
 		collisionDetectorFactory = provider.createCollisionDetectorFactory();
 		inputManager = provider.createInputManager();
-		drawerManager = provider.createDrawerManager();
 		fontFactory = provider.createFontFactory();
 		actionHandlerFactory = provider.createActionHandlerFactory();
 		gravity.y = -9.8f;
-
-		GameMetadata.load(provider.getMetadataFile());
-
+		
+		disposeManager = new DisposeManager();
+		
 		initViewport();
 	}
 
@@ -81,30 +81,18 @@ public final class Game {
 		return inputManager;
 	}
 
-	public static IDrawerManager getDrawerManager() {
-		return drawerManager;
-	}
-
-	public static IDisposeManager getDisposeManager() {
-		return disposeManager;
-	}
-
 	public static IActionHandlerFactory getActionHandlerFactory() {
 		return actionHandlerFactory;
 	}
 	
-	public static IDrawer createDrawer() {
-		return provider.createDrawer();
+	public static void dispose() {
+		disposeManager.execute();
 	}
 	
-	public static IMoveManager createMoveManager() {
-		return provider.createMoveManager();
+	public static void registerDisposable(IDisposable disposable) {
+		disposeManager.register(disposable);
 	}
 	
-	public static ICollisionManager createCollisionManager() {
-		return provider.createCollisionManager();
-	}
-
 	public static void exit() {
 		provider.exit();
 	}

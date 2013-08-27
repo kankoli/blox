@@ -12,13 +12,8 @@ public class PracticeModeScreen extends SetGameScreen {
 	}
 
 	@Override
-	public void render() {
-		draw();
-	}
-
-	@Override
 	public void update() {
-		controller.work();
+		controller.execute();
 		super.update();
 	}
 }
