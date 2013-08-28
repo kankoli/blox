@@ -48,7 +48,7 @@ public class Skin {
 		List<ControlMetadata> controlsMetadata = metadata.getControls();
 		for (ControlMetadata controlMetadata : controlsMetadata) {
 			for (String key : controlMetadata.getAttributes().keySet()) {
-				skin.put(controlMetadata.getTag(), key, controlMetadata.getAttributes().get(key));
+				skin.put(controlMetadata.getType(), key, controlMetadata.getAttributes().get(key));
 			}
 		}
 		

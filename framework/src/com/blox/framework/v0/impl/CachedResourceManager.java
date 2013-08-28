@@ -1,6 +1,8 @@
 package com.blox.framework.v0.impl;
 
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.IMusic;
+import com.blox.framework.v0.IResourceInitListener;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
@@ -9,48 +11,56 @@ import com.blox.framework.v0.util.Cache;
 public class CachedResourceManager implements IResourceManager {
 	private Cache cache;
 
+	private final IResourceManager manager;
+	
 	private IResourceLoader<ITexture> textureLoader;
 	private IResourceLoader<ISound> soundLoader;
 	private IResourceLoader<IMusic> musicLoader;
 
 	public CachedResourceManager(final IResourceManager resManager) {
 		this.cache = new Cache();
+		this.manager = resManager;
 
 		this.textureLoader = new IResourceLoader<ITexture>() {
 			@Override
 			public ITexture load(String resourcePath) {
-				return resManager.loadTexture(resourcePath);
+				return resManager.getTexture(resourcePath);
 			}
 		};
 
 		this.soundLoader = new IResourceLoader<ISound>() {
 			@Override
 			public ISound load(String resourcePath) {
-				return resManager.loadSound(resourcePath);
+				return resManager.getSound(resourcePath);
 			}
 		};
 
 		this.musicLoader = new IResourceLoader<IMusic>() {
 			@Override
 			public IMusic load(String resourcePath) {
-				return resManager.loadMusic(resourcePath);
+				return resManager.getMusic(resourcePath);
 			}
 		};
 	}
 
 	@Override
-	public ITexture loadTexture(String resourcePath) {
+	public ITexture getTexture(String resourcePath) {
 		return loadResource(resourcePath, textureLoader);
 	}
 
 	@Override
-	public ISound loadSound(String resourcePath) {
+	public ISound getSound(String resourcePath) {
 		return loadResource(resourcePath, soundLoader);
 	}
 
 	@Override
-	public IMusic loadMusic(String resourcePath) {
+	public IMusic getMusic(String resourcePath) {
 		return loadResource(resourcePath, musicLoader);
+	}
+
+	@Override
+	public void init(IResourceInitListener listener) {
+		manager.init(listener);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -66,5 +76,10 @@ public class CachedResourceManager implements IResourceManager {
 
 	private interface IResourceLoader<T> {
 		T load(String resourcePath);
+	}
+
+	@Override
+	public IFont getFont(String id, int size) {
+		return manager.getFont(id, size);
 	}
 }

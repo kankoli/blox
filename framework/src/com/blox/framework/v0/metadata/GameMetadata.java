@@ -3,7 +3,6 @@ package com.blox.framework.v0.metadata;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -47,24 +46,8 @@ public class GameMetadata {
 		return instance.forms.get(id);
 	}
 
-	public static TextureMetadata getTexture(String id) {
-		return instance.resources.getTexture(id);
-	}
-
-	public static SoundMetadata getSound(String id) {
-		return instance.resources.getSound(id);
-	}
-
-	public static MusicMetadata getMusic(String id) {
-		return instance.resources.getMusic(id);
-	}
-
-	public static FontMetadata getFont(String id) {
-		return instance.resources.getFont(id);
-	}
-
-	public static Set<String> getFontNames() {
-		return instance.resources.getFontNames();
+	public static ResourcesMetadata getResources() {
+		return instance.resources;
 	}
 
 	public static SkinMetadata getSkin(String id) {

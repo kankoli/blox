@@ -19,7 +19,7 @@ public class Image extends DrawableControl {
 	@Override
 	protected void setAttribute(String attribute, String value) {
 		if ("texture".equals(attribute))
-			texture = Game.getResourceManager().loadTexture(value);
+			texture = Game.getResourceManager().getTexture(value);
 		super.setAttribute(attribute, value);
 	}
 }

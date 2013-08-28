@@ -45,7 +45,7 @@ final class AnimationBuilder {
 	}
 
 	private void buildAnimation() {
-		ITexture mainTexture = Game.getResourceManager().loadTexture(mainTexturePath);
+		ITexture mainTexture = Game.getResourceManager().getTexture(mainTexturePath);
 		ITextureSplitter textureSplitter = Game.getTextureSplitter();
 		ITexture[] frames = textureSplitter.split(mainTexture, animation.getWidth(), animation.getHeight());
 		animation.setFrames(frames);

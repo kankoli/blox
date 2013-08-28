@@ -43,13 +43,13 @@ public class Button extends DrawableControl {
 	@Override
 	protected void setAttribute(String attribute, String value) {
 		if ("texture-default".equals(attribute))
-			style.textureDefault = Game.getResourceManager().loadTexture(value);
+			style.textureDefault = Game.getResourceManager().getTexture(value);
 
 		else if ("texture-focused".equals(attribute))
-			style.textureFocused = Game.getResourceManager().loadTexture(value);
+			style.textureFocused = Game.getResourceManager().getTexture(value);
 
 		else if ("texture-disabled".equals(attribute))
-			style.textureDisabled = Game.getResourceManager().loadTexture(value);
+			style.textureDisabled = Game.getResourceManager().getTexture(value);
 
 		else if ("text".equals(attribute))
 			text = value;

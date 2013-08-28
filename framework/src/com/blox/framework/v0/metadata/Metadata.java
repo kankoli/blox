@@ -1,20 +1,34 @@
 package com.blox.framework.v0.metadata;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public abstract class Metadata {
 	private String id;
+	private String type;
+	protected final Map<String, String> attributes;
 
 	public String getId() {
 		return id;
 	}
 
-	Metadata() {
+	public String getType() {
+		return type;
+	}
 
+	public Map<String, String> getAttributes() {
+		return attributes;
+	}
+	
+	Metadata() {
+		attributes = new HashMap<String, String>();
 	}
 
 	protected void loadNode(Node node) {
+		type = node.getNodeName();
 		NamedNodeMap attrs = node.getAttributes();
 		for (int i = 0; i < attrs.getLength(); i++) {
 			Node attr = attrs.item(i);
@@ -25,6 +39,8 @@ public abstract class Metadata {
 	protected void setAttribute(String key, String value) {
 		if ("id".equals(key))
 			id = value;
+		else
+			attributes.put(key, value);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -39,20 +55,14 @@ public abstract class Metadata {
 			return new AnimationMetadata();
 		if ("button".equals(nodeName) || "checkbox".equals(nodeName) || "label".equals(nodeName))
 			return new ControlMetadata();
-		if ("font".equals(nodeName))
-			return new FontMetadata();
+		if ("font".equals(nodeName) || "music".equals(nodeName) ||"sound".equals(nodeName)||"texture".equals(nodeName))
+			return new ResourceMetadata();
 		if ("form".equals(nodeName))
 			return new FormMetadata();
-		if ("music".equals(nodeName))
-			return new MusicMetadata();
 		if ("screen".equals(nodeName))
 			return new ScreenMetadata();
 		if ("skin".equals(nodeName))
 			return new SkinMetadata();
-		if ("sound".equals(nodeName))
-			return new SoundMetadata();
-		if ("texture".equals(nodeName))
-			return new TextureMetadata();
 		return null;
 	}
 }

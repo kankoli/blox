@@ -10,8 +10,6 @@ public interface IGameProvider {
 
 	IInputManager createInputManager();
 
-	IFontFactory createFontFactory();
-
 	ICollisionDetectorFactory createCollisionDetectorFactory();
 	
 	IActionHandlerFactory createActionHandlerFactory();

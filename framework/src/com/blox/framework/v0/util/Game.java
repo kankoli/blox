@@ -7,7 +7,6 @@ import com.blox.framework.v0.IActionHandlerFactory;
 import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.IDeltaTime;
 import com.blox.framework.v0.IDisposable;
-import com.blox.framework.v0.IFontFactory;
 import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
@@ -26,7 +25,6 @@ public final class Game {
 	private static IResourceManager resourceManager;
 	private static ITextureSplitter textureSplitter;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
-	private static IFontFactory fontFactory;
 	private static IInputManager inputManager;
 	private static IActionHandlerFactory actionHandlerFactory;
 
@@ -48,7 +46,6 @@ public final class Game {
 		textureSplitter = provider.createTextureSplitter();
 		collisionDetectorFactory = provider.createCollisionDetectorFactory();
 		inputManager = provider.createInputManager();
-		fontFactory = provider.createFontFactory();
 		actionHandlerFactory = provider.createActionHandlerFactory();
 		gravity.y = -9.8f;
 		
@@ -71,10 +68,6 @@ public final class Game {
 
 	public static ICollisionDetectorFactory getCollisionDetectorFactory() {
 		return collisionDetectorFactory;
-	}
-
-	public static IFontFactory getFontFactory() {
-		return fontFactory;
 	}
 
 	public static IInputManager getInputManager() {

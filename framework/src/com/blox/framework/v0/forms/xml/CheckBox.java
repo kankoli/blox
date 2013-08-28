@@ -14,10 +14,10 @@ public class CheckBox extends DrawableControl {
 	@Override
 	protected void setAttribute(String attribute, String value) {
 		if ("texture-checked".equals(attribute))
-			style.textureChecked = Game.getResourceManager().loadTexture(value);
+			style.textureChecked = Game.getResourceManager().getTexture(value);
 
 		else if ("texture-unchecked".equals(attribute))
-			style.textureUnchecked = Game.getResourceManager().loadTexture(value);
+			style.textureUnchecked = Game.getResourceManager().getTexture(value);
 		
 		else
 			super.setAttribute(attribute, value);

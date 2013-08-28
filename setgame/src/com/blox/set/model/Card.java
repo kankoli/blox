@@ -26,8 +26,8 @@ public class Card extends CardGameObject {
 	private List<ITappedListener> tappedListeners;
 
 	static {
-		textureClosed = Game.getResourceManager().loadTexture(R.game.textures.cardEmpty);
-		textureBorder = Game.getResourceManager().loadTexture(R.game.textures.cardBorder);
+		textureClosed = Game.getResourceManager().getTexture(R.game.textures.cardEmpty);
+		textureBorder = Game.getResourceManager().getTexture(R.game.textures.cardBorder);
 	}
 
 	public static Card[] getDeck() {
@@ -97,11 +97,11 @@ public class Card extends CardGameObject {
 	}
 
 	private void calculateTextures() {
-		texture = Game.getResourceManager().loadTexture(R.game.textures.cardEmpty);
+		texture = Game.getResourceManager().getTexture(R.game.textures.cardEmpty);
 
 		String symbolName = "card-" + attributes.getColor() + attributes.getShape() + attributes.getPattern();
 
-		ITexture symbolTexture = Game.getResourceManager().loadTexture(symbolName);
+		ITexture symbolTexture = Game.getResourceManager().getTexture(symbolName);
 		symbols = new ArrayList<Symbol>();
 		if (attributes.getCount() == 1) {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.firstOfOne, this.location));

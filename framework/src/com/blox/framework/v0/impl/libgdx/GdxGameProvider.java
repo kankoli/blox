@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.blox.framework.v0.IActionHandlerFactory;
 import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.IDeltaTime;
-import com.blox.framework.v0.IFontFactory;
 import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
@@ -41,11 +40,6 @@ public class GdxGameProvider implements IGameProvider {
 	@Override
 	public ICollisionDetectorFactory createCollisionDetectorFactory() {
 		return new CollisionDetectorFactory();
-	}
-
-	@Override
-	public IFontFactory createFontFactory() {
-		return new GdxFontFactory();
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public final class UIManager {
 	}
 	
 	static Control createControl(ControlMetadata metadata) {
-		Control control = createControl(metadata.getTag());
+		Control control = createControl(metadata.getType());
 		control.initAttributes(metadata.getAttributes());
 		return control;
 	}
