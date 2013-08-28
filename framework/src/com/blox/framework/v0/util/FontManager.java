@@ -2,12 +2,10 @@ package com.blox.framework.v0.util;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import com.blox.framework.v0.IFont;
-import com.blox.framework.v0.IFontFactory;
-import com.blox.framework.v0.metadata.FontMetadata;
 import com.blox.framework.v0.metadata.GameMetadata;
+import com.blox.framework.v0.metadata.ResourceMetadata;
 
 public final class FontManager {
 	private FontManager() {
@@ -25,16 +23,26 @@ public final class FontManager {
 
 		String defaultFontName = GameMetadata.getParam("default-font");
 		int defaultFontSize = 24;
-		if (Game.getScreenHeight() > 1000)
+		if (Game.getScreenHeight() > 1599)
+			defaultFontSize = 48;
+		else if (Game.getScreenHeight() > 999)
 			defaultFontSize = 36;
+		else if (Game.getScreenHeight() < 480)
+			defaultFontSize = 12;
+		else if (Game.getScreenHeight() < 800)
+			defaultFontSize = 18;
 
 		defaultFont = get(defaultFontName, defaultFontSize);
 
-		FontMetadata defaultFontMeta = GameMetadata.getFont(defaultFontName);
-		int[] sizes = defaultFontMeta.getSizes();
+		ResourceMetadata defaultFontMeta = GameMetadata.getResources().getFont(defaultFontName);
+		int[] sizes = null;// defaultFontMeta.getSizes();
 
 		minFont = get(defaultFontName, sizes[0]);
 		maxFont = get(defaultFontName, sizes[sizes.length - 1]);
+	}
+	
+	public static void init() {
+		
 	}
 
 	public static IFont get(String name, int size) {
@@ -47,15 +55,15 @@ public final class FontManager {
 	}
 
 	private static void loadFonts() {
-		Set<String> fontNames = GameMetadata.getFontNames();
-		IFontFactory factory = Game.getFontFactory();
-
-		for (String fontName : fontNames) {
-			FontMetadata fontMeta = GameMetadata.getFont(fontName);
-			Map<Integer, IFont> fonts = factory.create(fontMeta);
-			for (int size : fonts.keySet()) {
-				FontManager.fonts.put(fontName + ":" + size, fonts.get(size));
-			}
-		}
+//		Set<String> fontNames = GameMetadata.getResources().getFontIds();
+//		IFontFactory factory = Game.getFontFactory();
+//
+//		for (String fontName : fontNames) {
+//			FontMetadata fontMeta = GameMetadata.getResources().getFont(fontName);
+//			Map<Integer, IFont> fonts = factory.create(fontMeta);
+//			for (int size : fonts.keySet()) {
+//				FontManager.fonts.put(fontName + ":" + size, fonts.get(size));
+//			}
+//		}
 	}
 }

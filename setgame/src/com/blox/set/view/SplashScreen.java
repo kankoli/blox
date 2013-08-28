@@ -1,36 +1,30 @@
 package com.blox.set.view;
 
-import com.blox.framework.v0.impl.ScreenManager;
-import com.blox.framework.v0.util.TextDrawer;
-import com.blox.set.utils.R;
-import com.blox.set.utils.SetFonts;
+import com.blox.framework.v0.IResourceInitListener;
+import com.blox.framework.v0.util.Game;
 
-public class SplashScreen extends SetGameScreen {
+public class SplashScreen extends SetGameScreen implements IResourceInitListener {
 	private boolean loading = true;
 	@Override
 	public void render() {
 		super.render();
-		if (loading)
-			TextDrawer.draw(SetFonts.font72, "Loading...", TextDrawer.AlignCentered);
-		else
-			ScreenManager.instance.switchTo(R.game.screens.menu, false);
+//		if (loading)
+//			//TextDrawer.draw(FontManager.defaultFont, "Loading...", TextDrawer.AlignCentered);
+//			System.out.println("loading...");
+//		else
+//			//ScreenManager.instance.switchTo(R.game.screens.menu, false);
+//			System.out.println("load OK!!!");
 	}
 	
 	@Override
 	public void init() {
 		super.init();
-		SetFonts.init();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(2000);
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				loading = false;
-			}
-		}).start();
+		Game.getResourceManager().init(this);
+	}
+
+	@Override
+	public void resourcesInited() {
+		System.out.println("loaded!");
+		loading = false;
 	}
 }

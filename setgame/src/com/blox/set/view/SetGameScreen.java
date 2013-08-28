@@ -3,8 +3,8 @@ package com.blox.set.view;
 import com.badlogic.gdx.Input.Keys;
 import com.blox.framework.v0.impl.Screen;
 import com.blox.framework.v0.impl.ScreenManager;
+import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.TextDrawer;
-import com.blox.set.utils.SetFonts;
 
 public abstract class SetGameScreen extends Screen {
 	@Override
@@ -16,7 +16,7 @@ public abstract class SetGameScreen extends Screen {
 	@Override
 	public void render() {
 		super.render();
-		TextDrawer.draw(SetFonts.font48, getId(), TextDrawer.AlignN);
+		// TextDrawer.draw(FontManager.defaultFont, getId(), TextDrawer.AlignN);
 	}	
 	 
 	@Override

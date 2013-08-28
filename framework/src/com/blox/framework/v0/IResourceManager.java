@@ -1,9 +1,13 @@
 package com.blox.framework.v0;
 
 public interface IResourceManager {
-	ITexture loadTexture(String id);
+	void init(IResourceInitListener listener);
+	
+	ITexture getTexture(String id);
 
-	ISound loadSound(String id);
+	ISound getSound(String id);
 
-	IMusic loadMusic(String id);
+	IMusic getMusic(String id);
+
+	IFont getFont(String id, int size);
 }
