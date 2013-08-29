@@ -1,6 +1,5 @@
 package com.blox.framework.v0.forms.xml;
 
-import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.FontManager;
@@ -10,7 +9,6 @@ public class Label extends DrawableControl {
 	private String text;
 	private Color color;
 	private boolean centered;
-	private IFont font;
 	private int alignment;
 	
 	public String getText() {
@@ -41,7 +39,7 @@ public class Label extends DrawableControl {
 	}
 	
 	public Label() {
-		font = FontManager.defaultFont;
+		
 	}
 	
 	@Override
@@ -56,7 +54,7 @@ public class Label extends DrawableControl {
 	
 	@Override
 	protected void draw() {
-		TextDrawer.draw(font, text, drawable, alignment);
+		TextDrawer.draw(FontManager.defaultFont, text, drawable, alignment);
 	}
 	
 	@Override
@@ -69,9 +67,6 @@ public class Label extends DrawableControl {
 		
 		else if ("align".equals(attribute))
 			alignment = TextDrawer.getAlignment(value);
-		
-		else if ("font".equals(attribute))
-			font = FontManager.get(value);
 		
 		else 
 			super.setAttribute(attribute, value);

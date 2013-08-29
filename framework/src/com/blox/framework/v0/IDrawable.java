@@ -52,7 +52,7 @@ public interface IDrawable {
 		
 		@Override
 		public float getHeight() {
-			return Game.getScreenWidth();
+			return Game.getScreenHeight();
 		}
 		
 		@Override

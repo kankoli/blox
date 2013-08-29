@@ -4,4 +4,8 @@ public class ResourceMetadata extends Metadata {
 	public String getPath() {
 		return attributes.get("path");
 	}
+	
+	public boolean isPrimary() {
+		return "true".equals(get("primary-resource"));
+	}
 }

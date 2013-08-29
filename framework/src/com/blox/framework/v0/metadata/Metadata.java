@@ -23,6 +23,10 @@ public abstract class Metadata {
 		return attributes;
 	}
 	
+	public String get(String key) {
+		return attributes.get(key);
+	}
+	
 	Metadata() {
 		attributes = new HashMap<String, String>();
 	}

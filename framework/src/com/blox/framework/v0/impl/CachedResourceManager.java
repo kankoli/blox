@@ -2,7 +2,6 @@ package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.IMusic;
-import com.blox.framework.v0.IResourceInitListener;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
@@ -59,8 +58,18 @@ public class CachedResourceManager implements IResourceManager {
 	}
 
 	@Override
-	public void init(IResourceInitListener listener) {
-		manager.init(listener);
+	public boolean isLoading() {
+		return manager.isLoading();
+	}
+
+	@Override
+	public int getLoadingPercent() {
+		return manager.getLoadingPercent();
+	}
+
+	@Override
+	public void beginLoading() {
+		manager.beginLoading();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -79,7 +88,7 @@ public class CachedResourceManager implements IResourceManager {
 	}
 
 	@Override
-	public IFont getFont(String id, int size) {
-		return manager.getFont(id, size);
+	public IFont getFont(String id) {
+		return manager.getFont(id);
 	}
 }

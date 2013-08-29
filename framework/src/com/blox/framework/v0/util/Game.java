@@ -52,6 +52,8 @@ public final class Game {
 		disposeManager = new DisposeManager();
 		
 		initViewport();
+		
+		resourceManager.beginLoading();
 	}
 
 	public static float getDeltaTime() {

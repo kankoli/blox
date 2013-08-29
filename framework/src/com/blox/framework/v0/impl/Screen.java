@@ -9,6 +9,7 @@ import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.IView;
 import com.blox.framework.v0.metadata.GameMetadata;
 import com.blox.framework.v0.metadata.ScreenMetadata;
+import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
@@ -32,6 +33,11 @@ public abstract class Screen implements IInputListener, IView {
 
 		Screen screen = (Screen) Utils.createInstance(metadata.getScreenClass());
 		screen.id = screenId;
+		
+		String bg = metadata.getBackgroundTextureId();
+		if (!Utils.isNullOrWhitespace(bg))
+			screen.background = Game.getResourceManager().getTexture(bg);
+		
 		return screen;
 	}
 
@@ -58,9 +64,9 @@ public abstract class Screen implements IInputListener, IView {
 
 	@Override
 	public void render() {
-		drawer.draw();
 		if (background != null)
 			background.draw(IDrawable.background);
+		drawer.draw();
 	}
 
 	@Override

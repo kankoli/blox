@@ -9,4 +9,6 @@ public interface IFont extends IDisposable {
 	Vector getSize(String text);
 
 	void draw(String text, float x, float y);
+	
+	void scale(float f);
 }

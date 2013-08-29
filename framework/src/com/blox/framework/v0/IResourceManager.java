@@ -1,7 +1,11 @@
 package com.blox.framework.v0;
 
 public interface IResourceManager {
-	void init(IResourceInitListener listener);
+	void beginLoading();
+	
+	boolean isLoading();
+	
+	int getLoadingPercent();
 	
 	ITexture getTexture(String id);
 
@@ -9,5 +13,5 @@ public interface IResourceManager {
 
 	IMusic getMusic(String id);
 
-	IFont getFont(String id, int size);
+	IFont getFont(String id);
 }
