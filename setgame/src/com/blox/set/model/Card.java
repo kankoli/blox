@@ -26,8 +26,8 @@ public class Card extends CardGameObject {
 	private List<ITappedListener> tappedListeners;
 
 	static {
-		textureClosed = Game.getResourceManager().getTexture(R.game.textures.cardEmpty);
-		textureBorder = Game.getResourceManager().getTexture(R.game.textures.cardBorder);
+		textureClosed = Game.getResourceManager().getTexture("card-closed");
+		textureBorder = Game.getResourceManager().getTexture("card-border");
 	}
 
 	public static Card[] getDeck() {
