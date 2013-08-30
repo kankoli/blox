@@ -20,12 +20,15 @@ public class Card extends CardGameObject {
 	public static final int SymbolHeight = (int) (50 * scale);
 	public static final int Space = 7;
 
+
+	private static ITexture textureDefault;
 	private static ITexture textureClosed;
 	private static ITexture textureBorder;
 
 	static {
-		textureClosed = Game.getResourceManager().getTexture("card-closed");
-		textureBorder = Game.getResourceManager().getTexture("card-border");
+		textureDefault = Game.getResourceManager().getTexture(R.game.textures.cardEmpty);
+		textureClosed = Game.getResourceManager().getTexture(R.game.textures.cardClosed);
+		textureBorder = Game.getResourceManager().getTexture(R.game.textures.cardBorder);
 	}
 
 	public static Card[] getDeck() {
@@ -82,7 +85,6 @@ public class Card extends CardGameObject {
 	private boolean isOpened;
 	private boolean isSelected;
 
-	private ITexture texture;
 	private List<Symbol> symbols;
 
 	public Card(CardAttributes cardAttributes) {
@@ -94,8 +96,6 @@ public class Card extends CardGameObject {
 	}
 
 	private void calculateTextures() {
-		texture = Game.getResourceManager().getTexture(R.game.textures.cardEmpty);
-
 		String symbolName = "card-" + attributes.getColor() + attributes.getShape() + attributes.getPattern();
 
 		ITexture symbolTexture = Game.getResourceManager().getTexture(symbolName);
@@ -148,7 +148,7 @@ public class Card extends CardGameObject {
 			return;
 		}
 
-		TextureDrawer.draw(texture, this);
+		TextureDrawer.draw(textureDefault, this);
 
 		for (int i = 0; i < symbols.size(); i++) {
 			symbols.get(i).draw();
