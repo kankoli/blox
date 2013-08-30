@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.blox.framework.v0.ITappedListener;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextureDrawer;
@@ -23,9 +22,13 @@ public class Card extends CardGameObject {
 
 	private static ITexture textureClosed;
 	private static ITexture textureBorder;
+<<<<<<< HEAD
 
 	private List<ITappedListener> tappedListeners;
 
+=======
+	
+>>>>>>> tk
 	static {
 		textureClosed = Game.getResourceManager().getTexture("card-closed");
 		textureBorder = Game.getResourceManager().getTexture("card-border");
@@ -92,8 +95,12 @@ public class Card extends CardGameObject {
 		this.attributes = cardAttributes;
 		this.width = Card.Width;
 		this.height = Card.Height;
+<<<<<<< HEAD
 		this.tappedListeners = new ArrayList<ITappedListener>();
 
+=======
+		
+>>>>>>> tk
 		calculateTextures();
 	}
 
@@ -117,6 +124,7 @@ public class Card extends CardGameObject {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.thirdOfThree, this.location));
 		}
 	}
+<<<<<<< HEAD
 
 	public void registerTappedListener(ITappedListener listener) {
 		tappedListeners.add(listener);
@@ -137,6 +145,17 @@ public class Card extends CardGameObject {
 		notifyTappedListeners();
 	}
 
+=======
+	
+	@Override // if you want to do something. not necessary in this case.
+	public boolean tap(float x, float y, int count, int button) {
+		super.tap(x, y, count, button);
+		// do something
+		return false;
+	}
+	
+	
+>>>>>>> tk
 	public void open() {
 		isOpened = true;
 	}

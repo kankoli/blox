@@ -1,11 +1,10 @@
 package com.blox.set.controller;
 
 import com.blox.framework.v0.IGameObject;
-import com.blox.framework.v0.ITappedListener;
 import com.blox.framework.v0.impl.State;
 import com.blox.set.model.Card;
 
-public class WaitingState extends State implements ITappedListener {
+public class WaitingState extends State {
 	private SetGameController controller;
 
 	public WaitingState(SetGameController parent) {
@@ -13,7 +12,7 @@ public class WaitingState extends State implements ITappedListener {
 	}
 	
 	@Override
-	public void onTapped(IGameObject obj) {
+	public void onTap(IGameObject obj, float x, float y, int count, int button) {
 		controller.tapped((Card)obj);
 	}
 }

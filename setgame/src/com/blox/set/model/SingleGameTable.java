@@ -104,14 +104,14 @@ public class SingleGameTable extends TableObject {
 	@Override
 	public void registerWaiting(WaitingState waitingState) {
 		for (int i = 0; i < 3; i++) {
-			cardsToSelect[i].registerTappedListener(waitingState);
+			cardsToSelect[i].registerInputEventListener(waitingState);
 		}
 	}
 
 	@Override
 	public void unregisterWaiting(WaitingState waitingState) {
 		for (int i = 0; i < 3; i++) {
-			cardsToSelect[i].registerTappedListener(waitingState);
+			cardsToSelect[i].registerInputEventListener(waitingState);
 		}
 	}
 

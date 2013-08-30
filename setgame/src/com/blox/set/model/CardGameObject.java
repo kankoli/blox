@@ -1,5 +1,9 @@
 package com.blox.set.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.blox.framework.v0.IInputEventListener;
 import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Game;
@@ -10,6 +14,12 @@ public class CardGameObject extends GameObject implements IInputListener{
 	
 	protected boolean isActive;
 
+	private List<IInputEventListener> inputEventListeners;
+	
+	public CardGameObject() {
+		inputEventListeners = new ArrayList<IInputEventListener>();
+	}
+	
 	public void activate() {
 		Game.getInputManager().register(this);
 		isActive = true;
@@ -23,16 +33,32 @@ public class CardGameObject extends GameObject implements IInputListener{
 	public boolean isActive() {
 		return isActive;
 	}
+	
+	public void registerInputEventListener(IInputEventListener listener) {
+		inputEventListeners.add(listener);
+	}
 
+	public void unregisterInputEventListener(IInputEventListener listener) {
+		inputEventListeners.remove(listener);
+	}
+	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
+		if (Utils.isIn(x, y, location, width, height)) {
+			for (int i = inputEventListeners.size()-1; i >= 0; i--) {
+				inputEventListeners.get(i).onTouchDown(this, x, y, pointer, button);
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
+		if (Utils.isIn(x, y, location, width, height)) {
+			for (int i = inputEventListeners.size()-1; i >= 0; i--) {
+				inputEventListeners.get(i).onTouchUp(this, x, y, pointer, button);
+			}
+		}
 		return false;
 	}
 
@@ -44,14 +70,21 @@ public class CardGameObject extends GameObject implements IInputListener{
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		if (Utils.isIn(x, y, location, width, height))
-			onTap();
+		if (Utils.isIn(x, y, location, width, height)) {
+			for (int i = inputEventListeners.size()-1; i >= 0; i--) {
+				inputEventListeners.get(i).onTap(this, x, y, count, button);
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean longPress(float x, float y) {
-		// TODO Auto-generated method stub
+		if (Utils.isIn(x, y, location, width, height)) {
+			for (int i = inputEventListeners.size()-1; i >= 0; i--) {
+				inputEventListeners.get(i).onLongPress(this, x, y);
+			}
+		}
 		return false;
 	}
 
@@ -107,9 +140,5 @@ public class CardGameObject extends GameObject implements IInputListener{
 	public boolean scrolled(float amount) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	protected void onTap() {
-		
 	}
 }

@@ -192,14 +192,14 @@ public class FullGameTable extends TableObject {
 	@Override
 	public void registerWaiting(WaitingState waitingState) {
 		for (int i = 0; i < deck.length; i++) {
-			deck[i].registerTappedListener(waitingState);
+			deck[i].registerInputEventListener(waitingState);
 		}
 	}
 
 	@Override
 	public void unregisterWaiting(WaitingState waitingState) {
 		for (int i = 0; i < deck.length; i++) {
-			deck[i].unregisterTappedListener(waitingState);
+			deck[i].unregisterInputEventListener(waitingState);
 		}
 	}
 
