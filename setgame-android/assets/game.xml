@@ -8,8 +8,8 @@
         <param
             key="provider"
             value="com.blox.framework.v0.impl.libgdx.GdxGameProvider" />
-        
-         <param
+
+        <param
             key="settings-key"
             value="com.blox.SetGame" />
 
@@ -23,7 +23,7 @@
 
         <param
             key="default-font"
-            value="Mecha" />
+            value="Mecha,36" />
 
         <param
             key="default-skin"
@@ -50,32 +50,38 @@
 
         <screen
             id="challenge"
-            background-texture="bg-challenge"
+            background-texture="bg-desk"
+            background-music="game-music"
             class="com.blox.set.view.ChallengeModeScreen" />
 
         <screen
             id="learning"
-            background-texture="bg-learning"
+            background-texture="bg-desk"
+            background-music="game-music"
             class="com.blox.set.view.LearningModeScreen" />
 
         <screen
             id="multiplayer"
-            background-texture="bg-multiplayer"
+            background-texture="bg-desk"
+            background-music="game-music"
             class="com.blox.set.view.MultiplayerModeScreen" />
 
         <screen
             id="menu"
             background-texture="bg-menu"
+            background-music="menu-music"
             class="com.blox.set.view.MenuScreen" />
 
         <screen
             id="practice"
-            background-texture="bg-practice"
+            background-texture="bg-desk"
+            background-music="game-music"
             class="com.blox.set.view.PracticeModeScreen" />
 
         <screen
             id="relax"
-            background-texture="bg-relax"
+            background-texture="bg-desk"
+            background-music="game-music"
             class="com.blox.set.view.RelaxModeScreen" />
 
         <screen
@@ -86,6 +92,7 @@
         <screen
             id="scoreBoard"
             background-texture="bg-scoreBoard"
+            background-music="scoreBoard-music"
             class="com.blox.set.view.ScoreBoardScreen" />
     </screens>
 
@@ -178,6 +185,20 @@
                 cols="2"
                 x="13"
                 y="22" />
+
+            <label
+                id="lblMusic"
+                cols="10"
+                text="Music"
+                x="2"
+                y="18" />
+
+            <checkbox
+                id="chkMusic"
+                action="bind=settings.music,true"
+                cols="2"
+                x="13"
+                y="18" />
 
             <label
                 id="lblVibration"
@@ -466,36 +487,20 @@
 
             <texture
                 id="bg-splash"
-                path="img/bg/bg1.jpg"
+                path="img/bg/bg-splash.png"
                 resource-load="primary" />
 
             <texture
                 id="bg-menu"
-                path="img/bg/bg2.jpg" />
+                path="img/bg/bg-menu.png" />
 
             <texture
-                id="bg-challenge"
-                path="img/bg/bg3.jpg" />
-
-            <texture
-                id="bg-learning"
-                path="img/bg/bg4.jpg" />
-
-            <texture
-                id="bg-multiplayer"
-                path="img/bg/bg5.png" />
-
-            <texture
-                id="bg-practice"
-                path="img/bg/bg6.jpg" />
-
-            <texture
-                id="bg-relax"
-                path="img/bg/bg7.jpg" />
+                id="bg-desk"
+                path="img/bg/bg-desk.png" />
 
             <texture
                 id="bg-scoreBoard"
-                path="img/bg/bg8.jpg" />
+                path="img/bg/bg-score-board.png" />
         </textures>
 
         <sounds>
@@ -510,6 +515,20 @@
         </sounds>
 
         <musics>
+
+            <music
+                id="game-music"
+                path="music/game-bg.mp3"
+                resource-load="ondemand" />
+            
+            <music
+                id="menu-music"
+                path="music/menu-bg.mp3"
+                resource-load="ondemand" />
+            <music
+                id="scoreBoard-music"
+                path="music/scoreboard-bg.mp3"
+                resource-load="ondemand" />
         </musics>
 
         <fonts>
@@ -545,11 +564,11 @@
             <button
                 cols="8"
                 rows="2"
-                vibrate="50"
                 sound-click="ppt-button-click"
                 texture-default="ppt-button-default"
                 texture-disabled="ppt-button-disabled"
                 texture-focused="ppt-button-focused"
+                vibrate="50"
                 x="4" />
 
             <checkbox

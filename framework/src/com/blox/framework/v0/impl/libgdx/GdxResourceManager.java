@@ -85,7 +85,12 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	@Override
 	public IMusic getMusic(String id) {
-		throw new UnsupportedOperationException("getMusic");
+		ResourceMetadata meta = resources.getMusic(id);
+		addToLoadQueue(meta);
+		manager.finishLoading();
+		Music music = manager.get(meta.getPath());
+		return new GdxMusic(music, manager, meta.getPath());
+
 	}
 
 	@Override
@@ -115,7 +120,7 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	private void addResourcesToLoadQueue() {
 		for (ResourceMetadata resourceMeta : resources.getAll().values()) {
-			if (manager.isLoaded(resourceMeta.getPath()))
+			if (manager.isLoaded(resourceMeta.getPath()) || resourceMeta.skip() || resourceMeta.isOnDemand())
 				continue;
 			addToLoadQueue(resourceMeta);
 		}
@@ -133,8 +138,6 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addToLoadQueue(ResourceMetadata resourceMeta) {
-		if (resourceMeta.skip())
-			return;
 		ResourceLoaderInfo info = resourceTypes.get(resourceMeta.getType());
 		if (info.params instanceof GdxFont.GdxFontLoaderParameters) {
 			((GdxFont.GdxFontLoaderParameters) info.params).metadata = resourceMeta;

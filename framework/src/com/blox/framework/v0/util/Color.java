@@ -74,6 +74,11 @@ public class Color {
 		this.a = a;
 	}
 
+	/**
+	 * 
+	 * @param value: #RRGGBB | #RGB | #RRGGBBAA
+	 * @return
+	 */
 	public static Color fromHex(String value) {
 		Color color = new Color();
 

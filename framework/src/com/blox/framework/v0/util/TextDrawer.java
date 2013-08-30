@@ -44,10 +44,10 @@ public final class TextDrawer {
 			return AlignNW;
 		if ("CENTERED".equals(key))
 			return AlignCentered;
-		
+
 		return AlignW;
 	}
-	
+
 	public static void draw(IFont font, String text, float x, float y) {
 		font.draw(text, x, y);
 	}
@@ -95,6 +95,9 @@ public final class TextDrawer {
 		else
 			y = y + (height + size.y) / 2;
 
-		draw(font, text, x, y);
+		float dx = Game.scale(Game.renderingShiftX);
+		float dy = Game.scale(Game.renderingShiftY);
+
+		draw(font, text, x + dx, y + dy);
 	}
 }

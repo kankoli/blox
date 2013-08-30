@@ -8,8 +8,12 @@ public class ResourceMetadata extends Metadata {
 	public boolean isPrimary() {
 		return "primary".equals(get("resource-load"));
 	}
-	
+
 	public boolean skip() {
 		return "never".equals(get("resource-load"));
+	}
+	
+	public boolean isOnDemand() {
+		return "ondemand".equals(get("resource-load"));
 	}
 }

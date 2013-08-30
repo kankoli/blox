@@ -17,8 +17,8 @@ public final class TextureDrawer {
 		float offsetX = info.ignoreViewportOffset() ? 0f : Game.getViewportOffsetX();
 		float offsetY = info.ignoreViewportOffset() ? 0f : Game.getViewportOffsetY();
 
-		float dx = Game.viewportToScreenX(Game.renderingShiftX);
-		float dy = Game.viewportToScreenX(Game.renderingShiftY);
+		float dx = info.ignoreViewportOffset() ? Game.scale(Game.renderingShiftX) : Game.renderingShiftX;
+		float dy = info.ignoreViewportOffset() ? Game.scale(Game.renderingShiftY) : Game.renderingShiftY;
 
 		Vector l = info.getLocation();
 		Rotation r = info.getRotation();

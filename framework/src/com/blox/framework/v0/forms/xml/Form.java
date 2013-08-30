@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.blox.framework.v0.IView;
-import com.blox.framework.v0.impl.Drawer;
 import com.blox.framework.v0.metadata.ControlMetadata;
 import com.blox.framework.v0.metadata.FormMetadata;
 import com.blox.framework.v0.metadata.GameMetadata;
+import com.blox.framework.v0.util.Drawer;
 
 public class Form extends Control implements IView {
 	private Map<String, Control> controls;

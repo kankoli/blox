@@ -1,10 +1,7 @@
-package com.blox.framework.v0.impl;
+package com.blox.framework.v0.forms.xml;
 
-import com.blox.framework.v0.forms.xml.Control;
-import com.blox.framework.v0.forms.xml.IControlActionHandler;
-import com.blox.framework.v0.forms.xml.IControlActionHandlerFactory;
 
-public class ActionHandlerFactory implements IControlActionHandlerFactory {
+public class ControlActionHandlerFactory implements IControlActionHandlerFactory {
 	private IControlActionHandlerFactory successor;
 	
 	@Override

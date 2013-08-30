@@ -1,9 +1,6 @@
-package com.blox.framework.v0.impl;
+package com.blox.framework.v0.forms.xml;
 
-import com.blox.framework.v0.forms.xml.CheckBox;
-import com.blox.framework.v0.forms.xml.Control;
-import com.blox.framework.v0.forms.xml.IControlActionHandler;
-import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.impl.Settings;
 import com.blox.framework.v0.util.Utils;
 
 public final class BindingActionHandler {
@@ -26,14 +23,14 @@ public final class BindingActionHandler {
 			this.key = ss[0];
 			this.defaultValue = ss[1];
 			if (control instanceof CheckBox)
-				((CheckBox) control).setChecked(Game.getSettings().getBoolean(key, Utils.parseBoolean(defaultValue)));
+				((CheckBox) control).setChecked(Settings.getBoolean(key, Utils.parseBoolean(defaultValue)));
 		}
 
 		@Override
 		public void handle(Control control) {
 			if (control instanceof CheckBox) {
 				boolean on = ((CheckBox) control).isChecked();
-				Game.getSettings().putBoolean(key, on);
+				Settings.putBoolean(key, on);
 			}
 		}
 	}

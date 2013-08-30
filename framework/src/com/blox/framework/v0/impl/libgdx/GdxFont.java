@@ -95,12 +95,9 @@ public class GdxFont implements IFont {
 
 	@Override
 	public void draw(String text, float x, float y) {
-		float dx = Game.viewportToScreenX(Game.renderingShiftX);
-		float dy = Game.viewportToScreenX(Game.renderingShiftY);
-
 		com.badlogic.gdx.graphics.Color fontColor = font.getColor();
 		font.setColor(fontColor.r, fontColor.g, fontColor.b, Game.renderingAlpha);
-		font.drawMultiLine(GdxGame.spriteBatch, text, x + dx, y + dy);
+		font.drawMultiLine(GdxGame.spriteBatch, text, x, y);
 	}
 
 	@Override

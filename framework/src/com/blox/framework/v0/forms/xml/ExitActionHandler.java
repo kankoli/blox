@@ -1,7 +1,5 @@
-package com.blox.framework.v0.impl;
+package com.blox.framework.v0.forms.xml;
 
-import com.blox.framework.v0.forms.xml.Control;
-import com.blox.framework.v0.forms.xml.IControlActionHandler;
 import com.blox.framework.v0.util.Game;
 
 public class ExitActionHandler implements IControlActionHandler {

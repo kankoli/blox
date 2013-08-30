@@ -1,4 +1,4 @@
-package com.blox.framework.v0.impl;
+package com.blox.framework.v0.util;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,12 +12,13 @@ import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISettings;
 import com.blox.framework.v0.ITextureDrawer;
 import com.blox.framework.v0.IVibrator;
+import com.blox.framework.v0.forms.xml.ControlActionHandlerFactory;
 import com.blox.framework.v0.forms.xml.IControlActionHandlerFactory;
+import com.blox.framework.v0.impl.CollisionDetectorFactory;
 import com.blox.framework.v0.impl.DisposeManager;
 import com.blox.framework.v0.metadata.GameMetadata;
 
 public final class Game {
-	private static Vector gravity = new Vector();
 	private static Viewport viewport;
 
 	private static IGameProvider provider;
@@ -50,13 +51,13 @@ public final class Game {
 		deltaTime = provider.createDeltaTime();
 		resourceManager = provider.createResourceManager();
 		textureDrawer = provider.createTextureDrawer();
-		collisionDetectorFactory = provider.createCollisionDetectorFactory();
 		inputManager = provider.createInputManager();
 		settings = provider.createSettings();
 		vibrator = provider.createVibrator();
-		actionHandlerFactory = provider.createActionHandlerFactory();
-		gravity.y = -9.8f;
 		
+		actionHandlerFactory = new ControlActionHandlerFactory();
+		collisionDetectorFactory = new CollisionDetectorFactory();
+				
 		initViewport();
 		
 		resourceManager.beginLoading();
@@ -109,18 +110,6 @@ public final class Game {
 	public static String getParam(String key) {
 		return GameMetadata.getParam(key);
 	}
-
-	// region settings
-
-	public static boolean isSoundOn() {
-		return settings.getBoolean("sound", true);
-	}
-	
-	public static boolean isVibrationOn() {
-		return settings.getBoolean("vibration", true);
-	}
-	
-	// endregion
 	
 	// region viewport
 
