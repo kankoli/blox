@@ -1,14 +1,33 @@
 package com.blox.framework.v0.forms.xml;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 
 public class CheckBox extends DrawableControl {
+	private List<IClickListener> clickListeners;
 	private boolean isChecked;
 	private Style style;
 	
 	public CheckBox() {
 		style = new Style(); 
+		clickListeners = new ArrayList<IClickListener>();
+	}
+
+	public void addClickListener(IClickListener listener) {
+		clickListeners.add(listener);
+	}
+
+	public void removeClickListener(IClickListener listener) {
+		clickListeners.remove(listener);
+	}
+
+	protected void notifyClickListeners() {
+		for (IClickListener listener : clickListeners)
+			listener.onClick(this);
 	}
 	
 	@Override
@@ -18,6 +37,9 @@ public class CheckBox extends DrawableControl {
 
 		else if ("texture-unchecked".equals(attribute))
 			style.textureUnchecked = Game.getResourceManager().getTexture(value);
+
+		else if ("sound-click".equals(attribute))
+			style.soundClick = Game.getResourceManager().getSound(value);
 		
 		else
 			super.setAttribute(attribute, value);
@@ -36,7 +58,20 @@ public class CheckBox extends DrawableControl {
 	@Override
 	protected void onTap() {
 		isChecked = !isChecked;
-		super.onTap();
+		notifyClickListeners();
+		if (style.soundClick != null)
+			style.soundClick.play();
+	}	
+	
+	@Override
+	protected void setAction(String action) {
+		final IControlActionHandler handler = Game.getActionHandlerFactory().create(this, action);
+		addClickListener(new IClickListener() {
+			@Override
+			public void onClick(Control control) {
+				handler.handle(control);				
+			}
+		});
 	}
 	
 	public boolean isChecked() {
@@ -47,11 +82,12 @@ public class CheckBox extends DrawableControl {
 		isChecked = checked;
 	}
 
-	protected class Style {
+	public class Style {
 		public ITexture textureChecked;
 		public ITexture textureUnchecked;
+		public ISound soundClick;
 
-		public Style() {
+		private Style() {
 
 		}
 	}

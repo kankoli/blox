@@ -7,16 +7,14 @@ public final class FontManager {
 
 	}
 
-	private final static float fontScale;
 	public static final IFont defaultFont;
 
 	static {
-		fontScale = (Game.getScreenHeight() / Game.getVirtualHeight()) / 72f;
 		defaultFont = Game.getResourceManager().getFont(Game.getParam("default-font"));
-		setSize(24f);
+		setSize(36);
 	}
 	
-	static void setSize(float size) {
-		defaultFont.scale(fontScale * size);
+	static void setSize(int size) {
+		defaultFont.setSize(size);
 	}
 }

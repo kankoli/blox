@@ -1,8 +1,9 @@
 package com.blox.framework.v0.impl;
 
-import com.blox.framework.v0.IActionHandler;
+import com.blox.framework.v0.forms.xml.Control;
+import com.blox.framework.v0.forms.xml.IControlActionHandler;
 
-public class ScreenSwitchActionHandler implements IActionHandler {
+public class ScreenSwitchActionHandler implements IControlActionHandler {
 	private String screenId;
 	private boolean back;
 	
@@ -12,7 +13,7 @@ public class ScreenSwitchActionHandler implements IActionHandler {
 	}
 
 	@Override
-	public void handle() {
+	public void handle(Control control) {
 		ScreenManager.instance.switchTo(screenId, back);		
 	}
 }

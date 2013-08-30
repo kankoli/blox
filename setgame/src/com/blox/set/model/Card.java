@@ -7,6 +7,7 @@ import java.util.Random;
 import com.blox.framework.v0.ITappedListener;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.set.utils.R;
 
 public class Card extends CardGameObject {
@@ -159,16 +160,17 @@ public class Card extends CardGameObject {
 	@Override
 	public void draw() {
 		if (!isOpened) {
-			textureClosed.draw(this);
+			TextureDrawer.draw(textureClosed, this);
 			return;
 		}
 
-		texture.draw(this);
+		TextureDrawer.draw(texture, this);
+
 		for (int i = 0; i < symbols.size(); i++) {
 			symbols.get(i).draw();
 		}
 		if (isSelected)
-			textureBorder.draw(this);
+			TextureDrawer.draw(textureBorder, this);
 	}
 
 	public CardAttributes getAttributes() {

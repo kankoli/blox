@@ -36,8 +36,12 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 
 		if (newView != null) {
 			elapsed = 0;
-			this.oldView = this.newView;
+			
+			this.oldView = this.newView;			
 			this.newView = view;
+			
+			if (oldView != null)
+				oldView.deactivated();
 		}
 		else {
 			this.newView = view;
@@ -61,8 +65,6 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 	}
 
 	protected void onSwitchEnd(boolean forceRender) {
-		if (oldView != null)
-			oldView.deactivated();
 		newView.activated();
 
 		if (forceRender)

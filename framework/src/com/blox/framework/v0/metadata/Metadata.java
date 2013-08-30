@@ -7,12 +7,11 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public abstract class Metadata {
-	private String id;
 	private String type;
 	protected final Map<String, String> attributes;
 
 	public String getId() {
-		return id;
+		return attributes.get("id");
 	}
 
 	public String getType() {
@@ -41,10 +40,7 @@ public abstract class Metadata {
 	}
 
 	protected void setAttribute(String key, String value) {
-		if ("id".equals(key))
-			id = value;
-		else
-			attributes.put(key, value);
+		attributes.put(key, value);
 	}
 
 	@SuppressWarnings("unchecked")

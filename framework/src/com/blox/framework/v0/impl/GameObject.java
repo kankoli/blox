@@ -12,7 +12,9 @@ import com.blox.framework.v0.metadata.AnimationMetadata;
 import com.blox.framework.v0.metadata.GameMetadata;
 import com.blox.framework.v0.util.Animation;
 import com.blox.framework.v0.util.Animator;
+import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Rotation;
+import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Vector;
 
 public abstract class GameObject implements IGameObject {
@@ -22,6 +24,7 @@ public abstract class GameObject implements IGameObject {
 	protected Vector velocity;
 	protected Vector acceleration;
 	protected Vector scale;
+	protected Color color;
 	protected Rotation rotation;
 	protected boolean flipX;
 	protected boolean flipY;
@@ -35,6 +38,7 @@ public abstract class GameObject implements IGameObject {
 		velocity = new Vector();
 		acceleration = new Vector();
 		scale = new Vector(1, 1, 1);
+		color = Color.White;
 		rotation = new Rotation();
 
 		animator = new Animator();
@@ -121,6 +125,11 @@ public abstract class GameObject implements IGameObject {
 	}
 
 	@Override
+	public Color getColor() {
+		return color;
+	}
+
+	@Override
 	public boolean isFlipX() {
 		return flipX;
 	}
@@ -134,7 +143,7 @@ public abstract class GameObject implements IGameObject {
 	public void draw() {
 		Animation curr = getAnimation();
 		if (curr != null)
-			curr.getFrame().draw(this);
+			TextureDrawer.draw(curr.getFrame(), this);
 	}
 
 	@Override

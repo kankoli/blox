@@ -1,44 +1,54 @@
 package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.blox.framework.v0.IDrawable;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.blox.framework.v0.IDrawingInfo;
+import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.ITextureDrawer;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
 
-class GdxTextureDrawer {
-	final static GdxTextureDrawer instance = new GdxTextureDrawer();
-
-	private GdxTextureDrawer() {
+final class GdxTextureDrawer implements ITextureDrawer {
+	GdxTextureDrawer() {
 
 	}
 
-	public void draw(Texture texture, IDrawable drawable) {
-		
-		float scale = drawable.ignoreViewportScaling() ? 1f : Game.getScale();
-		float offsetX = drawable.ignoreViewportOffset() ? 0f : Game.getViewportOffsetX();
-		float offsetY = drawable.ignoreViewportOffset() ? 0f : Game.getViewportOffsetY();
-		
-		Vector l = drawable.getLocation();
-		Rotation r = drawable.getRotation();
-		Vector s = drawable.getScale();
-		
+	@Override
+	public void draw(ITexture texture, IDrawingInfo info) {
 		GdxGame.spriteBatch.setColor(1, 1, 1, Game.renderingAlpha);
 		
-		float dx = Game.viewportToScreenX(Game.renderingShiftX);
-		float dy = Game.viewportToScreenX(Game.renderingShiftY);
-		
+		if (((IGdxTexture)texture).isRegion())
+			drawTextureRegion(((GdxTextureRegion)texture).textureRegion, info);
+		else 
+			drawTexture(((GdxTexture)texture).texture, info);
+	}
+
+	private static void drawTexture(Texture texture, IDrawingInfo info) {
+		Vector l = info.getLocation();
+		Rotation r = info.getRotation();
+		Vector s = info.getScale();
+
 		GdxGame.spriteBatch.draw(texture,
-				scale * (l.x + dx) + offsetX, 
-				scale * (l.y + dy) + offsetY,
-				scale * (r.origin.x - l.x), 
-				scale * (r.origin.y - l.y), 
-				scale * drawable.getWidth(), 
-				scale * drawable.getHeight(),
+				l.x, l.y,
+				r.origin.x, r.origin.y,
+				info.getWidth(), info.getHeight(),
 				s.x, s.y, r.rotation.z, 0, 0,
-				texture.getWidth(),
-				texture.getHeight(),
-				drawable.isFlipX(),
-				drawable.isFlipY());
+				texture.getWidth(), texture.getHeight(),
+				info.isFlipX(), info.isFlipY());
+	}
+
+	private static void drawTextureRegion(TextureRegion textureRegion, IDrawingInfo info) {
+		Vector l = info.getLocation();
+		Rotation r = info.getRotation();
+		Vector s = info.getScale();
+
+		textureRegion.flip(textureRegion.isFlipX() != info.isFlipX(), textureRegion.isFlipY() != info.isFlipY());
+		
+		GdxGame.spriteBatch.draw(textureRegion,
+				l.x, l.y, 
+				r.origin.x, r.origin.y, 
+				info.getWidth(), info.getHeight(), 
+				s.x, s.y, r.rotation.z);
 	}
 }

@@ -1,8 +1,12 @@
 package com.blox.framework.v0.impl;
 
+import java.util.Stack;
+
+import com.badlogic.gdx.Input.Keys;
 import com.blox.framework.v0.IView;
 import com.blox.framework.v0.IViewFinder;
 import com.blox.framework.v0.IViewSwitcher;
+import com.blox.framework.v0.forms.xml.Control;
 import com.blox.framework.v0.forms.xml.Form;
 import com.blox.framework.v0.forms.xml.UIManager;
 import com.blox.framework.v0.util.Game;
@@ -10,11 +14,12 @@ import com.blox.framework.v0.util.Game;
 public class FormScreen extends Screen implements IViewFinder {
 	private static FormScreen currentScreen;
 
+	private Stack<String> formHistory;
 	private Form currentForm;
 	private IViewSwitcher switcher;
 
 	public FormScreen() {
-		
+		formHistory = new Stack<String>();
 	}
 
 	private void initFormSwitcher() {
@@ -24,14 +29,24 @@ public class FormScreen extends Screen implements IViewFinder {
 	}
 
 	protected void setForm(String formId, boolean back) {
+		if (back)
+			formHistory.pop();
+		else if (currentForm != null)
+			formHistory.push(currentForm.getId());
+
 		switcher.switchTo(formId, back);
 		currentForm = UIManager.getForm(formId);
 	}
-	
+
+	protected <T extends Control> T getControl(String id) {
+		return currentForm.getControl(id);
+	}
+
 	@Override
 	public void init() {
 		super.init();
 		initFormSwitcher();
+		registerInputListener(this);
 	}
 
 	@Override
@@ -42,13 +57,11 @@ public class FormScreen extends Screen implements IViewFinder {
 
 	@Override
 	public void render() {
-		if (switcher.isSwitching()) {
+		super.render();
+		if (switcher.isSwitching())
 			switcher.render();
-		}
-		else {
-			super.render();
+		else
 			currentForm.render();
-		}
 	}
 
 	@Override
@@ -68,6 +81,21 @@ public class FormScreen extends Screen implements IViewFinder {
 	@Override
 	public IView findView(String id) {
 		return UIManager.getForm(id);
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
+			if (formHistory.size() == 0) {
+				if ("true".equals(Game.getParam("allow-exit-on-back"))) {
+					Game.exit();
+				}
+			}
+			else {
+				setForm(formHistory.peek(), true);
+			}
+		}
+		return super.keyDown(keycode);
 	}
 
 	public static void switchTo(String formId, boolean back) {

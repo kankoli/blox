@@ -39,18 +39,18 @@ public class GdxFont implements IFont {
 	}
 
 	private BitmapFont font;
-	private Map<Integer, BitmapFont> fonts;
-	private List<ScaleMap> scales;
-	private Vector size;
-	private int defaultSize;
+	private final Map<Integer, BitmapFont> fonts;
+	private final List<ScaleMap> scales;
+	private final Vector size;
 
-	GdxFont(Map<Integer, BitmapFont> fonts, int defaultSize) {
+	GdxFont(Map<Integer, BitmapFont> fonts) {
 		this.fonts = fonts;
 		this.size = new Vector();
-		this.defaultSize = defaultSize;
+		this.scales = new ArrayList<ScaleMap>();
+
 		initScales();
-		registerDisposables(fonts);
-		scale(1);
+		
+		Game.registerDisposable(this);
 	}
 
 	private void initScales() {
@@ -61,32 +61,28 @@ public class GdxFont implements IFont {
 			sizes[i++] = k;
 		Arrays.sort(sizes);
 
-		scales = new ArrayList<ScaleMap>();
-
 		for (i = 0; i < sizes.length; i++) {
 			if (i == 0) {
 				scales.add(new ScaleMap(Integer.MIN_VALUE, (int) ((sizes[i] + sizes[i + 1]) / 2), fonts.get(sizes[i])));
-			} else if (i == sizes.length - 1) {
+			}
+			else if (i == sizes.length - 1) {
 				scales.add(new ScaleMap((int) ((sizes[i] + sizes[i - 1]) / 2), Integer.MAX_VALUE, fonts.get(sizes[i])));
-			} else {
+			}
+			else {
 				scales.add(new ScaleMap((int) ((sizes[i] + sizes[i - 1]) / 2), (int) ((sizes[i] + sizes[i + 1]) / 2), fonts.get(sizes[i])));
 			}
 		}
 	}
 
-	private void registerDisposables(Map<Integer, BitmapFont> fonts) {
-		for (BitmapFont font : fonts.values())
-			Game.registerDisposable(new GdxDisposable(font));
-	}
-
 	@Override
 	public void setColor(Color color) {
-		font.setColor(color.r / 255f, color.g / 255, color.b / 255f, color.a / 255f);
+		font.setColor(color.r, color.g, color.b, color.a);
 	}
 
 	@Override
 	public void dispose() {
-		font.dispose();
+		for (BitmapFont font : fonts.values())
+			font.dispose();
 	}
 
 	@Override
@@ -108,8 +104,8 @@ public class GdxFont implements IFont {
 	}
 
 	@Override
-	public void scale(float f) {
-		int size = (int) (f * defaultSize);
+	public void setSize(int size) {
+		size = (int) Game.scale(size);
 		for (ScaleMap sm : scales) {
 			if (sm.isIn(size)) {
 				font = sm.font;
@@ -117,19 +113,19 @@ public class GdxFont implements IFont {
 			}
 		}
 	}
-	
+
 	static class GdxFontLoaderParameters extends AssetLoaderParameters<GdxFont> {
 		ResourceMetadata metadata;
 	}
-	
-	static class GdxFontLoader extends AsynchronousAssetLoader<GdxFont, GdxFontLoaderParameters>{
+
+	static class GdxFontLoader extends AsynchronousAssetLoader<GdxFont, GdxFontLoaderParameters> {
 		public GdxFontLoader() {
 			super(new InternalFileHandleResolver());
 		}
 
 		@Override
 		public void loadAsync(AssetManager manager, String fileName, GdxFontLoaderParameters parameter) {
-			
+
 		}
 
 		@Override
@@ -141,6 +137,6 @@ public class GdxFont implements IFont {
 		@SuppressWarnings("rawtypes")
 		public Array<AssetDescriptor> getDependencies(String fileName, GdxFontLoaderParameters parameter) {
 			return null;
-		}		
+		}
 	}
 }

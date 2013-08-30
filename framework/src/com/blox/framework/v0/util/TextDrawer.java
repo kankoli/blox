@@ -1,6 +1,6 @@
 package com.blox.framework.v0.util;
 
-import com.blox.framework.v0.IDrawable;
+import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IFont;
 
 public final class TextDrawer {
@@ -57,25 +57,25 @@ public final class TextDrawer {
 		draw(font, text, (Game.getScreenWidth() - size.x) / 2, (Game.getScreenHeight() + size.y) / 2);
 	}
 
-	public static void draw(IFont font, String text, IDrawable drawable) {
-		draw(font, text, drawable, AlignCentered);
+	public static void draw(IFont font, String text, IDrawingInfo info) {
+		draw(font, text, info, AlignCentered);
 	}
 
 	public static void draw(IFont font, String text, int align) {
 		draw(font, text, 0, 0, Game.getScreenWidth(), Game.getScreenHeight(), align);
 	}
 
-	public static void draw(IFont font, String text, IDrawable drawable, int align) {
-		float scale = drawable.ignoreViewportScaling() ? 1f : Game.getScale();
-		float offsetX = drawable.ignoreViewportOffset() ? 0f : Game.getViewportOffsetX();
-		float offsetY = drawable.ignoreViewportOffset() ? 0f : Game.getViewportOffsetY();
+	public static void draw(IFont font, String text, IDrawingInfo info, int align) {
+		float scale = info.ignoreViewportScaling() ? 1f : Game.getScale();
+		float offsetX = info.ignoreViewportOffset() ? 0f : Game.getViewportOffsetX();
+		float offsetY = info.ignoreViewportOffset() ? 0f : Game.getViewportOffsetY();
 
-		Vector loc = drawable.getLocation();
+		Vector loc = info.getLocation();
 
 		float lx = scale * loc.x + offsetX;
 		float ly = scale * loc.y + offsetY;
-		float width = scale * drawable.getWidth();
-		float height = scale * drawable.getHeight();
+		float width = scale * info.getWidth();
+		float height = scale * info.getHeight();
 
 		draw(font, text, lx, ly, width, height, align);
 	}

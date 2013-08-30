@@ -1,12 +1,13 @@
 package com.blox.set.view;
 
+import com.blox.framework.v0.impl.Screen;
 import com.blox.framework.v0.impl.ScreenManager;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.set.utils.R;
 
-public class SplashScreen extends SetGameScreen {
+public class SplashScreen extends Screen {
 	@Override
 	public void update() {
 		if (!Game.getResourceManager().isLoading())

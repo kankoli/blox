@@ -1,7 +1,6 @@
 package com.blox.framework.v0.util;
 
 import com.blox.framework.v0.ITexture;
-import com.blox.framework.v0.ITextureSplitter;
 
 final class AnimationBuilder {
 	private Animation animation;
@@ -46,8 +45,7 @@ final class AnimationBuilder {
 
 	private void buildAnimation() {
 		ITexture mainTexture = Game.getResourceManager().getTexture(mainTexturePath);
-		ITextureSplitter textureSplitter = Game.getTextureSplitter();
-		ITexture[] frames = textureSplitter.split(mainTexture, animation.getWidth(), animation.getHeight());
+		ITexture[] frames = mainTexture.split(animation.getWidth(), animation.getHeight());
 		animation.setFrames(frames);
 	}
 }

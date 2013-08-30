@@ -3,16 +3,19 @@ package com.blox.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blox.framework.v0.IActionHandler;
+import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
+import com.blox.framework.v0.util.Utils;
 
 public class Button extends DrawableControl {
 	private List<IClickListener> clickListeners;
 	private String text;
 	private Style style;
+	private int vibrationDuration;
+	public ISound clickSound;
 
 	Button() {
 		style = new Style();
@@ -35,6 +38,10 @@ public class Button extends DrawableControl {
 	@Override
 	protected void onTap() {
 		notifyClickListeners();
+		if (vibrationDuration > 0)
+			Game.getVibrator().vibrate(vibrationDuration);
+		if (clickSound != null)
+			clickSound.play();
 	}
 
 	@Override
@@ -48,6 +55,12 @@ public class Button extends DrawableControl {
 		else if ("texture-disabled".equals(attribute))
 			style.textureDisabled = Game.getResourceManager().getTexture(value);
 
+		else if ("sound-click".equals(attribute))
+			clickSound = Game.getResourceManager().getSound(value);
+		
+		else if ("vibrate".equals(attribute))
+			vibrationDuration = Utils.parseInt(value);
+
 		else if ("text".equals(attribute))
 			text = value;
 		
@@ -57,11 +70,11 @@ public class Button extends DrawableControl {
 
 	@Override
 	protected void setAction(String action) {
-		final IActionHandler handler = Game.getActionHandlerFactory().create(action);
+		final IControlActionHandler handler = Game.getActionHandlerFactory().create(this, action);
 		addClickListener(new IClickListener() {
 			@Override
 			public void onClick(Control control) {
-				handler.handle();				
+				handler.handle(control);				
 			}
 		});
 	}
@@ -79,19 +92,19 @@ public class Button extends DrawableControl {
 	}
 
 	@Override
-	protected void draw() {
+	public void draw() {
 		super.draw();
 		if (text != null && !"".equals(text.trim()))
 			TextDrawer.draw(FontManager.defaultFont, text, drawable);
 	}
 	
-	protected class Style {
+	public static class Style {
 		public ITexture textureDefault;
 		public ITexture textureFocused;
 		public ITexture textureDisabled;
-
-		public Style() {
-
+		
+		private Style() {
+			
 		}
 	}
 }

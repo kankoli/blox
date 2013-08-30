@@ -73,13 +73,14 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 	@Override
 	public IFont getFont(String id) {
 		ResourceMetadata meta = resources.getFont(id);
-		GdxFont font = manager.get(meta.getPath());
-		return font;
+		return manager.get(meta.getPath());
 	}
 
 	@Override
 	public ISound getSound(String id) {
-		throw new UnsupportedOperationException("getSound");
+		ResourceMetadata meta = resources.getSound(id);
+		Sound sound = manager.get(meta.getPath());
+		return new GdxSound(sound);
 	}
 
 	@Override
@@ -132,9 +133,11 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addToLoadQueue(ResourceMetadata resourceMeta) {
+		if (resourceMeta.skip())
+			return;
 		ResourceLoaderInfo info = resourceTypes.get(resourceMeta.getType());
 		if (info.params instanceof GdxFont.GdxFontLoaderParameters) {
-			((GdxFont.GdxFontLoaderParameters)info.params).metadata = resourceMeta;
+			((GdxFont.GdxFontLoaderParameters) info.params).metadata = resourceMeta;
 		}
 		manager.load(resourceMeta.getPath(), info.clazz, info.params);
 	}

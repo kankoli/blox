@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.blox.framework.v0.IGame;
 import com.blox.framework.v0.metadata.GameMetadata;
 import com.blox.framework.v0.util.Game;
@@ -16,6 +17,7 @@ import com.blox.framework.v0.util.Utils;
 
 public class GdxGame implements ApplicationListener {
 	static SpriteBatch spriteBatch;
+	static ShapeRenderer shapeRenderer;
 
 	private IGame game;
 
@@ -38,9 +40,10 @@ public class GdxGame implements ApplicationListener {
 
 	@Override
 	public void create() {
-		initGdx();
-
 		spriteBatch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
+		
+		initGdx();
 
 		game = (IGame) Utils.createInstance(GameMetadata.getGameClass());
 		game.init();

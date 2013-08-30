@@ -3,6 +3,7 @@ package com.blox.framework.v0.impl;
 import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICompositeInputListener;
 import com.blox.framework.v0.IDrawable;
+import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.ITexture;
@@ -10,6 +11,7 @@ import com.blox.framework.v0.IView;
 import com.blox.framework.v0.metadata.GameMetadata;
 import com.blox.framework.v0.metadata.ScreenMetadata;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
@@ -65,7 +67,7 @@ public abstract class Screen implements IInputListener, IView {
 	@Override
 	public void render() {
 		if (background != null)
-			background.draw(IDrawable.background);
+			TextureDrawer.draw(background, IDrawingInfo.background);
 		drawer.draw();
 	}
 

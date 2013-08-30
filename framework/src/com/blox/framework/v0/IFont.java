@@ -10,5 +10,5 @@ public interface IFont extends IDisposable {
 
 	void draw(String text, float x, float y);
 	
-	void scale(float f);
+	void setSize(int size);
 }

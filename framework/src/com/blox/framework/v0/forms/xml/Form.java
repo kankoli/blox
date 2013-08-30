@@ -26,7 +26,7 @@ public class Form extends Control implements IView {
 		controls.put(control.id, control);
 		if (control instanceof DrawableControl) {
 			DrawableControl drawableControl = (DrawableControl) control;
-			formDrawer.register(drawableControl.getDrawable(), 1000);
+			formDrawer.register(drawableControl, 1000);
 			inputListener.register(drawableControl);
 		}
 	}
@@ -35,7 +35,7 @@ public class Form extends Control implements IView {
 		Control control = controls.remove(id);
 		if (control instanceof DrawableControl) {
 			DrawableControl drawableControl = (DrawableControl) control;
-			formDrawer.unregister(drawableControl.getDrawable());
+			formDrawer.unregister(drawableControl);
 			inputListener.unregister(drawableControl);
 		}
 	}

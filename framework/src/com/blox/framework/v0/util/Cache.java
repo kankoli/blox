@@ -3,18 +3,18 @@ package com.blox.framework.v0.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Cache {
-	private Map<String, Object> cache;
+public class Cache<T>  {
+	private Map<String, T> cache;
 
 	public Cache() {
-		cache = new HashMap<String, Object>();
+		cache = new HashMap<String, T>();
 	}
 
-	public void put(String key, Object value) {
+	public void put(String key, T value) {
 		cache.put(key, value);
 	}
 
-	public Object get(String key) {
+	public T get(String key) {
 		return cache.get(key);
 	}
 

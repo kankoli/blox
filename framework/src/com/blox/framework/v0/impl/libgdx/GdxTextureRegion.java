@@ -1,23 +1,27 @@
 package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.ITexture;
 
-class GdxTextureRegion implements ITexture {
-	private final TextureRegion textureRegion;
+class GdxTextureRegion implements ITexture, IGdxTexture {
+	final TextureRegion textureRegion;
 
 	GdxTextureRegion(TextureRegion textureRegion) {
 		this.textureRegion = textureRegion;
 	}
 
 	@Override
-	public void draw(IDrawable drawable) {
-		GdxTextureRegionDrawer.instance.draw(textureRegion, drawable);
+	public void dispose() {
+
 	}
 
 	@Override
-	public void dispose() {
+	public boolean isRegion() {
+		return true;
+	}
 
+	@Override
+	public ITexture[] split(int width, int height) {
+		return null;
 	}
 }

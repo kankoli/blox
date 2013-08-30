@@ -26,9 +26,15 @@ public class Color {
 		hexChars.put('f', 0xf);
 	}
 
-	private static int getColorValue(char hex) {
+	public static final Color White = new Color(1);
+	public static final Color Black = new Color();
+	public static final Color Red = new Color(1, 0, 0);
+	public static final Color Green = new Color(0, 1, 0);
+	public static final Color Blue = new Color(0, 0, 1);
+
+	private static float getColorValue(char hex) {
 		if (hexChars.containsKey(hex))
-			return (int) (255f * ((float) hexChars.get(hex) / 15f));
+			return (float) hexChars.get(hex) / 15f;
 		return 0;
 	}
 
@@ -40,17 +46,17 @@ public class Color {
 		return 16 * hex0 + hex1;
 	}
 
-	public int a;
-	public int r;
-	public int g;
-	public int b;
+	public float a;
+	public float r;
+	public float g;
+	public float b;
 
 	public Color() {
-		this(0, 0, 0, 255);
+		this(0, 0, 0, 1);
 	}
 
 	public Color(int gray) {
-		this(gray, 255);
+		this(gray, 1);
 	}
 
 	public Color(int gray, int a) {
@@ -58,7 +64,7 @@ public class Color {
 	}
 
 	public Color(int r, int g, int b) {
-		this(r, g, b, 255);
+		this(r, g, b, 1);
 	}
 
 	public Color(int r, int g, int b, int a) {

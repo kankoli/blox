@@ -3,17 +3,18 @@ package com.blox.framework.v0.forms.xml;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
-public abstract class DrawableControl extends Control {
+public abstract class DrawableControl extends Control implements IDrawable {
 	protected int x;
 	protected int y;
 	
-	protected ControlDrawableAdapter drawable;
+	protected ControlDrawingInfo drawable;
 	
 	protected DrawableControl() {
-		drawable = new ControlDrawableAdapter(this);
+		drawable = new ControlDrawingInfo(this);
 	}
 
 	public int getX() {
@@ -49,14 +50,11 @@ public abstract class DrawableControl extends Control {
 		drawable.update(form);
 	}
 
-	protected void draw() {
+	@Override
+	public void draw() {
 		if (!isVisible)
 			return;
-		getTexture().draw(drawable);
-	}
-	
-	protected IDrawable getDrawable() {
-		return drawable;
+		TextureDrawer.draw(getTexture(), drawable);
 	}
 
 	protected boolean isTouched() {

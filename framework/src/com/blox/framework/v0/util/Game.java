@@ -3,14 +3,16 @@ package com.blox.framework.v0.util;
 import org.w3c.dom.Document;
 
 import com.badlogic.gdx.Gdx;
-import com.blox.framework.v0.IActionHandlerFactory;
 import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.IDeltaTime;
 import com.blox.framework.v0.IDisposable;
 import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
-import com.blox.framework.v0.ITextureSplitter;
+import com.blox.framework.v0.ISettings;
+import com.blox.framework.v0.ITextureDrawer;
+import com.blox.framework.v0.IVibrator;
+import com.blox.framework.v0.forms.xml.IControlActionHandlerFactory;
 import com.blox.framework.v0.impl.DisposeManager;
 import com.blox.framework.v0.metadata.GameMetadata;
 
@@ -23,10 +25,12 @@ public final class Game {
 	private static DisposeManager disposeManager;
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
-	private static ITextureSplitter textureSplitter;
+	private static ITextureDrawer textureDrawer;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
 	private static IInputManager inputManager;
-	private static IActionHandlerFactory actionHandlerFactory;
+	private static ISettings settings;
+	private static IVibrator vibrator;
+	private static IControlActionHandlerFactory actionHandlerFactory;
 
 	public static float renderingAlpha = 1;
 	public static float renderingShiftX = 0;
@@ -41,15 +45,17 @@ public final class Game {
 		
 		provider = (IGameProvider)Utils.createInstance(GameMetadata.getParam("provider"));
 		
+		disposeManager = new DisposeManager();
+		
 		deltaTime = provider.createDeltaTime();
 		resourceManager = provider.createResourceManager();
-		textureSplitter = provider.createTextureSplitter();
+		textureDrawer = provider.createTextureDrawer();
 		collisionDetectorFactory = provider.createCollisionDetectorFactory();
 		inputManager = provider.createInputManager();
+		settings = provider.createSettings();
+		vibrator = provider.createVibrator();
 		actionHandlerFactory = provider.createActionHandlerFactory();
 		gravity.y = -9.8f;
-		
-		disposeManager = new DisposeManager();
 		
 		initViewport();
 		
@@ -64,10 +70,10 @@ public final class Game {
 		return resourceManager;
 	}
 
-	public static ITextureSplitter getTextureSplitter() {
-		return textureSplitter;
+	public static ITextureDrawer getTextureDrawer() {
+		return textureDrawer;
 	}
-
+	
 	public static ICollisionDetectorFactory getCollisionDetectorFactory() {
 		return collisionDetectorFactory;
 	}
@@ -76,7 +82,15 @@ public final class Game {
 		return inputManager;
 	}
 
-	public static IActionHandlerFactory getActionHandlerFactory() {
+	public static ISettings getSettings() {
+		return settings;
+	}
+	
+	public static IVibrator getVibrator() {
+		return vibrator;
+	}
+
+	public static IControlActionHandlerFactory getActionHandlerFactory() {
 		return actionHandlerFactory;
 	}
 	
@@ -96,6 +110,18 @@ public final class Game {
 		return GameMetadata.getParam(key);
 	}
 
+	// region settings
+
+	public static boolean isSoundOn() {
+		return settings.getBoolean("sound", true);
+	}
+	
+	public static boolean isVibrationOn() {
+		return settings.getBoolean("vibration", true);
+	}
+	
+	// endregion
+	
 	// region viewport
 
 	public static float scale(float f) {

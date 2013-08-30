@@ -38,7 +38,7 @@ public class Utils {
 
 		return list;
 	}
-	
+
 	public static List<Node> getChildNodes(Node node, String childNodeName) {
 		NodeList childNodes = node.getChildNodes();
 
@@ -133,5 +133,9 @@ public class Utils {
 
 	public static int parseInt(String i) {
 		return Integer.parseInt(i);
+	}
+
+	public static boolean parseBoolean(String b) {
+		return Boolean.parseBoolean(b);
 	}
 }

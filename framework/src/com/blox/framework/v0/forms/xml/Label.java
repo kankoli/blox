@@ -53,7 +53,7 @@ public class Label extends DrawableControl {
 	}
 	
 	@Override
-	protected void draw() {
+	public void draw() {
 		TextDrawer.draw(FontManager.defaultFont, text, drawable, alignment);
 	}
 	

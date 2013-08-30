@@ -8,6 +8,10 @@
         <param
             key="provider"
             value="com.blox.framework.v0.impl.libgdx.GdxGameProvider" />
+        
+         <param
+            key="settings-key"
+            value="com.blox.SetGame" />
 
         <param
             key="virtual-width"
@@ -19,7 +23,7 @@
 
         <param
             key="default-font"
-            value="open-sans-400" />
+            value="Mecha" />
 
         <param
             key="default-skin"
@@ -36,48 +40,52 @@
         <param
             key="form-switcher"
             value="sliding,0.25" />
+
+        <param
+            key="allow-exit-on-back"
+            value="false" />
     </params>
 
     <screens>
 
         <screen
             id="challenge"
-            background-texture = "bg-challenge"
+            background-texture="bg-challenge"
             class="com.blox.set.view.ChallengeModeScreen" />
 
         <screen
             id="learning"
-            background-texture = "bg-learning"
+            background-texture="bg-learning"
             class="com.blox.set.view.LearningModeScreen" />
 
         <screen
             id="multiplayer"
-            background-texture = "bg-multiplayer"
+            background-texture="bg-multiplayer"
             class="com.blox.set.view.MultiplayerModeScreen" />
 
         <screen
             id="menu"
-            background-texture = "bg-menu"
+            background-texture="bg-menu"
             class="com.blox.set.view.MenuScreen" />
 
         <screen
             id="practice"
-            background-texture = "bg-practice"
+            background-texture="bg-practice"
             class="com.blox.set.view.PracticeModeScreen" />
 
         <screen
             id="relax"
-            background-texture = "bg-relax"
+            background-texture="bg-relax"
             class="com.blox.set.view.RelaxModeScreen" />
 
         <screen
             id="splash"
-            background-texture = "bg-splash"
+            background-texture="bg-splash"
             class="com.blox.set.view.SplashScreen" />
 
         <screen
             id="scoreBoard"
-            background-texture = "bg-scoreBoard"
+            background-texture="bg-scoreBoard"
             class="com.blox.set.view.ScoreBoardScreen" />
     </screens>
 
@@ -166,24 +174,10 @@
 
             <checkbox
                 id="chkSounds"
-                action="toggle=sound"
+                action="bind=settings.sound,true"
                 cols="2"
                 x="13"
                 y="22" />
-
-            <label
-                id="lblMusic"
-                cols="10"
-                text="Music"
-                x="2"
-                y="18" />
-
-            <checkbox
-                id="chkMusic"
-                action="toggle=music"
-                cols="2"
-                x="13"
-                y="18" />
 
             <label
                 id="lblVibration"
@@ -194,7 +188,7 @@
 
             <checkbox
                 id="chkVibration"
-                action="toggle=vibration"
+                action="bind=settings.vibration,true"
                 cols="2"
                 x="13"
                 y="14" />
@@ -471,40 +465,48 @@
                 path="img/cards/emptycard.png" />
 
             <texture
-                id = "bg-splash"
-                primary-resource="true"
-                path="img/bg/bg1.jpg" />
-            
+                id="bg-splash"
+                path="img/bg/bg1.jpg"
+                resource-load="primary" />
+
             <texture
-                id = "bg-menu"
+                id="bg-menu"
                 path="img/bg/bg2.jpg" />
-            
+
             <texture
-                id = "bg-challenge"
+                id="bg-challenge"
                 path="img/bg/bg3.jpg" />
-            
+
             <texture
-                id = "bg-learning"
+                id="bg-learning"
                 path="img/bg/bg4.jpg" />
-            
+
             <texture
-                id = "bg-multiplayer"
+                id="bg-multiplayer"
                 path="img/bg/bg5.png" />
-            
+
             <texture
-                id = "bg-practice"
+                id="bg-practice"
                 path="img/bg/bg6.jpg" />
-            
+
             <texture
-                id = "bg-relax"
+                id="bg-relax"
                 path="img/bg/bg7.jpg" />
-            
+
             <texture
-                id = "bg-scoreBoard"
+                id="bg-scoreBoard"
                 path="img/bg/bg8.jpg" />
         </textures>
 
         <sounds>
+
+            <sound
+                id="ppt-button-click"
+                path="sound/flip.wav" />
+
+            <sound
+                id="ppt-checkbox-click"
+                path="sound/checkbox2.wav" />
         </sounds>
 
         <musics>
@@ -515,13 +517,19 @@
             <font
                 id="open-sans-300"
                 path="fonts/open-sans-300.otf"
-                primary-resource="true"
+                resource-load="never"
                 sizes="12,18,24,36,48,60,72" />
 
             <font
                 id="open-sans-400"
                 path="fonts/open-sans-400.otf"
-                primary-resource="true"
+                resource-load="never"
+                sizes="12,18,24,36,48,60,72" />
+
+            <font
+                id="Mecha"
+                path="fonts/Mecha.ttf"
+                resource-load="primary"
                 sizes="12,18,24,36,48,60,72" />
         </fonts>
     </resources>
@@ -537,6 +545,8 @@
             <button
                 cols="8"
                 rows="2"
+                vibrate="50"
+                sound-click="ppt-button-click"
                 texture-default="ppt-button-default"
                 texture-disabled="ppt-button-disabled"
                 texture-focused="ppt-button-focused"
@@ -544,6 +554,7 @@
 
             <checkbox
                 rows="2"
+                sound-click="ppt-checkbox-click"
                 texture-checked="ppt-checkbox-checked"
                 texture-unchecked="ppt-checkbox-unchecked" />
 

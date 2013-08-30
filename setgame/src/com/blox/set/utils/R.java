@@ -25,6 +25,12 @@ public final class R {
 		public static final class forms {
 			public static final String mainMenu = "mainMenu";
 		}
+	
+		public static final class controls {
+			public static final class mainMenu {
+				public static final String btnSound = "btnSound";
+			}
+		}
 	}
 
 	public static final class learningModeScreen {

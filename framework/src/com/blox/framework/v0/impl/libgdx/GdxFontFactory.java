@@ -31,6 +31,9 @@ class GdxFontFactory {
 		}
 		generator.dispose();
 
-		return new GdxFont(map, sizes[sizes.length - 1]);
+		GdxFont font = new GdxFont(map);
+		font.setSize(sizes[sizes.length - 1]);
+		
+		return font;
 	}
 }
