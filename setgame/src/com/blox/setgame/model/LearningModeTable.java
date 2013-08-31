@@ -1,37 +1,31 @@
-package com.blox.set.model;
+package com.blox.setgame.model;
 
 import java.util.Random;
 
-import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 import com.blox.set.utils.R;
+import com.blox.setgame.utils.SetGame;
 
-public class SingleGameTable2 implements Card2.ICardSelectedListener {
+public class LearningModeTable implements Card.ICardTapListener {
 
 	private static final Random rnd = new Random();
 
-	private ISound soundSuccess;
-	private ISound soundError;
+	protected Card[] deck;
+	protected Card[] cardsOnTable;
+	protected Card[] cardsToSelect;
+	protected Card selectedCard;
 
-	private Card2[] deck;
-	private Card2[] cardsOnTable;
-	private Card2[] cardsToSelect;
-	private Card2 selectedCard;
+	public LearningModeTable() {
+		deck = Card.getDeck();
 
-	public SingleGameTable2() {
-		deck = Card2.getDeck();
-
-		cardsOnTable = new Card2[2];
-		cardsToSelect = new Card2[3];
-
-		soundSuccess = Game.getResourceManager().getSound("success");
-		soundError = Game.getResourceManager().getSound("error");
+		cardsOnTable = new Card[2];
+		cardsToSelect = new Card[3];
 
 		deal();
 	}
 
-	private void deal() {
+	protected void deal() {
 		int c1 = rnd.nextInt(deck.length);
 		int c2 = rnd.nextInt(deck.length);
 
@@ -45,7 +39,6 @@ public class SingleGameTable2 implements Card2.ICardSelectedListener {
 			Vector l = cardsOnTable[i].getLocation();
 			l.x = R.learningModeScreen.layout.positions[i].x;
 			l.y = R.learningModeScreen.layout.positions[i].y;
-			cardsOnTable[i].open();
 		}
 
 		int c3 = getCompletingCardIndex(c1, c2);
@@ -71,7 +64,7 @@ public class SingleGameTable2 implements Card2.ICardSelectedListener {
 			int x = rnd.nextInt(cardsToSelect.length);
 			int y = rnd.nextInt(cardsToSelect.length);
 
-			Card2 tmp = cardsToSelect[x];
+			Card tmp = cardsToSelect[x];
 			cardsToSelect[x] = cardsToSelect[y];
 			cardsToSelect[y] = tmp;
 		}
@@ -80,17 +73,16 @@ public class SingleGameTable2 implements Card2.ICardSelectedListener {
 			Vector l = cardsToSelect[i].getLocation();
 			l.x = R.learningModeScreen.layout.positions[2 + i].x;
 			l.y = R.learningModeScreen.layout.positions[2 + i].y;
-			cardsToSelect[i].open();
 			cardsToSelect[i].activate();
-			cardsToSelect[i].setSelectedListener(this);
+			cardsToSelect[i].setTapListener(this);
 		}
 	}
 
-	private int getCompletingCardIndex(int c1, int c2) {
+	protected int getCompletingCardIndex(int c1, int c2) {
 		for (int i = 0; i < deck.length; i++) {
 			if (i == c1 || i == c2)
 				continue;
-			if (Card2.isSet(deck[c1], deck[c2], deck[i]))
+			if (Card.isSet(deck[c1], deck[c2], deck[i]))
 				return i;
 		}
 
@@ -114,24 +106,27 @@ public class SingleGameTable2 implements Card2.ICardSelectedListener {
 		}
 	}
 
-	private void checkSet() {
-		if (Card2.isSet(cardsOnTable[0], cardsOnTable[1], selectedCard)) {
+	/**
+	 * Checks if set exists on table and returns set score
+	 * @return
+	 */
+	protected int checkSet() {
+		int score = Card.getSetScore(cardsOnTable[0], cardsOnTable[1], selectedCard);
+		if (score > 0) {
 			Game.getVibrator().vibrate(50);
-			soundSuccess.play();
+			SetGame.playSoundSuccess();
 			deal();
 		}
 		else {
 			Game.getVibrator().vibrate(100);
-			soundError.play();
-			selectedCard.switchSelected();
+			SetGame.playSoundError();
 		}
+		return score;
 	}
 
 	@Override
-	public void cardSelected(Card2 card) {
-		if (card.isSelected()) {
-			selectedCard = card;
-			checkSet();
-		}
+	public void cardTapped(Card card) {
+		selectedCard = card;
+		checkSet();
 	}
 }

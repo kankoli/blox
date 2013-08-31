@@ -49,7 +49,10 @@ public final class TextDrawer {
 	}
 
 	public static void draw(IFont font, String text, float x, float y) {
-		font.draw(text, x, y);
+		float dx = Game.scale(Game.renderingShiftX);
+		float dy = Game.scale(Game.renderingShiftY);
+		
+		font.draw(text, x + dx, y + dy);
 	}
 
 	public static void draw(IFont font, String text) {
@@ -95,9 +98,6 @@ public final class TextDrawer {
 		else
 			y = y + (height + size.y) / 2;
 
-		float dx = Game.scale(Game.renderingShiftX);
-		float dy = Game.scale(Game.renderingShiftY);
-
-		draw(font, text, x + dx, y + dy);
+		draw(font, text, x, y);
 	}
 }

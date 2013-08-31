@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game
     id="SetGame"
-    class="com.blox.set.view.SetGame" >
+    class="com.blox.setgame.view.SetGame" >
 
     <params>
 
@@ -52,48 +52,48 @@
             id="challenge"
             background-music="game-music"
             background-texture="bg-desk"
-            class="com.blox.set.view.ChallengeModeScreen" />
+            class="com.blox.setgame.view.ChallengeModeScreen" />
 
         <screen
             id="learning"
             background-music="game-music"
             background-texture="bg-desk"
-            class="com.blox.set.view.LearningModeScreen" />
+            class="com.blox.setgame.view.LearningModeScreen" />
 
         <screen
             id="multiplayer"
             background-music="game-music"
             background-texture="bg-desk"
-            class="com.blox.set.view.MultiplayerModeScreen" />
+            class="com.blox.setgame.view.MultiplayerModeScreen" />
 
         <screen
             id="menu"
             background-music="menu-music"
             background-texture="bg-menu"
-            class="com.blox.set.view.MenuScreen" />
+            class="com.blox.setgame.view.MenuScreen" />
 
         <screen
             id="practice"
             background-music="game-music"
             background-texture="bg-desk"
-            class="com.blox.set.view.PracticeModeScreen" />
+            class="com.blox.setgame.view.PracticeModeScreen" />
 
         <screen
             id="relax"
             background-music="game-music"
             background-texture="bg-desk"
-            class="com.blox.set.view.RelaxModeScreen" />
+            class="com.blox.setgame.view.RelaxModeScreen" />
 
         <screen
             id="splash"
             background-texture="bg-splash"
-            class="com.blox.set.view.SplashScreen" />
+            class="com.blox.setgame.view.SplashScreen" />
 
         <screen
             id="scoreBoard"
             background-music="scoreBoard-music"
             background-texture="bg-scoreBoard"
-            class="com.blox.set.view.ScoreBoardScreen" />
+            class="com.blox.setgame.view.ScoreBoardScreen" />
     </screens>
 
     <forms>
@@ -524,6 +524,14 @@
             <sound
                 id="flip"
                 path="sound/flip.wav" />
+
+            <sound
+                id="wait"
+                path="sound/wait.wav" />
+
+            <sound
+                id="time-up"
+                path="sound/time-up.wav" />
         </sounds>
 
         <musics>

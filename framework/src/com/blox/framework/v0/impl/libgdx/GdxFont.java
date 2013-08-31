@@ -87,7 +87,7 @@ public class GdxFont implements IFont {
 
 	@Override
 	public Vector getSize(String text) {
-		TextBounds bounds = font.getBounds(text);
+		TextBounds bounds = font.getMultiLineBounds(text);
 		size.x = bounds.width;
 		size.y = bounds.height;
 		return size;

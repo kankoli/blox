@@ -1,4 +1,4 @@
-package com.blox.set.view;
+package com.blox.setgame.view;
 
 import com.blox.setgame.model.LearningModeTable;
 

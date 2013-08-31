@@ -1,15 +1,15 @@
-package com.blox.set.model;
+package com.blox.setgame.model;
 
 import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
-public class CardGameObject2 extends GameObject implements IInputListener{
+public class CardGameObject extends GameObject implements IInputListener{
 	
 	protected boolean isActive;
 	
-	public CardGameObject2() {
+	public CardGameObject() {
 		
 	}
 	
