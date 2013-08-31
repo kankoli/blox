@@ -23,7 +23,7 @@
 
         <param
             key="default-font"
-            value="Mecha,36" />
+            value="JetSet,36" />
 
         <param
             key="default-skin"
@@ -50,38 +50,38 @@
 
         <screen
             id="challenge"
-            background-texture="bg-desk"
             background-music="game-music"
+            background-texture="bg-desk"
             class="com.blox.set.view.ChallengeModeScreen" />
 
         <screen
             id="learning"
-            background-texture="bg-desk"
             background-music="game-music"
+            background-texture="bg-desk"
             class="com.blox.set.view.LearningModeScreen" />
 
         <screen
             id="multiplayer"
-            background-texture="bg-desk"
             background-music="game-music"
+            background-texture="bg-desk"
             class="com.blox.set.view.MultiplayerModeScreen" />
 
         <screen
             id="menu"
-            background-texture="bg-menu"
             background-music="menu-music"
+            background-texture="bg-menu"
             class="com.blox.set.view.MenuScreen" />
 
         <screen
             id="practice"
-            background-texture="bg-desk"
             background-music="game-music"
+            background-texture="bg-desk"
             class="com.blox.set.view.PracticeModeScreen" />
 
         <screen
             id="relax"
-            background-texture="bg-desk"
             background-music="game-music"
+            background-texture="bg-desk"
             class="com.blox.set.view.RelaxModeScreen" />
 
         <screen
@@ -91,8 +91,8 @@
 
         <screen
             id="scoreBoard"
-            background-texture="bg-scoreBoard"
             background-music="scoreBoard-music"
+            background-texture="bg-scoreBoard"
             class="com.blox.set.view.ScoreBoardScreen" />
     </screens>
 
@@ -121,7 +121,7 @@
             <button
                 id="btnScoreBoard"
                 action="form=scoreBoardModeSelection"
-                text="Score Board"
+                text="Hi-Scores"
                 y="12" />
 
             <button
@@ -291,9 +291,9 @@
                 y="18" />
 
             <button
-                id="txtPasswordRepeat"
+                id="txtPasswordConfirm"
                 cols="14"
-                text="Password Repeat"
+                text="Password Confirm"
                 x="1"
                 y="15" />
 
@@ -512,15 +512,15 @@
             <sound
                 id="ppt-checkbox-click"
                 path="sound/checkbox2.wav" />
-            
+
             <sound
                 id="success"
                 path="sound/success.wav" />
-            
+
             <sound
                 id="error"
                 path="sound/error.wav" />
-            
+
             <sound
                 id="flip"
                 path="sound/flip.wav" />
@@ -532,11 +532,12 @@
                 id="game-music"
                 path="music/game-bg.mp3"
                 resource-load="ondemand" />
-            
+
             <music
                 id="menu-music"
                 path="music/menu-bg.mp3"
                 resource-load="ondemand" />
+
             <music
                 id="scoreBoard-music"
                 path="music/scoreboard-bg.mp3"
@@ -546,20 +547,8 @@
         <fonts>
 
             <font
-                id="open-sans-300"
-                path="fonts/open-sans-300.otf"
-                resource-load="never"
-                sizes="12,18,24,36,48,60,72" />
-
-            <font
-                id="open-sans-400"
-                path="fonts/open-sans-400.otf"
-                resource-load="never"
-                sizes="12,18,24,36,48,60,72" />
-
-            <font
-                id="Mecha"
-                path="fonts/Mecha.ttf"
+                id="JetSet"
+                path="fonts/JetSet.ttf"
                 resource-load="primary"
                 sizes="12,18,24,36,48,60,72" />
         </fonts>

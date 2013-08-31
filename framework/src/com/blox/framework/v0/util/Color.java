@@ -34,16 +34,16 @@ public class Color {
 
 	private static float getColorValue(char hex) {
 		if (hexChars.containsKey(hex))
-			return (float) hexChars.get(hex) / 15f;
+			return hexChars.get(hex) / 15f;
 		return 0;
 	}
 
-	private static int getColorValue(String hex) {
+	private static float getColorValue(String hex) {
 		if (hex.length() != 2)
 			return 0;
 		int hex0 = hexChars.get(hex.charAt(0));
 		int hex1 = hexChars.get(hex.charAt(1));
-		return 16 * hex0 + hex1;
+		return (16 * hex0 + hex1) / 255f;
 	}
 
 	public float a;

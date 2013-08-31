@@ -10,7 +10,7 @@ public class SetGame extends BaseGame {
 	@Override
 	public void init() {
 		super.init();
-		FontManager.defaultFont.setColor(Color.fromHex("#0000cc"));
+		FontManager.defaultFont.setColor(Color.Black);
 		Game.getActionHandlerFactory().setSuccessor(new SetGameActionHandlerFactory());
 	}
 }

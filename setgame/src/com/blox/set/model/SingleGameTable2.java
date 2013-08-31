@@ -116,10 +116,12 @@ public class SingleGameTable2 implements Card2.ICardSelectedListener {
 
 	private void checkSet() {
 		if (Card2.isSet(cardsOnTable[0], cardsOnTable[1], selectedCard)) {
+			Game.getVibrator().vibrate(50);
 			soundSuccess.play();
 			deal();
 		}
 		else {
+			Game.getVibrator().vibrate(100);
 			soundError.play();
 			selectedCard.switchSelected();
 		}
@@ -128,7 +130,6 @@ public class SingleGameTable2 implements Card2.ICardSelectedListener {
 	@Override
 	public void cardSelected(Card2 card) {
 		if (card.isSelected()) {
-			Game.getVibrator().vibrate(50);
 			selectedCard = card;
 			checkSet();
 		}

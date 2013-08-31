@@ -36,12 +36,6 @@ public class Card2 extends CardGameObject2 {
 		return deck;
 	}
 
-	public static Card2[] getUnshuffledDeck() {
-		Card2[] deck = new Card2[81];
-		createDeck(deck);
-		return deck;
-	}
-
 	private static void createDeck(Card2[] deck) {
 		int[] colors = new int[] { CardAttributes.Color_Red, CardAttributes.Color_Green, CardAttributes.Color_Blue };
 		int[] shapes = new int[] { CardAttributes.Shape_Circle, CardAttributes.Shape_Square, CardAttributes.Shape_Triangle };

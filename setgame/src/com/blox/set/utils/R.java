@@ -21,11 +21,11 @@ public final class R {
 		public static final class screens {
 			public static final String menu = "menu";
 		}
-		
+
 		public static final class forms {
 			public static final String mainMenu = "mainMenu";
 		}
-	
+
 		public static final class controls {
 			public static final class mainMenu {
 				public static final String btnSound = "btnSound";
@@ -35,12 +35,12 @@ public final class R {
 
 	public static final class learningModeScreen {
 		public static final class layout {
-			public static final Vector cardOnTable1Pos = new Vector(Game.getVirtualWidth() / 2 - Card.Width - 20, 490);
-			public static final Vector cardOnTable2Pos = new Vector(Game.getVirtualWidth() / 2 + 20, 490);
+			public static final Vector cardOnTable1Pos = new Vector(Game.getVirtualWidth() / 2 - Card.Width - 20, 4 * Game.getVirtualHeight() / 7);
+			public static final Vector cardOnTable2Pos = new Vector(Game.getVirtualWidth() / 2 + 20, 4 * Game.getVirtualHeight() / 7);
 
-			public static final Vector cardToSelect1Pos = new Vector(Game.getVirtualWidth() / 2 - Card.Width * 1.5f - 10, 260);
-			public static final Vector cardToSelect2Pos = new Vector(Game.getVirtualWidth() / 2 - Card.Width * 0.5f, 260);
-			public static final Vector cardToSelect3Pos = new Vector(Game.getVirtualWidth() / 2 + Card.Width * 0.5f + 10, 260);
+			public static final Vector cardToSelect1Pos = new Vector(Game.getVirtualWidth() / 2 - Card.Width * 1.5f - 40, 2 * Game.getVirtualHeight() / 7);
+			public static final Vector cardToSelect2Pos = new Vector(Game.getVirtualWidth() / 2 - Card.Width * 0.5f, 2 * Game.getVirtualHeight() / 7);
+			public static final Vector cardToSelect3Pos = new Vector(Game.getVirtualWidth() / 2 + Card.Width * 0.5f + 40, 2 * Game.getVirtualHeight() / 7);
 
 			public static final Vector[] positions = new Vector[] { cardOnTable1Pos, cardOnTable2Pos, cardToSelect1Pos, cardToSelect2Pos, cardToSelect3Pos };
 		}
