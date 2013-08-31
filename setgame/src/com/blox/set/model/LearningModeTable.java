@@ -1,11 +1,11 @@
-package com.blox.setgame.model;
+package com.blox.set.model;
 
 import java.util.Random;
 
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
+import com.blox.set.controller.SetGameController;
 import com.blox.set.utils.R;
-import com.blox.setgame.utils.SetGame;
 
 public class LearningModeTable implements Card.ICardTapListener {
 
@@ -114,12 +114,12 @@ public class LearningModeTable implements Card.ICardTapListener {
 		int score = Card.getSetScore(cardsOnTable[0], cardsOnTable[1], selectedCard);
 		if (score > 0) {
 			Game.getVibrator().vibrate(50);
-			SetGame.playSoundSuccess();
+			SetGameController.playSoundSuccess();
 			deal();
 		}
 		else {
 			Game.getVibrator().vibrate(100);
-			SetGame.playSoundError();
+			SetGameController.playSoundError();
 		}
 		return score;
 	}

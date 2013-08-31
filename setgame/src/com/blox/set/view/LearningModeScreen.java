@@ -1,6 +1,6 @@
 package com.blox.set.view;
 
-import com.blox.setgame.model.LearningModeTable;
+import com.blox.set.model.LearningModeTable;
 
 public class LearningModeScreen extends SetGameScreen {
 	private LearningModeTable table;

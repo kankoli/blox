@@ -6,8 +6,10 @@ import java.util.Random;
 
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.TextureDrawer;
+import com.blox.framework.v0.util.Utils;
+import com.blox.set.controller.SetGameController;
 import com.blox.set.utils.R;
+import com.blox.setgame.model.CardGameObject;
 
 public class Card extends CardGameObject {
 
@@ -20,27 +22,10 @@ public class Card extends CardGameObject {
 	public static final int SymbolHeight = (int) (50 * scale);
 	public static final int Space = 7;
 
-
-	private static ITexture textureDefault;
-	private static ITexture textureClosed;
-	private static ITexture textureBorder;
-
-	static {
-		textureDefault = Game.getResourceManager().getTexture(R.game.textures.cardEmpty);
-		textureClosed = Game.getResourceManager().getTexture(R.game.textures.cardClosed);
-		textureBorder = Game.getResourceManager().getTexture(R.game.textures.cardBorder);
-	}
-
 	public static Card[] getDeck() {
 		Card[] deck = new Card[81];
 		createDeck(deck);
 		shuffleDeck(deck);
-		return deck;
-	}
-
-	public static Card[] getUnshuffledDeck() {
-		Card[] deck = new Card[81];
-		createDeck(deck);
 		return deck;
 	}
 
@@ -63,7 +48,7 @@ public class Card extends CardGameObject {
 	}
 
 	private static void shuffleDeck(Card[] deck) {
-		Random rnd = new Random();
+		Random rnd = new Random(1);
 		for (int i = 0; i < deck.length * deck.length; i++) {
 			int x = rnd.nextInt(deck.length);
 			int y = rnd.nextInt(deck.length);
@@ -77,25 +62,26 @@ public class Card extends CardGameObject {
 	public static boolean isSet(Card card1, Card card2, Card card3) {
 		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
 	}
+	
+	public static int getSetScore(Card card1, Card card2, Card card3) {
+		return CardAttributes.getSetScore(card1.attributes, card2.attributes, card3.attributes);
+	}
 
 	// endregion
 
-	private CardAttributes attributes;
-
-	private boolean isOpened;
-	private boolean isSelected;
-
 	private List<Symbol> symbols;
+	private CardAttributes attributes;
+	private ICardTapListener tapListener;
 
 	public Card(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
 		this.width = Card.Width;
 		this.height = Card.Height;
-		
-		calculateTextures();
+
+		initSymbols();
 	}
 
-	private void calculateTextures() {
+	private void initSymbols() {
 		String symbolName = "card-" + attributes.getColor() + attributes.getShape() + attributes.getPattern();
 
 		ITexture symbolTexture = Game.getResourceManager().getTexture(symbolName);
@@ -113,48 +99,33 @@ public class Card extends CardGameObject {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.thirdOfThree, this.location));
 		}
 	}
-	
-	public void open() {
-		isOpened = true;
-	}
-
-	public void close() {
-		isOpened = false;
-	}
-
-	public boolean isOpened() {
-		return isOpened;
-	}
-
-	public void switchSelected() {
-		isSelected = !isSelected;
-	}
-
-	public boolean isSelected() {
-		return isSelected;
-	}
 
 	@Override
-	public void draw() {
-		if (!isOpened) {
-			TextureDrawer.draw(textureClosed, this);
-			return;
+	public boolean tap(float x, float y, int count, int button) {
+		if (Utils.isIn(x, y, location, width, height)) {
+			if (tapListener != null)
+				tapListener.cardTapped(this);
 		}
-
-		TextureDrawer.draw(textureDefault, this);
-
+		return false;
+	}
+	
+	@Override
+	public void draw() {
+		SetGameController.drawTextureCardEmpty(this);
 		for (int i = 0; i < symbols.size(); i++) {
 			symbols.get(i).draw();
 		}
-		if (isSelected)
-			TextureDrawer.draw(textureBorder, this);
 	}
 
+	public void setTapListener(ICardTapListener listener) {
+		tapListener = listener;
+	}
+	
 	public CardAttributes getAttributes() {
 		return attributes;
 	}
 
-	public static interface ICardSelectedListener {
-		void cardSelected(Card card);
+	public static interface ICardTapListener {
+		void cardTapped(Card card);
 	}
 }

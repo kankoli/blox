@@ -2,7 +2,7 @@ package com.blox.setgame.view;
 
 import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.FontManager;
-import com.blox.setgame.model.PracticeModeTable;
+import com.blox.set.model.PracticeModeTable;
 
 public class PracticeModeScreen extends SetGameScreen {
 	private PracticeModeTable table;

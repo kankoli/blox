@@ -18,6 +18,13 @@ public final class R {
 			public static final String cardEmpty = "card-empty";
 		}
 
+		public static final class sounds {
+			public static final String wait = "wait"; 
+			public static final String success = "success";
+			public static final String error = "error";
+			public static final String timeUp = "time-up";
+		}
+		
 		public static final class screens {
 			public static final String menu = "menu";
 		}
