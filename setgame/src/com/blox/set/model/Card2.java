@@ -7,9 +7,10 @@ import java.util.Random;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextureDrawer;
+import com.blox.framework.v0.util.Utils;
 import com.blox.set.utils.R;
 
-public class Card extends CardGameObject {
+public class Card2 extends CardGameObject2 {
 
 	// region static
 
@@ -20,31 +21,28 @@ public class Card extends CardGameObject {
 	public static final int SymbolHeight = (int) (50 * scale);
 	public static final int Space = 7;
 
-
 	private static ITexture textureDefault;
 	private static ITexture textureClosed;
-	private static ITexture textureBorder;
 
 	static {
 		textureDefault = Game.getResourceManager().getTexture(R.game.textures.cardEmpty);
 		textureClosed = Game.getResourceManager().getTexture(R.game.textures.cardClosed);
-		textureBorder = Game.getResourceManager().getTexture(R.game.textures.cardBorder);
 	}
 
-	public static Card[] getDeck() {
-		Card[] deck = new Card[81];
+	public static Card2[] getDeck() {
+		Card2[] deck = new Card2[81];
 		createDeck(deck);
 		shuffleDeck(deck);
 		return deck;
 	}
 
-	public static Card[] getUnshuffledDeck() {
-		Card[] deck = new Card[81];
+	public static Card2[] getUnshuffledDeck() {
+		Card2[] deck = new Card2[81];
 		createDeck(deck);
 		return deck;
 	}
 
-	private static void createDeck(Card[] deck) {
+	private static void createDeck(Card2[] deck) {
 		int[] colors = new int[] { CardAttributes.Color_Red, CardAttributes.Color_Green, CardAttributes.Color_Blue };
 		int[] shapes = new int[] { CardAttributes.Shape_Circle, CardAttributes.Shape_Square, CardAttributes.Shape_Triangle };
 		int[] counts = new int[] { CardAttributes.Count_1, CardAttributes.Count_2, CardAttributes.Count_3 };
@@ -54,7 +52,7 @@ public class Card extends CardGameObject {
 			for (int j = 0; j < shapes.length; j++) {
 				for (int k = 0; k < counts.length; k++) {
 					for (int n = 0; n < patterns.length; n++) {
-						Card card = new Card(new CardAttributes(colors[i], shapes[j], counts[k], patterns[n]));
+						Card2 card = new Card2(new CardAttributes(colors[i], shapes[j], counts[k], patterns[n]));
 						deck[i + j * 3 + k * 9 + n * 27] = card;
 					}
 				}
@@ -62,36 +60,37 @@ public class Card extends CardGameObject {
 		}
 	}
 
-	private static void shuffleDeck(Card[] deck) {
+	private static void shuffleDeck(Card2[] deck) {
 		Random rnd = new Random();
 		for (int i = 0; i < deck.length * deck.length; i++) {
 			int x = rnd.nextInt(deck.length);
 			int y = rnd.nextInt(deck.length);
 
-			Card tmp = deck[x];
+			Card2 tmp = deck[x];
 			deck[x] = deck[y];
 			deck[y] = tmp;
 		}
 	}
 
-	public static boolean isSet(Card card1, Card card2, Card card3) {
+	public static boolean isSet(Card2 card1, Card2 card2, Card2 card3) {
 		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
 	}
 
 	// endregion
 
 	private CardAttributes attributes;
+	private ICardSelectedListener selectedListener;
 
 	private boolean isOpened;
 	private boolean isSelected;
 
 	private List<Symbol> symbols;
 
-	public Card(CardAttributes cardAttributes) {
+	public Card2(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
-		this.width = Card.Width;
-		this.height = Card.Height;
-		
+		this.width = Card2.Width;
+		this.height = Card2.Height;
+
 		calculateTextures();
 	}
 
@@ -113,7 +112,18 @@ public class Card extends CardGameObject {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.thirdOfThree, this.location));
 		}
 	}
-	
+
+	void setSelectedListener(ICardSelectedListener listener) {
+		selectedListener = listener;
+	}
+
+	@Override
+	public boolean tap(float x, float y, int count, int button) {
+		if (Utils.isIn(x, y, location, width, height))
+			switchSelected();
+		return false;
+	}
+
 	public void open() {
 		isOpened = true;
 	}
@@ -128,6 +138,8 @@ public class Card extends CardGameObject {
 
 	public void switchSelected() {
 		isSelected = !isSelected;
+		if (selectedListener != null)
+			selectedListener.cardSelected(this);
 	}
 
 	public boolean isSelected() {
@@ -146,8 +158,6 @@ public class Card extends CardGameObject {
 		for (int i = 0; i < symbols.size(); i++) {
 			symbols.get(i).draw();
 		}
-		if (isSelected)
-			TextureDrawer.draw(textureBorder, this);
 	}
 
 	public CardAttributes getAttributes() {
@@ -155,6 +165,6 @@ public class Card extends CardGameObject {
 	}
 
 	public static interface ICardSelectedListener {
-		void cardSelected(Card card);
+		void cardSelected(Card2 card);
 	}
 }

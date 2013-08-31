@@ -512,6 +512,18 @@
             <sound
                 id="ppt-checkbox-click"
                 path="sound/checkbox2.wav" />
+            
+            <sound
+                id="success"
+                path="sound/success.wav" />
+            
+            <sound
+                id="error"
+                path="sound/error.wav" />
+            
+            <sound
+                id="flip"
+                path="sound/flip.wav" />
         </sounds>
 
         <musics>

@@ -24,6 +24,6 @@ public class Symbol extends GameObject {
 
 	@Override
 	public Vector getLocation() {
-		return new Vector(parentLocation).add(this.location);
+		return parentLocation.tmp().add(this.location);
 	}
 }

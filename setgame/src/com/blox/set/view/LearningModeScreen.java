@@ -1,19 +1,19 @@
 package com.blox.set.view;
 
-import com.blox.set.controller.LearningModeController;
+import com.blox.set.model.SingleGameTable2;
 
 public class LearningModeScreen extends SetGameScreen {
-	private LearningModeController controller;
+	private SingleGameTable2 table;
 
 	@Override
 	public void init() {
 		super.init();
-		controller = new LearningModeController(this);
+		table = new SingleGameTable2();
 	}
 
 	@Override
-	public void update() {
-		controller.execute();
-		super.update();
+	public void render() {
+		super.render();
+		table.draw();
 	}
 }
