@@ -47,16 +47,16 @@ public final class CardAttributes {
 		int shapeScore = getSetScore(a1.shape, a2.shape, a3.shape);
 		int countScore = getSetScore(a1.count, a2.count, a3.count);
 		int patternScore = getSetScore(a1.pattern, a2.pattern, a3.pattern);
-		
+
 		if (colorScore > 0 && shapeScore > 0 && countScore > 0 && patternScore > 0)
-			return colorScore + shapeScore + countScore + patternScore;		
+			return colorScore + shapeScore + countScore + patternScore;
 		return 0;
 	}
 
 	public static boolean isSet(CardAttributes a1, CardAttributes a2, CardAttributes a3) {
 		return getSetScore(a1, a2, a3) > 0;
 	}
-	
+
 	public static CardAttributes getThirdCardAttributes(CardAttributes a1, CardAttributes a2) {
 		CardAttributes a3 = new CardAttributes();
 		a3.color = a1.color == a2.color ? a1.color : DiffSet ^ a1.color ^ a2.color;
@@ -67,10 +67,7 @@ public final class CardAttributes {
 	}
 
 	public boolean equals(CardAttributes that) {
-		return this.color == that.color
-				&& this.shape == that.shape
-				&& this.count == that.count
-				&& this.pattern == that.pattern;
+		return this.color == that.color && this.shape == that.shape && this.count == that.count && this.pattern == that.pattern;
 	}
 
 	public int getColor() {

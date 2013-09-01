@@ -5,28 +5,28 @@ import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
-public class CardGameObject extends GameObject implements IInputListener{
-	
+public class CardGameObject extends GameObject implements IInputListener {
+
 	protected boolean isActive;
-	
+
 	public CardGameObject() {
-		
+
 	}
-	
+
 	public void activate() {
 		Game.getInputManager().register(this);
 		isActive = true;
 	}
-	
+
 	public void deactivate() {
 		Game.getInputManager().unregister(this);
 		isActive = false;
 	}
-	
+
 	public boolean isActive() {
 		return isActive;
 	}
-	
+
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		return false;

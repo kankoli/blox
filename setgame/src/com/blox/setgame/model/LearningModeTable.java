@@ -7,7 +7,7 @@ import com.blox.framework.v0.util.Vector;
 import com.blox.setgame.controller.SetGameController;
 import com.blox.setgame.utils.R;
 
-public class LearningModeTable extends GameTable  {
+public class LearningModeTable extends GameTable {
 
 	private static final Random rnd = new Random();
 
@@ -87,7 +87,7 @@ public class LearningModeTable extends GameTable  {
 
 		return -1;
 	}
-	
+
 	@Override
 	public void draw() {
 		drawCardsOnTable();
@@ -108,6 +108,7 @@ public class LearningModeTable extends GameTable  {
 
 	/**
 	 * Checks if set exists on table and returns set score
+	 * 
 	 * @return
 	 */
 	protected int checkSet() {
@@ -116,8 +117,7 @@ public class LearningModeTable extends GameTable  {
 			Game.getVibrator().vibrate(50);
 			SetGameController.playSoundSuccess();
 			deal();
-		}
-		else {
+		} else {
 			Game.getVibrator().vibrate(100);
 			SetGameController.playSoundError();
 		}

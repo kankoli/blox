@@ -19,7 +19,7 @@ public class PracticeModeTable extends LearningModeTable {
 	private int score = 0;
 	private int deals = 1;
 	private boolean waitForContinue;
-	
+
 	private void drawScore() {
 		Game.renderingShiftY = 60;
 		TextDrawer.draw(FontManager.defaultFont, "Score: " + score, infoArea, TextDrawer.AlignSW);
@@ -37,7 +37,7 @@ public class PracticeModeTable extends LearningModeTable {
 	private void drawWaitMessage() {
 		TextDrawer.draw(FontManager.defaultFont, "Wait: " + String.format("%.1f", tapWait - (time - lastTap)), infoArea, TextDrawer.AlignNW);
 	}
-	
+
 	private void drawResults() {
 		Game.renderingShiftY = 30;
 		TextDrawer.draw(FontManager.defaultFont, "Score: " + score);
@@ -45,7 +45,7 @@ public class PracticeModeTable extends LearningModeTable {
 		TextDrawer.draw(FontManager.defaultFont, "Touch Screen To Continue");
 		Game.renderingShiftY = 0;
 	}
-	
+
 	public boolean isWaitingForContinue() {
 		return waitForContinue;
 	}
@@ -58,8 +58,7 @@ public class PracticeModeTable extends LearningModeTable {
 			}
 			waitForContinue = true;
 			deactivateCards();
-		}
-		else if (timePerDeal - time < 0) {
+		} else if (timePerDeal - time < 0) {
 			SetGameController.playSoundTimeUp();
 			Game.getVibrator().vibrate(100);
 			deal();
@@ -86,7 +85,7 @@ public class PracticeModeTable extends LearningModeTable {
 	protected int checkSet() {
 		float f = timePerDeal - time;
 		int s = super.checkSet();
-		score += (int)(s * f);
+		score += (int) (s * f);
 		return s;
 	}
 
@@ -95,8 +94,7 @@ public class PracticeModeTable extends LearningModeTable {
 		if (time - lastTap < tapWait) {
 			lastTap = time;
 			SetGameController.playSoundWait();
-		}
-		else {
+		} else {
 			lastTap = time;
 			super.cardTapped(card);
 		}
@@ -106,8 +104,7 @@ public class PracticeModeTable extends LearningModeTable {
 	public void draw() {
 		if (waitForContinue) {
 			drawResults();
-		}
-		else {
+		} else {
 			drawScore();
 			drawRemainingDeals();
 			drawRemainingTime();
@@ -119,37 +116,37 @@ public class PracticeModeTable extends LearningModeTable {
 
 	private static final IDrawingInfo infoArea = new IDrawingInfo() {
 		private Vector location = new Vector(50, 25);
-		
+
 		@Override
 		public boolean isFlipY() {
 			return false;
 		}
-		
+
 		@Override
 		public boolean isFlipX() {
 			return false;
 		}
-		
+
 		@Override
 		public boolean ignoreViewportScaling() {
 			return false;
 		}
-		
+
 		@Override
 		public boolean ignoreViewportOffset() {
 			return false;
 		}
-		
+
 		@Override
 		public float getWidth() {
 			return Game.getVirtualWidth() - 100;
 		}
-		
+
 		@Override
 		public Vector getScale() {
 			return noScale;
 		}
-		
+
 		@Override
 		public Rotation getRotation() {
 			return noRotation;
@@ -159,12 +156,12 @@ public class PracticeModeTable extends LearningModeTable {
 		public Color getColor() {
 			return Color.White;
 		}
-		
+
 		@Override
 		public Vector getLocation() {
 			return location;
 		}
-		
+
 		@Override
 		public float getHeight() {
 			return Game.getVirtualHeight() - 50;

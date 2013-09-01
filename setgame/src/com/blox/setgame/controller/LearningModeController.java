@@ -8,10 +8,10 @@ public class LearningModeController extends SetGameController {
 
 	public LearningModeController(SetGameScreen parent) {
 		super(parent);
-		
+
 		gameTable = new LearningModeTable();
 		this.screen.registerDrawable(gameTable, 1);
-		
+
 		currState = waitingState;
 		gameTable.registerWaiting(waitingState);
 	}

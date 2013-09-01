@@ -61,7 +61,7 @@ public class Card extends CardGameObject {
 	public static boolean isSet(Card card1, Card card2, Card card3) {
 		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
 	}
-	
+
 	public static int getSetScore(Card card1, Card card2, Card card3) {
 		return CardAttributes.getSetScore(card1.attributes, card2.attributes, card3.attributes);
 	}
@@ -88,12 +88,10 @@ public class Card extends CardGameObject {
 		symbols = new ArrayList<Symbol>();
 		if (attributes.getCount() == 1) {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.firstOfOne, this.location));
-		}
-		else if (attributes.getCount() == 2) {
+		} else if (attributes.getCount() == 2) {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.firstOfTwo, this.location));
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.secondOfTwo, this.location));
-		}
-		else if (attributes.getCount() == 4) {
+		} else if (attributes.getCount() == 4) {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.firstOfThree, this.location));
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.secondOfThree, this.location));
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.thirdOfThree, this.location));
@@ -102,15 +100,15 @@ public class Card extends CardGameObject {
 
 	private boolean isOpened;
 	private boolean isSelected;
-	
+
 	public void open() {
 		isOpened = true;
 	}
-	
+
 	public void close() {
 		isOpened = false;
 	}
-	
+
 	public boolean isOpened() {
 		return isOpened;
 	}
@@ -118,15 +116,15 @@ public class Card extends CardGameObject {
 	public void select() {
 		isSelected = true;
 	}
-	
+
 	public void unselect() {
 		isSelected = false;
 	}
-	
+
 	public boolean isSelected() {
 		return isSelected;
 	}
-	
+
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		if (Utils.isIn(x, y, location, width, height)) {
@@ -136,19 +134,19 @@ public class Card extends CardGameObject {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void draw() {
 		if (!isOpened) {
 			SetGameController.drawTextureCardClosed(this);
 			return;
 		}
-		
+
 		SetGameController.drawTextureCardEmpty(this);
 		for (int i = 0; i < symbols.size(); i++) {
 			symbols.get(i).draw();
 		}
-		
+
 		if (isSelected)
 			SetGameController.drawTextureCardBorder(this);
 	}
@@ -156,11 +154,11 @@ public class Card extends CardGameObject {
 	public void setTapListener(ICardTapListener listener) {
 		tapListener = listener;
 	}
-	
+
 	public void unsetTapListener() {
 		tapListener = null;
 	}
-	
+
 	public CardAttributes getAttributes() {
 		return attributes;
 	}

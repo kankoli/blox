@@ -16,13 +16,13 @@ public class LearningModeScreen extends SetGameScreen {
 		super.update();
 		controller.execute();
 	}
-	
+
 	@Override
 	public void activated() {
 		super.activated();
 		controller.activated();
 	}
-	
+
 	@Override
 	public void deactivated() {
 		super.deactivated();

@@ -6,15 +6,15 @@ import com.blox.setgame.controller.WaitingState;
 public abstract class GameTable implements Card.ICardTapListener, IDrawable {
 
 	protected Card[] deck;
-	
-//	void registerSelected(SelectedState selectedState);
-//
-//	void unregisterSelected(SelectedState selectedState);
-//	
+
+	// void registerSelected(SelectedState selectedState);
+	//
+	// void unregisterSelected(SelectedState selectedState);
+	//
 	public GameTable() {
 		deck = Card.getDeck();
 	}
-	
+
 	public void registerWaiting(WaitingState waitingState) {
 		for (int i = 0; i < deck.length; i++) {
 			deck[i].setTapListener(waitingState);
@@ -26,15 +26,15 @@ public abstract class GameTable implements Card.ICardTapListener, IDrawable {
 			deck[i].unsetTapListener();
 		}
 	}
-	
+
 	public void activateCards() {
-		for(Card card : deck) {
+		for (Card card : deck) {
 			card.activate();
 		}
 	}
 
 	public void deactivateCards() {
-		for(Card card : deck) {
+		for (Card card : deck) {
 			card.deactivate();
 		}
 	}

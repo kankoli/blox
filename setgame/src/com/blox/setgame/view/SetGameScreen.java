@@ -10,11 +10,11 @@ public abstract class SetGameScreen extends Screen {
 		super.init();
 		registerInputListener(this);
 	}
-		 
+
 	@Override
-    public boolean keyDown(int keycode) {
-    	if (keycode == Keys.BACK || keycode == Keys.ESCAPE)
-    		ScreenManager.instance.switchTo("menu", true);
-    	return super.keyDown(keycode);
-    }
+	public boolean keyDown(int keycode) {
+		if (keycode == Keys.BACK || keycode == Keys.ESCAPE)
+			ScreenManager.instance.switchTo("menu", true);
+		return super.keyDown(keycode);
+	}
 }

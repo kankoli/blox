@@ -8,10 +8,10 @@ public class RelaxModeController extends SetGameController {
 
 	public RelaxModeController(RelaxModeScreen parent) {
 		super(parent);
-		
+
 		gameTable = new FullGameTable();
 		this.screen.registerDrawable(gameTable, 1);
-		
+
 		currState = waitingState;
 		registerWaiting();
 	}

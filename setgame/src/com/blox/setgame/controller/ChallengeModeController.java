@@ -8,10 +8,10 @@ public class ChallengeModeController extends SetGameController {
 
 	public ChallengeModeController(ChallengeModeScreen parent) {
 		super(parent);
-		
+
 		gameTable = new FullGameTable();
 		this.screen.registerDrawable(gameTable, 1);
-		
+
 		currState = waitingState;
 		registerWaiting();
 	}
