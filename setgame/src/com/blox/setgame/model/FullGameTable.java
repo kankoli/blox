@@ -30,11 +30,10 @@ public class FullGameTable extends GameTable {
 
 	@Override
 	public void cardTapped(Card card) {
-
 		if (!card.isOpened()) { // Clicking an unopened card opens all three extra cards
 			openExtraCards();
+			return;
 		}
-
 		if (card.isSelected()) {
 			card.unselect();
 			selectedCards.remove(card);
