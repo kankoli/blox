@@ -6,8 +6,8 @@ import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Vector;
 
 public class Symbol extends GameObject {
-	private ITexture texture;
 	private Vector parentLocation;
+	private ITexture texture;
 
 	public Symbol(ITexture texture, Vector location, Vector parentLocation) {
 		this.texture = texture;

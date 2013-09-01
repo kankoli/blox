@@ -24,6 +24,31 @@ public class LearningModeTable extends GameTable {
 		deal();
 	}
 
+	@Override
+	public void cardTapped(Card card) {
+		selectedCard = card;
+//		System.out.println(card.getAttributes());
+		checkSet();
+	}
+
+	/**
+	 * Checks if set exists on table and returns set score
+	 * 
+	 * @return
+	 */
+	protected int checkSet() {
+		int score = Card.getSetScore(cardsOnTable[0], cardsOnTable[1], selectedCard);
+		if (score > 0) {
+			Game.getVibrator().vibrate(50);
+			SetGameController.playSoundSuccess();
+			deal();
+		} else {
+			Game.getVibrator().vibrate(100);
+			SetGameController.playSoundError();
+		}
+		return score;
+	}
+
 	public void deal() {
 		int c1 = rnd.nextInt(deck.length);
 		int c2 = rnd.nextInt(deck.length);
@@ -77,17 +102,6 @@ public class LearningModeTable extends GameTable {
 		}
 	}
 
-	protected int getCompletingCardIndex(int c1, int c2) {
-		for (int i = 0; i < deck.length; i++) {
-			if (i == c1 || i == c2)
-				continue;
-			if (Card.isSet(deck[c1], deck[c2], deck[i]))
-				return i;
-		}
-
-		return -1;
-	}
-
 	@Override
 	public void draw() {
 		drawCardsOnTable();
@@ -106,28 +120,14 @@ public class LearningModeTable extends GameTable {
 		}
 	}
 
-	/**
-	 * Checks if set exists on table and returns set score
-	 * 
-	 * @return
-	 */
-	protected int checkSet() {
-		int score = Card.getSetScore(cardsOnTable[0], cardsOnTable[1], selectedCard);
-		if (score > 0) {
-			Game.getVibrator().vibrate(50);
-			SetGameController.playSoundSuccess();
-			deal();
-		} else {
-			Game.getVibrator().vibrate(100);
-			SetGameController.playSoundError();
+	protected int getCompletingCardIndex(int c1, int c2) {
+		for (int i = 0; i < deck.length; i++) {
+			if (i == c1 || i == c2)
+				continue;
+			if (Card.isSet(deck[c1], deck[c2], deck[i]))
+				return i;
 		}
-		return score;
-	}
 
-	@Override
-	public void cardTapped(Card card) {
-		selectedCard = card;
-		System.out.println(card.getAttributes());
-		checkSet();
+		return -1;
 	}
 }

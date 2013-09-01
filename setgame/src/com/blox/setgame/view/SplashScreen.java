@@ -9,14 +9,14 @@ import com.blox.setgame.utils.R;
 
 public class SplashScreen extends Screen {
 	@Override
-	public void update() {
-		if (!Game.getResourceManager().isLoading())
-			ScreenManager.instance.switchTo(R.game.screens.menu, false);
-	}
-
-	@Override
 	public void render() {
 		super.render();
 		TextDrawer.draw(FontManager.defaultFont, "Loading: " + Game.getResourceManager().getLoadingPercent() + "%");
+	}
+
+	@Override
+	public void update() {
+		if (!Game.getResourceManager().isLoading())
+			ScreenManager.instance.switchTo(R.game.screens.menu, false);
 	}
 }

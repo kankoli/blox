@@ -8,18 +8,6 @@ public class PracticeModeScreen extends SetGameScreen {
 	private PracticeModeController controller;
 
 	@Override
-	public void init() {
-		super.init();
-		controller = new PracticeModeController(this);
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		controller.execute();
-	}
-
-	@Override
 	public void activated() {
 		super.activated();
 		FontManager.defaultFont.setColor(Color.White);
@@ -34,8 +22,20 @@ public class PracticeModeScreen extends SetGameScreen {
 	}
 
 	@Override
+	public void init() {
+		super.init();
+		controller = new PracticeModeController(this);
+	}
+
+	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		controller.tap(x, y, count, button);
 		return super.tap(x, y, count, button);
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		controller.execute();
 	}
 }

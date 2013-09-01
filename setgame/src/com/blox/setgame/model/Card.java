@@ -14,19 +14,16 @@ public class Card extends CardGameObject {
 
 	// region static
 
-	public static final float scale = 0.7f;
-	public static final int Width = (int) (140 * scale);
-	public static final int Height = (int) (240 * scale);
-	public static final int SymbolWidth = (int) (50 * scale);
-	public static final int SymbolHeight = (int) (50 * scale);
-	public static final int Space = 7;
-
-	public static Card[] getDeck() {
-		Card[] deck = new Card[81];
-		createDeck(deck);
-		shuffleDeck(deck);
-		return deck;
+	public static interface ICardTapListener {
+		void cardTapped(Card card);
 	}
+	public static final float scale = 0.7f;
+	public static final int Height = (int) (240 * scale);
+	public static final int Space = 7;
+	public static final int SymbolHeight = (int) (50 * scale);
+	public static final int SymbolWidth = (int) (50 * scale);
+
+	public static final int Width = (int) (140 * scale);
 
 	private static void createDeck(Card[] deck) {
 		int[] colors = new int[] { CardAttributes.Color_Red, CardAttributes.Color_Green, CardAttributes.Color_Blue };
@@ -46,6 +43,23 @@ public class Card extends CardGameObject {
 		}
 	}
 
+	public static Card[] getDeck() {
+		Card[] deck = new Card[81];
+		createDeck(deck);
+		shuffleDeck(deck);
+		return deck;
+	}
+
+	public static int getSetScore(Card card1, Card card2, Card card3) {
+		return CardAttributes.getSetScore(card1.attributes, card2.attributes, card3.attributes);
+	}
+
+	public static boolean isSet(Card card1, Card card2, Card card3) {
+		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
+	}
+
+	// endregion
+
 	private static void shuffleDeck(Card[] deck) {
 		Random rnd = new Random(1);
 		for (int i = 0; i < deck.length * deck.length; i++) {
@@ -57,21 +71,14 @@ public class Card extends CardGameObject {
 			deck[y] = tmp;
 		}
 	}
+	private CardAttributes attributes;
+	private boolean isOpened;
 
-	public static boolean isSet(Card card1, Card card2, Card card3) {
-		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
-	}
-
-	public static int getSetScore(Card card1, Card card2, Card card3) {
-		return CardAttributes.getSetScore(card1.attributes, card2.attributes, card3.attributes);
-	}
-
-	// endregion
+	private boolean isSelected;
 
 	private List<Symbol> symbols;
-	private CardAttributes attributes;
-	private ICardTapListener tapListener;
 
+	private ICardTapListener tapListener;
 	public Card(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
 		this.width = Card.Width;
@@ -79,6 +86,30 @@ public class Card extends CardGameObject {
 
 		open();
 		initSymbols();
+	}
+
+	public void close() {
+		isOpened = false;
+	}
+
+	@Override
+	public void draw() {
+		if (!isOpened) {
+			SetGameController.drawTextureCardClosed(this);
+			return;
+		}
+
+		SetGameController.drawTextureCardEmpty(this);
+		for (int i = 0; i < symbols.size(); i++) {
+			symbols.get(i).draw();
+		}
+
+		if (isSelected)
+			SetGameController.drawTextureCardBorder(this);
+	}
+
+	public CardAttributes getAttributes() {
+		return attributes;
 	}
 
 	private void initSymbols() {
@@ -98,31 +129,24 @@ public class Card extends CardGameObject {
 		}
 	}
 
-	private boolean isOpened;
-	private boolean isSelected;
+	public boolean isOpened() {
+		return isOpened;
+	}
+
+	public boolean isSelected() {
+		return isSelected;
+	}
 
 	public void open() {
 		isOpened = true;
-	}
-
-	public void close() {
-		isOpened = false;
-	}
-
-	public boolean isOpened() {
-		return isOpened;
 	}
 
 	public void select() {
 		isSelected = true;
 	}
 
-	public void unselect() {
-		isSelected = false;
-	}
-
-	public boolean isSelected() {
-		return isSelected;
+	public void setTapListener(ICardTapListener listener) {
+		tapListener = listener;
 	}
 
 	@Override
@@ -135,36 +159,12 @@ public class Card extends CardGameObject {
 		return false;
 	}
 
-	@Override
-	public void draw() {
-		if (!isOpened) {
-			SetGameController.drawTextureCardClosed(this);
-			return;
-		}
-
-		SetGameController.drawTextureCardEmpty(this);
-		for (int i = 0; i < symbols.size(); i++) {
-			symbols.get(i).draw();
-		}
-
-		if (isSelected)
-			SetGameController.drawTextureCardBorder(this);
-	}
-
-	public void setTapListener(ICardTapListener listener) {
-		tapListener = listener;
+	public void unselect() {
+		isSelected = false;
 	}
 
 	public void unsetTapListener() {
 		tapListener = null;
-	}
-
-	public CardAttributes getAttributes() {
-		return attributes;
-	}
-
-	public static interface ICardTapListener {
-		void cardTapped(Card card);
 	}
 
 }

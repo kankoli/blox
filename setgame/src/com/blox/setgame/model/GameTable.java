@@ -15,18 +15,6 @@ public abstract class GameTable implements Card.ICardTapListener, IDrawable {
 		deck = Card.getDeck();
 	}
 
-	public void registerWaiting(WaitingState waitingState) {
-		for (int i = 0; i < deck.length; i++) {
-			deck[i].setTapListener(waitingState);
-		}
-	}
-
-	public void unregisterWaiting() {
-		for (int i = 0; i < deck.length; i++) {
-			deck[i].unsetTapListener();
-		}
-	}
-
 	public void activateCards() {
 		for (Card card : deck) {
 			card.activate();
@@ -36,6 +24,18 @@ public abstract class GameTable implements Card.ICardTapListener, IDrawable {
 	public void deactivateCards() {
 		for (Card card : deck) {
 			card.deactivate();
+		}
+	}
+
+	public void registerWaiting(WaitingState waitingState) {
+		for (int i = 0; i < deck.length; i++) {
+			deck[i].setTapListener(waitingState);
+		}
+	}
+
+	public void unregisterWaiting() {
+		for (int i = 0; i < deck.length; i++) {
+			deck[i].unsetTapListener();
 		}
 	}
 }

@@ -7,17 +7,17 @@ import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
 public class FullGameTable extends GameTable {
-	private static final int rows = 3;
 	private static final int cols = 4 + 1;
-	private static final int setCardCount = 3;
+	private static final int rows = 3;
 	private static final int numberOfCards = rows * cols;
+	private static final int setCardCount = 3;
 
 	private static final int TableHeight = 550;
 
-	private Card[][] cardsOnTable; // [cols][rows]. holds extra cards on the
-									// last column (index cols-1)
-	private List<Card> selectedCards;
+	private Card[][] cardsOnTable; // [cols][rows]. holds extra cards on the last column (index cols-1)
 	private int index = 0;
+	
+	private List<Card> selectedCards;
 
 	public FullGameTable() {
 		super();
@@ -28,18 +28,59 @@ public class FullGameTable extends GameTable {
 		printSets();
 	}
 
-	private void printSets() {
-		List<Card[]> sets = findSets();
-		System.out.println("# of sets: " + sets.size());
-		for (Card[] set : sets) {
-			System.out.print(set[0].getAttributes() + " " + set[1].getAttributes() + " " + set[2].getAttributes() + "   ");
+	@Override
+	public void cardTapped(Card card) {
+
+		if (!card.isOpened()) { // Clicking an unopened card opens all three extra cards
+			openExtraCards();
 		}
-		System.out.println();
+
+		if (card.isSelected()) {
+			card.unselect();
+			selectedCards.remove(card);
+		} else {
+			card.select();
+			selectedCards.add(card);
+			checkSet();
+		}
 	}
 
-	public void openExtraCards() {
+	public void checkSet() {
+		int selectedCardCount = selectedCards.size();
+		if (selectedCardCount != setCardCount)
+			return;
+
+		if (Card.isSet(selectedCards.get(0), selectedCards.get(1), selectedCards.get(2))) {
+			updateCardsOnTable();
+			updateExtraCards();
+		} else {
+			for (int i = selectedCards.size() - 1; i >= 0; i--)
+				selectedCards.get(i).unselect();
+		}
+
+		selectedCards.clear();
+
+		printSets();
+	}
+
+	@Override
+	public void draw() {
+		drawCardsOnTable();
+		// TODO: drawSeperator();
+		drawExtraCards();
+	}
+
+	private void drawCardsOnTable() {
+		for (int i = 0; i < cols - 1; i++) {
+			for (int j = 0; j < rows; j++) {
+				cardsOnTable[i][j].draw();
+			}
+		}
+	}
+
+	private void drawExtraCards() {
 		for (int i = 0; i < 3; i++) {
-			cardsOnTable[cols - 1][i].open();
+			cardsOnTable[cols - 1][i].draw();
 		}
 	}
 
@@ -59,22 +100,16 @@ public class FullGameTable extends GameTable {
 		return sets;
 	}
 
-	public void checkSet() {
-		int selectedCardCount = selectedCards.size();
-		if (selectedCardCount != setCardCount)
-			return;
-
-		if (Card.isSet(selectedCards.get(0), selectedCards.get(1), selectedCards.get(2))) {
-			updateCardsOnTable();
-			updateExtraCards();
-		} else {
-			for (int i = selectedCards.size() - 1; i >= 0; i--)
-				selectedCards.get(i).unselect();
+	private Card getUnselectedExtraCard() {
+		for (int i = 0; i < 3; i++) {
+			if (cardsOnTable[cols - 1][i] != null && !cardsOnTable[cols - 1][i].isSelected()) {
+				Card extraCard = cardsOnTable[cols - 1][i];
+				cardsOnTable[cols - 1][i] = null;
+				return extraCard;
+			}
 		}
-
-		selectedCards.clear();
-
-		printSets();
+		// TODO: dusun bunu
+		return null;
 	}
 
 	private void initCardsOnTable() {
@@ -98,6 +133,21 @@ public class FullGameTable extends GameTable {
 
 		updateExtraCards();
 
+	}
+
+	public void openExtraCards() {
+		for (int i = 0; i < 3; i++) {
+			cardsOnTable[cols - 1][i].open();
+		}
+	}
+
+	private void printSets() {
+		List<Card[]> sets = findSets();
+		System.out.println("# of sets: " + sets.size());
+		for (Card[] set : sets) {
+			System.out.print(set[0].getAttributes() + " " + set[1].getAttributes() + " " + set[2].getAttributes() + "   ");
+		}
+		System.out.println();
 	}
 
 	private void updateCardsOnTable() {
@@ -133,56 +183,5 @@ public class FullGameTable extends GameTable {
 		}
 
 		index += 3;
-	}
-
-	private Card getUnselectedExtraCard() {
-		for (int i = 0; i < 3; i++) {
-			if (cardsOnTable[cols - 1][i] != null && !cardsOnTable[cols - 1][i].isSelected()) {
-				Card extraCard = cardsOnTable[cols - 1][i];
-				cardsOnTable[cols - 1][i] = null;
-				return extraCard;
-			}
-		}
-		// TODO: dusun bunu
-		return null;
-	}
-
-	@Override
-	public void draw() {
-		drawCardsOnTable();
-		// TODO: drawSeperator();
-		drawExtraCards();
-	}
-
-	private void drawCardsOnTable() {
-		for (int i = 0; i < cols - 1; i++) {
-			for (int j = 0; j < rows; j++) {
-				cardsOnTable[i][j].draw();
-			}
-		}
-	}
-
-	private void drawExtraCards() {
-		for (int i = 0; i < 3; i++) {
-			cardsOnTable[cols - 1][i].draw();
-		}
-	}
-
-	@Override
-	public void cardTapped(Card card) {
-
-		if (!card.isOpened()) { // Clicking an unopened card opens all three
-								// extra cards
-			openExtraCards();
-		}
-
-		if (card.isSelected()) {
-			card.unselect();
-			selectedCards.remove(card);
-		} else {
-			card.select();
-			selectedCards.add(card);
-			checkSet();
-		}
 	}
 }

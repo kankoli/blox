@@ -14,14 +14,14 @@ import com.blox.setgame.view.SetGameScreen;
 
 public abstract class SetGameController extends StateManager {
 
-	private static final ITexture textureCardEmpty;
-	private static final ITexture textureCardClosed;
-	private static final ITexture textureCardBorder;
-
-	private static final ISound soundSuccess;
 	private static final ISound soundError;
-	private static final ISound soundWait;
+	private static final ISound soundSuccess;
 	private static final ISound soundTimeUp;
+
+	private static final ISound soundWait;
+	private static final ITexture textureCardBorder;
+	private static final ITexture textureCardClosed;
+	private static final ITexture textureCardEmpty;
 
 	static {
 		IResourceManager r = Game.getResourceManager();
@@ -36,36 +36,36 @@ public abstract class SetGameController extends StateManager {
 		soundTimeUp = r.getSound(R.game.sounds.timeUp);
 	}
 
-	public static void drawTextureCardEmpty(IDrawingInfo info) {
-		TextureDrawer.draw(textureCardEmpty, info);
+	public static void drawTextureCardBorder(IDrawingInfo info) {
+		TextureDrawer.draw(textureCardBorder, info);
 	}
 
 	public static void drawTextureCardClosed(IDrawingInfo info) {
 		TextureDrawer.draw(textureCardClosed, info);
 	}
 
-	public static void drawTextureCardBorder(IDrawingInfo info) {
-		TextureDrawer.draw(textureCardBorder, info);
-	}
-
-	public static void playSoundSuccess() {
-		soundSuccess.play();
+	public static void drawTextureCardEmpty(IDrawingInfo info) {
+		TextureDrawer.draw(textureCardEmpty, info);
 	}
 
 	public static void playSoundError() {
 		soundError.play();
 	}
 
-	public static void playSoundWait() {
-		soundWait.play();
+	public static void playSoundSuccess() {
+		soundSuccess.play();
 	}
 
 	public static void playSoundTimeUp() {
 		soundTimeUp.play();
 	}
 
-	protected SetGameScreen screen; // Parent screen.
+	public static void playSoundWait() {
+		soundWait.play();
+	}
+
 	protected GameTable gameTable; // Game table.
+	protected SetGameScreen screen; // Parent screen.
 	/**
 	 * Waiting for user to select a card.
 	 */
@@ -85,7 +85,15 @@ public abstract class SetGameController extends StateManager {
 		// selectedState = new SelectedState();
 	}
 
+	public final void activated() {
+		gameTable.activateCards();
+	}
+
 	abstract public void cardTapped(Card card);
+
+	public final void deactivated() {
+		gameTable.deactivateCards();
+	}
 
 	public final void registerWaiting() {
 		gameTable.registerWaiting(waitingState);
@@ -93,13 +101,5 @@ public abstract class SetGameController extends StateManager {
 
 	public final void unregisterWaiting() {
 		gameTable.unregisterWaiting();
-	}
-
-	public final void activated() {
-		gameTable.activateCards();
-	}
-
-	public final void deactivated() {
-		gameTable.deactivateCards();
 	}
 }

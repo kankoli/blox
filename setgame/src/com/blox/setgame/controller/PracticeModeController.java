@@ -16,14 +16,14 @@ public class PracticeModeController extends SetGameController {
 	}
 
 	@Override
-	public void execute() {
-		super.execute();
-		((PracticeModeTable) gameTable).update();
+	public void cardTapped(Card card) {
+		gameTable.cardTapped(card);
 	}
 
 	@Override
-	public void cardTapped(Card card) {
-		gameTable.cardTapped(card);
+	public void execute() {
+		super.execute();
+		((PracticeModeTable) gameTable).update();
 	}
 
 	public void tap(float x, float y, int count, int button) {
