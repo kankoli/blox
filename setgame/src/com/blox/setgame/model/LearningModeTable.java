@@ -1,30 +1,30 @@
-package com.blox.set.model;
+package com.blox.setgame.model;
 
 import java.util.Random;
 
+import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
-import com.blox.set.controller.SelectedState;
-import com.blox.set.controller.WaitingState;
-import com.blox.set.utils.R;
+import com.blox.setgame.controller.SetGameController;
+import com.blox.setgame.utils.R;
 
-public class SingleGameTable extends TableObject {
+public class LearningModeTable extends GameTable  {
 
 	private static final Random rnd = new Random();
-	
-	private Card[] deck;
-	private Card[] cardsOnTable;
-	private Card[] cardsToSelect;
-	private Card selectedCard;
 
-	public SingleGameTable() {
-		deck = Card.getDeck();
+	protected Card[] cardsOnTable;
+	protected Card[] cardsToSelect;
+	protected Card selectedCard;
+
+	public LearningModeTable() {
+		super();
 
 		cardsOnTable = new Card[2];
 		cardsToSelect = new Card[3];
+
 		deal();
 	}
 
-	private void deal() {
+	public void deal() {
 		int c1 = rnd.nextInt(deck.length);
 		int c2 = rnd.nextInt(deck.length);
 
@@ -38,7 +38,6 @@ public class SingleGameTable extends TableObject {
 			Vector l = cardsOnTable[i].getLocation();
 			l.x = R.learningModeScreen.layout.positions[i].x;
 			l.y = R.learningModeScreen.layout.positions[i].y;
-			cardsOnTable[i].open();
 		}
 
 		int c3 = getCompletingCardIndex(c1, c2);
@@ -49,11 +48,17 @@ public class SingleGameTable extends TableObject {
 			c4 = rnd.nextInt(deck.length);
 		while (c5 == c1 || c5 == c2 || c5 == c3 || c5 == c4)
 			c5 = rnd.nextInt(deck.length);
-		
+
+		if (cardsToSelect[0] != null) {
+			cardsToSelect[0].deactivate();
+			cardsToSelect[1].deactivate();
+			cardsToSelect[2].deactivate();
+		}
+
 		cardsToSelect[0] = deck[c3];
 		cardsToSelect[1] = deck[c4];
 		cardsToSelect[2] = deck[c5];
-		
+
 		for (int i = 0; i < cardsToSelect.length * cardsToSelect.length; i++) {
 			int x = rnd.nextInt(cardsToSelect.length);
 			int y = rnd.nextInt(cardsToSelect.length);
@@ -67,12 +72,12 @@ public class SingleGameTable extends TableObject {
 			Vector l = cardsToSelect[i].getLocation();
 			l.x = R.learningModeScreen.layout.positions[2 + i].x;
 			l.y = R.learningModeScreen.layout.positions[2 + i].y;
-			cardsToSelect[i].open();
 			cardsToSelect[i].activate();
+			cardsToSelect[i].setTapListener(this);
 		}
 	}
 
-	private int getCompletingCardIndex(int c1, int c2) {
+	protected int getCompletingCardIndex(int c1, int c2) {
 		for (int i = 0; i < deck.length; i++) {
 			if (i == c1 || i == c2)
 				continue;
@@ -82,11 +87,9 @@ public class SingleGameTable extends TableObject {
 
 		return -1;
 	}
-
+	
 	@Override
 	public void draw() {
-		super.draw();
-
 		drawCardsOnTable();
 		drawCardsToSelect();
 	}
@@ -103,50 +106,28 @@ public class SingleGameTable extends TableObject {
 		}
 	}
 
-	private void checkSet() {
-		if (Card.isSet(cardsOnTable[0], cardsOnTable[1], selectedCard)) {
+	/**
+	 * Checks if set exists on table and returns set score
+	 * @return
+	 */
+	protected int checkSet() {
+		int score = Card.getSetScore(cardsOnTable[0], cardsOnTable[1], selectedCard);
+		if (score > 0) {
+			Game.getVibrator().vibrate(50);
+			SetGameController.playSoundSuccess();
 			deal();
 		}
 		else {
-			selectedCard.switchSelected();
+			Game.getVibrator().vibrate(100);
+			SetGameController.playSoundError();
 		}
+		return score;
 	}
 
 	@Override
-	public void registerWaiting(WaitingState waitingState) {
-		for (int i = 0; i < 3; i++) {
-			cardsToSelect[i].registerInputEventListener(waitingState);
-		}
-	}
-
-	@Override
-	public void unregisterWaiting(WaitingState waitingState) {
-		for (int i = 0; i < 3; i++) {
-			cardsToSelect[i].registerInputEventListener(waitingState);
-		}
-	}
-
-	@Override
-	public void registerSelected(SelectedState selectedState) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void unregisterSelected(SelectedState selectedState) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void cardSelected(Card card) {
+	public void cardTapped(Card card) {
 		selectedCard = card;
+		System.out.println(card.getAttributes());
 		checkSet();
-	}
-
-	@Override
-	public void cardUnselected(Card card) {
-		// TODO Auto-generated method stub
-
 	}
 }

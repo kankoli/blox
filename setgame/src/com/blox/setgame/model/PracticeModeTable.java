@@ -1,4 +1,4 @@
-package com.blox.set.model;
+package com.blox.setgame.model;
 
 import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.util.Color;
@@ -7,7 +7,7 @@ import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Vector;
-import com.blox.set.controller.SetGameController;
+import com.blox.setgame.controller.SetGameController;
 
 public class PracticeModeTable extends LearningModeTable {
 	private final static float tapWait = 2f;
@@ -57,6 +57,7 @@ public class PracticeModeTable extends LearningModeTable {
 				Game.getVibrator().vibrate(100);
 			}
 			waitForContinue = true;
+			deactivateCards();
 		}
 		else if (timePerDeal - time < 0) {
 			SetGameController.playSoundTimeUp();
@@ -66,7 +67,6 @@ public class PracticeModeTable extends LearningModeTable {
 	}
 
 	public void continuePlaying() {
-		waitForContinue = false;
 		score = 0;
 		deals = 0;
 		time = 0;
@@ -75,7 +75,7 @@ public class PracticeModeTable extends LearningModeTable {
 	}
 
 	@Override
-	protected void deal() {
+	public void deal() {
 		super.deal();
 		time = 0;
 		lastTap = -100;

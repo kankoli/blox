@@ -1,4 +1,4 @@
-package com.blox.set.controller;
+package com.blox.setgame.controller;
 
 import com.blox.framework.v0.impl.State;
 

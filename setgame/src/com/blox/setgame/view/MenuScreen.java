@@ -1,7 +1,7 @@
 package com.blox.setgame.view;
 
 import com.blox.framework.v0.impl.FormScreen;
-import com.blox.set.utils.R;
+import com.blox.setgame.utils.R;
 
 public class MenuScreen extends FormScreen {
 	@Override

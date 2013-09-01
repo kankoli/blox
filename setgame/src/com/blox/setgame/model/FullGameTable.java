@@ -1,14 +1,12 @@
-package com.blox.set.model;
+package com.blox.setgame.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
-import com.blox.set.controller.SelectedState;
-import com.blox.set.controller.WaitingState;
 
-public class FullGameTable extends TableObject {
+public class FullGameTable extends GameTable {
 	private static final int rows = 3;
 	private static final int cols = 4 + 1;
 	private static final int setCardCount = 3;
@@ -16,13 +14,12 @@ public class FullGameTable extends TableObject {
 
 	private static final int TableHeight = 550;
 	
-	private Card[] deck;
 	private Card[][] cardsOnTable; // [cols][rows]. holds extra cards on the last column (index cols-1)
 	private List<Card> selectedCards;
 	private int index = 0;
 
 	public FullGameTable() {
-		deck = Card.getDeck();
+		super();
 		selectedCards = new ArrayList<Card>();
 
 		initCardsOnTable();
@@ -76,7 +73,7 @@ public class FullGameTable extends TableObject {
 		}
 		else {
 			for (int i = selectedCards.size() - 1; i >= 0; i--)
-				selectedCards.get(i).switchSelected();
+				selectedCards.get(i).unselect();
 		}
 
 		selectedCards.clear();
@@ -138,6 +135,7 @@ public class FullGameTable extends TableObject {
 					+ (Game.getViewportHeight() - TableHeight)/2;
 			
 			cardsOnTable[cols-1][i].activate();
+			cardsOnTable[cols-1][i].close();
 		}
 		
 		index += 3;
@@ -154,22 +152,9 @@ public class FullGameTable extends TableObject {
 		// TODO: dusun bunu
 		return null;
 	}
-
-	@Override
-	public void cardSelected(Card card) {
-		selectedCards.add(card);
-		checkSet();
-	}
 	
 	@Override
-	public void cardUnselected(Card card) {
-		selectedCards.remove(card);
-	}
-	
-	@Override
-	public void draw() {
-		super.draw();
-		
+	public void draw() {		
 		drawCardsOnTable();		
 		// TODO: drawSeperator();
 		drawExtraCards();
@@ -190,28 +175,20 @@ public class FullGameTable extends TableObject {
 	}
 
 	@Override
-	public void registerWaiting(WaitingState waitingState) {
-		for (int i = 0; i < deck.length; i++) {
-			deck[i].registerInputEventListener(waitingState);
+	public void cardTapped(Card card) {
+
+		if (!card.isOpened()) { // Clicking an unopened card opens all three extra cards
+			openExtraCards();
 		}
-	}
-
-	@Override
-	public void unregisterWaiting(WaitingState waitingState) {
-		for (int i = 0; i < deck.length; i++) {
-			deck[i].unregisterInputEventListener(waitingState);
+		
+		if (card.isSelected()) {
+			card.unselect();
+			selectedCards.remove(card);
 		}
-	}
-
-	@Override
-	public void registerSelected(SelectedState selectedState) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void unregisterSelected(SelectedState selectedState) {
-		// TODO Auto-generated method stub
-		
+		else {
+			card.select();
+			selectedCards.add(card);
+			checkSet();
+		}
 	}
 }

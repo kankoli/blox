@@ -1,4 +1,4 @@
-package com.blox.set.controller;
+package com.blox.setgame.controller;
 
 import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IResourceManager;
@@ -7,10 +7,10 @@ import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.impl.StateManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextureDrawer;
-import com.blox.set.model.Card;
-import com.blox.set.model.TableObject;
-import com.blox.set.utils.R;
-import com.blox.set.view.SetGameScreen;
+import com.blox.setgame.model.Card;
+import com.blox.setgame.model.GameTable;
+import com.blox.setgame.utils.R;
+import com.blox.setgame.view.SetGameScreen;
 
 public abstract class SetGameController extends StateManager {
 	
@@ -65,16 +65,16 @@ public abstract class SetGameController extends StateManager {
 	}
 	
 	protected SetGameScreen screen; // Parent screen.
-	protected TableObject gameTable; // Game table.
+	protected GameTable gameTable; // Game table.
 	/**
 	 * Waiting for user to select a card.
 	 */
 	protected WaitingState waitingState;
 	
-	/**
-	 * User selected a card.
-	 */
-	private SelectedState selectedState;
+//	/**
+//	 * User selected a card.
+//	 */
+//	private SelectedState selectedState;
 	
 	public SetGameController(SetGameScreen parent) {
 		super();
@@ -82,24 +82,24 @@ public abstract class SetGameController extends StateManager {
 		
 		//Initializations
 		waitingState = new WaitingState(this);
-		selectedState = new SelectedState();
+//		selectedState = new SelectedState();
 	}
 	
-	abstract public void tapped(Card card);
+	abstract public void cardTapped(Card card);
 	
 	public final void registerWaiting() {
 		gameTable.registerWaiting(waitingState);
 	}
 	
 	public final void unregisterWaiting() {
-		gameTable.unregisterWaiting(waitingState);
+		gameTable.unregisterWaiting();
 	}
 	
-	public final void registerSelected() {
-		gameTable.registerSelected(selectedState);
+	public final void activated() {
+		gameTable.activateCards();
 	}
 	
-	public final void unregisterSelected() {
-		gameTable.unregisterSelected(selectedState);
+	public final void deactivated() {
+		gameTable.deactivateCards();
 	}
 }

@@ -1,4 +1,4 @@
-package com.blox.set.model;
+package com.blox.setgame.model;
 
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.impl.GameObject;

@@ -5,7 +5,7 @@ import com.blox.framework.v0.impl.ScreenManager;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
-import com.blox.set.utils.R;
+import com.blox.setgame.utils.R;
 
 public class SplashScreen extends Screen {
 	@Override

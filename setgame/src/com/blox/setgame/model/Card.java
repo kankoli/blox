@@ -1,4 +1,4 @@
-package com.blox.set.model;
+package com.blox.setgame.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,8 @@ import java.util.Random;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Utils;
-import com.blox.set.controller.SetGameController;
-import com.blox.set.utils.R;
-import com.blox.setgame.model.CardGameObject;
+import com.blox.setgame.controller.SetGameController;
+import com.blox.setgame.utils.R;
 
 public class Card extends CardGameObject {
 
@@ -78,6 +77,7 @@ public class Card extends CardGameObject {
 		this.width = Card.Width;
 		this.height = Card.Height;
 
+		open();
 		initSymbols();
 	}
 
@@ -100,25 +100,65 @@ public class Card extends CardGameObject {
 		}
 	}
 
+	private boolean isOpened;
+	private boolean isSelected;
+	
+	public void open() {
+		isOpened = true;
+	}
+	
+	public void close() {
+		isOpened = false;
+	}
+	
+	public boolean isOpened() {
+		return isOpened;
+	}
+
+	public void select() {
+		isSelected = true;
+	}
+	
+	public void unselect() {
+		isSelected = false;
+	}
+	
+	public boolean isSelected() {
+		return isSelected;
+	}
+	
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		if (Utils.isIn(x, y, location, width, height)) {
 			if (tapListener != null)
 				tapListener.cardTapped(this);
+			return true;
 		}
 		return false;
 	}
 	
 	@Override
 	public void draw() {
+		if (!isOpened) {
+			SetGameController.drawTextureCardClosed(this);
+			return;
+		}
+		
 		SetGameController.drawTextureCardEmpty(this);
 		for (int i = 0; i < symbols.size(); i++) {
 			symbols.get(i).draw();
 		}
+		
+		if (isSelected)
+			SetGameController.drawTextureCardBorder(this);
 	}
 
 	public void setTapListener(ICardTapListener listener) {
 		tapListener = listener;
+	}
+	
+	public void unsetTapListener() {
+		tapListener = null;
 	}
 	
 	public CardAttributes getAttributes() {
@@ -128,4 +168,5 @@ public class Card extends CardGameObject {
 	public static interface ICardTapListener {
 		void cardTapped(Card card);
 	}
+
 }

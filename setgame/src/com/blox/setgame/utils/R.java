@@ -2,7 +2,7 @@ package com.blox.setgame.utils;
 
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
-import com.blox.set.model.Card;
+import com.blox.setgame.model.Card;
 
 public final class R {
 	private R() {
