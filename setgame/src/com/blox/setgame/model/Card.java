@@ -85,7 +85,7 @@ public class Card extends CardGameObject {
 		this.height = Card.Height;
 
 		open();
-		initSymbols();
+		initCardSymbols();
 	}
 
 	public void close() {
@@ -112,10 +112,26 @@ public class Card extends CardGameObject {
 		return attributes;
 	}
 
-	private void initSymbols() {
-		String symbolName = "card-" + attributes.getColor() + attributes.getShape() + attributes.getPattern();
-
-		ITexture symbolTexture = Game.getResourceManager().getTexture(symbolName);
+	private ITexture[][][] symbolTextures = null;
+	
+	private void initSymbolTextures() {
+		symbolTextures = new ITexture[3][3][3];
+		String symbolName;
+		int color = 1, shape = 1, pattern = 1;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					symbolName = "card-" + (color << i) + (shape << j) + (pattern << k);
+					symbolTextures[i][j][k] = Game.getResourceManager().getTexture(symbolName);
+				}
+			}
+		}
+	}
+	
+	private void initCardSymbols() {
+		if (symbolTextures == null)
+			initSymbolTextures();
+		ITexture symbolTexture = symbolTextures[attributes.getColor()/2][attributes.getShape()/2][attributes.getPattern()/2];
 		symbols = new ArrayList<Symbol>();
 		if (attributes.getCount() == 1) {
 			symbols.add(new Symbol(symbolTexture, R.symbolpositions.firstOfOne, this.location));
