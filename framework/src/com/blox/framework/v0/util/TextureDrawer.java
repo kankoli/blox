@@ -35,6 +35,7 @@ public final class TextureDrawer {
 		adaptedDrawingInfo.r.rotation.z = r.rotation.z;
 		adaptedDrawingInfo.flipX = info.isFlipX();
 		adaptedDrawingInfo.flipY = info.isFlipY();
+		adaptedDrawingInfo.c.set(info.getColor());
 
 		drawer.draw(texture, adaptedDrawingInfo);
 	}

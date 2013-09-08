@@ -7,6 +7,8 @@ public interface IGameProvider {
 
 	ITextureDrawer createTextureDrawer();
 
+	IShapeRenderer createShapeRenderer();
+
 	IInputManager createInputManager();
 	
 	ISettings createSettings();

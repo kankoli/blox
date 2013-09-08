@@ -1,6 +1,6 @@
 package com.blox.setgame.view;
 
-import com.blox.setgame.controller.LearningModeController;
+import com.blox.setgame.controller.learning.LearningModeController;
 
 public class LearningModeScreen extends SetGameScreen {
 	private LearningModeController controller;
@@ -21,11 +21,5 @@ public class LearningModeScreen extends SetGameScreen {
 	public void init() {
 		super.init();
 		controller = new LearningModeController(this);
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		controller.execute();
 	}
 }

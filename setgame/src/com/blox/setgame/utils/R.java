@@ -1,5 +1,6 @@
 package com.blox.setgame.utils;
 
+import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 import com.blox.setgame.model.Card;
@@ -34,6 +35,7 @@ public final class R {
 			public static final String cardBorder = "card-border";
 			public static final String cardClosed = "card-closed";
 			public static final String cardEmpty = "card-empty";
+			public static final String logo = "logo";
 		}
 	}
 
@@ -53,12 +55,18 @@ public final class R {
 	public static final class symbolpositions {
 		public static final Vector firstOfOne = new Vector((Card.Width - Card.SymbolWidth) / 2, (Card.Height - Card.SymbolHeight) / 2);
 
-		public static final Vector firstOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 2.0f);
-		public static final Vector firstOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 1.25f);
+		public static final Vector firstOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 1.2f);
+		public static final Vector secondOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 0.2f);
 
+		public static final Vector firstOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 1.8f);
 		public static final Vector secondOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 0.5f);
-		public static final Vector secondOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 0.25f);
-		public static final Vector thirdOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 1.0f);
+		public static final Vector thirdOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 0.8f);
+	}
+
+	public static final class colors {
+		public static final Color setRed = Color.fromHex("#d0583bff");
+		public static final Color setGreen = Color.fromHex("#56ad89ff");
+		public static final Color setBlue = Color.fromHex("#3974b1ff");
 	}
 
 	private R() {

@@ -1,8 +1,10 @@
 package com.blox.framework.v0.impl.libgdx;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.MusicLoader.MusicParameter;
@@ -29,8 +31,6 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	static {
 		TextureParameter textureParams = new TextureParameter();
-		textureParams.minFilter = TextureFilter.Linear;
-		textureParams.magFilter = TextureFilter.Linear;
 
 		SoundParameter soundParam = new SoundParameter();
 
@@ -107,10 +107,15 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 		loadPrimaryResources();
 		addResourcesToLoadQueue();
 	}
+	
+	@Override
+	public InputStream readFile(String path) {
+		return Gdx.files.internal(path).read();
+	}
 
 	@Override
-	public int getLoadingPercent() {
-		return (int) (manager.getProgress() * 100);
+	public float getProgress() {
+		return manager.getProgress();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.blox.framework.v0.impl;
 
+import com.badlogic.gdx.Input.Keys;
 import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICompositeInputListener;
 import com.blox.framework.v0.IDrawable;
@@ -71,7 +72,7 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 	@Override
 	public void render() {
 		if (background != null)
-			TextureDrawer.draw(background, IDrawingInfo.background);
+			TextureDrawer.draw(background, IDrawingInfo.screen);
 		drawer.draw();
 	}
 
@@ -112,6 +113,10 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 		}
 	}
 
+	protected boolean onBack() {
+		return false;
+	}
+	
 	@Override
 	public void settingChanged(String key, Object newValue) {
 		if ("music".equals(key)) {
@@ -201,9 +206,14 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 
 	@Override
 	public boolean keyDown(int keycode) {
+		if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
+			if (onBack()) {
+				return true;
+			}
+		}
 		return false;
 	}
-
+	
 	@Override
 	public boolean keyUp(int keycode) {
 		return false;

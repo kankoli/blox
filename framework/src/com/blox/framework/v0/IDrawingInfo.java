@@ -9,8 +9,9 @@ public interface IDrawingInfo {
 	public static final Vector noScale = new Vector(1, 1, 1);
 	public static final Rotation noRotation = new Rotation();
 	public static final Vector origin = new Vector();
+	public static final Color white = Color.white();
 	
-	public static final IDrawingInfo background = new IDrawingInfo() {
+	public static final IDrawingInfo screen = new IDrawingInfo() {
 		@Override
 		public boolean isFlipY() {
 			return false;
@@ -48,7 +49,7 @@ public interface IDrawingInfo {
 
 		@Override
 		public Color getColor() {
-			return Color.White;
+			return white;
 		}
 		
 		@Override
@@ -100,7 +101,7 @@ public interface IDrawingInfo {
 
 		@Override
 		public Color getColor() {
-			return Color.White;
+			return white;
 		}
 		
 		@Override
@@ -113,7 +114,6 @@ public interface IDrawingInfo {
 			return Game.getVirtualHeight();
 		}
 	};
-	
 	
 	float getWidth();
 

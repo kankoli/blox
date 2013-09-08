@@ -54,7 +54,13 @@ public abstract class DrawableControl extends Control implements IDrawable {
 	public void draw() {
 		if (!isVisible)
 			return;
-		TextureDrawer.draw(getTexture(), drawable);
+		if (getTexture() != null)
+			TextureDrawer.draw(getTexture(), drawable);
+		onDraw();
+	}
+	
+	protected void onDraw() {
+		
 	}
 
 	protected boolean isTouched() {

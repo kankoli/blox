@@ -5,17 +5,21 @@ import java.util.List;
 
 import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Utils;
 
 public class Button extends DrawableControl {
+	private final static Color white = Color.white(); 
+	
 	private List<IClickListener> clickListeners;
 	private String text;
 	private Style style;
 	private int vibrationDuration;
 	public ISound clickSound;
+	private Color focusColor;
 
 	Button() {
 		style = new Style();
@@ -39,7 +43,7 @@ public class Button extends DrawableControl {
 	protected void onTap() {
 		notifyClickListeners();
 		if (vibrationDuration > 0)
-			Game.getVibrator().vibrate(vibrationDuration);
+			Game.vibrate(vibrationDuration);
 		if (clickSound != null)
 			clickSound.play();
 	}
@@ -57,13 +61,16 @@ public class Button extends DrawableControl {
 
 		else if ("sound-click".equals(attribute))
 			clickSound = Game.getResourceManager().getSound(value);
-		
+
+		else if ("focus-color".equals(attribute))
+			focusColor = Color.fromHex(value);
+
 		else if ("vibrate".equals(attribute))
 			vibrationDuration = Utils.parseInt(value);
 
 		else if ("text".equals(attribute))
 			text = value;
-		
+
 		else
 			super.setAttribute(attribute, value);
 	}
@@ -74,7 +81,7 @@ public class Button extends DrawableControl {
 		addClickListener(new IClickListener() {
 			@Override
 			public void onClick(Control control) {
-				handler.handle(control);				
+				handler.handle(control);
 			}
 		});
 	}
@@ -92,19 +99,25 @@ public class Button extends DrawableControl {
 	}
 
 	@Override
-	public void draw() {
-		super.draw();
-		if (text != null && !"".equals(text.trim()))
-			TextDrawer.draw(FontManager.defaultFont, text, drawable);
+	protected void onDraw() {
+		if (text == null || "".equals(text.trim()))
+			return;
+		
+		if (isTouched())
+			drawable.getColor().set(focusColor);
+		else
+			drawable.getColor().set(white);
+
+		TextDrawer.draw(FontManager.defaultFont, text, drawable);
 	}
-	
+
 	public static class Style {
 		public ITexture textureDefault;
 		public ITexture textureFocused;
 		public ITexture textureDisabled;
-		
+
 		private Style() {
-			
+
 		}
 	}
 }

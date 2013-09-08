@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.ITextureDrawer;
+import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
@@ -16,7 +17,8 @@ final class GdxTextureDrawer implements ITextureDrawer {
 
 	@Override
 	public void draw(ITexture texture, IDrawingInfo info) {
-		GdxGame.spriteBatch.setColor(1, 1, 1, Game.renderingAlpha);
+		Color c = info.getColor();
+		GdxGame.spriteBatch.setColor(c.r, c.g, c.b, c.a * Game.renderingAlpha);
 		
 		if (((IGdxTexture)texture).isRegion())
 			drawTextureRegion(((GdxTextureRegion)texture).textureRegion, info);

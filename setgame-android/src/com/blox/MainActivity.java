@@ -13,9 +13,11 @@ public class MainActivity extends AndroidApplication {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-		cfg.useGL20 = false;
+		cfg.useGL20 = true;
 		cfg.useAccelerometer = false;
 		cfg.useCompass = false;
+		
+		cfg.numSamples = 5;
 		
 		initialize(new GdxGame(), cfg);
     }

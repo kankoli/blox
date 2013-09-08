@@ -38,6 +38,7 @@ public class GdxFont implements IFont {
 		}
 	}
 
+	private Color color; 
 	private BitmapFont font;
 	private final Map<Integer, BitmapFont> fonts;
 	private final List<ScaleMap> scales;
@@ -49,6 +50,8 @@ public class GdxFont implements IFont {
 		this.scales = new ArrayList<ScaleMap>();
 
 		initScales();
+		
+		color = Color.white();
 		
 		Game.registerDisposable(this);
 	}
@@ -75,8 +78,8 @@ public class GdxFont implements IFont {
 	}
 
 	@Override
-	public void setColor(Color color) {
-		font.setColor(color.r, color.g, color.b, color.a);
+	public Color getColor() {
+		return color;
 	}
 
 	@Override
@@ -86,7 +89,7 @@ public class GdxFont implements IFont {
 	}
 
 	@Override
-	public Vector getSize(String text) {
+	public Vector measureText(String text) {
 		TextBounds bounds = font.getMultiLineBounds(text);
 		size.x = bounds.width;
 		size.y = bounds.height;
@@ -95,8 +98,7 @@ public class GdxFont implements IFont {
 
 	@Override
 	public void draw(String text, float x, float y) {
-		com.badlogic.gdx.graphics.Color fontColor = font.getColor();
-		font.setColor(fontColor.r, fontColor.g, fontColor.b, Game.renderingAlpha);
+		font.setColor(color.r, color.g, color.b, color.a * Game.renderingAlpha);
 		font.drawMultiLine(GdxGame.spriteBatch, text, x, y);
 	}
 

@@ -28,17 +28,16 @@ public class FullGameTable extends GameTable {
 		printSets();
 	}
 
-	@Override
 	public void cardTapped(Card card) {
 		if (!card.isOpened()) { // Clicking an unopened card opens all three extra cards
 			openExtraCards();
 			return;
 		}
 		if (card.isSelected()) {
-			card.unselect();
+			//card.unselect();
 			selectedCards.remove(card);
 		} else {
-			card.select();
+			//card.select();
 			selectedCards.add(card);
 			checkSet();
 		}
@@ -53,8 +52,8 @@ public class FullGameTable extends GameTable {
 			updateCardsOnTable();
 			updateExtraCards();
 		} else {
-			for (int i = selectedCards.size() - 1; i >= 0; i--)
-				selectedCards.get(i).unselect();
+//			for (int i = selectedCards.size() - 1; i >= 0; i--)
+//				selectedCards.get(i).unselect();
 		}
 
 		selectedCards.clear();
@@ -87,7 +86,7 @@ public class FullGameTable extends GameTable {
 		List<Card[]> sets = new ArrayList<Card[]>();
 		for (int i = 0; i < numberOfCards; i++) {
 			for (int j = i + 1; j < numberOfCards; j++) {
-				CardAttributes third = CardAttributes.getThirdCardAttributes(cardsOnTable[i / rows][i % rows].getAttributes(), cardsOnTable[j / rows][j % rows].getAttributes());
+				CardAttributes third = CardAttributes.getCompletingCardAttributes(cardsOnTable[i / rows][i % rows].getAttributes(), cardsOnTable[j / rows][j % rows].getAttributes());
 				for (int k = j + 1; k < numberOfCards; k++) {
 					CardAttributes cue = cardsOnTable[k / rows][k % rows].getAttributes();
 					if (cue.equals(third)) {

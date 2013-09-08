@@ -10,6 +10,7 @@ import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISettings;
+import com.blox.framework.v0.IShapeRenderer;
 import com.blox.framework.v0.ITextureDrawer;
 import com.blox.framework.v0.IVibrator;
 import com.blox.framework.v0.forms.xml.ControlActionHandlerFactory;
@@ -27,6 +28,7 @@ public final class Game {
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
 	private static ITextureDrawer textureDrawer;
+	private static IShapeRenderer shapeRenderer;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
 	private static IInputManager inputManager;
 	private static ISettings settings;
@@ -51,6 +53,7 @@ public final class Game {
 		deltaTime = provider.createDeltaTime();
 		resourceManager = provider.createResourceManager();
 		textureDrawer = provider.createTextureDrawer();
+		shapeRenderer = provider.createShapeRenderer();
 		inputManager = provider.createInputManager();
 		settings = provider.createSettings();
 		vibrator = provider.createVibrator();
@@ -75,6 +78,10 @@ public final class Game {
 		return textureDrawer;
 	}
 	
+	public static IShapeRenderer getShapeRenderer() {
+		return shapeRenderer;
+	}
+	
 	public static ICollisionDetectorFactory getCollisionDetectorFactory() {
 		return collisionDetectorFactory;
 	}
@@ -86,13 +93,17 @@ public final class Game {
 	public static ISettings getSettings() {
 		return settings;
 	}
-	
-	public static IVibrator getVibrator() {
-		return vibrator;
-	}
 
 	public static IControlActionHandlerFactory getActionHandlerFactory() {
 		return actionHandlerFactory;
+	}
+
+	public static void vibrate(int millis) {
+		vibrator.vibrate(millis);;
+	}
+	
+	public static void stopVibrating() {
+		vibrator.stop();
 	}
 	
 	public static void dispose() {
