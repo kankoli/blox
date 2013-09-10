@@ -1,43 +1,36 @@
 package com.blox.setgame.controller.learning;
 
-import com.blox.setgame.controller.ISetGameController;
-import com.blox.setgame.model.Card;
-import com.blox.setgame.model.LearningGame;
+import com.blox.setgame.controller.SetGameController;
+import com.blox.setgame.model.LearningMode;
 import com.blox.setgame.view.LearningModeScreen;
 
-public class LearningModeController implements ISetGameController {
-	final Card[] deck;
-	final LearningGame model;
+public class LearningModeController extends SetGameController<LearningModeState> {
+	final LearningMode model;
 	final LearningModeScreen view;
 
 	private LearningModeState waitingState;
 	private LearningModeState dealingState;
-	private LearningModeState currentState;
 
 	public LearningModeController(LearningModeScreen screen) {
 		view = screen;
-		model = new LearningGame();
-		deck = Card.newDeck();
+		model = new LearningMode();
+		model.setGameListener(this);
 		waitingState = new LearningModeWaitingState(this);
 		dealingState = new LearningModeDealingState(this);
 	}
 
 	@Override
-	public void activated() {
+	public void onScreenActivated() {
+		super.onScreenActivated();
 		setDealingState();
 		view.registerDrawable(model, 1);
 	}
 
 	@Override
-	public void deactivated() {
-		currentState.deactivated();
-		model.deactivateCards();
+	public void onScreenDeactivated() {
+		super.onScreenDeactivated();
+		model.exitMode();
 		view.unregisterDrawable(model);
-	}
-	
-	@Override
-	public void cardTapped(Card card) {
-		currentState.cardTapped(card);
 	}
 	
 	void setDealingState() {
@@ -46,12 +39,5 @@ public class LearningModeController implements ISetGameController {
 	
 	void setWaitingState() {
 		setState(waitingState);
-	}
-
-	private void setState(LearningModeState newState) {
-		if (currentState != null)
-			currentState.deactivated();
-		currentState = newState;
-		currentState.activated();
 	}
 }

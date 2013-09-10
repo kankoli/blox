@@ -1,8 +1,8 @@
 package com.blox.setgame.controller.learning;
 
+import com.blox.framework.v0.util.Game;
 import com.blox.setgame.model.Card;
-import com.blox.setgame.model.TrainingCards;
-import com.blox.setgame.utils.SetGameUtils;
+import com.blox.setgame.utils.SetGameResources;
 
 public class LearningModeWaitingState extends LearningModeState {
 	public LearningModeWaitingState(LearningModeController controller) {
@@ -11,7 +11,7 @@ public class LearningModeWaitingState extends LearningModeState {
 	
 	@Override
 	public void activated() {
-		model.activateCardsOnTable(controller);
+		model.activateCardsOnTable();
 	}
 	
 	@Override
@@ -20,11 +20,21 @@ public class LearningModeWaitingState extends LearningModeState {
 	}
 
 	@Override
-	public void cardTapped(Card card) {
+	public void onCardTapped(Card card) {
 		card.deselect();
-		TrainingCards cards = model.getCards();
-		int score = SetGameUtils.checkSet(cards.getCardOnTable0(), cards.getCardOnTable1(), card);
-		if (score > 0)
-			controller.setDealingState();
+		model.checkSet(card);
+	}
+
+	@Override
+	public void onSetFound() {
+		SetGameResources.playSoundSuccess();
+		Game.vibrate(50);
+		controller.setDealingState();
+	}
+
+	@Override
+	public void onInvalidSetSelected() {
+		SetGameResources.playSoundError();
+		Game.vibrate(100);
 	}
 }

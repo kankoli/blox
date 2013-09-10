@@ -1,9 +1,8 @@
 package com.blox.setgame.controller;
 
-import com.blox.setgame.model.ICardEventListener;
+import com.blox.setgame.model.ISetGameModelListener;
+import com.blox.setgame.view.ISetGameViewListener;
 
-public interface ISetGameController extends ICardEventListener {
-	void activated();
+public interface ISetGameController extends ISetGameViewListener, ISetGameModelListener {
 
-	void deactivated();
 }

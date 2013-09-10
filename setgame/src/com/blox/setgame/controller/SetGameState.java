@@ -1,9 +1,9 @@
 package com.blox.setgame.controller;
 
 import com.blox.setgame.model.Card;
-import com.blox.setgame.model.ICardEventListener;
+import com.blox.setgame.model.ISetGameModelListener;
 
-public abstract class SetGameState implements ICardEventListener {	
+public abstract class SetGameState implements ISetGameModelListener {	
 	public void activated() {
 		
 	}
@@ -13,7 +13,17 @@ public abstract class SetGameState implements ICardEventListener {
 	}
 
 	@Override
-	public void cardTapped(Card card) {
+	public void onCardTapped(Card card) {
+		
+	}
+
+	@Override
+	public void onSetFound() {
+		
+	}
+
+	@Override
+	public void onInvalidSetSelected() {
 		
 	}
 }

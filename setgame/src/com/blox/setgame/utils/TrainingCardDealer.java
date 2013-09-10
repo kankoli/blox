@@ -42,8 +42,8 @@ public class TrainingCardDealer extends CardDealer {
 
 	private final Integer[] cardsToSelectIndices = new Integer[TrainingCards.CardToSelectCount];
 
-	public TrainingCardDealer(Card[] deck, TrainingCards cards) {
-		this.deck = deck;
+	public TrainingCardDealer(TrainingCards cards) {
+		this.deck = Card.newDeck();
 		this.cards = cards;
 	}
 

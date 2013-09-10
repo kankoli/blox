@@ -61,7 +61,7 @@ public class Card extends CardGameObject {
 	
 	private List<Symbol> symbols;	
 	private CardAttributes attributes;
-	private ICardEventListener eventListener;
+	private ICardListener eventListener;
 	
 	public Card(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
@@ -117,7 +117,7 @@ public class Card extends CardGameObject {
 		return attributes;
 	}
 
-	public void setEventListener(ICardEventListener listener) {
+	public void setEventListener(ICardListener listener) {
 		eventListener = listener;
 	}
 
@@ -149,7 +149,7 @@ public class Card extends CardGameObject {
 
 	private void notifyTapped() {
 		if (eventListener != null)
-			eventListener.cardTapped(this);
+			eventListener.onCardTapped(this);
 	}
 
 	@Override

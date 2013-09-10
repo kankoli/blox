@@ -5,7 +5,35 @@ import com.blox.framework.v0.impl.ScreenManager;
 import com.blox.setgame.model.Logo;
 import com.blox.setgame.utils.R;
 
-public abstract class SetGameScreen extends Screen {	
+public abstract class SetGameScreen extends Screen {
+	protected ISetGameViewListener screenListener;
+
+	protected void notifyScreenActivated() {
+		if (screenListener != null)
+			screenListener.onScreenActivated();
+	}
+	
+	protected void notifyScreenDeactivated() {
+		if (screenListener != null)
+			screenListener.onScreenDeactivated();
+	}
+	
+	public void setScreenListener(ISetGameViewListener screenListener) {
+		this.screenListener = screenListener;
+	}
+
+	@Override
+	public void activated() {
+		super.activated();
+		notifyScreenActivated();
+	}
+
+	@Override
+	public void deactivated() {
+		super.deactivated();
+		notifyScreenDeactivated();
+	}
+	
 	@Override
 	public void init() {
 		super.init();

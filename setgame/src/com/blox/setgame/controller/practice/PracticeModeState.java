@@ -1,12 +1,14 @@
 package com.blox.setgame.controller.practice;
 
+import com.blox.framework.v0.util.Game;
 import com.blox.setgame.controller.SetGameState;
 import com.blox.setgame.model.Card;
-import com.blox.setgame.model.PracticeGame;
+import com.blox.setgame.model.PracticeMode;
+import com.blox.setgame.utils.SetGameResources;
 import com.blox.setgame.view.PracticeModeScreen;
 
-public abstract class PracticeModeState extends SetGameState implements IPracticeModeEventListener {
-	final PracticeGame model;
+public abstract class PracticeModeState extends SetGameState implements IPracticeModeActionListener {
+	final PracticeMode model;
 	final PracticeModeScreen view;
 	final PracticeModeController controller;
 
@@ -17,27 +19,49 @@ public abstract class PracticeModeState extends SetGameState implements IPractic
 	}
 
 	@Override
-	public void cardTapped(Card card) {
+	public void onCardTapped(Card card) {
 
 	}
 
 	@Override
-	public boolean screenTapped() {
-		return false;	
-	}
-
-	@Override
-	public void unblocked() {
+	public void onUnblock() {
 		controller.setWaitingState();
 	}
 
 	@Override
-	public void dealTimeUp() {
+	public void onDealTimeUp() {
+		SetGameResources.playSoundTimeUp();
+		Game.vibrate(100);
 		controller.setDealingState();
 	}
-	
+
 	@Override
-	public void timeUp() {
+	public void onModeEnd() {
 		controller.setModeEndState();
+	}
+
+	@Override
+	public void onSetFound() {
+
+	}
+
+	@Override
+	public void onInvalidSetSelected() {
+
+	}
+
+	@Override
+	public boolean onScreenTapped() {
+		return false;
+	}
+
+	@Override
+	public void onScreenActivated() {
+		
+	}
+
+	@Override
+	public void onScreenDeactivated() {
+		this.deactivated();
 	}
 }

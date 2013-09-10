@@ -13,16 +13,16 @@ public abstract class CardDealer {
 
 	protected void notifyDealEnd() {
 		if (listener != null)
-			listener.dealEnd();
+			listener.onDealEnd();
 	}
 
 	protected void notifyStartMoving(Card card) {
 		if (listener != null)
-			listener.startMoving(card);
+			listener.onStartMoving(card);
 	}
 
 	protected void notifyStopMoving(Card card) {
 		if (listener != null)
-			listener.stopMoving(card);
+			listener.onStopMoving(card);
 	}
 }

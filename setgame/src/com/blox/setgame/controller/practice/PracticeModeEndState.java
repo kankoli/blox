@@ -9,15 +9,14 @@ public class PracticeModeEndState extends PracticeModeState {
 	
 	@Override
 	public void activated() {
-		model.endGame();
-		model.deactivateCards();
+		model.endMode();
 		Game.vibrate(100);
 	}
 	
 	@Override
-	public boolean screenTapped() {
+	public boolean onScreenTapped() {
+		model.startMode();
 		controller.setDealingState();
-		model.startGame();
 		return true;
 	}
 }

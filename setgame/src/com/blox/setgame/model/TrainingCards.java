@@ -27,16 +27,12 @@ public class TrainingCards {
 		return cards[i];
 	}
 
-	public Card[] getCards() {
+	public Card[] getAllCards() {
 		return cards;
 	}
-
-	public Card getCardOnTable(int i) {
-		return cards[i];
-	}
-
-	public Card getCardToSelect(int i) {
-		return cards[i + SetCardCount];
+	
+	public Card getCardsToSelect(int i) {
+		return cards[SetCardCount + i];
 	}
 
 	public void setCardsOnTable(Card... cards) {
@@ -49,23 +45,7 @@ public class TrainingCards {
 			this.cards[i + SetCardCount] = cards[i];
 	}
 
-	public Card getCardOnTable0() {
-		return getCardOnTable(0);
-	}
-
-	public Card getCardOnTable1() {
-		return getCardOnTable(1);
-	}
-
-	public Card getCardToSelect0() {
-		return getCardToSelect(0);
-	}
-
-	public Card getCardToSelect1() {
-		return getCardToSelect(1);
-	}
-
-	public Card getCardToSelect2() {
-		return getCardToSelect(2);
+	public int checkScore(Card selectedCard) {
+		return Card.getSetScore(cards[0], cards[1], selectedCard);
 	}
 }

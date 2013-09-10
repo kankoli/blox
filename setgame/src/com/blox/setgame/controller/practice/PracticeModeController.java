@@ -1,26 +1,23 @@
 package com.blox.setgame.controller.practice;
 
-import com.blox.setgame.controller.ISetGameController;
+import com.blox.setgame.controller.SetGameController;
 import com.blox.setgame.model.Card;
-import com.blox.setgame.model.PracticeGame;
+import com.blox.setgame.model.PracticeMode;
 import com.blox.setgame.view.PracticeModeScreen;
 
-public class PracticeModeController implements ISetGameController, IPracticeModeEventListener {
-	final Card[] deck;
-	final PracticeGame model;
+public class PracticeModeController extends SetGameController<PracticeModeState> implements IPracticeModeActionListener {
+	final PracticeMode model;
 	final PracticeModeScreen view;
 
 	private PracticeModeState waitingState;
 	private PracticeModeState dealingState;
 	private PracticeModeState blockedState;
 	private PracticeModeState modeEndState;
-	private PracticeModeState currentState;
-
+	
 	public PracticeModeController(PracticeModeScreen screen) {
 		view = screen;
-		model = new PracticeGame();
-		model.setEventListener(this);		
-		deck = Card.newDeck();
+		model = new PracticeMode();
+		model.setModeListener(this);	
 		waitingState = new PracticeModeWaitingState(this);
 		dealingState = new PracticeModeDealingState(this);
 		blockedState = new PracticeModeBlockedState(this);
@@ -28,43 +25,42 @@ public class PracticeModeController implements ISetGameController, IPracticeMode
 	}
 
 	@Override
-	public void activated() {
-		model.startGame();
+	public void onScreenActivated() {
+		model.startMode();
 		setDealingState();
 		view.registerDrawable(model, 1);
 	}
 
 	@Override
-	public void deactivated() {
-		currentState.deactivated();
-		model.deactivateCards();
-		model.exitGame();
+	public void onScreenDeactivated() {
+		super.onScreenDeactivated();
+		model.exitMode();
 		view.unregisterDrawable(model);
 	}
 
 	@Override
-	public boolean screenTapped() {
-		return currentState.screenTapped();
+	public boolean onScreenTapped() {
+		return currentState.onScreenTapped();
 	}
 
 	@Override
-	public void cardTapped(Card card) {
-		currentState.cardTapped(card);
+	public void onCardTapped(Card card) {
+		currentState.onCardTapped(card);
 	}
 
 	@Override
-	public void unblocked() {
-		currentState.unblocked();
+	public void onUnblock() {
+		currentState.onUnblock();
 	}
 
 	@Override
-	public void dealTimeUp() {
-		currentState.dealTimeUp();
+	public void onDealTimeUp() {
+		currentState.onDealTimeUp();
 	}
-	
+
 	@Override
-	public void timeUp() {
-		currentState.timeUp();
+	public void onModeEnd() {
+		currentState.onModeEnd();
 	}
 	
 	void setDealingState() {
@@ -81,12 +77,5 @@ public class PracticeModeController implements ISetGameController, IPracticeMode
 
 	void setModeEndState() {
 		setState(modeEndState);
-	}
-
-	private void setState(PracticeModeState newState) {
-		if (currentState != null)
-			currentState.deactivated();
-		currentState = newState;
-		currentState.activated();
 	}
 }

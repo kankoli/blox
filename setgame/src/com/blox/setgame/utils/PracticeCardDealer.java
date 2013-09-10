@@ -1,13 +1,12 @@
 package com.blox.setgame.utils;
 
 import com.blox.framework.v0.util.Utils;
-import com.blox.setgame.model.Card;
 import com.blox.setgame.model.CardAttributes;
 import com.blox.setgame.model.TrainingCards;
 
 public class PracticeCardDealer extends TrainingCardDealer {
-	public PracticeCardDealer(Card[] deck, TrainingCards cards) {
-		super(deck, cards);
+	public PracticeCardDealer(TrainingCards cards) {
+		super(cards);
 	}
 
 	@Override
