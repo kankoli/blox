@@ -28,9 +28,6 @@ public class GdxGame implements ApplicationListener {
 	private void initGdx() {
 		Gdx.input.setCatchBackKey(true);
 		Texture.setEnforcePotImages(false);
-
-		Game.initialize(getGameXml());
-		Game.getInputManager().activate();
 	}
 
 	private static Document getGameXml() {
@@ -45,6 +42,9 @@ public class GdxGame implements ApplicationListener {
 		
 		initGdx();
 
+		Game.initialize(getGameXml());
+		Game.getInputManager().activate();
+		
 		game = (IGame) Utils.createInstance(GameMetadata.getGameClass());
 		game.init();
 	}

@@ -3,8 +3,13 @@ package com.blox.setgame.utils;
 import com.blox.setgame.model.Card;
 
 public abstract class CardDealer {
+	protected final Card[] deck;
 	protected ICardDealerListener listener;
-	
+
+	protected CardDealer() {
+		deck = Card.newDeck();
+	}
+
 	public abstract void deal();
 
 	public void setDealingListener(ICardDealerListener listener) {

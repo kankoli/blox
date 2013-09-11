@@ -14,14 +14,14 @@ public class TrainingCardDealer extends CardDealer {
 
 	private final static float moveDuration = 0.25f;
 
-	private final static Vector target = new Vector((Game.getVirtualWidth() - Card.Width) / 2, (Game.getVirtualHeight() - Card.Height) / 2);
+	private final static Vector origin = new Vector((Game.getVirtualWidth() - Card.Width) / 2, (Game.getVirtualHeight() - Card.Height) / 2);
 
 	private final static Vector[][] routes = new Vector[][] {
-			new Vector[] { R.learningModeScreen.layout.cardOnTable1Pos, target },
-			new Vector[] { R.learningModeScreen.layout.cardOnTable2Pos, target },
-			new Vector[] { R.learningModeScreen.layout.cardToSelect1Pos, target },
-			new Vector[] { R.learningModeScreen.layout.cardToSelect2Pos, target },
-			new Vector[] { R.learningModeScreen.layout.cardToSelect3Pos, target }
+			new Vector[] { R.learningModeScreen.layout.cardOnTable1Pos, origin },
+			new Vector[] { R.learningModeScreen.layout.cardOnTable2Pos, origin },
+			new Vector[] { R.learningModeScreen.layout.cardToSelect1Pos, origin },
+			new Vector[] { R.learningModeScreen.layout.cardToSelect2Pos, origin },
+			new Vector[] { R.learningModeScreen.layout.cardToSelect3Pos, origin }
 	};
 
 	// endregion
@@ -36,14 +36,12 @@ public class TrainingCardDealer extends CardDealer {
 			new TargetMover(moveDuration)
 	};
 
-	protected final Card[] deck;
 	protected final TrainingCards cards;
 	private int moverCount;
 
 	private final Integer[] cardsToSelectIndices = new Integer[TrainingCards.CardToSelectCount];
 
 	public TrainingCardDealer(TrainingCards cards) {
-		this.deck = Card.newDeck();
 		this.cards = cards;
 	}
 
@@ -131,6 +129,12 @@ public class TrainingCardDealer extends CardDealer {
 		deck[c3].getLocation().set(routes[2][1]);
 		deck[c4].getLocation().set(routes[3][1]);
 		deck[c5].getLocation().set(routes[4][1]);
+
+		deck[c1].open();
+		deck[c2].open();
+		deck[c3].open();
+		deck[c4].open();
+		deck[c5].open();
 	}
 
 	protected int getCompletingCardIndex(CardAttributes a1, CardAttributes a2) {

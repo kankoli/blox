@@ -29,6 +29,7 @@ public final class R {
 			public static final String success = "success";
 			public static final String timeUp = "time-up";
 			public static final String wait = "wait";
+			public static final String flip = "flip";
 		}
 
 		public static final class textures {

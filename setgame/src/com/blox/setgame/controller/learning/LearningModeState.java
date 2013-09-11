@@ -14,14 +14,4 @@ public abstract class LearningModeState extends SetGameState {
 		this.model = controller.model;
 		this.view = controller.view;
 	}
-
-	@Override
-	public void onSetFound() {
-
-	}
-
-	@Override
-	public void onInvalidSetSelected() {
-
-	}
 }

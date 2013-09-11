@@ -10,16 +10,15 @@ import com.blox.setgame.utils.R;
 import com.blox.setgame.utils.SetGameResources;
 
 public class Card extends CardGameObject {
-
+	
 	// region static
 	
-	public static final float scale = 0.7f;
-	public static final int Height = (int) (240 * scale);
+	public static final int Height = 174;
 	public static final int Space = 7;
-	public static final int SymbolHeight = (int) (50 * scale);
-	public static final int SymbolWidth = (int) (50 * scale);
+	public static final int SymbolHeight = 35;
+	public static final int SymbolWidth = 35;
 
-	public static final int Width = (int) (140 * scale);
+	public static final int Width = 100;
 
 	private static void createDeck(Card[] deck) {
 		int[] colors = new int[] { CardAttributes.Color_Red, CardAttributes.Color_Green, CardAttributes.Color_Blue };
@@ -68,7 +67,6 @@ public class Card extends CardGameObject {
 		this.width = Card.Width;
 		this.height = Card.Height;	
 
-		open();
 		initSymbols();
 	}
 

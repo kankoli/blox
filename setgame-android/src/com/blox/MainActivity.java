@@ -17,7 +17,7 @@ public class MainActivity extends AndroidApplication {
 		cfg.useAccelerometer = false;
 		cfg.useCompass = false;
 		
-		cfg.numSamples = 5;
+		cfg.numSamples = 2;
 		
 		initialize(new GdxGame(), cfg);
     }

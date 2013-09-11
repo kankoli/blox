@@ -33,11 +33,13 @@ public abstract class SetGameMode implements IDrawable {
 	public void deal() {
 		dealer.deal();
 	}
-
+	
 	@Override
 	public void draw() {
 		Card[] cc = getCardsOnTable();
-		for (int i = 0; i < cc.length; i++)
-			cc[i].draw();
+		for (int i = 0; i < cc.length; i++) {
+			if (cc[i] != null)
+				cc[i].draw();
+		}
 	}
 }
