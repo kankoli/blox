@@ -26,24 +26,38 @@ public class Color {
 		hexChars.put('f', 0xf);
 	}
 
-	public static final Color White = new Color(1);
-	public static final Color Black = new Color();
-	public static final Color Red = new Color(1, 0, 0);
-	public static final Color Green = new Color(0, 1, 0);
-	public static final Color Blue = new Color(0, 0, 1);
+	public static final Color white() {
+		return new Color(1);
+	}
+
+	public static final Color black() {
+		return new Color();
+	}
+
+	public static final Color red() {
+		return new Color(1, 0, 0);
+	}
+
+	public static final Color green() {
+		return new Color(0, 1, 0);
+	}
+
+	public static final Color blue() {
+		return new Color(0, 0, 1);
+	}
 
 	private static float getColorValue(char hex) {
 		if (hexChars.containsKey(hex))
-			return (float) hexChars.get(hex) / 15f;
+			return hexChars.get(hex) / 15f;
 		return 0;
 	}
 
-	private static int getColorValue(String hex) {
+	private static float getColorValue(String hex) {
 		if (hex.length() != 2)
 			return 0;
 		int hex0 = hexChars.get(hex.charAt(0));
 		int hex1 = hexChars.get(hex.charAt(1));
-		return 16 * hex0 + hex1;
+		return (16 * hex0 + hex1) / 255f;
 	}
 
 	public float a;
@@ -55,25 +69,55 @@ public class Color {
 		this(0, 0, 0, 1);
 	}
 
-	public Color(int gray) {
-		this(gray, 1);
+	public Color(Color color) {
+		set(color);
 	}
 
-	public Color(int gray, int a) {
-		this(gray, gray, gray, a);
+	public Color(float gray) {
+		set(gray);
 	}
 
-	public Color(int r, int g, int b) {
-		this(r, g, b, 1);
+	public Color(float gray, float a) {
+		set(gray, a);
 	}
 
-	public Color(int r, int g, int b, int a) {
+	public Color(float r, float g, float b) {
+		set(r, g, b);
+	}
+
+	public Color(float r, float g, float b, float a) {
+		set(r, g, b, a);
+	}
+
+	public void set(Color color) {
+		set(color.r, color.g, color.b, color.a);
+	}
+
+	public void set(float gray) {
+		set(gray, 1);
+	}
+
+	public void set(float gray, float a) {
+		set(gray, gray, gray, a);
+	}
+
+	public void set(float r, float g, float b) {
+		set(r, g, b, 1);
+	}
+
+	public void set(float r, float g, float b, float a) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
 		this.a = a;
 	}
 
+	/**
+	 * 
+	 * @param value
+	 *            : #RRGGBB | #RGB | #RRGGBBAA
+	 * @return
+	 */
 	public static Color fromHex(String value) {
 		Color color = new Color();
 
@@ -95,7 +139,7 @@ public class Color {
 		else if (hex.length() == 8) {
 			color.r = getColorValue(hex.substring(0, 2));
 			color.g = getColorValue(hex.substring(2, 4));
-			color.b = getColorValue(hex.substring(4, 5));
+			color.b = getColorValue(hex.substring(4, 6));
 			color.a = getColorValue(hex.substring(6, 8));
 		}
 

@@ -1,6 +1,8 @@
 package com.blox.framework.v0.util;
 
 public class Vector {
+	public static final Vector tmp = new Vector();
+	
 	public float x;
 	public float y;
 	public float z;
@@ -102,5 +104,9 @@ public class Vector {
 
 	public float dot(Vector v) {
 		return x * v.x + y * v.y + z * v.z;
+	}
+
+	public Vector tmp() {
+		return tmp.set(this);
 	}
 }

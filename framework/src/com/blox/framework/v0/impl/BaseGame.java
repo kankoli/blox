@@ -1,10 +1,12 @@
 package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.IGame;
+import com.blox.framework.v0.util.TimerManager;
 
 public abstract class BaseGame implements IGame {
 	@Override
 	public void update() {
+		TimerManager.instance.execute();
 		ScreenManager.instance.update();
 	}
 

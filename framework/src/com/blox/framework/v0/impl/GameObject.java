@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.IBound;
-import com.blox.framework.v0.IGameObject;
+import com.blox.framework.v0.ICollidable;
+import com.blox.framework.v0.IDrawable;
+import com.blox.framework.v0.IDrawingInfo;
+import com.blox.framework.v0.IInputListener;
+import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMover;
-import com.blox.framework.v0.metadata.AnimationMetadata;
-import com.blox.framework.v0.metadata.GameMetadata;
-import com.blox.framework.v0.util.Animation;
-import com.blox.framework.v0.util.Animator;
 import com.blox.framework.v0.util.Color;
+import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
-import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Vector;
 
-public abstract class GameObject implements IGameObject {
+public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawable, IMovable, ICollidable {
 	protected float width;
 	protected float height;
 	protected Vector location;
@@ -29,85 +28,110 @@ public abstract class GameObject implements IGameObject {
 	protected boolean flipX;
 	protected boolean flipY;
 
-	protected Animator animator;
+	protected boolean isListeningInput;
 	protected List<IBound> bounds;
 	protected IMover mover;
-	
+
 	protected GameObject() {
 		location = new Vector();
 		velocity = new Vector();
 		acceleration = new Vector();
 		scale = new Vector(1, 1, 1);
-		color = Color.White;
+		color = Color.white();
 		rotation = new Rotation();
-
-		animator = new Animator();
-		animator.registerEndListener(new AnimationEndListener(this));
 
 		bounds = new ArrayList<IBound>();
 
 		mover = IMover.NULL;
 	}
 
-	// region animations
+	// region IInputListener
 
-	private class AnimationEndListener implements IAnimationEndListener {
-		private GameObject gameObj;
-
-		AnimationEndListener(GameObject gameObj) {
-			this.gameObj = gameObj;
-		}
-
-		@Override
-		public void onAnimationEnd(Animation animation) {
-			gameObj.onAnimationEnd(animation);
-		}
+	public boolean isListeningInput() {
+		return isListeningInput;
 	}
 
-	protected Animation addAnimation(String animationId) {
-		AnimationMetadata metadata = GameMetadata.getAnimation(animationId);
-		Animation animation = Animation.fromMetadata(metadata);
-
-		animator.addAnimation(animation);
-
-		return animation;
+	public void listenInput(boolean listen) {
+		if (listen && !isListeningInput)
+			Game.getInputManager().register(this);
+		else if (!listen && isListeningInput)
+			Game.getInputManager().unregister(this);
+		isListeningInput = listen;
 	}
 
-	protected void removeAnimation(String name) {
-		animator.removeAnimation(name);
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
 	}
 
-	protected void onAnimationEnd(Animation animation) {
-
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
 	}
 
-	protected void stopAnimation() {
-		animator.stop();
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
 	}
 
-	protected Animation startAnimation() {
-		return startAnimation(false);
+	@Override
+	public boolean longPress(float x, float y) {
+		return false;
 	}
 
-	protected Animation startAnimation(boolean forceRestart) {
-		return animator.start(forceRestart);
+	@Override
+	public boolean mouseMoved(float x, float y) {
+		return false;
 	}
 
-	protected Animation startAnimation(String animationId) {
-		return animator.start(animationId);
+	@Override
+	public boolean pan(float x, float y, float dx, float xy) {
+		return false;
 	}
 
-	protected void pauseAnimation() {
-		animator.pause();
+	@Override
+	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
+		return false;
 	}
 
-	protected Animation getAnimation() {
-		return animator.getAnimation();
+	@Override
+	public boolean scrolled(float amount) {
+		return false;
+	}
+
+	@Override
+	public boolean tap(float x, float y, int count, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(float x, float y, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(float x, float y, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean zoom(float initialDistance, float distance) {
+		return false;
+	}
+
+	@Override
+	public boolean fling(float vx, float vy, int button) {
+		return false;
 	}
 
 	// endregion
 
-	// region IDrawable
+	// region IDrawingInfo & IDrawable
 
 	@Override
 	public float getWidth() {
@@ -140,13 +164,6 @@ public abstract class GameObject implements IGameObject {
 	}
 
 	@Override
-	public void draw() {
-		Animation curr = getAnimation();
-		if (curr != null)
-			TextureDrawer.draw(curr.getFrame(), this);
-	}
-
-	@Override
 	public boolean ignoreViewportOffset() {
 		return false;
 	}
@@ -155,7 +172,7 @@ public abstract class GameObject implements IGameObject {
 	public boolean ignoreViewportScaling() {
 		return false;
 	}
-	
+
 	protected void flipX() {
 		flipX = !flipX;
 	}
@@ -180,12 +197,6 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public void move() {
 		mover.move(this);
-		// Vector vel = getVelocity();
-		// location.x += vel.x;
-		// location.y += vel.y;
-		// Vector acc = getAcceleration();
-		// vel.x += acc.x;
-		// vel.y += acc.y;
 	}
 
 	@Override

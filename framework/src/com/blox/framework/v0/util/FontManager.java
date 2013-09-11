@@ -10,8 +10,11 @@ public final class FontManager {
 	public static final IFont defaultFont;
 
 	static {
-		defaultFont = Game.getResourceManager().getFont(Game.getParam("default-font"));
-		setSize(36);
+		// default-font = "Arial,24"
+		String df = Game.getParam("default-font");
+		String[] ss = df.split(",");
+		defaultFont = Game.getResourceManager().getFont(ss[0]);
+		setSize(Utils.parseInt(ss[1]));
 	}
 	
 	static void setSize(int size) {

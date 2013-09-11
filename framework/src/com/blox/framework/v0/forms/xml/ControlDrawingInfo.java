@@ -22,7 +22,7 @@ class ControlDrawingInfo implements IDrawingInfo, IDrawable {
 	protected ControlDrawingInfo(DrawableControl control) {
 		this.control = control;
 		this.location = new Vector();
-		this.color = Color.White;
+		this.color = Color.white();
 	}
 	
 	protected void update(Form layout) {

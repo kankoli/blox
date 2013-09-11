@@ -2,6 +2,7 @@ package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.audio.Sound;
 import com.blox.framework.v0.ISound;
+import com.blox.framework.v0.impl.Settings;
 import com.blox.framework.v0.util.Game;
 
 final class GdxSound implements ISound {
@@ -14,7 +15,7 @@ final class GdxSound implements ISound {
 	
 	@Override
 	public void play() {
-		if (Game.isSoundOn())
+		if (Settings.isSoundOn())
 			sound.play(1f);
 	}
 

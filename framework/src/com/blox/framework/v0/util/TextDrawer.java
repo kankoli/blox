@@ -44,16 +44,19 @@ public final class TextDrawer {
 			return AlignNW;
 		if ("CENTERED".equals(key))
 			return AlignCentered;
-		
+
 		return AlignW;
 	}
-	
+
 	public static void draw(IFont font, String text, float x, float y) {
-		font.draw(text, x, y);
+		float dx = Game.scale(Game.renderingShiftX);
+		float dy = Game.scale(Game.renderingShiftY);
+		
+		font.draw(text, x + dx, y + dy);
 	}
 
 	public static void draw(IFont font, String text) {
-		Vector size = font.getSize(text);
+		Vector size = font.measureText(text);
 		draw(font, text, (Game.getScreenWidth() - size.x) / 2, (Game.getScreenHeight() + size.y) / 2);
 	}
 
@@ -76,12 +79,14 @@ public final class TextDrawer {
 		float ly = scale * loc.y + offsetY;
 		float width = scale * info.getWidth();
 		float height = scale * info.getHeight();
+		
+		font.getColor().set(info.getColor());
 
 		draw(font, text, lx, ly, width, height, align);
 	}
 
 	private static void draw(IFont font, String text, float x, float y, float width, float height, int align) {
-		Vector size = font.getSize(text);
+		Vector size = font.measureText(text);
 
 		if ((align & e) == e)
 			x = x + width - size.x;

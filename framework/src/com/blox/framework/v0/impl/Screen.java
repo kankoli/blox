@@ -1,27 +1,32 @@
 package com.blox.framework.v0.impl;
 
+import com.badlogic.gdx.Input.Keys;
 import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICompositeInputListener;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IInputListener;
 import com.blox.framework.v0.IMovable;
+import com.blox.framework.v0.IMusic;
+import com.blox.framework.v0.ISettingsChangeListener;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.IView;
 import com.blox.framework.v0.metadata.GameMetadata;
 import com.blox.framework.v0.metadata.ScreenMetadata;
+import com.blox.framework.v0.util.Drawer;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
-public abstract class Screen implements IInputListener, IView {
+public abstract class Screen implements IInputListener, IView, ISettingsChangeListener {
 	private String id;
 	private MoveManager moveManager;
 	private Drawer drawer;
 	private CollisionManager collisionManager;
 	private ICompositeInputListener inputListener;
 	private ITexture background;
+	private IMusic music;
 
 	private boolean hasInited;
 
@@ -35,11 +40,11 @@ public abstract class Screen implements IInputListener, IView {
 
 		Screen screen = (Screen) Utils.createInstance(metadata.getScreenClass());
 		screen.id = screenId;
-		
+
 		String bg = metadata.getBackgroundTextureId();
 		if (!Utils.isNullOrWhitespace(bg))
 			screen.background = Game.getResourceManager().getTexture(bg);
-		
+
 		return screen;
 	}
 
@@ -67,18 +72,59 @@ public abstract class Screen implements IInputListener, IView {
 	@Override
 	public void render() {
 		if (background != null)
-			TextureDrawer.draw(background, IDrawingInfo.background);
+			TextureDrawer.draw(background, IDrawingInfo.screen);
 		drawer.draw();
 	}
 
 	@Override
 	public void activated() {
 		inputListener.activate();
+		startPlayingBgMusic();
+		Settings.registerListener(this);
 	}
 
 	@Override
 	public void deactivated() {
 		inputListener.deactivate();
+		disposeBgMusic();
+		Settings.unregisterListener(this);
+	}
+
+	private void startPlayingBgMusic() {
+		disposeBgMusic();
+		if (!Settings.isMusicOn())
+			return;
+
+		ScreenMetadata meta = GameMetadata.getScreen(id);
+		String musicId = meta.getBackgroundMusicId();
+
+		if (Utils.isNullOrWhitespace(musicId))
+			return;
+
+		music = Game.getResourceManager().getMusic(musicId);
+		music.play();
+	}
+
+	private void disposeBgMusic() {
+		if (music != null) {
+			music.stop();
+			music.dispose();
+			music = null;
+		}
+	}
+
+	protected boolean onBack() {
+		return false;
+	}
+	
+	@Override
+	public void settingChanged(String key, Object newValue) {
+		if ("music".equals(key)) {
+			if (newValue.equals(false))
+				disposeBgMusic();
+			else
+				startPlayingBgMusic();
+		}
 	}
 
 	public final void registerMovable(IMovable obj) {
@@ -160,9 +206,14 @@ public abstract class Screen implements IInputListener, IView {
 
 	@Override
 	public boolean keyDown(int keycode) {
+		if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
+			if (onBack()) {
+				return true;
+			}
+		}
 		return false;
 	}
-
+	
 	@Override
 	public boolean keyUp(int keycode) {
 		return false;

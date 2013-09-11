@@ -2,7 +2,7 @@ package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.blox.framework.v0.IVibrator;
-import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.impl.Settings;
 
 final class GdxVibrator implements IVibrator {
 	GdxVibrator() {
@@ -11,7 +11,7 @@ final class GdxVibrator implements IVibrator {
 
 	@Override
 	public void vibrate(int millis) {
-		if (Game.isVibrationOn())
+		if (Settings.isVibrationOn())
 			Gdx.input.vibrate(millis);
 	}
 

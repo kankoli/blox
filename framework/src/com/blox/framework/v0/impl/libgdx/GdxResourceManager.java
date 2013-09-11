@@ -1,8 +1,10 @@
 package com.blox.framework.v0.impl.libgdx;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.MusicLoader.MusicParameter;
@@ -29,8 +31,6 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	static {
 		TextureParameter textureParams = new TextureParameter();
-		textureParams.minFilter = TextureFilter.Linear;
-		textureParams.magFilter = TextureFilter.Linear;
 
 		SoundParameter soundParam = new SoundParameter();
 
@@ -85,7 +85,12 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	@Override
 	public IMusic getMusic(String id) {
-		throw new UnsupportedOperationException("getMusic");
+		ResourceMetadata meta = resources.getMusic(id);
+		addToLoadQueue(meta);
+		manager.finishLoading();
+		Music music = manager.get(meta.getPath());
+		return new GdxMusic(music, manager, meta.getPath());
+
 	}
 
 	@Override
@@ -102,10 +107,15 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 		loadPrimaryResources();
 		addResourcesToLoadQueue();
 	}
+	
+	@Override
+	public InputStream readFile(String path) {
+		return Gdx.files.internal(path).read();
+	}
 
 	@Override
-	public int getLoadingPercent() {
-		return (int) (manager.getProgress() * 100);
+	public float getProgress() {
+		return manager.getProgress();
 	}
 
 	@Override
@@ -115,7 +125,7 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	private void addResourcesToLoadQueue() {
 		for (ResourceMetadata resourceMeta : resources.getAll().values()) {
-			if (manager.isLoaded(resourceMeta.getPath()))
+			if (manager.isLoaded(resourceMeta.getPath()) || resourceMeta.skip() || resourceMeta.isOnDemand())
 				continue;
 			addToLoadQueue(resourceMeta);
 		}
@@ -133,8 +143,6 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addToLoadQueue(ResourceMetadata resourceMeta) {
-		if (resourceMeta.skip())
-			return;
 		ResourceLoaderInfo info = resourceTypes.get(resourceMeta.getType());
 		if (info.params instanceof GdxFont.GdxFontLoaderParameters) {
 			((GdxFont.GdxFontLoaderParameters) info.params).metadata = resourceMeta;

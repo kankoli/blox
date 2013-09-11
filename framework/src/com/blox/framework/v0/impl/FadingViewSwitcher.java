@@ -10,8 +10,6 @@ public class FadingViewSwitcher extends ViewSwitcher {
 
 	@Override
 	protected void renderSwitching(boolean back) {
-		float tmp = Game.renderingAlpha;
-
 		float alpha = elapsed / duration;
 
 		Game.renderingAlpha = 1 - alpha;
@@ -20,6 +18,6 @@ public class FadingViewSwitcher extends ViewSwitcher {
 		Game.renderingAlpha = alpha;
 		newView.render();
 
-		Game.renderingAlpha = tmp;
+		Game.renderingAlpha = 0;
 	}
 }
