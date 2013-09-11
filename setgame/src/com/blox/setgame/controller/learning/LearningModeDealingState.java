@@ -10,12 +10,12 @@ public class LearningModeDealingState extends LearningModeState implements ICard
 	}
 
 	@Override
-	public void activated() {
+	protected void activated() {
 		model.deal();
 	}
 
 	@Override
-	public void deactivated() {
+	protected void deactivated() {
 		Card[] cc = model.getCards().getAllCards();
 		for (int i = 0; i < cc.length; i++)
 			view.unregisterMovable(cc[i]);

@@ -1,14 +1,13 @@
 package com.blox.setgame.controller;
 
 import com.blox.setgame.model.Card;
-import com.blox.setgame.model.ISetGameModelListener;
 
-public abstract class SetGameState implements ISetGameModelListener {	
-	public void activated() {
+public abstract class SetGameState implements ISetGameController {	
+	protected void activated() {
 		
 	}
 
-	public void deactivated() {
+	protected void deactivated() {
 
 	}
 
@@ -26,4 +25,14 @@ public abstract class SetGameState implements ISetGameModelListener {
 	public void onInvalidSetSelected() {
 		
 	}
+
+	@Override
+	public void onScreenActivated() {
+		
+	}
+
+	@Override
+	public void onScreenDeactivated() {
+		this.deactivated();
+	}	
 }

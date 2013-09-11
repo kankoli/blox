@@ -8,7 +8,7 @@ public class PracticeModeEndState extends PracticeModeState {
 	}
 	
 	@Override
-	public void activated() {
+	protected void activated() {
 		model.endMode();
 		Game.vibrate(100);
 	}

@@ -17,14 +17,7 @@ public abstract class SetGameController<T extends SetGameState> implements ISetG
 
 	@Override
 	public void onScreenDeactivated() {
-		currentState.deactivated();		
-	}
-	
-	protected void setState(T newState) {
-		if (currentState != null)
-			currentState.deactivated();
-		currentState = newState;
-		currentState.activated();
+		currentState.onScreenDeactivated();		
 	}
 
 	@Override
@@ -35,5 +28,12 @@ public abstract class SetGameController<T extends SetGameState> implements ISetG
 	@Override
 	public void onInvalidSetSelected() {
 		currentState.onInvalidSetSelected();
+	}
+	
+	protected void setState(T newState) {
+		if (currentState != null)
+			currentState.deactivated();
+		currentState = newState;
+		currentState.activated();
 	}
 }

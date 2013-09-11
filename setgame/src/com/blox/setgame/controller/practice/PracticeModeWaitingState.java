@@ -10,12 +10,12 @@ public class PracticeModeWaitingState extends PracticeModeState {
 	}
 	
 	@Override
-	public void activated() {
+	protected void activated() {
 		model.activateCardsOnTable();
 	}
 	
 	@Override
-	public void deactivated() {
+	protected void deactivated() {
 		model.deactivateCards();
 	}
 		
