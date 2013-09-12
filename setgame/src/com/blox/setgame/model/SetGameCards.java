@@ -26,18 +26,18 @@ public class SetGameCards {
 		return allCards[i];
 	}
 
-	public void setCard(Card card, int i) {
+	public void setCard(int i, Card card) {
 		if (i < ActiveCardCount)
-			setActiveCard(card, i);
+			setActiveCard(i, card);
 		else
-			setExtraCard(card, i - ActiveCardCount);
+			setExtraCard(i - ActiveCardCount, card);
 	}
 
 	public Card getActiveCard(int i) {
 		return activeCards[i];
 	}
 
-	public void setActiveCard(Card card, int i) {
+	public void setActiveCard(int i, Card card) {
 		activeCards[i] = card;
 		allCards[i] = card;
 	}
@@ -46,13 +46,21 @@ public class SetGameCards {
 		return extraCards[i];
 	}
 
-	public void setExtraCard(Card card, int i) {
+	public void setExtraCard(int i, Card card) {
 		extraCards[i] = card;
 		allCards[i + ActiveCardCount] = card;
 	}
 
 	public boolean isEmpty(int i) {
 		return allCards[i] == null;
+	}
+	
+	public boolean isActiveCardEmpty(int i) {
+		return activeCards[i] == null;
+	}	
+
+	public boolean isExtraCardEmpty(int i) {
+		return extraCards[i] == null;
 	}
 
 	public void empty() {
@@ -70,11 +78,7 @@ public class SetGameCards {
 				continue;
 			
 			selectedCards[x++] = null;
-			allCards[i] = null;
-			if (i < SetGameCards.ActiveCardCount)
-				activeCards[i] = null;
-			else
-				extraCards[i - SetGameCards.ActiveCardCount] = null;
+			setCard(i, null);
 		}
 	}
 

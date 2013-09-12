@@ -56,12 +56,12 @@ public class SetGameCardDealer extends CardDealer {
 
 	private void initCards() {
 		for (int i = 0; i < SetGameCards.TotalCardsOnTable; i++)
-			cards.setCard(deck[i], i);
+			cards.setCard(i, deck[i]);
 		updateCards();
 		index = SetGameCards.TotalCardsOnTable;
 	}
 
-	private void updateCards() {		
+	private void updateCards() {
 		for (int i = 0; i < SetGameCards.TotalCardsOnTable; i++) {
 			Card card = cards.getCard(i);
 			if (card != null)
@@ -86,14 +86,23 @@ public class SetGameCardDealer extends CardDealer {
 	}
 
 	private void replaceEmptyCardsWithExtraCards() {
-		int x = 0;
 		for (int i = 0; i < SetGameCards.ActiveCardCount; i++) {
-			if (!cards.isEmpty(i))
+			if (!cards.isActiveCardEmpty(i))
 				continue;
-			cards.setActiveCard(cards.getExtraCard(x), i);
-			cards.setExtraCard(null, x);
-			x++;
+			int x = getNextAvailableExtraCardIndex();
+			if (x > -1) {
+				cards.setActiveCard(i, cards.getExtraCard(x));
+				cards.setExtraCard(x, null);
+			}
 		}
+	}
+
+	private int getNextAvailableExtraCardIndex() {
+		for (int i = 0; i < SetGameCards.ExtraCardCount; i++) {
+			if (!cards.isExtraCardEmpty(i))
+				return i;
+		}
+		return -1;
 	}
 
 	private void dealExtraCards() {
@@ -101,7 +110,7 @@ public class SetGameCardDealer extends CardDealer {
 			Card card = deck[index++];
 			card.getLocation().set(cardLocations.get(i + SetGameCards.ActiveCardCount));
 			card.close();
-			cards.setExtraCard(card, i); 
+			cards.setExtraCard(i, card);
 		}
 	}
 }
