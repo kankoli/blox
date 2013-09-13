@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 import com.blox.setgame.model.Card;
 import com.blox.setgame.model.SetGameCards;
@@ -112,5 +113,10 @@ public class SetGameCardDealer extends CardDealer {
 			card.close();
 			cards.setExtraCard(i, card);
 		}
+	}
+
+	public void reset() {
+		index = 0;
+		Utils.shuffle(deck);
 	}
 }

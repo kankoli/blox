@@ -70,4 +70,9 @@ public class RelaxMode extends SetGameMode {
 	public void deselectCards() {
 		cards.deselectCards();
 	}
+
+	public void startMode() {
+		cards.empty();
+		((SetGameCardDealer)dealer).reset();
+	}
 }

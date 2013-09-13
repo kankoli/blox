@@ -1,5 +1,6 @@
 package com.blox.setgame.model;
 
+
 public class SetGameCards {
 	public static final int ActiveCardCount = 12;
 	public static final int ExtraCardCount = 3;
@@ -65,16 +66,15 @@ public class SetGameCards {
 
 	public void empty() {
 		emptySelectedCards();
-		empty(allCards);
-		empty(activeCards);
-		empty(selectedCards);
+		for (int i = 0; i < allCards.length; i++)
+			setCard(i, null);
 	}
 
 	public void emptySelectedCards() {
 		updateSelectedCards();
 		int x = 0;
 		for (int i = 0; i < allCards.length; i++) {
-			if (!allCards[i].isSelected())
+			if (allCards[i] == null || !allCards[i].isSelected())
 				continue;
 			
 			selectedCards[x++] = null;
@@ -96,13 +96,8 @@ public class SetGameCards {
 	private void updateSelectedCards() {
 		int x = 0;
 		for (int i = 0; i < allCards.length; i++) {
-			if (allCards[i].isSelected())
+			if (allCards[i] != null && allCards[i].isSelected())
 				selectedCards[x++] = allCards[i];
 		}
-	}
-
-	private static void empty(Card[] array) {
-		for (int i = 0; i < array.length; i++)
-			array[i] = null;
 	}
 }

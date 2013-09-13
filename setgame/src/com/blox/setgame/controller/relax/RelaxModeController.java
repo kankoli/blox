@@ -23,7 +23,7 @@ public class RelaxModeController extends SetGameController<RelaxModeState> {
 
 	@Override
 	public void onScreenActivated() {
-		super.onScreenActivated();
+		model.startMode();
 		setDealingState();
 		view.registerDrawable(model, 1);
 	}
