@@ -17,20 +17,20 @@ import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Vector;
 
 public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawable, IMovable, ICollidable {
-	protected float width;
-	protected float height;
-	protected Vector location;
-	protected Vector velocity;
-	protected Vector acceleration;
-	protected Vector scale;
-	protected Color color;
-	protected Rotation rotation;
-	protected boolean flipX;
-	protected boolean flipY;
+	private float width;
+	private float height;
+	private Vector location;
+	private Vector velocity;
+	private Vector acceleration;
+	private Vector scale;
+	private Color color;
+	private Rotation rotation;
+	private boolean flipX;
+	private boolean flipY;
 
-	protected boolean isListeningInput;
-	protected List<IBound> bounds;
-	protected IMover mover;
+	private boolean isListeningInput;
+	private List<IBound> bounds;
+	private IMover mover;
 
 	protected GameObject() {
 		location = new Vector();
@@ -45,6 +45,14 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 		mover = IMover.NULL;
 	}
 
+	protected void setWidth(float width) {
+		this.width = width;
+	}
+
+	protected void setHeight(float height) {
+		this.height = height;
+	}
+	
 	// region IInputListener
 
 	public boolean isListeningInput() {
@@ -131,17 +139,7 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 
 	// endregion
 
-	// region IDrawingInfo & IDrawable
-
-	@Override
-	public float getWidth() {
-		return width;
-	}
-
-	@Override
-	public float getHeight() {
-		return height;
-	}
+	// region IDrawingInfo
 
 	@Override
 	public Vector getScale() {
@@ -159,11 +157,6 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 	}
 
 	@Override
-	public boolean isFlipY() {
-		return flipY;
-	}
-
-	@Override
 	public boolean ignoreViewportOffset() {
 		return false;
 	}
@@ -173,17 +166,10 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 		return false;
 	}
 
-	protected void flipX() {
-		flipX = !flipX;
-	}
-
-	protected void flipY() {
-		flipY = !flipY;
-	}
-
 	// endregion
 
 	// region IMovable
+	
 	@Override
 	public Vector getVelocity() {
 		return velocity;
@@ -215,7 +201,7 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 
 	// endregion
 
-	// region IMovable & IDrawable Common
+	// region IMovable & IDrawingInfo & ICollidable Common
 
 	@Override
 	public Vector getLocation() {
@@ -224,11 +210,34 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 
 	// endregion
 
-	// region ICollidable & IDrawable Common
+	// region ICollidable & IDrawingInfo Common
+
+	@Override
+	public float getWidth() {
+		return width;
+	}
+
+	@Override
+	public float getHeight() {
+		return height;
+	}
 
 	@Override
 	public Rotation getRotation() {
 		return rotation;
+	}
+
+	@Override
+	public boolean isFlipY() {
+		return flipY;
+	}
+
+	protected void flipX() {
+		flipX = !flipX;
+	}
+
+	protected void flipY() {
+		flipY = !flipY;
 	}
 
 	// endregion

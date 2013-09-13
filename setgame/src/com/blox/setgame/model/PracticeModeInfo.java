@@ -5,7 +5,6 @@ import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
-import com.blox.framework.v0.util.Vector;
 
 class PracticeModeInfo extends GameObject {
 	private static final PracticeModeInfo info = new PracticeModeInfo();
@@ -15,16 +14,16 @@ class PracticeModeInfo extends GameObject {
 	private int shiftY;
 
 	private PracticeModeInfo() {
-		location = new Vector(50, 25);
-		width = Game.getVirtualWidth() - 100;
-		height = Game.getVirtualHeight() - 50;
-		color = Color.white();
+		getLocation().set(50, 25);
+		setWidth(Game.getVirtualWidth() - 100);
+		setHeight(Game.getVirtualHeight() - 50);
+		getColor().set(Color.white());
 	}
 
 	@Override
 	public void draw() {
-		Game.renderingShiftY = shiftY;		
-		TextDrawer.draw(FontManager.defaultFont, text, this, alignment);		
+		Game.renderingShiftY = shiftY;
+		TextDrawer.draw(FontManager.defaultFont, text, this, alignment);
 		Game.renderingShiftY = 0;
 	}
 

@@ -1,26 +1,25 @@
 package com.blox.setgame.model;
 
-import com.blox.setgame.utils.SetGameCardDealer;
 
 public class RelaxMode extends SetGameMode {
-	private SetGameCards cards;
+	private FullGameCards cards;
 	private int selectedCardCount;
 
 	public RelaxMode() {
-		cards = new SetGameCards();
-		setDealer(new SetGameCardDealer(cards));
+		cards = new FullGameCards();
+		dealer = new FullGameCardDealer(cards);
 	}
 
 	protected Card[] getCardsOnTable() {
 		return cards.getAllCards();
 	}
 
-	public SetGameCards getCards() {
+	public FullGameCards getCards() {
 		return cards;
 	}
 
 	public void activateCards() {
-		for (int i = 0; i < SetGameCards.TotalCardsOnTable; i++) {
+		for (int i = 0; i < FullGameCards.TotalCardsOnTable; i++) {
 			Card card = cards.getCard(i);
 			if (card != null) {
 				card.activate();
@@ -30,7 +29,7 @@ public class RelaxMode extends SetGameMode {
 	}
 
 	public void deactivateCards() {
-		for (int i = 0; i < SetGameCards.TotalCardsOnTable; i++) {
+		for (int i = 0; i < FullGameCards.TotalCardsOnTable; i++) {
 			Card card = cards.getCard(i);
 			if (card != null) {
 				card.deactivate();
@@ -47,7 +46,7 @@ public class RelaxMode extends SetGameMode {
 	public void cardTapped(Card card) {
 		if (!card.isOpened()) {
 			card.deselect();
-			for (int i = 0; i < SetGameCards.ExtraCardCount; i++)
+			for (int i = 0; i < FullGameCards.ExtraCardCount; i++)
 				cards.getExtraCard(i).open();
 			return;
 		}
@@ -57,7 +56,7 @@ public class RelaxMode extends SetGameMode {
 		else
 			selectedCardCount--;
 
-		if (selectedCardCount == SetGameCards.SetCardCount) {
+		if (selectedCardCount == FullGameCards.SetCardCount) {
 			int score = cards.getScore();
 			if (score > 0)
 				notifySetFound();
@@ -72,13 +71,7 @@ public class RelaxMode extends SetGameMode {
 	}
 
 	public void startMode() {
-		Card[] allCards = cards.getAllCards();
-		for (int i = 0; i < allCards.length; i++) {
-			if (allCards[i] != null)
-				allCards[i].deselect();
-		}
-
 		cards.empty();
-		((SetGameCardDealer) dealer).reset();
+		dealer.reset();
 	}
 }

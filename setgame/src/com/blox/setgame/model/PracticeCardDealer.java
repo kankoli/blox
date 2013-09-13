@@ -1,11 +1,9 @@
-package com.blox.setgame.utils;
+package com.blox.setgame.model;
 
 import com.blox.framework.v0.util.Utils;
-import com.blox.setgame.model.CardAttributes;
-import com.blox.setgame.model.TrainingCards;
 
-public class PracticeCardDealer extends TrainingCardDealer {
-	public PracticeCardDealer(TrainingCards cards) {
+class PracticeCardDealer extends TrainingCardDealer {
+	PracticeCardDealer(TrainingCards cards) {
 		super(cards);
 	}
 

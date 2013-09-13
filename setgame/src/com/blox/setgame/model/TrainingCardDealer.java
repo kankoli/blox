@@ -1,15 +1,13 @@
-package com.blox.setgame.utils;
+package com.blox.setgame.model;
 
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.impl.TargetMover;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
-import com.blox.setgame.model.Card;
-import com.blox.setgame.model.CardAttributes;
-import com.blox.setgame.model.TrainingCards;
+import com.blox.setgame.utils.R;
 
-public class TrainingCardDealer extends CardDealer {
+class TrainingCardDealer extends CardDealer {
 	// region
 
 	private final static float moveDuration = 0.25f;

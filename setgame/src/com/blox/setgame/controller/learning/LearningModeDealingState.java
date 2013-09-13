@@ -1,12 +1,12 @@
 package com.blox.setgame.controller.learning;
 
 import com.blox.setgame.model.Card;
-import com.blox.setgame.utils.ICardDealerListener;
+import com.blox.setgame.model.ICardDealerListener;
 
 public class LearningModeDealingState extends LearningModeState implements ICardDealerListener {
 	public LearningModeDealingState(LearningModeController controller) {
 		super(controller);
-		this.model.getDealer().setDealingListener(this);
+		model.setDealerListener(this);
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextureDrawer;
-import com.blox.framework.v0.util.Vector;
 import com.blox.setgame.utils.R;
 
 public class Logo extends GameObject {
@@ -15,8 +14,9 @@ public class Logo extends GameObject {
 	public Logo() {
 		logo = Game.getResourceManager().getTexture(R.game.textures.logo);
 
-		width = height = logoSize;
-		location = new Vector(25f, 50f + (Game.getVirtualHeight() - logoSize) / 2f);
+		setWidth(logoSize);
+		setHeight(logoSize);
+		getLocation().set(25f, 50f + (Game.getVirtualHeight() - logoSize) / 2f);
 	}
 
 	@Override

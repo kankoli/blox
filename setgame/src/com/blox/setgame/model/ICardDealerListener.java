@@ -1,6 +1,4 @@
-package com.blox.setgame.utils;
-
-import com.blox.setgame.model.Card;
+package com.blox.setgame.model;
 
 public interface ICardDealerListener {
 	void onStartMoving(Card card);

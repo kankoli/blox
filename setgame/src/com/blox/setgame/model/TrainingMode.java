@@ -1,14 +1,13 @@
 package com.blox.setgame.model;
 
 import com.blox.setgame.utils.R;
-import com.blox.setgame.utils.TrainingCardDealer;
 
 public abstract class TrainingMode extends SetGameMode {
 	protected TrainingCards cards;
 
 	protected TrainingMode() {
 		cards = new TrainingCards();
-		setDealer(new TrainingCardDealer(cards));
+		dealer = new TrainingCardDealer(cards);
 	}
 	
 	@Override

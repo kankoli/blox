@@ -30,9 +30,9 @@ public final class CardAttributes {
 
 	private static int getSetScore(int a1, int a2, int a3) {
 		if ((a1 & a2) == a3)
-			return 2;
-		if ((a1 | a2 | a3) == DiffSet)
 			return 1;
+		if ((a1 | a2 | a3) == DiffSet)
+			return 3;
 		return 0;
 	}
 
