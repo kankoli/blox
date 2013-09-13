@@ -72,7 +72,13 @@ public class RelaxMode extends SetGameMode {
 	}
 
 	public void startMode() {
+		Card[] allCards = cards.getAllCards();
+		for (int i = 0; i < allCards.length; i++) {
+			if (allCards[i] != null)
+				allCards[i].deselect();
+		}
+
 		cards.empty();
-		((SetGameCardDealer)dealer).reset();
+		((SetGameCardDealer) dealer).reset();
 	}
 }
