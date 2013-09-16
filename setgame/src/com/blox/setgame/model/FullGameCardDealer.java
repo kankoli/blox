@@ -53,7 +53,6 @@ class FullGameCardDealer extends CardDealer {
 	public void deal() {
 		if (index == 0) {
 			initCards();
-			updateCards();
 			notifyDealEnd();
 		}
 		else {
@@ -61,29 +60,39 @@ class FullGameCardDealer extends CardDealer {
 		}
 	}
 
+	public int getIndex() {
+		return index;
+	}
+
 	private void initCards() {
-		for (int i = 0; i < FullGameCards.TotalCardsOnTable; i++)
+		for (int i = 0; i < FullGameCards.TotalCardsOnTable; i++) {
 			cards.setCard(i, deck[i]);
-		updateCards();
+			deck[i].getLocation().set(cardLocations.get(i));
+			if (i < FullGameCards.ActiveCardCount)
+				deck[i].open();
+			else
+				deck[i].close();
+		}
+
 		index = FullGameCards.TotalCardsOnTable;
 	}
 
-	private void updateCards() {
-		for (int i = 0; i < FullGameCards.TotalCardsOnTable; i++) {
-			if (!cards.isEmpty(i))
-				cards.getCard(i).getLocation().set(cardLocations.get(i));
-		}
-
-		for (int i = 0; i < FullGameCards.ActiveCardCount; i++) {
-			if (!cards.isActiveCardEmpty(i))
-				cards.getActiveCard(i).open();
-		}
-
-		for (int i = 0; i < FullGameCards.ExtraCardCount; i++) {
-			if (!cards.isExtraCardEmpty(i))
-				cards.getExtraCard(i).close();
-		}
-	}
+	// private void updateCards() {
+	// for (int i = 0; i < FullGameCards.TotalCardsOnTable; i++) {
+	// if (!cards.isEmpty(i))
+	// cards.getCard(i).getLocation().set(cardLocations.get(i));
+	// }
+	//
+	// for (int i = 0; i < FullGameCards.ActiveCardCount; i++) {
+	// if (!cards.isActiveCardEmpty(i))
+	// cards.getActiveCard(i).open();
+	// }
+	//
+	// for (int i = 0; i < FullGameCards.ExtraCardCount; i++) {
+	// if (!cards.isExtraCardEmpty(i))
+	// cards.getExtraCard(i).close();
+	// }
+	// }
 
 	private void removeSetCards() {
 		cardsToFadeOut = FullGameCards.SetCardCount;
@@ -92,44 +101,50 @@ class FullGameCardDealer extends CardDealer {
 	}
 
 	private void onFadeOutComplete() {
-		cardsToMove = 0;
-		for (int i = 0; i < FullGameCards.ActiveCardCount; i++) {
-			if (cards.isActiveCardEmpty(i) || !cards.getActiveCard(i).isSelected())
-				continue;
-			
-			int x = getNextAvailableExtraCardIndex();
-			if (x < 0)
-				continue;
-			
-			Card extraCard = cards.getExtraCard(x);
-			extraCard.open();
-
-			movers[cardsToMove].updateRoute(extraCard.getLocation(), cards.getActiveCard(i).getLocation());
-			movers[cardsToMove].start();
-
-			extraCard.setMover(movers[cardsToMove]);
-			notifyStartMoving(extraCard);
-
-			cardsToMove++;
-
-			cards.setActiveCard(i, cards.getExtraCard(x));
-			cards.setExtraCard(x, null);
-		}
-		cards.emptySelectedCards();
-
+		startMovingExtraCards();
 		if (cardsToMove == 0)
 			onCardsMoveEnd();
 	}
 
+	private void startMovingExtraCards() {
+		cardsToMove = 0;
+		int extraCardIndex = 0;
+		for (int i = FullGameCards.ActiveCardCount - 1; i >= 0; i--) {
+			if (cards.isActiveCardEmpty(i) || !cards.getActiveCard(i).isSelected())
+				continue;
+
+			extraCardIndex = findNextAvailableExtraCardIndex(extraCardIndex);
+			if (extraCardIndex < 0)
+				break;
+
+			startMovingExtraCard(extraCardIndex, i);
+
+			extraCardIndex++;
+			cardsToMove++;
+		}
+	}
+
+	private void startMovingExtraCard(int extraCardIndex, int targetActiveCardIndex) {
+		Card extraCard = cards.getExtraCard(extraCardIndex);
+		extraCard.open();
+
+		movers[cardsToMove].updateRoute(extraCard.getLocation(), cards.getActiveCard(targetActiveCardIndex).getLocation());
+		movers[cardsToMove].start();
+
+		extraCard.setMover(movers[cardsToMove]);
+		notifyStartMoving(extraCard);
+	}
+
 	private void onCardsMoveEnd() {
+		cards.emptySelectedCards();
 		if (index < deck.length)
 			dealExtraCards();
-		updateCards();
+		// updateCards();
 		notifyDealEnd();
 	}
 
-	private int getNextAvailableExtraCardIndex() {
-		for (int i = 0; i < FullGameCards.ExtraCardCount; i++) {
+	private int findNextAvailableExtraCardIndex(int searchFrom) {
+		for (int i = searchFrom; i < FullGameCards.ExtraCardCount; i++) {
 			if (!cards.isExtraCardEmpty(i) && !cards.getExtraCard(i).isSelected())
 				return i;
 		}
@@ -145,6 +160,34 @@ class FullGameCardDealer extends CardDealer {
 		}
 	}
 
+	private void onCardFadeOutComplete() {
+		cardsToFadeOut--;
+		if (cardsToFadeOut == 0)
+			onFadeOutComplete();
+	}
+
+	private void onCardMoveEnd(Card card) {
+		notifyStopMoving(card);
+
+		for (int i = 0; i < FullGameCards.ActiveCardCount; i++) {
+			if (!cards.isActiveCardEmpty(i) && cards.getActiveCard(i).isSelected()) {
+				cards.setActiveCard(i, card);
+				break;
+			}
+		}
+
+		for (int i = 0; i < FullGameCards.ExtraCardCount; i++) {
+			if (card == cards.getExtraCard(i)) {
+				cards.setExtraCard(i, null);
+				break;
+			}
+		}
+
+		cardsToMove--;
+		if (cardsToMove == 0)
+			onCardsMoveEnd();
+	}
+
 	public void reset() {
 		super.reset();
 		index = 0;
@@ -153,18 +196,14 @@ class FullGameCardDealer extends CardDealer {
 	private final ICardFadingListener fadeOutListener = new ICardFadingListener() {
 		@Override
 		public void onCardFadingEnd(Card card, boolean fadeIn) {
-			cardsToFadeOut--;
-			if (cardsToFadeOut == 0)
-				onFadeOutComplete();
+			onCardFadeOutComplete();
 		}
 	};
 
 	private final TargetMover.IMoveEndListener moveEndListener = new TargetMover.IMoveEndListener() {
 		@Override
 		public boolean moveEnd(TargetMover mover, IMovable movable) {
-			cardsToMove--;
-			if (cardsToMove == 0)
-				onCardsMoveEnd();
+			onCardMoveEnd((Card) movable);
 			return false;
 		}
 	};

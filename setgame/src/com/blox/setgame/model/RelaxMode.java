@@ -1,17 +1,30 @@
 package com.blox.setgame.model;
 
+import com.blox.framework.v0.util.TextDrawer;
 
 public class RelaxMode extends SetGameMode {
 	private FullGameCards cards;
 	private int selectedCardCount;
+	private GameInfo info;
+	private Hint hint;
 
 	public RelaxMode() {
 		cards = new FullGameCards();
 		dealer = new FullGameCardDealer(cards);
+		info = new GameInfo(7, 25);
+		hint = new Hint();
 	}
 
-	protected Card[] getCardsOnTable() {
-		return cards.getAllCards();
+	private FullGameCardDealer getDealer() {
+		return (FullGameCardDealer) dealer;
+	}
+
+	private void drawCards() {
+		cards.draw();
+	}
+
+	private void drawRemainingCards() {
+		info.draw("Cards: " + getDealer().getIndex() + "/" + Card.CardsInDeck, TextDrawer.AlignSE, 40);
 	}
 
 	public FullGameCards getCards() {
@@ -26,6 +39,7 @@ public class RelaxMode extends SetGameMode {
 				card.setEventListener(gameListener);
 			}
 		}
+		updateHints();
 	}
 
 	public void deactivateCards() {
@@ -38,9 +52,14 @@ public class RelaxMode extends SetGameMode {
 		}
 	}
 
+	private void updateHints() {
+		cards.updateHint(hint);
+	}
+	
 	public void exitMode() {
 		deactivateCards();
 		cards.empty();
+		hint.listenInput(false);
 	}
 
 	public void cardTapped(Card card) {
@@ -48,6 +67,7 @@ public class RelaxMode extends SetGameMode {
 			card.deselect();
 			for (int i = 0; i < FullGameCards.ExtraCardCount; i++)
 				cards.getExtraCard(i).open();
+			updateHints();
 			return;
 		}
 
@@ -73,5 +93,13 @@ public class RelaxMode extends SetGameMode {
 	public void startMode() {
 		cards.empty();
 		dealer.reset();
+		hint.listenInput(true);
+	}
+
+	@Override
+	public void draw() {
+		hint.draw();
+		drawCards();
+		drawRemainingCards();
 	}
 }

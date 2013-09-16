@@ -6,17 +6,15 @@ import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
 
-class PracticeModeInfo extends GameObject {
-	private static final PracticeModeInfo info = new PracticeModeInfo();
-
+class GameInfo extends GameObject {
 	private String text;
 	private int alignment;
 	private int shiftY;
 
-	private PracticeModeInfo() {
-		getLocation().set(50, 25);
-		setWidth(Game.getVirtualWidth() - 100);
-		setHeight(Game.getVirtualHeight() - 50);
+	public GameInfo(float paddingX, float paddingY) {
+		getLocation().set(paddingX, paddingY);
+		setWidth(Game.getVirtualWidth() - 2 * paddingX);
+		setHeight(Game.getVirtualHeight() - 2 * paddingY);
 		getColor().set(Color.white());
 	}
 
@@ -27,10 +25,10 @@ class PracticeModeInfo extends GameObject {
 		Game.renderingShiftY = 0;
 	}
 
-	public static void draw(String text, int alingment, int shiftY) {
-		info.alignment = alingment;
-		info.text = text;
-		info.shiftY = shiftY;
-		info.draw();
+	public void draw(String text, int alingment, int shiftY) {
+		this.alignment = alingment;
+		this.text = text;
+		this.shiftY = shiftY;
+		this.draw();
 	}
 }

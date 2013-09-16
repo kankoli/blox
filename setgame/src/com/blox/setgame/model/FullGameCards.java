@@ -1,7 +1,6 @@
 package com.blox.setgame.model;
 
-
- public class FullGameCards {
+public class FullGameCards {
 	public static final int ActiveCardCount = 12;
 	public static final int ExtraCardCount = 3;
 	public static final int SetCardCount = 3;
@@ -19,14 +18,10 @@ package com.blox.setgame.model;
 		selectedCards = new Card[SetCardCount];
 	}
 
-	Card[] getAllCards() {
-		return allCards;
-	}
-	
 	Card getSelectedCard(int i) {
 		return selectedCards[i];
 	}
-	
+
 	public Card getCard(int i) {
 		return allCards[i];
 	}
@@ -59,10 +54,10 @@ package com.blox.setgame.model;
 	public boolean isEmpty(int i) {
 		return allCards[i] == null;
 	}
-	
+
 	public boolean isActiveCardEmpty(int i) {
 		return activeCards[i] == null;
-	}	
+	}
 
 	public boolean isExtraCardEmpty(int i) {
 		return extraCards[i] == null;
@@ -80,7 +75,7 @@ package com.blox.setgame.model;
 		for (int i = 0; i < allCards.length; i++) {
 			if (allCards[i] == null || !allCards[i].isSelected())
 				continue;
-			
+
 			selectedCards[x++] = null;
 			setCard(i, null);
 		}
@@ -105,6 +100,17 @@ package com.blox.setgame.model;
 				selectedCards[x++] = allCards[i];
 			if (x == SetCardCount)
 				break;
+		}
+	}
+
+	void updateHint(Hint hint) {
+		hint.update(allCards);
+	}
+	
+	public void draw() {
+		for (int i = 0; i < allCards.length; i++) {
+			if (allCards[i] != null)
+				allCards[i].draw();
 		}
 	}
 }

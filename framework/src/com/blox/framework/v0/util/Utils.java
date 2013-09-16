@@ -161,4 +161,8 @@ public class Utils {
 			array[y] = tmp;
 		}
 	}
+	
+	public static <T> T random(T[] array) {
+		return array[randInt(array.length)];
+	}
 }

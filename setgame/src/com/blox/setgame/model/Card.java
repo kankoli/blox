@@ -14,13 +14,17 @@ public class Card extends SetGameObject {
 
 	// region static
 
+	public static final int Width = 100;
 	public static final int Height = 174;
 	public static final int Space = 7;
 	public static final int SymbolHeight = 35;
 	public static final int SymbolWidth = 35;
+	
 	public static final float FadingDuration = 0.25f;
-
-	public static final int Width = 100;
+	public static final float BlinkDuration = 1f;
+	public static final int BlinkCount = 6;
+	
+	public static final int CardsInDeck = 81;
 
 	private static void createDeck(Card[] deck) {
 		int[] colors = new int[] { CardAttributes.Color_Red, CardAttributes.Color_Green, CardAttributes.Color_Blue };
@@ -54,7 +58,7 @@ public class Card extends SetGameObject {
 	public static boolean isSet(Card card1, Card card2, Card card3) {
 		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
 	}
-
+	
 	// endregion
 
 	private boolean isOpened;
@@ -65,6 +69,7 @@ public class Card extends SetGameObject {
 	private ICardListener eventListener;
 
 	private CardFader fader;
+	private CardBlinker blinker;
 
 	public Card(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
@@ -72,6 +77,7 @@ public class Card extends SetGameObject {
 		setHeight(Card.Height);
 
 		fader = new CardFader(FadingDuration);
+		blinker = new CardBlinker(BlinkDuration, BlinkCount);
 
 		initSymbols();
 	}
@@ -95,11 +101,11 @@ public class Card extends SetGameObject {
 			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.thirdOfThree, this));
 		}
 	}
-
+	
 	private void switchSelected() {
 		isSelected = !isSelected;
 	}
-
+	
 	public void activate() {
 		listenInput(true);
 	}
@@ -145,9 +151,14 @@ public class Card extends SetGameObject {
 		fader.beginFadeIn(listener);
 	}
 
+	public void blink(ICardBlinkListener listener) {
+		blinker.blink(listener);
+	}
+
 	@Override
 	public void draw() {
 		fader.update(this);
+		blinker.update(this);
 		if (!isOpened) {
 			SetGameResources.drawTextureCardClosed(this);
 			return;

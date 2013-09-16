@@ -37,9 +37,9 @@ class CardFader {
 		this.listener = listener;
 	}
 
-	boolean update(Card card) {
+	void update(Card card) {
 		if (state == Passive)
-			return false;
+			return;
 
 		elapsed += Game.getDeltaTime();
 		float progress = elapsed / duration;
@@ -48,14 +48,12 @@ class CardFader {
 			if (listener != null)
 				listener.onCardFadingEnd(card, state == FadeIn);
 			state = Passive;
-			return false;
+			return;
 		}
 
 		if (state == FadeIn)
 			card.getColor().a = progress;
 		else
 			card.getColor().a = 1 - progress;
-
-		return true;
 	}
 }

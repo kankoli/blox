@@ -103,8 +103,7 @@ public class TargetMover implements IMover {
 				loc.x = target.x;
 				loc.y = target.y;
 				
-				if (endListener != null && endListener.moveEnd(this, movable)) {
-					
+				if (endListener != null && endListener.moveEnd(this, movable)) {					
 					return;
 				}
 				

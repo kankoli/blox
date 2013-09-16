@@ -148,14 +148,14 @@ class TrainingCardDealer extends CardDealer {
 		return -1;
 	}
 
-	private void onOldCardsMoveEnd(IMovable movable) {
-		notifyStopMoving((Card) movable);
+	private void onOldCardMoveEnd(Card card) {
+		notifyStopMoving(card);
 		if (--moverCount == 0)
 			dealAndMoveNewCards();
 	}
 
-	private void onNewCardsMoveEnd(IMovable movable) {
-		notifyStopMoving((Card) movable);
+	private void onNewCardMoveEnd(Card card) {
+		notifyStopMoving(card);
 		if (--moverCount == 0)
 			notifyDealEnd();
 	}
@@ -163,7 +163,7 @@ class TrainingCardDealer extends CardDealer {
 	private final TargetMover.IMoveEndListener oldCardsMoveEndListener = new TargetMover.IMoveEndListener() {
 		@Override
 		public boolean moveEnd(TargetMover mover, IMovable movable) {
-			onOldCardsMoveEnd(movable);
+			onOldCardMoveEnd((Card) movable);
 			return true;
 		}
 	};
@@ -171,7 +171,7 @@ class TrainingCardDealer extends CardDealer {
 	private final TargetMover.IMoveEndListener newCardsMoveEndListener = new TargetMover.IMoveEndListener() {
 		@Override
 		public boolean moveEnd(TargetMover mover, IMovable movable) {
-			onNewCardsMoveEnd(movable);
+			onNewCardMoveEnd((Card) movable);
 			return true;
 		}
 	};

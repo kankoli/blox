@@ -10,14 +10,19 @@ public final class FontManager {
 	public static final IFont defaultFont;
 
 	static {
-		// default-font = "Arial,24"
-		String df = Game.getParam("default-font");
-		String[] ss = df.split(",");
-		defaultFont = Game.getResourceManager().getFont(ss[0]);
-		setSize(Utils.parseInt(ss[1]));
+		defaultFont = createDefaultFontInstance();
 	}
 	
 	static void setSize(int size) {
 		defaultFont.setSize(size);
+	}
+	
+	public static IFont createDefaultFontInstance() {
+		// default-font = "Arial,24"
+		String df = Game.getParam("default-font");
+		String[] ss = df.split(",");
+		IFont font =  Game.getResourceManager().getFont(ss[0]);
+		font.setSize(Utils.parseInt(ss[1]));
+		return font;
 	}
 }

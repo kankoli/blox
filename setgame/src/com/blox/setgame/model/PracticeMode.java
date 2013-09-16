@@ -13,6 +13,7 @@ public class PracticeMode extends TrainingMode {
 
 	private int deals = 0;
 	private int score = 0;
+	private GameInfo info;
 
 	private IPracticeModeModelListener modeListener;
 	private boolean waitForNewGame;
@@ -27,6 +28,8 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	public PracticeMode() {
+		info = new GameInfo(50, 25);
+		
 		blockTimer = new Timer();
 		dealTimer = new Timer();
 
@@ -159,26 +162,26 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	private void drawRemainingDeals() {
-		PracticeModeInfo.draw("Deals: " + deals + "/" + totalDeals, TextDrawer.AlignSW, 0);
+		info.draw("Deals: " + deals + "/" + totalDeals, TextDrawer.AlignSW, 0);
 	}
 
 	private void drawRemainingTime() {
 		int t = (int) Math.min(timePerDeal, (1 + timePerDeal - dealTimer.getElapsedTime()));
-		PracticeModeInfo.draw("" + t, TextDrawer.AlignNE, 0);
+		info.draw("" + t, TextDrawer.AlignNE, 0);
 	}
 
 	private void drawScore() {
-		PracticeModeInfo.draw("Score: " + score, TextDrawer.AlignSW, 60);
+		info.draw("Score: " + score, TextDrawer.AlignSW, 60);
 	}
 
 	private void drawWaitMessage() {
 
-		PracticeModeInfo.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, 0);
+		info.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, 0);
 	}
 
 	private void drawResults() {
-		PracticeModeInfo.draw("Score: " + score, TextDrawer.AlignCentered, 50);
-		PracticeModeInfo.draw("Touch Screen", TextDrawer.AlignCentered, -50);
-		PracticeModeInfo.draw("To Continue", TextDrawer.AlignCentered, -100);
+		info.draw("Score: " + score, TextDrawer.AlignCentered, 50);
+		info.draw("Touch Screen", TextDrawer.AlignCentered, -50);
+		info.draw("To Continue", TextDrawer.AlignCentered, -100);
 	}
 }
