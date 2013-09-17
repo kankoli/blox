@@ -1,15 +1,16 @@
 package com.blox.setgame.model;
 
 import com.blox.framework.v0.IFont;
+import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.TextSlider;
 import com.blox.framework.v0.util.Utils;
 
-class Hint extends SetGameObject implements TextSlider.ITextSliderListener, ICardBlinkListener {
+class Hint extends SetGameObject implements TextSlider.ITextSliderListener, IEffectEndListener {
 
-	private final static float slideDuration = 2f;
+	private final static float slideDuration = 1f;
 
 	private IFont font;
 
@@ -70,8 +71,9 @@ class Hint extends SetGameObject implements TextSlider.ITextSliderListener, ICar
 	}
 
 	@Override
-	public void onCardBlinkEnd(Card card) {
+	public boolean onEffectEnd(Object card) {
 		hintEnd();
+		return true;
 	}
 
 	@Override
@@ -80,14 +82,11 @@ class Hint extends SetGameObject implements TextSlider.ITextSliderListener, ICar
 	}
 
 	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		if (Utils.isIn(x, y, getLocation(), getWidth(), getHeight())) {
-			showNextHint();
-			return true;
-		}
-		return false;
+	protected boolean onTap() {		
+		showNextHint();
+		return true;
 	}
-
+	
 	@Override
 	public void draw() {
 		drawButton();
@@ -95,7 +94,7 @@ class Hint extends SetGameObject implements TextSlider.ITextSliderListener, ICar
 	}
 
 	private void drawButton() {
-		if (Utils.isIn(Game.getInputManager().getX(), Game.getInputManager().getY(), getLocation(), getWidth(), getHeight()))
+		if (Utils.isIn(Game.getInputManager().getX(), Game.getInputManager().getY(), this))
 			font.getColor().set(0, 1, 0);
 		else
 			font.getColor().set(1, 1, 1);

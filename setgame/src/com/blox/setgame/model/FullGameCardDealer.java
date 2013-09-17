@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.blox.framework.v0.IMovable;
+import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.impl.TargetMover;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
@@ -193,10 +194,11 @@ class FullGameCardDealer extends CardDealer {
 		index = 0;
 	}
 
-	private final ICardFadingListener fadeOutListener = new ICardFadingListener() {
+	private final IEffectEndListener fadeOutListener = new IEffectEndListener() {
 		@Override
-		public void onCardFadingEnd(Card card, boolean fadeIn) {
+		public boolean onEffectEnd(Object obj) {
 			onCardFadeOutComplete();
+			return true;
 		}
 	};
 

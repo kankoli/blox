@@ -14,8 +14,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.blox.framework.v0.IDrawingInfo;
+
 public class Utils {
 	private static final Random rnd = new Random();
+
+	public static boolean isIn(float x, float y, IDrawingInfo drawingInfo) {
+		return isIn(x, y, drawingInfo.getLocation(), drawingInfo.getWidth(), drawingInfo.getHeight());
+	}
 	
 	public static boolean isIn(float x, float y, Vector location, float width, float height) {
 		return isIn(x, y, location.x, location.y, width, height);

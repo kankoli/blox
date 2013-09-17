@@ -14,6 +14,7 @@ import com.blox.framework.v0.IMover;
 import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
+import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
 public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawable, IMovable, ICollidable {
@@ -53,6 +54,38 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 		this.height = height;
 	}
 	
+	protected boolean isIn(float x, float y) {
+		return Utils.isIn(x, y, this);
+	}
+	
+	protected boolean onLongPress() {
+		return false;
+	}
+	
+	protected boolean onMouseMoved() {
+		return false;
+	}
+	
+	protected boolean onPan() {
+		return false;
+	}
+	
+	protected boolean onTap() {
+		return false;
+	}
+	
+	protected boolean onTouchDown() {
+		return false;
+	}
+	
+	protected boolean onTouchUp() {
+		return false;
+	}
+	
+	protected boolean onTouchDragged() {
+		return false;
+	}
+	
 	// region IInputListener
 
 	public boolean isListeningInput() {
@@ -84,17 +117,17 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 
 	@Override
 	public boolean longPress(float x, float y) {
-		return false;
+		return isIn(x, y) ? onLongPress() : false;
 	}
 
 	@Override
 	public boolean mouseMoved(float x, float y) {
-		return false;
+		return isIn(x, y) ? onMouseMoved() :false;
 	}
 
 	@Override
-	public boolean pan(float x, float y, float dx, float xy) {
-		return false;
+	public boolean pan(float x, float y, float dx, float dy) {
+		return isIn(x, y) ? onPan() :false;
 	}
 
 	@Override
@@ -109,22 +142,22 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		return false;
+		return isIn(x, y) ? onTap() :false;
 	}
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		return false;
+		return isIn(x, y) ? onTouchDown() :false;
 	}
 
 	@Override
 	public boolean touchDragged(float x, float y, int pointer) {
-		return false;
+		return isIn(x, y) ? onTouchDragged() :false;
 	}
 
 	@Override
 	public boolean touchUp(float x, float y, int pointer, int button) {
-		return false;
+		return isIn(x, y) ? onTouchUp() :false;
 	}
 
 	@Override

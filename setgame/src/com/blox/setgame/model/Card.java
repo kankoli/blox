@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.effects.BlinkEffect;
+import com.blox.framework.v0.effects.FadeOutEffect;
+import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Utils;
@@ -22,7 +25,7 @@ public class Card extends SetGameObject {
 	
 	public static final float FadingDuration = 0.25f;
 	public static final float BlinkDuration = 1f;
-	public static final int BlinkCount = 6;
+	public static final int BlinkPerSecond = 10;
 	
 	public static final int CardsInDeck = 81;
 
@@ -68,16 +71,20 @@ public class Card extends SetGameObject {
 	private CardAttributes attributes;
 	private ICardListener eventListener;
 
-	private CardFader fader;
-	private CardBlinker blinker;
+	private FadeOutEffect fader;
+	private BlinkEffect blinker;
 
 	public Card(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
 		setWidth(Card.Width);
 		setHeight(Card.Height);
 
-		fader = new CardFader(FadingDuration);
-		blinker = new CardBlinker(BlinkDuration, BlinkCount);
+		fader = new FadeOutEffect(this);
+		fader.setDuration(FadingDuration);
+		
+		blinker = new BlinkEffect(this);
+		blinker.setDuration(BlinkDuration);
+		blinker.setBlinkPerSecond(BlinkPerSecond);
 
 		initSymbols();
 	}
@@ -143,22 +150,16 @@ public class Card extends SetGameObject {
 		eventListener = listener;
 	}
 
-	public void fadeOut(ICardFadingListener listener) {
-		fader.beginFadeOut(listener);
+	public void fadeOut(IEffectEndListener listener) {
+		fader.start(listener);
 	}
 
-	public void fadeIn(ICardFadingListener listener) {
-		fader.beginFadeIn(listener);
-	}
-
-	public void blink(ICardBlinkListener listener) {
-		blinker.blink(listener);
+	public void blink(IEffectEndListener listener) {
+		blinker.start(listener);
 	}
 
 	@Override
 	public void draw() {
-		fader.update(this);
-		blinker.update(this);
 		if (!isOpened) {
 			SetGameResources.drawTextureCardClosed(this);
 			return;
@@ -175,19 +176,16 @@ public class Card extends SetGameObject {
 	}
 
 	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		if (Utils.isIn(x, y, getLocation(), getWidth(), getHeight())) {
-			switchSelected();
-			notifyTapped();
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public Rotation getRotation() {
 		super.getRotation().origin.set((getLocation().x + Card.Width) / 2, (getLocation().y + Card.Height) / 2);
 		return super.getRotation();
+	}
+
+	@Override
+	protected boolean onTap() {
+		switchSelected();
+		notifyTapped();
+		return true;
 	}
 	
 	private void notifyTapped() {
