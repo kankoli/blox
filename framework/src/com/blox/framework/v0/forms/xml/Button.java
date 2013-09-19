@@ -3,6 +3,7 @@ package com.blox.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Color;
@@ -19,11 +20,13 @@ public class Button extends DrawableControl {
 	private Style style;
 	private int vibrationDuration;
 	public ISound clickSound;
+	public IFont font;
 	private Color focusColor;
 
 	Button() {
 		style = new Style();
 		clickListeners = new ArrayList<IClickListener>();
+		font = FontManager.createDefaultFontInstance();
 	}
 
 	public void addClickListener(IClickListener listener) {
@@ -104,11 +107,11 @@ public class Button extends DrawableControl {
 			return;
 		
 		if (isTouched())
-			drawable.getColor().set(focusColor);
+			font.getColor().set(focusColor);
 		else
-			drawable.getColor().set(white);
+			font.getColor().set(white);
 
-		TextDrawer.draw(FontManager.defaultFont, text, drawable);
+		TextDrawer.draw(font, text, drawable);
 	}
 
 	public static class Style {

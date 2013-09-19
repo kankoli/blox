@@ -46,6 +46,8 @@ public abstract class Effect {
 	}
 
 	public void stop() {
+		if (!isActive)
+			return;
 		EffectManager.instance.unregister(this);
 		isActive = false;
 		onStop();

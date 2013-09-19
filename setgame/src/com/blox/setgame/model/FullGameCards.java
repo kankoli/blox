@@ -103,7 +103,7 @@ public class FullGameCards {
 		}
 	}
 
-	void updateHint(Hint hint) {
+	void updateHint(FullGameHint hint) {
 		hint.update(allCards);
 	}
 	

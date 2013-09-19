@@ -176,12 +176,12 @@ public abstract class GameObjectDecorator extends GameObject {
 	}
 	
 	@Override
-	protected void setWidth(float width) {
+	public void setWidth(float width) {
 		gameObject.setWidth(width);
 	}
 	
 	@Override
-	protected void setHeight(float height) {
+	public void setHeight(float height) {
 		gameObject.setHeight(height);
 	}
 	

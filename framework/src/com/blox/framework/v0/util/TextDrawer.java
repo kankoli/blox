@@ -79,8 +79,6 @@ public final class TextDrawer {
 		float ly = scale * loc.y + offsetY;
 		float width = scale * info.getWidth();
 		float height = scale * info.getHeight();
-		
-		font.getColor().set(info.getColor());
 
 		draw(font, text, lx, ly, width, height, align);
 	}

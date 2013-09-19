@@ -4,7 +4,7 @@ import com.blox.setgame.controller.SetGameState;
 import com.blox.setgame.model.RelaxMode;
 import com.blox.setgame.view.RelaxModeScreen;
 
-public abstract class RelaxModeState extends SetGameState {
+public abstract class RelaxModeState extends SetGameState implements IRelaxModeActionListener {
 	final RelaxMode model;
 	final RelaxModeScreen view;
 	final RelaxModeController controller;
@@ -15,4 +15,13 @@ public abstract class RelaxModeState extends SetGameState {
 		this.view = controller.view;
 	}
 
+	@Override
+	public void onModeEnd() {
+		controller.setEndState();
+	}
+
+	@Override
+	public boolean onScreenTapped() {
+		return false;
+	}
 }

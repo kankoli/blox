@@ -136,8 +136,11 @@ class TrainingCardDealer extends CardDealer {
 	}
 
 	protected int getCompletingCardIndex(CardAttributes a1, CardAttributes a2) {
-		CardAttributes a = CardAttributes.getCompletingCardAttributes(a1, a2);
-		return findCardIndex(a.getColor(), a.getShape(), a.getCount(), a.getPattern());
+		int color = CardAttributes.getCompleting(a1.getColor(), a2.getColor());
+		int shape = CardAttributes.getCompleting(a1.getShape(), a2.getShape());
+		int count = CardAttributes.getCompleting(a1.getCount(), a2.getCount());
+		int pattern = CardAttributes.getCompleting(a1.getPattern(), a2.getPattern());
+		return findCardIndex(color, shape, count, pattern);
 	}
 
 	protected int findCardIndex(int color, int shape, int count, int pattern) {

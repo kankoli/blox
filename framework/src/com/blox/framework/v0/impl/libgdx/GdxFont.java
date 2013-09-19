@@ -20,7 +20,7 @@ import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
-public class GdxFont implements IFont {
+class GdxFont implements IFont {
 
 	private class ScaleMap {
 		private int min;
@@ -111,6 +111,10 @@ public class GdxFont implements IFont {
 				return;
 			}
 		}
+	}
+	
+	GdxFont cloneFont() {
+		return new GdxFont(fonts);
 	}
 
 	static class GdxFontLoaderParameters extends AssetLoaderParameters<GdxFont> {

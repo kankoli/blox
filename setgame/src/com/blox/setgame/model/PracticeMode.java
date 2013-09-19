@@ -175,7 +175,6 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	private void drawWaitMessage() {
-
 		info.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, 0);
 	}
 

@@ -78,23 +78,6 @@ class FullGameCardDealer extends CardDealer {
 		index = FullGameCards.TotalCardsOnTable;
 	}
 
-	// private void updateCards() {
-	// for (int i = 0; i < FullGameCards.TotalCardsOnTable; i++) {
-	// if (!cards.isEmpty(i))
-	// cards.getCard(i).getLocation().set(cardLocations.get(i));
-	// }
-	//
-	// for (int i = 0; i < FullGameCards.ActiveCardCount; i++) {
-	// if (!cards.isActiveCardEmpty(i))
-	// cards.getActiveCard(i).open();
-	// }
-	//
-	// for (int i = 0; i < FullGameCards.ExtraCardCount; i++) {
-	// if (!cards.isExtraCardEmpty(i))
-	// cards.getExtraCard(i).close();
-	// }
-	// }
-
 	private void removeSetCards() {
 		cardsToFadeOut = FullGameCards.SetCardCount;
 		for (int i = 0; i < FullGameCards.SetCardCount; i++)
@@ -140,7 +123,6 @@ class FullGameCardDealer extends CardDealer {
 		cards.emptySelectedCards();
 		if (index < deck.length)
 			dealExtraCards();
-		// updateCards();
 		notifyDealEnd();
 	}
 

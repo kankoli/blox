@@ -1,17 +1,18 @@
 package com.blox.framework.v0.util;
 
 import com.blox.framework.v0.IDrawable;
+import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IFont;
 
 public class TextSlider implements IDrawable {
+	private final static float speed = Game.getViewportWidth() / 2f;
+	
 	private IFont font;
 	private String text;
 
 	private boolean isSliding;
 	private float y;
 	private float x;
-	private float duration;
-	private float speed;
 	private float width;
 	private ITextSliderListener listener;
 
@@ -31,24 +32,18 @@ public class TextSlider implements IDrawable {
 		return isSliding;
 	}
 
-	public float getDuration() {
-		return duration;
-	}
-
 	private void notifySlideEnd() {
 		if (listener != null)
 			listener.onSlideEnd(this);
 	}
 
-	public void slide(IFont font, String text, float duration, float y) {
+	public void slide(IFont font, String text, float y) {
 		this.font = font;
 		this.text = text;
-		this.duration = duration;
-		this.y = Game.scale(y);
+		this.y = y;
 		this.isSliding = true;
-		this.x = Game.getScreenWidth();
-		this.width = font.measureText(text).x;
-		this.speed = this.x / duration;
+		this.x = Game.getVirtualWidth();
+		this.width = Game.descale(font.measureText(text).x);
 	}
 
 	@Override
@@ -63,10 +58,20 @@ public class TextSlider implements IDrawable {
 			notifySlideEnd();
 		}
 
-		TextDrawer.draw(font, text, x, y);
+		Game.renderingShiftX = x;
+		Game.renderingShiftY = y;
+		
+		TextDrawer.draw(font, text, IDrawingInfo.viewport, TextDrawer.AlignSW);
+
+		Game.renderingShiftX = 0;
+		Game.renderingShiftY = 0;
 	}
 
 	public static interface ITextSliderListener {
 		void onSlideEnd(TextSlider slider);
+	}
+
+	public void stop() {
+		isSliding = false;
 	}
 }

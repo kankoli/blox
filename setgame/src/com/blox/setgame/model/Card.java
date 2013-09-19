@@ -79,14 +79,24 @@ public class Card extends SetGameObject {
 		setWidth(Card.Width);
 		setHeight(Card.Height);
 
-		fader = new FadeOutEffect(this);
-		fader.setDuration(FadingDuration);
-		
-		blinker = new BlinkEffect(this);
-		blinker.setDuration(BlinkDuration);
-		blinker.setBlinkPerSecond(BlinkPerSecond);
-
 		initSymbols();
+	}
+	
+	private FadeOutEffect getFader() {
+		if (fader == null) {			
+			fader = new FadeOutEffect(this);
+			fader.setDuration(FadingDuration);
+		}
+		return fader;
+	}
+	
+	private BlinkEffect getBlinker() {
+		if (blinker == null) {			
+			blinker = new BlinkEffect(this);
+			blinker.setDuration(BlinkDuration);
+			blinker.setBlinkPerSecond(BlinkPerSecond);
+		}
+		return blinker;
 	}
 
 	private void initSymbols() {
@@ -151,13 +161,18 @@ public class Card extends SetGameObject {
 	}
 
 	public void fadeOut(IEffectEndListener listener) {
-		fader.start(listener);
+		getFader().start(listener);
 	}
 
-	public void blink(IEffectEndListener listener) {
-		blinker.start(listener);
+	public void blink(IEffectEndListener listener, boolean looping) {
+		getBlinker().setLooping(true);
+		getBlinker().start(listener);
 	}
 
+	public void stopBlinking() {
+		getBlinker().stop();
+	}
+	
 	@Override
 	public void draw() {
 		if (!isOpened) {

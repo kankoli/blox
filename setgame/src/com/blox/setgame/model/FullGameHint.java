@@ -1,19 +1,12 @@
 package com.blox.setgame.model;
 
-import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.TextSlider;
-import com.blox.framework.v0.util.Utils;
 
-class Hint extends SetGameObject implements TextSlider.ITextSliderListener, IEffectEndListener {
-
-	private final static float slideDuration = 1f;
-
-	private IFont font;
-
+class FullGameHint extends SetGameObject implements TextSlider.ITextSliderListener, IEffectEndListener {
+	private SetGameButton button;
 	private FullGameSetInfo setInfo;
 	private Card[] cards;
 	private TextSlider textSlider;
@@ -21,15 +14,23 @@ class Hint extends SetGameObject implements TextSlider.ITextSliderListener, IEff
 	private int hintIndex;
 	private boolean isActive;
 
-	public Hint() {
-		super.getLocation().set(7, 60);
-		super.setWidth(100);
-		super.setHeight(30);
+	public FullGameHint() {
+		button = new SetGameButton();
+		button.getLocation().set(7, 60);
+		button.setWidth(100);
+		button.setHeight(30);
+		button.setFont(FontManager.createDefaultFontInstance());
+		button.setText("Hint");
+		button.setListener(new SetGameButton.ISetGameButtonListener() {			
+			@Override
+			public void onButtonTapped() {
+				showNextHint();
+			}
+		});
 
 		setInfo = new FullGameSetInfo();
 		textSlider = new TextSlider();
 		textSlider.setListener(this);
-		font = FontManager.createDefaultFontInstance();
 	}
 
 	public void update(Card[] cards) {
@@ -40,16 +41,20 @@ class Hint extends SetGameObject implements TextSlider.ITextSliderListener, IEff
 		this.cards = cards;
 	}
 
+	public int getSetCount() {
+		return setInfo.getSetCount();
+	}
+
 	private void showNextHint() {
 		if (isActive)
 			return;
 
 		if (hintIndex == 0) {
-			textSlider.slide(FontManager.defaultFont, text, slideDuration, Game.getVirtualHeight() + 40);
+			textSlider.slide(FontManager.defaultFont, text, Game.getVirtualHeight() - 120);
 		}
 		else {
 			int cardIndex = setInfo.getSetCardIndex(hintIndex - 1, 1);
-			cards[cardIndex].blink(this);
+			cards[cardIndex].blink(this, false);
 		}
 
 		isActive = true;
@@ -69,7 +74,7 @@ class Hint extends SetGameObject implements TextSlider.ITextSliderListener, IEff
 		hintIndex = (hintIndex + 1) % (1 + setInfo.getSetCount());
 		isActive = false;
 	}
-
+	
 	@Override
 	public boolean onEffectEnd(Object card) {
 		hintEnd();
@@ -82,30 +87,25 @@ class Hint extends SetGameObject implements TextSlider.ITextSliderListener, IEff
 	}
 
 	@Override
-	protected boolean onTap() {		
-		showNextHint();
-		return true;
-	}
-	
-	@Override
 	public void draw() {
 		drawButton();
 		drawHint();
 	}
 
 	private void drawButton() {
-		if (Utils.isIn(Game.getInputManager().getX(), Game.getInputManager().getY(), this))
-			font.getColor().set(0, 1, 0);
-		else
-			font.getColor().set(1, 1, 1);
-		TextDrawer.draw(font, "Hint", this, TextDrawer.AlignSW);
+		button.draw();
 	}
 
 	private void drawHint() {
-		if (!isActive)
-			return;
-
-		if (hintIndex == 0)
+		if (isActive && hintIndex == 0)
 			textSlider.draw();
+	}
+
+	public void activate() {
+		button.listenInput(true);
+	}
+
+	public void deactivate() {
+		button.listenInput(false);		
 	}
 }

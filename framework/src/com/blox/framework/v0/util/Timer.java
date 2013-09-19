@@ -90,11 +90,10 @@ public class Timer {
 		state = State_Stopped;
 	}
 
-	public synchronized void pause() {		
-		if (state == State_Stopped)
+	public synchronized void pause() {
+		if (state != State_Started)
 			return;
-		if (state == State_Started)
-			TimerManager.instance.unregister(this);
+		TimerManager.instance.unregister(this);
 		state = State_Paused;
 	}
 }

@@ -73,7 +73,7 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 	@Override
 	public IFont getFont(String id) {
 		ResourceMetadata meta = resources.getFont(id);
-		return manager.get(meta.getPath());
+		return ((GdxFont)manager.get(meta.getPath())).cloneFont();
 	}
 
 	@Override
