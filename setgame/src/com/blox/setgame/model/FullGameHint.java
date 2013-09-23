@@ -21,7 +21,7 @@ class FullGameHint extends SetGameObject implements TextSlider.ITextSliderListen
 		button.setHeight(30);
 		button.setFont(FontManager.createDefaultFontInstance());
 		button.setText("Hint");
-		button.setListener(new SetGameButton.ISetGameButtonListener() {			
+		button.setListener(new SetGameButton.ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				showNextHint();
@@ -74,7 +74,7 @@ class FullGameHint extends SetGameObject implements TextSlider.ITextSliderListen
 		hintIndex = (hintIndex + 1) % (1 + setInfo.getSetCount());
 		isActive = false;
 	}
-	
+
 	@Override
 	public boolean onEffectEnd(Object card) {
 		hintEnd();
@@ -106,6 +106,6 @@ class FullGameHint extends SetGameObject implements TextSlider.ITextSliderListen
 	}
 
 	public void deactivate() {
-		button.listenInput(false);		
+		button.listenInput(false);
 	}
 }

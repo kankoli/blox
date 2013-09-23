@@ -35,6 +35,6 @@ class PracticeCardDealer extends TrainingCardDealer {
 	}
 
 	private int getChallengingAttribute(int a3) {
-			return a3 == CardAttributes.Value1 ? CardAttributes.Value2 : (a3 == CardAttributes.Value2 ? CardAttributes.Value3 : CardAttributes.Value1);
+		return a3 == CardAttributes.Value1 ? CardAttributes.Value2 : (a3 == CardAttributes.Value2 ? CardAttributes.Value3 : CardAttributes.Value1);
 	}
 }

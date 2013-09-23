@@ -1,5 +1,5 @@
 package com.blox.setgame.controller.challenge;
 
-public class ChallengeModeController  {
+public class ChallengeModeController {
 
 }

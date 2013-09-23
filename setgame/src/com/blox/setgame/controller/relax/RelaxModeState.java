@@ -21,7 +21,12 @@ public abstract class RelaxModeState extends SetGameState implements IRelaxModeA
 	}
 
 	@Override
-	public boolean onScreenTapped() {
-		return false;
+	public void onNewGame() {
+
+	}
+
+	@Override
+	public void draw() {
+		model.drawGame();
 	}
 }

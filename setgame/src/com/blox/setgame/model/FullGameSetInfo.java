@@ -17,8 +17,8 @@ class FullGameSetInfo {
 			for (int j = i + 1; j < cards.length; j++) {
 				for (int k = j + 1; k < cards.length; k++) {
 					if (cards[i] != null && cards[j] != null && cards[k] != null &&
-						cards[i].isOpened() && cards[j].isOpened() && cards[k].isOpened() &&
-						Card.isSet(cards[i], cards[j], cards[k])) {
+							cards[i].isOpened() && cards[j].isOpened() && cards[k].isOpened() &&
+							Card.isSet(cards[i], cards[j], cards[k])) {
 						sets.add(i);
 						sets.add(j);
 						sets.add(k);

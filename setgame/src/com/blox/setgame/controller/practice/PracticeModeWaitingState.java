@@ -8,23 +8,23 @@ public class PracticeModeWaitingState extends PracticeModeState {
 	public PracticeModeWaitingState(PracticeModeController controller) {
 		super(controller);
 	}
-	
+
 	@Override
 	protected void activated() {
 		model.activateCardsOnTable();
 	}
-	
+
 	@Override
 	protected void deactivated() {
 		model.deactivateCards();
 	}
-		
+
 	@Override
 	public void onCardTapped(Card card) {
 		card.deselect();
 		model.checkSet(card);
 	}
-	
+
 	@Override
 	public void onSetFound() {
 		SetGameResources.playSoundSuccess();

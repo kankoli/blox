@@ -4,16 +4,20 @@ public class RelaxModeEndState extends RelaxModeState {
 	public RelaxModeEndState(RelaxModeController controller) {
 		super(controller);
 	}
-	
+
 	@Override
 	protected void activated() {
 		model.endMode();
 	}
-	
+
 	@Override
-	public boolean onScreenTapped() {
+	public void onNewGame() {
 		model.startMode();
 		controller.setDealingState();
-		return true;
+	}
+
+	@Override
+	public void draw() {
+		model.drawResult();
 	}
 }

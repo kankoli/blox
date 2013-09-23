@@ -11,14 +11,23 @@ public class RelaxMode extends SetGameMode {
 	private FullGameHint hint;
 	private Timer timer;
 	private IRelaxModeModelListener modeListener;
-	private boolean modeEnd;
+	private ScreenTouchHandler touchHandler;
 	private String modeCompleteTime;
+	private int setsFound;
+
+	private final ScreenTouchHandler.IScreenTouchListener touchListener = new ScreenTouchHandler.IScreenTouchListener() {
+		@Override
+		public void onScreenTouched() {
+			notifyNewGame();
+		}
+	};
 
 	public RelaxMode() {
 		cards = new FullGameCards();
 		dealer = new FullGameCardDealer(cards);
 		info = new GameInfo(7, 25);
 		hint = new FullGameHint();
+		touchHandler = new ScreenTouchHandler();
 		timer = new Timer();
 		timer.setInterval(1);
 	}
@@ -35,15 +44,33 @@ public class RelaxMode extends SetGameMode {
 	private void updateHints() {
 		cards.updateHint(hint);
 
-		if (hint.getSetCount() == 0 &&
-				((!cards.isExtraCardEmpty(0) && cards.getExtraCard(0).isOpened()) || cards.isExtraCardEmpty(0))) {
-			notifyModeEnd();
+		boolean thereIsNoSet = hint.getSetCount() == 0;
+		boolean extraCardsAreOpened = cards.isExtraCardEmpty(0) || cards.getExtraCard(0).isOpened();
+		boolean hasMoreCardsInDeck = getDealer().getIndex() < Card.CardsInDeck;
+
+		if (thereIsNoSet && extraCardsAreOpened) {
+			if (hasMoreCardsInDeck) {
+				deactivateCards();
+				getDealer().dealExtraCards();
+				openExtraCards();
+				activateCards();
+			}
+			else {
+				notifyModeEnd();
+			}
 		}
 	}
 
 	private void notifyModeEnd() {
+		touchHandler.activate(touchListener);
 		if (modeListener != null)
 			modeListener.onModeEnd();
+	}
+
+	private void notifyNewGame() {
+		touchHandler.deactivate();
+		if (modeListener != null)
+			modeListener.onNewGame();
 	}
 
 	public FullGameCards getCards() {
@@ -74,8 +101,7 @@ public class RelaxMode extends SetGameMode {
 	public void cardTapped(Card card) {
 		if (!card.isOpened()) {
 			card.deselect();
-			for (int i = 0; i < FullGameCards.ExtraCardCount; i++)
-				cards.getExtraCard(i).open();
+			openExtraCards();
 			updateHints();
 			return;
 		}
@@ -87,12 +113,20 @@ public class RelaxMode extends SetGameMode {
 
 		if (selectedCardCount == FullGameCards.SetCardCount) {
 			int score = cards.getScore();
-			if (score > 0)
+			if (score > 0) {
+				setsFound++;
 				notifySetFound();
-			else
+			}
+			else {
 				notifyInvalidSetSelected();
+			}
 			selectedCardCount = 0;
 		}
+	}
+
+	private void openExtraCards() {
+		for (int i = 0; i < FullGameCards.ExtraCardCount; i++)
+			cards.getExtraCard(i).open();
 	}
 
 	public void deselectCards() {
@@ -104,7 +138,8 @@ public class RelaxMode extends SetGameMode {
 		dealer.reset();
 		hint.activate();
 		timer.start();
-		modeEnd = false;
+		touchHandler.deactivate();
+		setsFound = 0;
 		selectedCardCount = 0;
 	}
 
@@ -115,7 +150,6 @@ public class RelaxMode extends SetGameMode {
 		cards.empty();
 		deactivateCards();
 		hint.deactivate();
-		modeEnd = true;
 	}
 
 	public void exitMode() {
@@ -135,17 +169,19 @@ public class RelaxMode extends SetGameMode {
 				(sec < 10 ? ("0" + sec) : ("" + sec));
 	}
 
-	@Override
-	public void draw() {
-		if (modeEnd) {
-			drawResult();
-		}
-		else {
-			drawHint();
-			drawTime();
-			drawCards();
-			drawRemainingCards();
-		}
+	public void drawGame() {
+		drawHint();
+		drawTime();
+		drawCards();
+		drawRemainingCards();
+	}
+
+	public void drawResult() {
+		info.draw("Congratulations", TextDrawer.AlignCentered, 275);
+		info.draw(String.format("You Found %d Set%s!", setsFound, setsFound > 1 ? "s" : ""), TextDrawer.AlignCentered, 200);
+		info.draw("Total Time " + modeCompleteTime, TextDrawer.AlignCentered, 50);
+		info.draw("Touch Screen", TextDrawer.AlignCentered, -100);
+		info.draw("To Continue", TextDrawer.AlignCentered, -175);
 	}
 
 	private void drawCards() {
@@ -162,13 +198,5 @@ public class RelaxMode extends SetGameMode {
 
 	private void drawTime() {
 		info.draw(getTimeString(), TextDrawer.AlignNW, 0);
-	}
-
-	private void drawResult() {
-		info.draw("Congratulations", TextDrawer.AlignCentered, 275);
-		info.draw("You Found All Sets!", TextDrawer.AlignCentered, 200);
-		info.draw("Total Time " + modeCompleteTime, TextDrawer.AlignCentered, 50);
-		info.draw("Touch Screen", TextDrawer.AlignCentered, -100);
-		info.draw("To Continue", TextDrawer.AlignCentered, -175);
 	}
 }

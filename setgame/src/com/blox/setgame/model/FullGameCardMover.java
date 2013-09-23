@@ -24,7 +24,7 @@ public class FullGameCardMover extends TargetMover {
 	}
 
 	private void updateScale(Card card) {
-		float progress = (float) Math.sqrt(distToTarget) / totalDist;		
+		float progress = (float) Math.sqrt(distToTarget) / totalDist;
 
 		float s = 1;
 		if (progress < 0.5f)

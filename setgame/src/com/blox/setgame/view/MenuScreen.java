@@ -8,11 +8,11 @@ public class MenuScreen extends FormScreen {
 	@Override
 	public void init() {
 		super.init();
-		
+
 		Logo logo = new Logo();
 		logo.getColor().a = 0.25f;
 		registerDrawable(logo, 1);
-		
+
 		setForm(R.game.forms.mainMenu, false);
 	}
 }

@@ -16,7 +16,14 @@ public class PracticeMode extends TrainingMode {
 	private GameInfo info;
 
 	private IPracticeModeModelListener modeListener;
-	private boolean waitForNewGame;
+	private ScreenTouchHandler touchHandler;
+
+	private final ScreenTouchHandler.IScreenTouchListener touchListener = new ScreenTouchHandler.IScreenTouchListener() {
+		@Override
+		public void onScreenTouched() {
+			notifyNewGame();
+		}
+	};
 
 	public void setModeListener(IPracticeModeModelListener modeListener) {
 		super.setGameListener(modeListener);
@@ -29,7 +36,9 @@ public class PracticeMode extends TrainingMode {
 
 	public PracticeMode() {
 		info = new GameInfo(50, 25);
-		
+
+		touchHandler = new ScreenTouchHandler();
+
 		blockTimer = new Timer();
 		dealTimer = new Timer();
 
@@ -73,12 +82,19 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	private void notifyModeEnd() {
+		touchHandler.activate(touchListener);
 		if (modeListener != null)
 			modeListener.onModeEnd();
 	}
 
+	private void notifyNewGame() {
+		touchHandler.deactivate();
+		if (modeListener != null)
+			modeListener.onNewGame();
+	}
+
 	private boolean requiresNewDeal() {
-		return waitForNewGame || deals < totalDeals;
+		return deals < totalDeals;
 	}
 
 	private void addScore(int score) {
@@ -94,18 +110,14 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	public void startMode() {
-		if (!waitForNewGame)
-			return;
 		score = 0;
 		deals = 0;
-		waitForNewGame = false;
 	}
 
 	public void endMode() {
 		deactivateCards();
 		blockTimer.stop();
 		dealTimer.stop();
-		waitForNewGame = true;
 		cards.empty();
 	}
 
@@ -116,7 +128,6 @@ public class PracticeMode extends TrainingMode {
 		dealTimer.stop();
 		score = 0;
 		deals = 0;
-		waitForNewGame = false;
 	}
 
 	@Override
@@ -131,34 +142,39 @@ public class PracticeMode extends TrainingMode {
 			notifyInvalidSetSelected();
 		}
 	}
-	
+
 	@Override
 	public void deal() {
 		if (!requiresNewDeal()) {
 			notifyModeEnd();
 			return;
 		}
-		
+
 		deals++;
 		blockTimer.stop();
 		dealTimer.stop();
 		super.deal();
 	}
 
-	@Override
-	public void draw() {
-		if (waitForNewGame) {
-			drawResults();
-			return;
-		}
-
-		super.draw();
-
+	public void drawGame() {
+		drawCards();
 		drawScore();
 		drawRemainingDeals();
 		drawRemainingTime();
 		if (blockTimer.isRunning())
 			drawWaitMessage();
+	}
+
+	public void drawResults() {
+		info.draw("Score: " + score, TextDrawer.AlignCentered, 50);
+		info.draw("Touch Screen", TextDrawer.AlignCentered, -50);
+		info.draw("To Continue", TextDrawer.AlignCentered, -100);
+	}
+
+	private void drawCards() {
+		Card[] allCards = cards.getAllCards();
+		for (int i = 0; i < allCards.length; i++)
+			allCards[i].draw();
 	}
 
 	private void drawRemainingDeals() {
@@ -176,11 +192,5 @@ public class PracticeMode extends TrainingMode {
 
 	private void drawWaitMessage() {
 		info.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, 0);
-	}
-
-	private void drawResults() {
-		info.draw("Score: " + score, TextDrawer.AlignCentered, 50);
-		info.draw("Touch Screen", TextDrawer.AlignCentered, -50);
-		info.draw("To Continue", TextDrawer.AlignCentered, -100);
 	}
 }

@@ -53,7 +53,7 @@ public class LearningModeHint extends SetGameObject implements TextSlider.ITextS
 			textSlider.stop();
 		super.listenInput(listen);
 	}
-	
+
 	@Override
 	public void draw() {
 		drawButton();

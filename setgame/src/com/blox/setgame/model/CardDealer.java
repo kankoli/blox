@@ -11,7 +11,7 @@ abstract class CardDealer {
 	}
 
 	public abstract void deal();
-	
+
 	public void reset() {
 		for (int i = 0; i < deck.length; i++) {
 			deck[i].deselect();

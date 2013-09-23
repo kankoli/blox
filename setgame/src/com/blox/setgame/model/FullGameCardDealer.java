@@ -65,6 +65,11 @@ class FullGameCardDealer extends CardDealer {
 		return index;
 	}
 
+	public void reset() {
+		super.reset();
+		index = 0;
+	}
+
 	private void initCards() {
 		for (int i = 0; i < FullGameCards.TotalCardsOnTable; i++) {
 			cards.setCard(i, deck[i]);
@@ -121,8 +126,7 @@ class FullGameCardDealer extends CardDealer {
 
 	private void onCardsMoveEnd() {
 		cards.emptySelectedCards();
-		if (index < deck.length)
-			dealExtraCards();
+		dealExtraCards();
 		notifyDealEnd();
 	}
 
@@ -134,8 +138,8 @@ class FullGameCardDealer extends CardDealer {
 		return -1;
 	}
 
-	private void dealExtraCards() {
-		for (int i = 0; i < FullGameCards.SetCardCount; i++) {
+	void dealExtraCards() {
+		for (int i = 0; i < FullGameCards.SetCardCount && index < deck.length; i++) {
 			Card card = deck[index++];
 			card.getLocation().set(cardLocations.get(i + FullGameCards.ActiveCardCount));
 			card.close();
@@ -169,11 +173,6 @@ class FullGameCardDealer extends CardDealer {
 		cardsToMove--;
 		if (cardsToMove == 0)
 			onCardsMoveEnd();
-	}
-
-	public void reset() {
-		super.reset();
-		index = 0;
 	}
 
 	private final IEffectEndListener fadeOutListener = new IEffectEndListener() {

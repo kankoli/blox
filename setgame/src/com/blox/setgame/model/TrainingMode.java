@@ -13,7 +13,7 @@ public abstract class TrainingMode extends SetGameMode {
 	public TrainingCards getCards() {
 		return cards;
 	}
-	
+
 	public void checkSet(Card selectedCard) {
 		int score = cards.checkScore(selectedCard);
 		if (score > 0)
@@ -28,7 +28,7 @@ public abstract class TrainingMode extends SetGameMode {
 			card.activate();
 			card.setEventListener(gameListener);
 		}
-	}	
+	}
 
 	public void deactivateCards() {
 		for (int i = 0; i < TrainingCards.CardToSelectCount; i++) {
@@ -38,20 +38,13 @@ public abstract class TrainingMode extends SetGameMode {
 		}
 	}
 
-	public void updateCardLocations() {	
+	public void updateCardLocations() {
 		for (int i = 0; i < cards.getLength(); i++)
 			cards.get(i).getLocation().set(R.learningModeScreen.layout.positions[i]);
 	}
-	
+
 	public void exitMode() {
 		deactivateCards();
 		cards.empty();
-	}
-
-	@Override
-	public void draw() {
-		Card[] allCards = cards.getAllCards();
-		for (int i = 0; i < allCards.length; i++)
-			allCards[i].draw();
 	}
 }

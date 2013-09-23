@@ -26,7 +26,7 @@ class LearningModeTutorial extends SetGameObject {
 
 	LearningModeTutorial(ILearningModeTutorialListener listener) {
 		this.listener = listener;
-		
+
 		font = FontManager.createDefaultFontInstance();
 		font.setSize(18);
 
@@ -81,7 +81,7 @@ class LearningModeTutorial extends SetGameObject {
 	void reset() {
 		pageIndex = 0;
 	}
-	
+
 	private void next() {
 		if (pageIndex < pages.size() - 1) {
 			pageIndex++;
@@ -117,7 +117,7 @@ class LearningModeTutorial extends SetGameObject {
 			prevButton.draw();
 		skipButton.draw();
 	}
-	
+
 	@Override
 	public void listenInput(boolean listen) {
 		super.listenInput(listen);

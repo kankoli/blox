@@ -25,29 +25,27 @@ public class LearningModeController extends SetGameController<LearningModeState>
 	public void onScreenActivated() {
 		super.onScreenActivated();
 		setTutorialState();
-		view.registerDrawable(model, 1);
 	}
 
 	@Override
 	public void onScreenDeactivated() {
 		super.onScreenDeactivated();
 		model.exitMode();
-		view.unregisterDrawable(model);
 	}
 
 	@Override
 	public void onTutorialEnd() {
-		currentState.onTutorialEnd();		
+		currentState.onTutorialEnd();
 	}
-	
+
 	void setTutorialState() {
 		setState(tutorialState);
 	}
-	
+
 	void setDealingState() {
 		setState(dealingState);
 	}
-	
+
 	void setWaitingState() {
 		setState(waitingState);
 	}

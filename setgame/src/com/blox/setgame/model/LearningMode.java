@@ -4,7 +4,6 @@ public class LearningMode extends TrainingMode {
 	private LearningModeHint hint;
 	private LearningModeTutorial tutorial;
 
-	private boolean isTutorialMode;
 	private ILearningModeModelListener listener;
 
 	public LearningMode() {
@@ -15,14 +14,13 @@ public class LearningMode extends TrainingMode {
 				notifyTutorialEnd();
 			}
 		});
-		isTutorialMode = true;
 	}
-	
+
 	public void setModeListener(ILearningModeModelListener listener) {
 		super.setGameListener(listener);
 		this.listener = listener;
 	}
-	
+
 	private void notifyTutorialEnd() {
 		if (listener != null)
 			listener.onTutorialEnd();
@@ -52,26 +50,28 @@ public class LearningMode extends TrainingMode {
 		super.deactivateCards();
 	}
 
-	@Override
-	public void draw() {
-		if (isTutorialMode) {
-			tutorial.draw();
-		}
-		else {
-			super.draw();
-			hint.draw();
-		}
+	public void drawTutorial() {
+		tutorial.draw();
+	}
+
+	public void drawGame() {
+		drawCards();
+		hint.draw();
+	}
+
+	private void drawCards() {
+		Card[] allCards = cards.getAllCards();
+		for (int i = 0; i < allCards.length; i++)
+			allCards[i].draw();
 	}
 
 	public void endTutorial() {
-		tutorial.listenInput(false);		
-		isTutorialMode = false;
+		tutorial.listenInput(false);
 	}
 
 	public void beginTutorial() {
 		hint.listenInput(false);
 		tutorial.reset();
 		tutorial.listenInput(true);
-		isTutorialMode = true;
 	}
 }

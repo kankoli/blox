@@ -19,7 +19,7 @@ import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
-public abstract class Screen implements IInputListener, IView, ISettingsChangeListener {
+public abstract class Screen implements IInputListener, IView {
 	private String id;
 	private MoveManager moveManager;
 	private Drawer drawer;
@@ -29,6 +29,19 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 	private IMusic music;
 
 	private boolean hasInited;
+	private boolean isActive;
+	
+	private final ISettingsChangeListener settingsListener = new ISettingsChangeListener() {
+		@Override
+		public void settingChanged(String key, Object newValue) {
+			if ("music".equals(key)) {
+				if (newValue.equals(false))
+					disposeBgMusic();
+				else
+					startPlayingBgMusic();
+			}
+		}
+	};
 
 	protected Screen() {
 	}
@@ -80,17 +93,23 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 	public void activated() {
 		inputListener.activate();
 		startPlayingBgMusic();
-		Settings.registerListener(this);
+		Settings.registerListener(settingsListener);
+		isActive = true;
 	}
 
 	@Override
 	public void deactivated() {
 		inputListener.deactivate();
 		disposeBgMusic();
-		Settings.unregisterListener(this);
+		Settings.unregisterListener(settingsListener);
+		isActive = false;
+	}
+	
+	public boolean isActive() {
+		return isActive;
 	}
 
-	private void startPlayingBgMusic() {
+	protected void startPlayingBgMusic() {
 		disposeBgMusic();
 		if (!Settings.isMusicOn())
 			return;
@@ -105,7 +124,7 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 		music.play();
 	}
 
-	private void disposeBgMusic() {
+	protected void disposeBgMusic() {
 		if (music != null) {
 			music.stop();
 			music.dispose();
@@ -117,16 +136,6 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 		return false;
 	}
 	
-	@Override
-	public void settingChanged(String key, Object newValue) {
-		if ("music".equals(key)) {
-			if (newValue.equals(false))
-				disposeBgMusic();
-			else
-				startPlayingBgMusic();
-		}
-	}
-
 	public final void registerMovable(IMovable obj) {
 		moveManager.register(obj);
 	}

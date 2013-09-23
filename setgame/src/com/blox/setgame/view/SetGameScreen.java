@@ -12,13 +12,18 @@ public abstract class SetGameScreen extends Screen {
 		if (screenListener != null)
 			screenListener.onScreenActivated();
 	}
-	
+
 	protected void notifyScreenDeactivated() {
 		if (screenListener != null)
 			screenListener.onScreenDeactivated();
 	}
-	
-	public void setScreenListener(ISetGameViewListener screenListener) {
+
+	protected void notifyDraw() {
+		if (screenListener != null)
+			screenListener.draw();
+	}
+
+	protected void setScreenListener(ISetGameViewListener screenListener) {
 		this.screenListener = screenListener;
 	}
 
@@ -33,7 +38,7 @@ public abstract class SetGameScreen extends Screen {
 		super.deactivated();
 		notifyScreenDeactivated();
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
@@ -41,8 +46,15 @@ public abstract class SetGameScreen extends Screen {
 		Logo logo = new Logo();
 		logo.getColor().a = 0.25f;
 		registerDrawable(logo, 1);
-		
+
 		registerInputListener(this);
+	}
+
+	@Override
+	public void render() {
+		super.render();
+		if (super.isActive())
+			notifyDraw();
 	}
 
 	@Override

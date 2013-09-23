@@ -1,8 +1,6 @@
 package com.blox.setgame.model;
 
-import com.blox.framework.v0.IDrawable;
-
-public abstract class SetGameMode implements IDrawable {
+public abstract class SetGameMode {
 	protected CardDealer dealer;
 	protected ISetGameModelListener gameListener;
 

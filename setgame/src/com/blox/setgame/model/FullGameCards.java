@@ -106,7 +106,7 @@ public class FullGameCards {
 	void updateHint(FullGameHint hint) {
 		hint.update(allCards);
 	}
-	
+
 	public void draw() {
 		for (int i = 0; i < allCards.length; i++) {
 			if (allCards[i] != null)

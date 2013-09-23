@@ -13,9 +13,9 @@ public class TrainingCards {
 	public boolean isEmpty() {
 		return cards[0] != null;
 	}
-	
+
 	public void empty() {
-		for(int i = 0; i < cards.length; i++)
+		for (int i = 0; i < cards.length; i++)
 			cards[i] = null;
 	}
 
@@ -30,7 +30,7 @@ public class TrainingCards {
 	public Card[] getAllCards() {
 		return cards;
 	}
-	
+
 	public Card getCardsToSelect(int i) {
 		return cards[ReadyCardCount + i];
 	}

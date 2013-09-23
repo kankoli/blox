@@ -37,12 +37,12 @@ public class Symbol extends GameObject {
 	public Vector getLocation() {
 		return parent.getLocation().tmp().add(super.getLocation());
 	}
-	
+
 	@Override
 	public Vector getScale() {
 		return parent.getScale();
 	}
-	
+
 	@Override
 	public Rotation getRotation() {
 		return parent.getRotation();

@@ -7,14 +7,14 @@ import com.blox.setgame.view.RelaxModeScreen;
 public class RelaxModeController extends SetGameController<RelaxModeState> implements IRelaxModeActionListener {
 	final RelaxMode model;
 	final RelaxModeScreen view;
-	
+
 	private RelaxModeState waitingState;
 	private RelaxModeState dealingState;
 	private RelaxModeState endState;
 
 	public RelaxModeController(RelaxModeScreen screen) {
 		this.view = screen;
-		
+
 		this.model = new RelaxMode();
 		this.model.setModeListener(this);
 
@@ -27,34 +27,32 @@ public class RelaxModeController extends SetGameController<RelaxModeState> imple
 	public void onScreenActivated() {
 		model.startMode();
 		setDealingState();
-		view.registerDrawable(model, 1);
 	}
 
 	@Override
 	public void onScreenDeactivated() {
 		super.onScreenDeactivated();
 		model.exitMode();
-		view.unregisterDrawable(model);
 	}
 
 	@Override
 	public void onModeEnd() {
-		currentState.onModeEnd();		
+		currentState.onModeEnd();
 	}
 
 	@Override
-	public boolean onScreenTapped() {
-		return currentState.onScreenTapped();
+	public void onNewGame() {
+		currentState.onNewGame();
 	}
-	
+
 	void setDealingState() {
 		setState(dealingState);
 	}
-	
+
 	void setWaitingState() {
 		setState(waitingState);
 	}
-	
+
 	void setEndState() {
 		setState(endState);
 	}

@@ -14,12 +14,12 @@ public abstract class LearningModeState extends SetGameState implements ILearnin
 		this.model = controller.model;
 		this.view = controller.view;
 	}
-	
+
 	@Override
 	protected void activated() {
 		model.beginTutorial();
 	}
-	
+
 	@Override
 	protected void deactivated() {
 		model.endTutorial();
@@ -27,6 +27,11 @@ public abstract class LearningModeState extends SetGameState implements ILearnin
 
 	@Override
 	public void onTutorialEnd() {
-		controller.setDealingState();		
+		controller.setDealingState();
+	}
+
+	@Override
+	public void draw() {
+		model.drawGame();
 	}
 }

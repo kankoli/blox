@@ -8,12 +8,12 @@ public class RelaxModeWaitingState extends RelaxModeState {
 	public RelaxModeWaitingState(RelaxModeController controller) {
 		super(controller);
 	}
-	
+
 	@Override
 	protected void activated() {
 		model.activateCards();
 	}
-	
+
 	@Override
 	protected void deactivated() {
 		model.deactivateCards();

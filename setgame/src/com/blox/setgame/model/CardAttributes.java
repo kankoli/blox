@@ -1,6 +1,6 @@
 package com.blox.setgame.model;
 
-public final class CardAttributes {
+final class CardAttributes {
 	public static final int DiffSet = 7;
 
 	public static final int Value1 = 1;
@@ -93,7 +93,7 @@ public final class CardAttributes {
 			return "Square";
 		return "Triangle";
 	}
-	
+
 	private int color;
 	private int count;
 	private int pattern;

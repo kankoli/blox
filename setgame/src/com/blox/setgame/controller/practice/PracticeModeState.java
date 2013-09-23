@@ -35,7 +35,12 @@ public abstract class PracticeModeState extends SetGameState implements IPractic
 	}
 
 	@Override
-	public boolean onScreenTapped() {
-		return false;
+	public void onNewGame() {
+
+	}
+
+	@Override
+	public void draw() {
+		model.drawGame();
 	}
 }

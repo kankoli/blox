@@ -22,11 +22,11 @@ public class Card extends SetGameObject {
 	public static final int Space = 7;
 	public static final int SymbolHeight = 35;
 	public static final int SymbolWidth = 35;
-	
+
 	public static final float FadingDuration = 0.25f;
 	public static final float BlinkDuration = 1f;
 	public static final int BlinkPerSecond = 10;
-	
+
 	public static final int CardsInDeck = 81;
 
 	private static void createDeck(Card[] deck) {
@@ -61,7 +61,7 @@ public class Card extends SetGameObject {
 	public static boolean isSet(Card card1, Card card2, Card card3) {
 		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
 	}
-	
+
 	// endregion
 
 	private boolean isOpened;
@@ -74,24 +74,24 @@ public class Card extends SetGameObject {
 	private FadeOutEffect fader;
 	private BlinkEffect blinker;
 
-	public Card(CardAttributes cardAttributes) {
+	Card(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
 		setWidth(Card.Width);
 		setHeight(Card.Height);
 
 		initSymbols();
 	}
-	
+
 	private FadeOutEffect getFader() {
-		if (fader == null) {			
+		if (fader == null) {
 			fader = new FadeOutEffect(this);
 			fader.setDuration(FadingDuration);
 		}
 		return fader;
 	}
-	
+
 	private BlinkEffect getBlinker() {
-		if (blinker == null) {			
+		if (blinker == null) {
 			blinker = new BlinkEffect(this);
 			blinker.setDuration(BlinkDuration);
 			blinker.setBlinkPerSecond(BlinkPerSecond);
@@ -118,33 +118,33 @@ public class Card extends SetGameObject {
 			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.thirdOfThree, this));
 		}
 	}
-	
+
 	private void switchSelected() {
 		isSelected = !isSelected;
 	}
-	
-	public void activate() {
+
+	void activate() {
 		listenInput(true);
 	}
 
-	public void deactivate() {
+	void deactivate() {
 		listenInput(false);
 		eventListener = null;
 	}
 
-	public boolean isOpened() {
+	boolean isOpened() {
 		return isOpened;
 	}
 
-	public void open() {
+	void open() {
 		isOpened = true;
 	}
 
-	public void close() {
+	void close() {
 		isOpened = false;
 	}
 
-	public boolean isSelected() {
+	boolean isSelected() {
 		return isSelected;
 	}
 
@@ -152,27 +152,27 @@ public class Card extends SetGameObject {
 		isSelected = false;
 	}
 
-	public CardAttributes getAttributes() {
+	CardAttributes getAttributes() {
 		return attributes;
 	}
 
-	public void setEventListener(ICardListener listener) {
+	void setEventListener(ICardListener listener) {
 		eventListener = listener;
 	}
 
-	public void fadeOut(IEffectEndListener listener) {
+	void fadeOut(IEffectEndListener listener) {
 		getFader().start(listener);
 	}
 
-	public void blink(IEffectEndListener listener, boolean looping) {
+	void blink(IEffectEndListener listener, boolean looping) {
 		getBlinker().setLooping(true);
 		getBlinker().start(listener);
 	}
 
-	public void stopBlinking() {
+	void stopBlinking() {
 		getBlinker().stop();
 	}
-	
+
 	@Override
 	public void draw() {
 		if (!isOpened) {
@@ -202,7 +202,7 @@ public class Card extends SetGameObject {
 		notifyTapped();
 		return true;
 	}
-	
+
 	private void notifyTapped() {
 		if (eventListener != null)
 			eventListener.onCardTapped(this);

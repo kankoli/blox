@@ -7,12 +7,12 @@ public class PracticeModeBlockedState extends PracticeModeState {
 	public PracticeModeBlockedState(PracticeModeController controller) {
 		super(controller);
 	}
-	
+
 	@Override
 	protected void activated() {
 		model.activateCardsOnTable();
 	}
-	
+
 	@Override
 	protected void deactivated() {
 		model.deactivateCards();
