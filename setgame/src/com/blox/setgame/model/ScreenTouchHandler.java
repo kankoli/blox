@@ -1,13 +1,8 @@
 package com.blox.setgame.model;
 
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Game;
 
-public class ScreenTouchHandler extends GameObject {
-	public static interface IScreenTouchListener {
-		void onScreenTouched();
-	}
-
+class ScreenTouchHandler extends SetGameObject {
 	public ScreenTouchHandler() {
 		setWidth(Game.getVirtualWidth());
 		setHeight(Game.getVirtualHeight());

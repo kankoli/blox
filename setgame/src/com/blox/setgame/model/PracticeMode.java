@@ -15,19 +15,17 @@ public class PracticeMode extends TrainingMode {
 	private int score = 0;
 	private GameInfo info;
 
-	private IPracticeModeModelListener modeListener;
 	private ScreenTouchHandler touchHandler;
 
-	private final ScreenTouchHandler.IScreenTouchListener touchListener = new ScreenTouchHandler.IScreenTouchListener() {
+	private final IScreenTouchListener touchListener = new IScreenTouchListener() {
 		@Override
 		public void onScreenTouched() {
 			notifyNewGame();
 		}
 	};
 
-	public void setModeListener(IPracticeModeModelListener modeListener) {
-		super.setGameListener(modeListener);
-		this.modeListener = modeListener;
+	private IPracticeModeListener getModeListener() {
+		return (IPracticeModeListener)super.modelListener;
 	}
 
 	public int getScore() {
@@ -72,25 +70,25 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	private void notifyUnblocked() {
-		if (modeListener != null)
-			modeListener.onUnblock();
+		if (getModeListener() != null)
+			getModeListener().onUnblock();
 	}
 
 	private void notifyDealTimeUp() {
-		if (modeListener != null)
-			modeListener.onDealTimeUp();
+		if (getModeListener() != null)
+			getModeListener().onDealTimeUp();
 	}
 
 	private void notifyModeEnd() {
 		touchHandler.activate(touchListener);
-		if (modeListener != null)
-			modeListener.onModeEnd();
+		if (getModeListener() != null)
+			getModeListener().onModeEnd();
 	}
 
 	private void notifyNewGame() {
 		touchHandler.deactivate();
-		if (modeListener != null)
-			modeListener.onNewGame();
+		if (getModeListener() != null)
+			getModeListener().onNewGame();
 	}
 
 	private boolean requiresNewDeal() {
@@ -131,7 +129,8 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	@Override
-	public void checkSet(Card selectedCard) {
+	public void onCardSelected(Card selectedCard) {
+		selectedCard.deselect();
 		int score = cards.checkScore(selectedCard);
 		if (score > 0) {
 			addScore(score);

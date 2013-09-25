@@ -39,12 +39,10 @@ class LearningModeTutorial extends SetGameObject {
 		pages.add("Page \n5 Text");
 
 		nextButton = new SetGameButton();
-		nextButton.setWidth(100);
-		nextButton.setHeight(30);
 		nextButton.setFont(FontManager.createDefaultFontInstance());
 		nextButton.setText("Next");
-		nextButton.getLocation().set(Game.getVirtualWidth() - 110, 60);
-		nextButton.setListener(new SetGameButton.ISetGameButtonListener() {
+		nextButton.getLocation().set(Game.getVirtualWidth() - (nextButton.getWidth() + 10), 60);
+		nextButton.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				next();
@@ -52,12 +50,11 @@ class LearningModeTutorial extends SetGameObject {
 		});
 
 		prevButton = new SetGameButton();
-		prevButton.setWidth(100);
-		prevButton.setHeight(30);
 		prevButton.setFont(FontManager.createDefaultFontInstance());
 		prevButton.setText("Prev");
+		prevButton.setActive(false);
 		prevButton.getLocation().set(10, 60);
-		prevButton.setListener(new SetGameButton.ISetGameButtonListener() {
+		prevButton.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				prev();
@@ -69,8 +66,8 @@ class LearningModeTutorial extends SetGameObject {
 		skipButton.setHeight(30);
 		skipButton.setFont(FontManager.createDefaultFontInstance());
 		skipButton.setText("Skip");
-		skipButton.getLocation().set((Game.getVirtualWidth() - 100) / 2, 0);
-		skipButton.setListener(new SetGameButton.ISetGameButtonListener() {
+		skipButton.getLocation().set((Game.getVirtualWidth() - skipButton.getWidth()) / 2, 0);
+		skipButton.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				skip();
@@ -92,11 +89,13 @@ class LearningModeTutorial extends SetGameObject {
 		}
 		else
 			notifyTutorialEnd();
+		prevButton.setActive(true);
 	}
 
 	private void prev() {
 		if (pageIndex > 0)
 			pageIndex--;
+		prevButton.setActive(pageIndex != 0);
 		nextButton.setText("Next");
 	}
 
@@ -113,8 +112,7 @@ class LearningModeTutorial extends SetGameObject {
 	public void draw() {
 		drawPage();
 		nextButton.draw();
-		if (pageIndex > 0)
-			prevButton.draw();
+		prevButton.draw();
 		skipButton.draw();
 	}
 
@@ -128,8 +126,8 @@ class LearningModeTutorial extends SetGameObject {
 
 	private void drawPage() {
 		TextDrawer.draw(FontManager.defaultFont, (pageIndex + 1) + "/" + pages.size(), IDrawingInfo.viewport, TextDrawer.AlignN);
-		Game.renderingShiftY = -100;
+		Game.setRenderingShift(0, -100, false);
 		TextDrawer.draw(font, pages.get(pageIndex), IDrawingInfo.viewport, TextDrawer.AlignN);
-		Game.renderingShiftY = 0;
+		Game.resetRenderingShift();
 	}
 }

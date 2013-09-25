@@ -1,12 +1,11 @@
 package com.blox.setgame.model;
 
 import com.blox.framework.v0.ITexture;
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.setgame.utils.R;
 
-public class Logo extends GameObject {
+public class Logo extends SetGameObject {
 	private static final float logoSize = 500f;
 
 	private ITexture logo;

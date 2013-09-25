@@ -1,12 +1,12 @@
 package com.blox.setgame.model;
 
-public class TrainingCards {
+class TrainingCards {
 	public static final int ReadyCardCount = 2;
 	public static final int CardToSelectCount = 3;
 
 	private Card[] cards;
 
-	public TrainingCards() {
+	TrainingCards() {
 		cards = new Card[ReadyCardCount + CardToSelectCount];
 	}
 

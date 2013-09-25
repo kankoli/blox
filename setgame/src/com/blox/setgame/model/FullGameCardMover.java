@@ -3,7 +3,7 @@ package com.blox.setgame.model;
 import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.impl.TargetMover;
 
-public class FullGameCardMover extends TargetMover {
+class FullGameCardMover extends TargetMover {
 	FullGameCardMover(float duration) {
 		super(duration);
 	}

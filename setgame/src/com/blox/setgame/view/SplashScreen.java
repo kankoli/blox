@@ -29,7 +29,7 @@ public class SplashScreen extends Screen {
 		float width = 500 * resourceManager.getProgress();
 		float x = (Game.getVirtualWidth() - width) / 2;
 
-		ShapeRenderer.drawLine(x, 100, x + width, 100, 30, progressColor);
+		ShapeRenderer.drawRect(x, 100, width, 10, progressColor, true, false);
 	}
 
 	@Override

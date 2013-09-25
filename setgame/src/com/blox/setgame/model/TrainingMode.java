@@ -2,7 +2,7 @@ package com.blox.setgame.model;
 
 import com.blox.setgame.utils.R;
 
-public abstract class TrainingMode extends SetGameMode {
+public abstract class TrainingMode extends SetGameModeModel {
 	protected TrainingCards cards;
 
 	protected TrainingMode() {
@@ -14,7 +14,8 @@ public abstract class TrainingMode extends SetGameMode {
 		return cards;
 	}
 
-	public void checkSet(Card selectedCard) {
+	public void onCardSelected(Card selectedCard) {
+		selectedCard.deselect();
 		int score = cards.checkScore(selectedCard);
 		if (score > 0)
 			notifySetFound();
@@ -23,11 +24,8 @@ public abstract class TrainingMode extends SetGameMode {
 	}
 
 	public void activateCardsOnTable() {
-		for (int i = 0; i < TrainingCards.CardToSelectCount; i++) {
-			Card card = cards.getCardsToSelect(i);
-			card.activate();
-			card.setEventListener(gameListener);
-		}
+		for (int i = 0; i < TrainingCards.CardToSelectCount; i++)
+			cards.getCardsToSelect(i).activate(modelListener);
 	}
 
 	public void deactivateCards() {

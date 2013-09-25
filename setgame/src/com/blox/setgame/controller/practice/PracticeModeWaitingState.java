@@ -21,8 +21,7 @@ public class PracticeModeWaitingState extends PracticeModeState {
 
 	@Override
 	public void onCardTapped(Card card) {
-		card.deselect();
-		model.checkSet(card);
+		model.onCardSelected(card);
 	}
 
 	@Override

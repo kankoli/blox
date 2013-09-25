@@ -1,6 +1,6 @@
 package com.blox.setgame.model;
 
-public class FullGameCards {
+class FullGameCards {
 	public static final int ActiveCardCount = 12;
 	public static final int ExtraCardCount = 3;
 	public static final int SetCardCount = 3;

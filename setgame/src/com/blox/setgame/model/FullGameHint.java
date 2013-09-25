@@ -3,9 +3,10 @@ package com.blox.setgame.model;
 import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.ITextSliderListener;
 import com.blox.framework.v0.util.TextSlider;
 
-class FullGameHint extends SetGameObject implements TextSlider.ITextSliderListener, IEffectEndListener {
+class FullGameHint extends SetGameObject implements ITextSliderListener, IEffectEndListener {
 	private SetGameButton button;
 	private FullGameSetInfo setInfo;
 	private Card[] cards;
@@ -14,14 +15,12 @@ class FullGameHint extends SetGameObject implements TextSlider.ITextSliderListen
 	private int hintIndex;
 	private boolean isActive;
 
-	public FullGameHint() {
+	FullGameHint() {
 		button = new SetGameButton();
-		button.getLocation().set(7, 60);
-		button.setWidth(100);
-		button.setHeight(30);
+		button.getLocation().set(7, 65);
 		button.setFont(FontManager.createDefaultFontInstance());
 		button.setText("Hint");
-		button.setListener(new SetGameButton.ISetGameButtonListener() {
+		button.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				showNextHint();
@@ -82,7 +81,7 @@ class FullGameHint extends SetGameObject implements TextSlider.ITextSliderListen
 	}
 
 	@Override
-	public void onSlideEnd(TextSlider slider) {
+	public void onTextSlideEnd(TextSlider slider) {
 		hintEnd();
 	}
 

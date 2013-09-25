@@ -77,15 +77,15 @@ class ControlDrawingInfo implements IDrawingInfo, IDrawable {
 	}
 
 	@Override
-	public boolean ignoreViewportOffset() {
+	public boolean ignoreViewport() {
 		return true;
 	}
-
+	
 	@Override
-	public boolean ignoreViewportScaling() {
-		return true;
-	}
-
+	public boolean ignoreShifting() {
+		return false;
+	}	
+	
 	@Override
 	public void draw() {
 		control.draw();

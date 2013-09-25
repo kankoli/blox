@@ -1,13 +1,12 @@
 package com.blox.setgame.model;
 
 import com.blox.framework.v0.ITexture;
-import com.blox.framework.v0.impl.GameObject;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Vector;
 import com.blox.setgame.utils.R;
 
-public class Symbol extends GameObject {
+class Symbol extends SetGameObject {
 	private Card parent;
 	private ITexture texture;
 

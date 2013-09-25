@@ -97,9 +97,9 @@ class GdxFont implements IFont {
 	}
 
 	@Override
-	public void draw(String text, float x, float y) {
+	public void draw(String text, float x, float y) {		
 		font.setColor(color.r, color.g, color.b, color.a * Game.renderingAlpha);
-		font.drawMultiLine(GdxGame.spriteBatch, text, x, y);
+		font.drawMultiLine(GdxGame.spriteBatch, text, x + Game.getRenderingShiftX(), y + Game.getRenderingShiftY());
 	}
 
 	@Override

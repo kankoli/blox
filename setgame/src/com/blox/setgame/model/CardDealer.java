@@ -29,14 +29,4 @@ abstract class CardDealer {
 		if (listener != null)
 			listener.onDealEnd();
 	}
-
-	protected void notifyStartMoving(Card card) {
-		if (listener != null)
-			listener.onStartMoving(card);
-	}
-
-	protected void notifyStopMoving(Card card) {
-		if (listener != null)
-			listener.onStopMoving(card);
-	}
 }

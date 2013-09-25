@@ -4,8 +4,6 @@ public class LearningMode extends TrainingMode {
 	private LearningModeHint hint;
 	private LearningModeTutorial tutorial;
 
-	private ILearningModeModelListener listener;
-
 	public LearningMode() {
 		hint = new LearningModeHint();
 		tutorial = new LearningModeTutorial(new LearningModeTutorial.ILearningModeTutorialListener() {
@@ -16,14 +14,13 @@ public class LearningMode extends TrainingMode {
 		});
 	}
 
-	public void setModeListener(ILearningModeModelListener listener) {
-		super.setGameListener(listener);
-		this.listener = listener;
+	private ILearningModeListener getModeListener() {
+		return (ILearningModeListener)modelListener;
 	}
 
 	private void notifyTutorialEnd() {
-		if (listener != null)
-			listener.onTutorialEnd();
+		if (getModeListener() != null)
+			getModeListener().onTutorialEnd();
 	}
 
 	@Override

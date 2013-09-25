@@ -1,6 +1,6 @@
 package com.blox.setgame.model;
 
-public interface IRelaxModeModelListener extends ISetGameModelListener {
+public interface IRelaxModeListener extends ISetGameModelListener {
 	void onModeEnd();
 
 	void onNewGame();

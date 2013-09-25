@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.blox.framework.v0.IMovable;
+import com.blox.framework.v0.IMoveEndListener;
+import com.blox.framework.v0.IMover;
 import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.impl.TargetMover;
 import com.blox.framework.v0.util.Game;
@@ -41,13 +43,15 @@ class FullGameCardDealer extends CardDealer {
 	private int cardsToMove;
 
 	private TargetMover[] movers = new TargetMover[] {
-			new FullGameCardMover(moveDuration), new FullGameCardMover(moveDuration), new FullGameCardMover(moveDuration)
+			new FullGameCardMover(moveDuration), 
+			new FullGameCardMover(moveDuration), 
+			new FullGameCardMover(moveDuration)
 	};
 
 	FullGameCardDealer(FullGameCards cards) {
 		this.cards = cards;
 		for (int i = 0; i < movers.length; i++)
-			movers[i].setMoveEndListener(moveEndListener);
+			movers[i].setEndListener(moveEndListener);
 	}
 
 	@Override
@@ -120,8 +124,7 @@ class FullGameCardDealer extends CardDealer {
 		movers[cardsToMove].updateRoute(extraCard.getLocation(), cards.getActiveCard(targetActiveCardIndex).getLocation());
 		movers[cardsToMove].start();
 
-		extraCard.setMover(movers[cardsToMove]);
-		notifyStartMoving(extraCard);
+		extraCard.beginMove(movers[cardsToMove]);		
 	}
 
 	private void onCardsMoveEnd() {
@@ -154,8 +157,6 @@ class FullGameCardDealer extends CardDealer {
 	}
 
 	private void onCardMoveEnd(Card card) {
-		notifyStopMoving(card);
-
 		for (int i = 0; i < FullGameCards.ActiveCardCount; i++) {
 			if (!cards.isActiveCardEmpty(i) && cards.getActiveCard(i).isSelected()) {
 				cards.setActiveCard(i, card);
@@ -170,8 +171,7 @@ class FullGameCardDealer extends CardDealer {
 			}
 		}
 
-		cardsToMove--;
-		if (cardsToMove == 0)
+		if (--cardsToMove == 0)
 			onCardsMoveEnd();
 	}
 
@@ -183,11 +183,11 @@ class FullGameCardDealer extends CardDealer {
 		}
 	};
 
-	private final TargetMover.IMoveEndListener moveEndListener = new TargetMover.IMoveEndListener() {
+	private final IMoveEndListener moveEndListener = new IMoveEndListener() {
 		@Override
-		public boolean moveEnd(TargetMover mover, IMovable movable) {
+		public boolean onMoveEnd(IMover mover, IMovable movable) {
 			onCardMoveEnd((Card) movable);
-			return false;
+			return true;
 		}
 	};
 }

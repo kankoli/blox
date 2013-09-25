@@ -21,16 +21,16 @@ public interface IDrawingInfo {
 		public boolean isFlipX() {
 			return false;
 		}
-		
+				
 		@Override
-		public boolean ignoreViewportScaling() {
+		public boolean ignoreViewport() {
 			return true;
 		}
 		
 		@Override
-		public boolean ignoreViewportOffset() {
-			return true;
-		}
+		public boolean ignoreShifting() {
+			return false;
+		}	
 		
 		@Override
 		public float getWidth() {
@@ -73,16 +73,16 @@ public interface IDrawingInfo {
 		public boolean isFlipX() {
 			return false;
 		}
-		
+				
 		@Override
-		public boolean ignoreViewportScaling() {
+		public boolean ignoreViewport() {
 			return false;
 		}
 		
 		@Override
-		public boolean ignoreViewportOffset() {
+		public boolean ignoreShifting() {
 			return false;
-		}
+		}		
 		
 		@Override
 		public float getWidth() {
@@ -131,7 +131,7 @@ public interface IDrawingInfo {
 
 	boolean isFlipY();
 
-	boolean ignoreViewportOffset();
+	boolean ignoreViewport();
 	
-	boolean ignoreViewportScaling();
+	boolean ignoreShifting();
 }

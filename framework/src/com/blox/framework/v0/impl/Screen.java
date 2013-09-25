@@ -6,7 +6,6 @@ import com.blox.framework.v0.ICompositeInputListener;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMusic;
 import com.blox.framework.v0.ISettingsChangeListener;
 import com.blox.framework.v0.ITexture;
@@ -94,6 +93,7 @@ public abstract class Screen implements IInputListener, IView {
 		inputListener.activate();
 		startPlayingBgMusic();
 		Settings.registerListener(settingsListener);
+		MoveManager.setCurrent(moveManager);
 		isActive = true;
 	}
 
@@ -102,6 +102,7 @@ public abstract class Screen implements IInputListener, IView {
 		inputListener.deactivate();
 		disposeBgMusic();
 		Settings.unregisterListener(settingsListener);
+		MoveManager.setCurrent(null);
 		isActive = false;
 	}
 	
@@ -136,13 +137,13 @@ public abstract class Screen implements IInputListener, IView {
 		return false;
 	}
 	
-	public final void registerMovable(IMovable obj) {
-		moveManager.register(obj);
-	}
-
-	public final void unregisterMovable(IMovable obj) {
-		moveManager.unregister(obj);
-	}
+//	public final void registerMovable(IMovable obj) {
+//		moveManager.register(obj);
+//	}
+//
+//	public final void unregisterMovable(IMovable obj) {
+//		moveManager.unregister(obj);
+//	}
 
 	public final void registerDrawable(IDrawable obj, int layer) {
 		drawer.register(obj, layer);

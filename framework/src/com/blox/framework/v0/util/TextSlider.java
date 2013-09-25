@@ -5,7 +5,7 @@ import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IFont;
 
 public class TextSlider implements IDrawable {
-	private final static float speed = Game.getViewportWidth() / 2f;
+	private final static float speed = Game.getVirtualWidth() / 2f;
 	
 	private IFont font;
 	private String text;
@@ -34,7 +34,7 @@ public class TextSlider implements IDrawable {
 
 	private void notifySlideEnd() {
 		if (listener != null)
-			listener.onSlideEnd(this);
+			listener.onTextSlideEnd(this);
 	}
 
 	public void slide(IFont font, String text, float y) {
@@ -57,18 +57,12 @@ public class TextSlider implements IDrawable {
 			isSliding = false;
 			notifySlideEnd();
 		}
-
-		Game.renderingShiftX = x;
-		Game.renderingShiftY = y;
+		
+		Game.setRenderingShift(x, y, false);
 		
 		TextDrawer.draw(font, text, IDrawingInfo.viewport, TextDrawer.AlignSW);
-
-		Game.renderingShiftX = 0;
-		Game.renderingShiftY = 0;
-	}
-
-	public static interface ITextSliderListener {
-		void onSlideEnd(TextSlider slider);
+		
+		Game.resetRenderingShift();
 	}
 
 	public void stop() {

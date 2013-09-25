@@ -123,8 +123,9 @@ public class Card extends SetGameObject {
 		isSelected = !isSelected;
 	}
 
-	void activate() {
+	void activate(ICardListener listener) {
 		listenInput(true);
+		eventListener = listener;
 	}
 
 	void deactivate() {
@@ -148,16 +149,12 @@ public class Card extends SetGameObject {
 		return isSelected;
 	}
 
-	public void deselect() {
+	void deselect() {
 		isSelected = false;
 	}
 
 	CardAttributes getAttributes() {
 		return attributes;
-	}
-
-	void setEventListener(ICardListener listener) {
-		eventListener = listener;
 	}
 
 	void fadeOut(IEffectEndListener listener) {

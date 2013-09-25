@@ -1,15 +1,10 @@
 package com.blox.framework.v0.impl;
 
 import com.blox.framework.v0.IMovable;
-import com.blox.framework.v0.IMover;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
-public class TargetMover implements IMover {
-	public static interface IMoveEndListener {
-		boolean moveEnd(TargetMover mover, IMovable movable);
-	}
-
+public class TargetMover extends Mover {
 	protected Vector start;
 	protected Vector end;
 	protected float duration;
@@ -21,8 +16,6 @@ public class TargetMover implements IMover {
 	protected float vx;
 	protected float vy;
 	protected boolean stopped;
-
-	protected IMoveEndListener endListener;
 
 	public TargetMover(float duration) {
 		this.start = new Vector();
@@ -74,10 +67,6 @@ public class TargetMover implements IMover {
 		this.looping = looping;
 	}
 
-	public void setMoveEndListener(IMoveEndListener listener) {
-		endListener = listener;
-	}
-
 	protected void updateVelocity() {
 		vx = (end.x - start.x) / duration;
 		vy = (end.y - start.y) / duration;		
@@ -103,9 +92,8 @@ public class TargetMover implements IMover {
 				loc.x = target.x;
 				loc.y = target.y;
 				
-				if (endListener != null && endListener.moveEnd(this, movable)) {					
+				if (notifyMoveEnd(movable))					
 					return;
-				}
 				
 				if (!looping) {
 					stopped = true;

@@ -1,6 +1,8 @@
 package com.blox.setgame.model;
 
 import com.blox.framework.v0.IMovable;
+import com.blox.framework.v0.IMoveEndListener;
+import com.blox.framework.v0.IMover;
 import com.blox.framework.v0.impl.TargetMover;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Utils;
@@ -39,7 +41,7 @@ class TrainingCardDealer extends CardDealer {
 
 	private final Integer[] cardsToSelectIndices = new Integer[TrainingCards.CardToSelectCount];
 
-	public TrainingCardDealer(TrainingCards cards) {
+	TrainingCardDealer(TrainingCards cards) {
 		this.cards = cards;
 	}
 
@@ -64,7 +66,7 @@ class TrainingCardDealer extends CardDealer {
 		beginMove(oldCardsMoveEndListener);
 	}
 
-	private void beginMove(TargetMover.IMoveEndListener endListener) {
+	private void beginMove(IMoveEndListener endListener) {
 		int start = 0;
 		int end = 1;
 
@@ -78,10 +80,9 @@ class TrainingCardDealer extends CardDealer {
 
 		for (int i = 0; i < movers.length; i++) {
 			movers[i].updateRoute(routes[i][start], routes[i][end]);
-			movers[i].setMoveEndListener(endListener);
+			movers[i].setEndListener(endListener);
 			movers[i].start();
-			movables[i].setMover(movers[i]);
-			notifyStartMoving((Card) movables[i]);
+			movables[i].beginMove(movers[i]);
 		}
 
 		moverCount = movers.length;
@@ -152,28 +153,26 @@ class TrainingCardDealer extends CardDealer {
 	}
 
 	private void onOldCardMoveEnd(Card card) {
-		notifyStopMoving(card);
 		if (--moverCount == 0)
 			dealAndMoveNewCards();
 	}
 
 	private void onNewCardMoveEnd(Card card) {
-		notifyStopMoving(card);
 		if (--moverCount == 0)
 			notifyDealEnd();
 	}
 
-	private final TargetMover.IMoveEndListener oldCardsMoveEndListener = new TargetMover.IMoveEndListener() {
+	private final IMoveEndListener oldCardsMoveEndListener = new IMoveEndListener() {
 		@Override
-		public boolean moveEnd(TargetMover mover, IMovable movable) {
+		public boolean onMoveEnd(IMover mover, IMovable movable) {
 			onOldCardMoveEnd((Card) movable);
 			return true;
 		}
 	};
 
-	private final TargetMover.IMoveEndListener newCardsMoveEndListener = new TargetMover.IMoveEndListener() {
+	private final IMoveEndListener newCardsMoveEndListener = new IMoveEndListener() {
 		@Override
-		public boolean moveEnd(TargetMover mover, IMovable movable) {
+		public boolean onMoveEnd(IMover mover, IMovable movable) {
 			onNewCardMoveEnd((Card) movable);
 			return true;
 		}

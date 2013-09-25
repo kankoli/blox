@@ -6,9 +6,10 @@ import java.util.List;
 import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.ITextSliderListener;
 import com.blox.framework.v0.util.TextSlider;
 
-public class LearningModeHint extends SetGameObject implements TextSlider.ITextSliderListener, IEffectEndListener {
+class LearningModeHint extends SetGameObject implements ITextSliderListener, IEffectEndListener {
 	private List<String> hints;
 	private int index;
 	private TextSlider textSlider;
@@ -16,14 +17,12 @@ public class LearningModeHint extends SetGameObject implements TextSlider.ITextS
 	private boolean isActive;
 	private SetGameButton hintButton;
 
-	public LearningModeHint() {
+	LearningModeHint() {
 		hintButton = new SetGameButton();
 		hintButton.setText("Hint");
-		hintButton.setWidth(100);
-		hintButton.setHeight(30);
 		hintButton.setFont(FontManager.createDefaultFontInstance());
-		hintButton.getLocation().set((Game.getVirtualWidth() - 100) / 2, 60);
-		hintButton.setListener(new SetGameButton.ISetGameButtonListener() {
+		hintButton.getLocation().set((Game.getVirtualWidth() - hintButton.getWidth()) / 2, 60);
+		hintButton.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				showNextHint();
@@ -41,7 +40,7 @@ public class LearningModeHint extends SetGameObject implements TextSlider.ITextS
 	}
 
 	@Override
-	public void onSlideEnd(TextSlider slider) {
+	public void onTextSlideEnd(TextSlider slider) {
 		isActive = false;
 		thirdCard.stopBlinking();
 	}
@@ -193,7 +192,7 @@ public class LearningModeHint extends SetGameObject implements TextSlider.ITextS
 		int pattern3 = CardAttributes.getCompleting(ca1.getPattern(), ca2.getPattern());
 		int shape3 = CardAttributes.getCompleting(ca1.getShape(), ca2.getShape());
 
-		hints.add(String.format("Thrid card must have %d %s %s %s%s",
+		hints.add(String.format("Third card must have %d %s %s %s%s",
 				CardAttributes.getCountValue(count3),
 				CardAttributes.getPatternName(pattern3),
 				CardAttributes.getColorName(color3),

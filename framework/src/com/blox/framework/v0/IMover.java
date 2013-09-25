@@ -6,7 +6,14 @@ public interface IMover {
 		public void move(IMovable movable) {
 
 		}
+		
+		@Override
+		public void setEndListener(IMoveEndListener endListener) {
+			
+		}
 	};
 
 	void move(IMovable movable);
+	
+	void setEndListener(IMoveEndListener endListener);
 }

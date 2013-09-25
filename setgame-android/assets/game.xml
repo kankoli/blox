@@ -411,6 +411,10 @@
             <texture
                 id="card-empty"
                 path="img/cards/emptycard2.png" />
+
+            <texture
+                id="back"
+                path="img/back.png" />
         </textures>
 
         <sounds>

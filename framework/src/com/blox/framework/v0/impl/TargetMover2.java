@@ -66,10 +66,8 @@ public class TargetMover2 extends TargetMover {
 				loc.x = target.x;
 				loc.y = target.y;
 
-				if (endListener != null && endListener.moveEnd(this, movable)) {
-
+				if (notifyMoveEnd(movable))
 					return;
-				}
 				
 				if (!looping) {
 					stopped = true;

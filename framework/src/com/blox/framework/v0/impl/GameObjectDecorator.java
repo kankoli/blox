@@ -36,8 +36,13 @@ public abstract class GameObjectDecorator extends GameObject {
 	}
 
 	@Override
-	public void setMover(IMover mover) {
-		gameObject.setMover(mover);
+	public void beginMove(IMover mover) {
+		gameObject.beginMove(mover);
+	}
+
+	@Override
+	public void stopMoving() {
+		gameObject.stopMoving();
 	}
 
 	@Override
@@ -86,13 +91,8 @@ public abstract class GameObjectDecorator extends GameObject {
 	}
 
 	@Override
-	public boolean ignoreViewportOffset() {
-		return gameObject.ignoreViewportOffset();
-	}
-
-	@Override
-	public boolean ignoreViewportScaling() {
-		return gameObject.ignoreViewportScaling();
+	public boolean ignoreViewport() {
+		return gameObject.ignoreViewport();
 	}
 
 	@Override

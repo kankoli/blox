@@ -190,12 +190,12 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 	}
 
 	@Override
-	public boolean ignoreViewportOffset() {
+	public boolean ignoreViewport() {
 		return false;
 	}
-
+	
 	@Override
-	public boolean ignoreViewportScaling() {
+	public boolean ignoreShifting() {
 		return false;
 	}
 
@@ -219,10 +219,16 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 	}
 
 	@Override
-	public void setMover(IMover mover) {
+	public void beginMove(IMover mover) {
 		this.mover = mover;
+		MoveManager.getCurrent().register(this);
 	}
 
+	@Override
+	public void stopMoving() {
+		MoveManager.getCurrent().unregister(this);
+	}
+	
 	// endregion
 
 	// region ICollidable

@@ -15,7 +15,7 @@ public class LearningModeController extends SetGameController<LearningModeState>
 	public LearningModeController(LearningModeScreen screen) {
 		view = screen;
 		model = new LearningMode();
-		model.setModeListener(this);
+		model.setModelListener(this);
 		tutorialState = new LearningModeTutorialState(this);
 		waitingState = new LearningModeWaitingState(this);
 		dealingState = new LearningModeDealingState(this);

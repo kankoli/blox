@@ -36,8 +36,27 @@ public final class Game {
 	private static IControlActionHandlerFactory actionHandlerFactory;
 
 	public static float renderingAlpha = 1;
-	public static float renderingShiftX = 0;
-	public static float renderingShiftY = 0;
+	
+	private static float renderingShiftX = 0;
+	private static float renderingShiftY = 0;
+	
+	public static void setRenderingShift(float x, float y, boolean ignoreViewport) {
+		renderingShiftX = ignoreViewport ? x : Game.scale(x);
+		renderingShiftY = ignoreViewport ? y : Game.scale(y);
+	}
+	
+	public static void resetRenderingShift() {
+		renderingShiftX = 0;
+		renderingShiftY = 0;
+	}
+	
+	public static float getRenderingShiftX() {
+		return renderingShiftX;
+	}
+	
+	public static float getRenderingShiftY() {
+		return renderingShiftY;
+	}
 
 	private Game() {
 
@@ -143,14 +162,6 @@ public final class Game {
 
 	public static void updateViewport(float screenWidth, float screenHeight) {
 		viewport.update(screenWidth, screenHeight);
-	}
-
-	public static float getViewportWidth() {
-		return viewport.getWidth();
-	}
-
-	public static float getViewportHeight() {
-		return viewport.getHeight();
 	}
 
 	public static float getScale() {

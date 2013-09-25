@@ -20,7 +20,7 @@ public class PracticeModeBlockedState extends PracticeModeState {
 
 	@Override
 	public void onCardTapped(Card card) {
-		card.deselect();
+		model.onCardSelected(card);
 		SetGameResources.playSoundWait();
 	}
 }

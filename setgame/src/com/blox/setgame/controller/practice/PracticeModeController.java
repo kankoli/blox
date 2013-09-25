@@ -17,7 +17,7 @@ public class PracticeModeController extends SetGameController<PracticeModeState>
 	public PracticeModeController(PracticeModeScreen screen) {
 		view = screen;
 		model = new PracticeMode();
-		model.setModeListener(this);
+		model.setModelListener(this);
 		waitingState = new PracticeModeWaitingState(this);
 		dealingState = new PracticeModeDealingState(this);
 		blockedState = new PracticeModeBlockedState(this);

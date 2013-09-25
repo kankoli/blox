@@ -70,8 +70,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="8" language="java" name="com.blox.setgame.model.IPracticeModeModelListener" project="setgame" 
-    file="/setgame/src/com/blox/setgame/model/IPracticeModeModelListener.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="8" language="java" name="com.blox.setgame.model.IPracticeModeListener" project="setgame" 
+    file="/setgame/src/com/blox/setgame/model/IPracticeModeListener.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="701" y="22"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

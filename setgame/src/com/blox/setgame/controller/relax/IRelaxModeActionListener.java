@@ -1,7 +1,7 @@
 package com.blox.setgame.controller.relax;
 
-import com.blox.setgame.model.IRelaxModeModelListener;
+import com.blox.setgame.model.IRelaxModeListener;
 
-public interface IRelaxModeActionListener extends IRelaxModeModelListener {
+public interface IRelaxModeActionListener extends IRelaxModeListener {
 
 }
