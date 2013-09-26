@@ -26,8 +26,6 @@ class TrainingCardDealer extends CardDealer {
 
 	// endregion
 
-	private final IMovable[] movables = new IMovable[5];
-
 	private final TargetMover[] movers = new TargetMover[] {
 			new TargetMover(moveDuration),
 			new TargetMover(moveDuration),
@@ -37,7 +35,7 @@ class TrainingCardDealer extends CardDealer {
 	};
 
 	protected final TrainingCards cards;
-	private int moverCount;
+	private int cardsToMove;
 
 	private final Integer[] cardsToSelectIndices = new Integer[TrainingCards.CardToSelectCount];
 
@@ -47,7 +45,7 @@ class TrainingCardDealer extends CardDealer {
 
 	@Override
 	public void deal() {
-		if (!cards.isEmpty())
+		if (cards.isEmpty())
 			dealAndMoveNewCards();
 		else
 			beginMoveOldCards();
@@ -66,29 +64,26 @@ class TrainingCardDealer extends CardDealer {
 		beginMove(oldCardsMoveEndListener);
 	}
 
-	private void beginMove(IMoveEndListener endListener) {
+	private void beginMove(IMoveEndListener endListener) {		
 		int start = 0;
 		int end = 1;
 
 		if (endListener == newCardsMoveEndListener) {
 			start = 1;
 			end = 0;
-
-			for (int i = 0; i < cards.getLength(); i++)
-				movables[i] = cards.get(i);
 		}
 
 		for (int i = 0; i < movers.length; i++) {
 			movers[i].updateRoute(routes[i][start], routes[i][end]);
 			movers[i].setEndListener(endListener);
 			movers[i].start();
-			movables[i].beginMove(movers[i]);
+			cards.get(i).beginMove(movers[i]);
 		}
 
-		moverCount = movers.length;
+		cardsToMove = movers.length;
 	}
 
-	protected void dealNewCards() {
+	private void dealNewCards() {
 		int c1 = Utils.randInt(deck.length);
 		int c2 = Utils.randInt(deck.length);
 
@@ -109,8 +104,8 @@ class TrainingCardDealer extends CardDealer {
 		setCards(c1, c2, c3, c4, c5);
 	}
 
-	protected void setCards(int c1, int c2, int c3, int c4, int c5) {
-		// TODO: buraya az daha akýllý bi algoritma uydurulabilir
+	private void setCards(int c1, int c2, int c3, int c4, int c5) {
+		// shuffle cards to select
 		cardsToSelectIndices[0] = c3;
 		cardsToSelectIndices[1] = c4;
 		cardsToSelectIndices[2] = c5;
@@ -123,20 +118,22 @@ class TrainingCardDealer extends CardDealer {
 
 		cards.setCardsToSelect(deck[c3], deck[c4], deck[c5]);
 
-		deck[c1].getLocation().set(routes[0][1]);
-		deck[c2].getLocation().set(routes[1][1]);
-		deck[c3].getLocation().set(routes[2][1]);
-		deck[c4].getLocation().set(routes[3][1]);
-		deck[c5].getLocation().set(routes[4][1]);
-
+		// open all cards
 		deck[c1].open();
 		deck[c2].open();
 		deck[c3].open();
 		deck[c4].open();
 		deck[c5].open();
+		
+		// put cards onto origin
+		deck[c1].getLocation().set(routes[0][1]);
+		deck[c2].getLocation().set(routes[1][1]);
+		deck[c3].getLocation().set(routes[2][1]);
+		deck[c4].getLocation().set(routes[3][1]);
+		deck[c5].getLocation().set(routes[4][1]);
 	}
 
-	protected int getCompletingCardIndex(CardAttributes a1, CardAttributes a2) {
+	private int getCompletingCardIndex(CardAttributes a1, CardAttributes a2) {
 		int color = CardAttributes.getCompleting(a1.getColor(), a2.getColor());
 		int shape = CardAttributes.getCompleting(a1.getShape(), a2.getShape());
 		int count = CardAttributes.getCompleting(a1.getCount(), a2.getCount());
@@ -144,7 +141,7 @@ class TrainingCardDealer extends CardDealer {
 		return findCardIndex(color, shape, count, pattern);
 	}
 
-	protected int findCardIndex(int color, int shape, int count, int pattern) {
+	private int findCardIndex(int color, int shape, int count, int pattern) {
 		for (int i = 0; i < deck.length; i++) {
 			if (deck[i].getAttributes().equals(color, shape, count, pattern))
 				return i;
@@ -152,29 +149,35 @@ class TrainingCardDealer extends CardDealer {
 		return -1;
 	}
 
-	private void onOldCardMoveEnd(Card card) {
-		if (--moverCount == 0)
-			dealAndMoveNewCards();
+	private boolean onOldCardMoveEnd(Card card) {
+		if (--cardsToMove != 0)
+			return false;
+		dealAndMoveNewCards();
+		return true;
 	}
 
-	private void onNewCardMoveEnd(Card card) {
-		if (--moverCount == 0)
-			notifyDealEnd();
+	private boolean onNewCardMoveEnd(Card card) {
+		if (--cardsToMove != 0)
+			return false;
+		notifyDealEnd();
+		return true;
 	}
 
 	private final IMoveEndListener oldCardsMoveEndListener = new IMoveEndListener() {
 		@Override
 		public boolean onMoveEnd(IMover mover, IMovable movable) {
+			movable.stopMoving();
 			onOldCardMoveEnd((Card) movable);
-			return true;
+			return false;
 		}
 	};
 
 	private final IMoveEndListener newCardsMoveEndListener = new IMoveEndListener() {
 		@Override
 		public boolean onMoveEnd(IMover mover, IMovable movable) {
+			movable.stopMoving();
 			onNewCardMoveEnd((Card) movable);
-			return true;
+			return false;
 		}
 	};
 }

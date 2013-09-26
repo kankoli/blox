@@ -38,7 +38,7 @@ class GdxFont implements IFont {
 		}
 	}
 
-	private Color color; 
+	private Color color;
 	private BitmapFont font;
 	private final Map<Integer, BitmapFont> fonts;
 	private final List<ScaleMap> scales;
@@ -50,9 +50,9 @@ class GdxFont implements IFont {
 		this.scales = new ArrayList<ScaleMap>();
 
 		initScales();
-		
+
 		color = Color.white();
-		
+
 		Game.registerDisposable(this);
 	}
 
@@ -90,14 +90,21 @@ class GdxFont implements IFont {
 
 	@Override
 	public Vector measureText(String text) {
-		TextBounds bounds = font.getMultiLineBounds(text);
-		size.x = bounds.width;
-		size.y = bounds.height;
+		if (text == null) {
+			size.x = size.y = 0;
+		}
+		else {
+			TextBounds bounds = font.getMultiLineBounds(text);
+			size.x = bounds.width;
+			size.y = bounds.height;
+		}
 		return size;
 	}
 
 	@Override
-	public void draw(String text, float x, float y) {		
+	public void draw(String text, float x, float y) {
+		if (text == null)
+			return;
 		font.setColor(color.r, color.g, color.b, color.a * Game.renderingAlpha);
 		font.drawMultiLine(GdxGame.spriteBatch, text, x + Game.getRenderingShiftX(), y + Game.getRenderingShiftY());
 	}
@@ -112,7 +119,7 @@ class GdxFont implements IFont {
 			}
 		}
 	}
-	
+
 	GdxFont cloneFont() {
 		return new GdxFont(fonts);
 	}

@@ -410,11 +410,39 @@
 
             <texture
                 id="card-empty"
-                path="img/cards/emptycard2.png" />
+                path="img/cards/emptycard.png" />
 
             <texture
-                id="back"
-                path="img/back.png" />
+                id="tb_back"
+                path="img/toolbar/back.png" />
+            
+            <texture
+                id="tb_settings"
+                path="img/toolbar/settings.png" />
+            
+            <texture
+                id="tb_music_play"
+                path="img/toolbar/music-play.png" />
+            
+            <texture
+                id="tb_music_stop"
+                path="img/toolbar/music-stop.png" />
+            
+            <texture
+                id="tb_sound_off"
+                path="img/toolbar/sound-off.png" />
+            
+            <texture
+                id="tb_sound_on"
+                path="img/toolbar/sound-on.png" />
+            
+            <texture
+                id="tb_vibration_off"
+                path="img/toolbar/vibration-off.png" />
+            
+            <texture
+                id="tb_vibration_on"
+                path="img/toolbar/vibration-on.png" />
         </textures>
 
         <sounds>

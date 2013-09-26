@@ -20,8 +20,8 @@ public class Card extends SetGameObject {
 	public static final int Width = 100;
 	public static final int Height = 174;
 	public static final int Space = 7;
-	public static final int SymbolHeight = 35;
-	public static final int SymbolWidth = 35;
+	public static final int SymbolHeight = 45;
+	public static final int SymbolWidth = 45;
 
 	public static final float FadingDuration = 0.25f;
 	public static final float BlinkDuration = 1f;

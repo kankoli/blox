@@ -11,7 +11,7 @@ class TrainingCards {
 	}
 
 	public boolean isEmpty() {
-		return cards[0] != null;
+		return cards[0] == null;
 	}
 
 	public void empty() {

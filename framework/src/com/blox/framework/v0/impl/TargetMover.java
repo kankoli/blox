@@ -23,15 +23,18 @@ public class TargetMover extends Mover {
 		this.duration = duration;
 	}
 
-	public void updateRoute(Vector start, Vector end) {
+	public void updateRoute(float x0, float y0, float x1, float y1) {
+		this.start.set(x0, y0);
+		this.end.set(x1, y1);
 
-		this.start.set(start);
-		this.end.set(end);
-		
 		this.target = null;
 		this.updateVelocity();
 	}
-	
+
+	public void updateRoute(Vector start, Vector end) {
+		updateRoute(start.x, start.y, end.x, end.y);
+	}
+
 	public Vector getStart() {
 		return start;
 	}
@@ -48,12 +51,12 @@ public class TargetMover extends Mover {
 		this.duration = duration;
 		this.updateVelocity();
 	}
-	
+
 	public void start() {
 		stopped = false;
 		this.distToTarget = end.dist2(start);
 	}
-	
+
 	public void stop() {
 		stopped = true;
 		this.distToTarget = 0;
@@ -69,9 +72,9 @@ public class TargetMover extends Mover {
 
 	protected void updateVelocity() {
 		vx = (end.x - start.x) / duration;
-		vy = (end.y - start.y) / duration;		
+		vy = (end.y - start.y) / duration;
 	}
-	
+
 	@Override
 	public void move(IMovable movable) {
 		if (stopped)
@@ -82,19 +85,17 @@ public class TargetMover extends Mover {
 
 		if (target == null) {
 			target = end;
-			loc.x = start.x;
-			loc.y = start.y;
+			loc.set(start);
 		}
 		else {
 			float dist2 = target.dist2(loc);
 
 			if (dist2 > distToTarget) {
-				loc.x = target.x;
-				loc.y = target.y;
-				
-				if (notifyMoveEnd(movable))					
+				loc.set(target);
+
+				if (stopped = notifyMoveEnd(movable))
 					return;
-				
+
 				if (!looping) {
 					stopped = true;
 					return;
