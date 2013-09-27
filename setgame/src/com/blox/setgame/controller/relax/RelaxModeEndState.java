@@ -20,4 +20,9 @@ public class RelaxModeEndState extends RelaxModeState {
 	public void draw() {
 		model.drawResult();
 	}
+	
+	@Override
+	public void onScreenDeactivated() {
+		model.exitMode();
+	}
 }

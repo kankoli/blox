@@ -24,6 +24,11 @@ public abstract class RelaxModeState extends SetGameState implements IRelaxModeA
 	public void onNewGame() {
 
 	}
+	
+	@Override
+	public void onScreenDeactivated() {
+		controller.setPausedState();
+	}
 
 	@Override
 	public void draw() {

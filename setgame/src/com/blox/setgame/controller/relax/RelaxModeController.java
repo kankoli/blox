@@ -10,6 +10,7 @@ public class RelaxModeController extends SetGameController<RelaxModeState> imple
 
 	private RelaxModeState waitingState;
 	private RelaxModeState dealingState;
+	private RelaxModeState pausedState;
 	private RelaxModeState endState;
 
 	public RelaxModeController(RelaxModeScreen screen) {
@@ -20,19 +21,19 @@ public class RelaxModeController extends SetGameController<RelaxModeState> imple
 
 		waitingState = new RelaxModeWaitingState(this);
 		dealingState = new RelaxModeDealingState(this);
+		pausedState = new RelaxModePausedState(this);
 		endState = new RelaxModeEndState(this);
 	}
 
 	@Override
 	public void onScreenActivated() {
-		model.startMode();
-		setDealingState();
-	}
-
-	@Override
-	public void onScreenDeactivated() {
-		super.onScreenDeactivated();
-		model.exitMode();
+		if (currentState == null) {
+			model.startMode();
+			setDealingState();
+		}
+		else {
+			super.onScreenActivated();
+		}
 	}
 
 	@Override
@@ -51,6 +52,10 @@ public class RelaxModeController extends SetGameController<RelaxModeState> imple
 
 	void setWaitingState() {
 		setState(waitingState);
+	}
+
+	void setPausedState() {
+		setState(pausedState);
 	}
 
 	void setEndState() {

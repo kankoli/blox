@@ -3,12 +3,10 @@ package com.blox.setgame.view;
 import com.blox.framework.v0.impl.Screen;
 import com.blox.framework.v0.impl.ScreenManager;
 import com.blox.setgame.model.Logo;
-import com.blox.setgame.model.Toolbar;
 import com.blox.setgame.utils.R;
 
 public abstract class SetGameScreen extends Screen {
 	protected ISetGameViewListener screenListener;
-	private Toolbar toolbar;
 
 	protected void notifyScreenActivated() {
 		if (screenListener != null)
@@ -33,6 +31,7 @@ public abstract class SetGameScreen extends Screen {
 	public void activated() {
 		super.activated();
 		notifyScreenActivated();
+		SetGame.setTitle(getTitle());
 	}
 
 	@Override
@@ -48,14 +47,6 @@ public abstract class SetGameScreen extends Screen {
 		Logo logo = new Logo();
 		logo.getColor().a = 0.25f;
 		registerDrawable(logo, 1);
-		
-		toolbar = new Toolbar();
-		toolbar.setListener(new Toolbar.IToolbarListener() {
-			@Override
-			public void onToolbarBack() {
-				onBack();				
-			}
-		});
 
 		registerInputListener(this);
 	}
@@ -66,8 +57,10 @@ public abstract class SetGameScreen extends Screen {
 		
 		if (super.isActive())
 			notifyDraw();
-		
-		toolbar.draw();
+	}
+	
+	void back() {
+		onBack();
 	}
 
 	@Override
@@ -75,4 +68,6 @@ public abstract class SetGameScreen extends Screen {
 		ScreenManager.instance.switchTo(R.game.screens.menu, true);
 		return true;
 	}
+
+	protected abstract String getTitle();
 }

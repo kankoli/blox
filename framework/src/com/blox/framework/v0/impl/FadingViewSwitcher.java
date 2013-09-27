@@ -18,6 +18,6 @@ public class FadingViewSwitcher extends ViewSwitcher {
 		Game.renderingAlpha = alpha;
 		newView.render();
 
-		Game.renderingAlpha = 0;
+		Game.renderingAlpha = 1;
 	}
 }

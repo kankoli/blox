@@ -37,6 +37,8 @@ public final class R {
 			public static final String cardClosed = "card-closed";
 			public static final String cardEmpty = "card-empty";
 			public static final String logo = "logo";
+			public static final String hint = "hint";
+			public static final String refresh = "refresh";
 
 			public static final class toolbar {
 				public static final String back = "tb_back";

@@ -1,13 +1,16 @@
 package com.blox.setgame.model;
 
+import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Timer;
+import com.blox.setgame.utils.R;
 import com.blox.setgame.utils.SetGameResources;
 
 public class RelaxMode extends SetGameModeModel {
 	private FullGameCards cards;
 	private GameInfo info;
 	private FullGameHint hint;
+	private SetGameImageButton resetButton;
 	private Timer timer;
 	private ScreenTouchHandler touchHandler;
 	private String modeCompleteTime;
@@ -25,10 +28,26 @@ public class RelaxMode extends SetGameModeModel {
 		cards = new FullGameCards();
 		dealer = new FullGameCardDealer(cards);
 		info = new GameInfo(7, 25);
-		hint = new FullGameHint();
 		touchHandler = new ScreenTouchHandler();
 		timer = new Timer();
 		timer.setInterval(1);
+
+		hint = new FullGameHint();
+		hint.getLocation().set(Game.getVirtualWidth() - 58, 50);
+		hint.setSlideY(Game.getVirtualHeight() - 100);
+
+		resetButton = new SetGameImageButton();
+		resetButton.getLocation().set(10, 50);
+		resetButton.setTexture(R.game.textures.refresh);
+		resetButton.setListener(new ISetGameButtonListener() {
+			@Override
+			public void onButtonTapped() {
+				endMode();
+				startMode();
+				deal();
+			}
+		});
+
 	}
 
 	public FullGameCards getCards() {
@@ -36,7 +55,7 @@ public class RelaxMode extends SetGameModeModel {
 	}
 
 	private IRelaxModeListener getModeListener() {
-		return (IRelaxModeListener)super.modelListener;
+		return (IRelaxModeListener) super.modelListener;
 	}
 
 	private FullGameCardDealer getDealer() {
@@ -138,11 +157,12 @@ public class RelaxMode extends SetGameModeModel {
 	public void startMode() {
 		cards.empty();
 		dealer.reset();
-		hint.activate();
-		timer.start();
 		touchHandler.deactivate();
 		setsFound = 0;
 		selectedCardCount = 0;
+		timer.start();
+		hint.activate();
+		resetButton.listenInput(true);
 	}
 
 	public void endMode() {
@@ -152,6 +172,7 @@ public class RelaxMode extends SetGameModeModel {
 		cards.empty();
 		deactivateCards();
 		hint.deactivate();
+		resetButton.listenInput(false);
 	}
 
 	public void exitMode() {
@@ -159,6 +180,7 @@ public class RelaxMode extends SetGameModeModel {
 		cards.empty();
 		timer.stop();
 		hint.deactivate();
+		resetButton.listenInput(false);
 	}
 
 	public void drawGame() {
@@ -166,6 +188,11 @@ public class RelaxMode extends SetGameModeModel {
 		drawTime();
 		drawCards();
 		drawRemainingCards();
+		drawResetButton();
+	}
+
+	private void drawResetButton() {
+		resetButton.draw();
 	}
 
 	public void drawResult() {
@@ -185,10 +212,22 @@ public class RelaxMode extends SetGameModeModel {
 	}
 
 	private void drawRemainingCards() {
-		info.draw("Cards: " + getDealer().getIndex() + "/" + Card.CardsInDeck, TextDrawer.AlignSE, 40);
+		info.draw(getDealer().getIndex() + "/" + Card.CardsInDeck, TextDrawer.AlignS, 55);
 	}
 
 	private void drawTime() {
-		info.draw(getTimeString(), TextDrawer.AlignNW, 0);
+		info.draw(getTimeString(), TextDrawer.AlignS, 25);
+	}
+
+	public void pause() {
+		timer.pause();
+		hint.deactivate();
+		resetButton.listenInput(false);
+	}
+
+	public void resume() {
+		timer.start();
+		hint.activate();
+		resetButton.listenInput(true);
 	}
 }

@@ -35,6 +35,7 @@ public class SplashScreen extends Screen {
 	@Override
 	public void deactivated() {
 		super.deactivated();
+		SetGame.activateToolbar();
 	}
 
 	@Override

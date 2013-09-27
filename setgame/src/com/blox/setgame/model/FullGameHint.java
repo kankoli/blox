@@ -1,25 +1,27 @@
 package com.blox.setgame.model;
 
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.FontManager;
-import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.ITextSliderListener;
 import com.blox.framework.v0.util.TextSlider;
+import com.blox.framework.v0.util.Vector;
+import com.blox.setgame.utils.R;
 
 class FullGameHint extends SetGameObject implements ITextSliderListener, IEffectEndListener {
-	private SetGameButton button;
+	private SetGameImageButton button;
 	private FullGameSetInfo setInfo;
 	private Card[] cards;
 	private TextSlider textSlider;
 	private String text;
 	private int hintIndex;
+	private float slideY;
 	private boolean isActive;
+	private IFont font;
 
 	FullGameHint() {
-		button = new SetGameButton();
-		button.getLocation().set(7, 65);
-		button.setFont(FontManager.createDefaultFontInstance());
-		button.setText("Hint");
+		button = new SetGameImageButton();
+		button.setTexture(R.game.textures.hint);
 		button.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
@@ -30,6 +32,14 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 		setInfo = new FullGameSetInfo();
 		textSlider = new TextSlider();
 		textSlider.setListener(this);
+		
+		font = FontManager.createDefaultFontInstance();
+		font.setSize(24);
+	}
+	
+	@Override
+	public Vector getLocation() {
+		return button.getLocation();
 	}
 
 	public void update(Card[] cards) {
@@ -44,12 +54,16 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 		return setInfo.getSetCount();
 	}
 
+	public void setSlideY(float slideY) {
+		this.slideY = slideY;
+	}
+	
 	private void showNextHint() {
 		if (isActive)
 			return;
 
 		if (hintIndex == 0) {
-			textSlider.slide(FontManager.defaultFont, text, Game.getVirtualHeight() - 120);
+			textSlider.slide(font, text, slideY);
 		}
 		else {
 			int cardIndex = setInfo.getSetCardIndex(hintIndex - 1, 1);
@@ -62,11 +76,11 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 	private void updateText() {
 		int count = setInfo.getSetCount();
 		if (count < 1)
-			text = "There is no set exists on table";
+			text = "No set exists on table";
 		else if (count == 1)
-			text = "There is 1 set exists on table";
+			text = "1 set exists on table";
 		else
-			text = "There are " + count + " sets exist on table";
+			text = count + " sets exist on table";
 	}
 
 	private void hintEnd() {

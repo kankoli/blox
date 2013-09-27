@@ -136,14 +136,6 @@ public abstract class Screen implements IInputListener, IView {
 	protected boolean onBack() {
 		return false;
 	}
-	
-//	public final void registerMovable(IMovable obj) {
-//		moveManager.register(obj);
-//	}
-//
-//	public final void unregisterMovable(IMovable obj) {
-//		moveManager.unregister(obj);
-//	}
 
 	public final void registerDrawable(IDrawable obj, int layer) {
 		drawer.register(obj, layer);

@@ -12,7 +12,8 @@ public abstract class SetGameController<T extends SetGameState> implements ISetG
 
 	@Override
 	public void onScreenActivated() {
-
+		if (currentState != null)
+			currentState.onScreenActivated();
 	}
 
 	@Override

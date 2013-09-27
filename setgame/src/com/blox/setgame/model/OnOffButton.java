@@ -16,10 +16,6 @@ class OnOffButton extends ToolbarButton {
 		this.isOn = Settings.getBoolean(settingsKey, true);
 	}
 	
-	boolean isVisible() {
-		return isVisible;
-	}
-
 	void setTextures(String on, String off) {
 		textureOn = Game.getResourceManager().getTexture(on);
 		textureOff = Game.getResourceManager().getTexture(off);
