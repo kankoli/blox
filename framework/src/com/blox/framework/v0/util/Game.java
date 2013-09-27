@@ -117,8 +117,8 @@ public final class Game {
 		return actionHandlerFactory;
 	}
 
-	public static void vibrate(int millis) {
-		vibrator.vibrate(millis);;
+	public static void vibrate(long... pattern) {
+		vibrator.vibrate(pattern);
 	}
 	
 	public static void stopVibrating() {

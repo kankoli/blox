@@ -4,6 +4,11 @@ import com.blox.setgame.controller.relax.RelaxModeController;
 
 public class RelaxModeScreen extends SetGameScreen {
 	@Override
+	protected String getTitle() {
+		return "Relax";
+	}
+	
+	@Override
 	public void init() {
 		super.init();
 		setScreenListener(new RelaxModeController(this));

@@ -1,6 +1,7 @@
 package com.blox.setgame.model;
 
 import com.blox.framework.v0.IDrawable;
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
@@ -19,6 +20,7 @@ public class Toolbar implements IDrawable {
 	private OnOffButton vibrationButton;
 
 	private IToolbarListener listener;
+	private IFont font;
 
 	private String title;
 
@@ -26,6 +28,10 @@ public class Toolbar implements IDrawable {
 		final float buttonSize = Game.scale(48);
 		final float buttonSpacing = Game.scale(10);
 
+		font = FontManager.createDefaultFontInstance();
+		font.setSize(24);
+		font.getColor().set(R.colors.setRed);
+		
 		backButton = new ToolbarButton();
 		backButton.setTexture(R.game.textures.toolbar.back);
 		backButton.setWidth(buttonSize);
@@ -78,8 +84,8 @@ public class Toolbar implements IDrawable {
 		this.listener = listener;
 	}
 
-	void setTitle(String title) {
-		this.title = title;
+	public void setTitle(String title) {
+		this.title = "";
 	}
 
 	@Override
@@ -89,6 +95,9 @@ public class Toolbar implements IDrawable {
 		musicButton.draw();
 		soundButton.draw();
 		vibrationButton.draw();
-		TextDrawer.draw(FontManager.defaultFont, title, TextDrawer.AlignN);
+		
+		Game.setRenderingShift(0, -20, false);
+		TextDrawer.draw(font, title, TextDrawer.AlignN);
+		Game.resetRenderingShift();
 	}
 }

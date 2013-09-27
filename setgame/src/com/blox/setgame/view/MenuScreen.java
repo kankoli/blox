@@ -15,4 +15,10 @@ public class MenuScreen extends FormScreen {
 
 		setForm(R.game.forms.mainMenu, false);
 	}
+	
+	@Override
+	public void activated() {
+		super.activated();
+		SetGame.setTitle("Set Game");
+	}
 }

@@ -21,6 +21,7 @@ public class RelaxModeWaitingState extends RelaxModeState {
 
 	@Override
 	public void onCardTapped(Card card) {
+		Game.vibrate(50);
 		SetGameResources.playSoundFlip();
 		model.cardTapped(card);
 	}
@@ -28,14 +29,14 @@ public class RelaxModeWaitingState extends RelaxModeState {
 	@Override
 	public void onSetFound() {
 		SetGameResources.playSoundSuccess();
-		Game.vibrate(50);
+		Game.vibrate(100);
 		controller.setDealingState();
 	}
 
 	@Override
 	public void onInvalidSetSelected() {
 		SetGameResources.playSoundError();
-		Game.vibrate(100);
+		Game.vibrate(0, 50, 50, 100);
 		model.deselectCards();
 	}
 }
