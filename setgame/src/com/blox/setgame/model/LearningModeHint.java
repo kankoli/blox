@@ -15,10 +15,10 @@ class LearningModeHint extends SetGameObject implements ITextSliderListener, IEf
 	private TextSlider textSlider;
 	private Card thirdCard;
 	private boolean isActive;
-	private SetTextGameButton hintButton;
+	private SetGameTextButton hintButton;
 
 	LearningModeHint() {
-		hintButton = new SetTextGameButton();
+		hintButton = new SetGameTextButton();
 		hintButton.setText("Hint");
 		hintButton.setFont(FontManager.createDefaultFontInstance());
 		hintButton.getLocation().set((Game.getVirtualWidth() - hintButton.getWidth()) / 2, 60);

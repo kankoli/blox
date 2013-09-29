@@ -1,9 +1,6 @@
 package com.blox.setgame.model;
 
-import com.blox.framework.v0.IMovable;
-import com.blox.framework.v0.IMoveEndListener;
-import com.blox.framework.v0.IMover;
-import com.blox.framework.v0.impl.TargetMover;
+import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
@@ -26,14 +23,6 @@ class TrainingCardDealer extends CardDealer {
 
 	// endregion
 
-	private final TargetMover[] movers = new TargetMover[] {
-			new TargetMover(moveDuration),
-			new TargetMover(moveDuration),
-			new TargetMover(moveDuration),
-			new TargetMover(moveDuration),
-			new TargetMover(moveDuration)
-	};
-
 	protected final TrainingCards cards;
 	private int cardsToMove;
 
@@ -41,8 +30,8 @@ class TrainingCardDealer extends CardDealer {
 
 	TrainingCardDealer(TrainingCards cards) {
 		this.cards = cards;
-//		for (int i = 0; i < movers.length; i++)
-//			movers[i].setLooping(true);
+		// for (int i = 0; i < movers.length; i++)
+		// movers[i].setLooping(true);
 	}
 
 	@Override
@@ -66,7 +55,7 @@ class TrainingCardDealer extends CardDealer {
 		beginMove(oldCardsMoveEndListener);
 	}
 
-	private void beginMove(IMoveEndListener endListener) {		
+	private void beginMove(IEffectEndListener endListener) {
 		int start = 0;
 		int end = 1;
 
@@ -75,38 +64,50 @@ class TrainingCardDealer extends CardDealer {
 			end = 0;
 		}
 
-		for (int i = 0; i < movers.length; i++) {
-			movers[i].updateRoute(routes[i][start], routes[i][end]);
-			movers[i].setEndListener(endListener);
-			movers[i].start();
-			cards.get(i).beginMove(movers[i]);
-		}
+		cardsToMove = cards.getLength();
 
-		cardsToMove = movers.length;
+		for (int i = 0; i < cardsToMove; i++) {
+			cards.get(i).getLocation().set(routes[i][start]);
+			cards.get(i).moveTo(endListener, routes[i][end], moveDuration);
+		}
 	}
 
 	private void dealNewCards() {
+		// select two cards
 		int c1 = Utils.randInt(deck.length);
 		int c2 = Utils.randInt(deck.length);
-
 		while (c1 == c2)
 			c2 = Utils.randInt(deck.length);
 
-		cards.setCardsOnTable(deck[c1], deck[c2]);
-
+		// third card that makes a set with the first two
 		int c3 = getCompletingCardIndex(deck[c1].getAttributes(), deck[c2].getAttributes());
+
+		// other two cards to select
 		int c4 = Utils.randInt(deck.length);
 		int c5 = Utils.randInt(deck.length);
-
 		while (c4 == c1 || c4 == c2 || c4 == c3)
 			c4 = Utils.randInt(deck.length);
 		while (c5 == c1 || c5 == c2 || c5 == c3 || c5 == c4)
 			c5 = Utils.randInt(deck.length);
 
-		setCards(c1, c2, c3, c4, c5);
-	}
+		// [BugFix] Yeni katlarýn içinde bir önceki daðýtýlan kartlardan
+		// biri tekrar gelirse move effect sýçýyor.
+		// onEffectEnd'de card.moveTo diyip moveEffect'e start diyoruz
+		// Ama onEffectEnd'den sonra moveEffect.stop çaðrýldýðý için kart
+		// hareket etmiyordu. Þimdilik böyle bir çözüm uyduruldu
+		// TODO: Daha akýllý birþeyler yapýlabilir
+		if (!cards.isEmpty()) {
+			// Yeni daðýtýlan kartlardan en az biri, bir önceki kartlarla çakýþýyorsa bir daha daðýt.
+			for (int i = 0; i < cards.getLength(); i++) {
+				Card card = cards.get(i);
+				if (card.equals(deck[c1]) || card.equals(deck[c2]) ||
+					card.equals(deck[c3]) || card.equals(deck[c4]) || card.equals(deck[c5])) {
+					dealNewCards();
+					return;
+				}
+			}
+		}
 
-	private void setCards(int c1, int c2, int c3, int c4, int c5) {
 		// shuffle cards to select
 		cardsToSelectIndices[0] = c3;
 		cardsToSelectIndices[1] = c4;
@@ -118,6 +119,8 @@ class TrainingCardDealer extends CardDealer {
 		c4 = cardsToSelectIndices[1];
 		c5 = cardsToSelectIndices[2];
 
+		// set cards
+		cards.setCardsOnTable(deck[c1], deck[c2]);
 		cards.setCardsToSelect(deck[c3], deck[c4], deck[c5]);
 
 		// open all cards
@@ -126,7 +129,7 @@ class TrainingCardDealer extends CardDealer {
 		deck[c3].open();
 		deck[c4].open();
 		deck[c5].open();
-		
+
 		// put cards onto origin
 		deck[c1].getLocation().set(routes[0][1]);
 		deck[c2].getLocation().set(routes[1][1]);
@@ -151,35 +154,29 @@ class TrainingCardDealer extends CardDealer {
 		return -1;
 	}
 
-	private boolean onOldCardMoveEnd(Card card) {
-		if (--cardsToMove != 0)
-			return false;
-		dealAndMoveNewCards();
-		return true;
+	private void onOldCardMoveEnd(Card card) {
+		if (--cardsToMove == 0)
+			dealAndMoveNewCards();
 	}
 
-	private boolean onNewCardMoveEnd(Card card) {
-		if (--cardsToMove != 0)
-			return false;
-		notifyDealEnd();
-		return true;
+	private void onNewCardMoveEnd(Card card) {
+		if (--cardsToMove == 0)
+			notifyDealEnd();
 	}
 
-	private final IMoveEndListener oldCardsMoveEndListener = new IMoveEndListener() {
+	private final IEffectEndListener oldCardsMoveEndListener = new IEffectEndListener() {
 		@Override
-		public boolean onMoveEnd(IMover mover, IMovable movable) {
-			movable.stopMoving();
-			onOldCardMoveEnd((Card) movable);
-			return false;
+		public boolean onEffectEnd(Object obj) {
+			onOldCardMoveEnd((Card) obj);
+			return true;
 		}
 	};
 
-	private final IMoveEndListener newCardsMoveEndListener = new IMoveEndListener() {
+	private final IEffectEndListener newCardsMoveEndListener = new IEffectEndListener() {
 		@Override
-		public boolean onMoveEnd(IMover mover, IMovable movable) {
-			movable.stopMoving();
-			onNewCardMoveEnd((Card) movable);
-			return false;
+		public boolean onEffectEnd(Object obj) {
+			onNewCardMoveEnd((Card) obj);
+			return true;
 		}
 	};
 }

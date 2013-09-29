@@ -3,11 +3,7 @@ package com.blox.setgame.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.blox.framework.v0.IMovable;
-import com.blox.framework.v0.IMoveEndListener;
-import com.blox.framework.v0.IMover;
 import com.blox.framework.v0.effects.IEffectEndListener;
-import com.blox.framework.v0.impl.TargetMover;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Vector;
 
@@ -15,7 +11,6 @@ class FullGameCardDealer extends CardDealer {
 	// region static
 
 	private final static int cols = 5;
-	// private final static int rows = 3;
 	private final static float moveDuration = 0.5f;
 
 	private final static Map<Integer, Vector> cardLocations = new HashMap<Integer, Vector>();
@@ -42,16 +37,8 @@ class FullGameCardDealer extends CardDealer {
 	private int cardsToFadeOut;
 	private int cardsToMove;
 
-	private TargetMover[] movers = new TargetMover[] {
-			new FullGameCardMover(moveDuration), 
-			new FullGameCardMover(moveDuration), 
-			new FullGameCardMover(moveDuration)
-	};
-
 	FullGameCardDealer(FullGameCards cards) {
 		this.cards = cards;
-		for (int i = 0; i < movers.length; i++)
-			movers[i].setEndListener(moveEndListener);
 	}
 
 	@Override
@@ -120,11 +107,7 @@ class FullGameCardDealer extends CardDealer {
 	private void startMovingExtraCard(int extraCardIndex, int targetActiveCardIndex) {
 		Card extraCard = cards.getExtraCard(extraCardIndex);
 		extraCard.open();
-
-		movers[cardsToMove].updateRoute(extraCard.getLocation(), cards.getActiveCard(targetActiveCardIndex).getLocation());
-		movers[cardsToMove].start();
-
-		extraCard.beginMove(movers[cardsToMove]);		
+		extraCard.moveTo(moveEndListener, cards.getActiveCard(targetActiveCardIndex).getLocation(), moveDuration);		
 	}
 
 	private void onCardsMoveEnd() {
@@ -183,10 +166,10 @@ class FullGameCardDealer extends CardDealer {
 		}
 	};
 
-	private final IMoveEndListener moveEndListener = new IMoveEndListener() {
+	private final IEffectEndListener moveEndListener = new IEffectEndListener() {
 		@Override
-		public boolean onMoveEnd(IMover mover, IMovable movable) {
-			onCardMoveEnd((Card) movable);
+		public boolean onEffectEnd(Object obj) {
+			onCardMoveEnd((Card) obj);
 			return true;
 		}
 	};

@@ -6,7 +6,7 @@ import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Vector;
 
-class SetTextGameButton extends SetGameButton {
+class SetGameTextButton extends SetGameButton {
 	private String text;
 	private IFont font;
 	

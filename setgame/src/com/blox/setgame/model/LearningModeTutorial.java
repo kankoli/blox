@@ -18,9 +18,9 @@ class LearningModeTutorial extends SetGameObject {
 	private int pageIndex;
 	private List<String> pages;
 
-	private SetTextGameButton nextButton;
-	private SetTextGameButton prevButton;
-	private SetTextGameButton skipButton;
+	private SetGameTextButton nextButton;
+	private SetGameTextButton prevButton;
+	private SetGameTextButton skipButton;
 
 	private ILearningModeTutorialListener listener;
 
@@ -38,7 +38,7 @@ class LearningModeTutorial extends SetGameObject {
 		pages.add("Page 4 \nText");
 		pages.add("Page \n5 Text");
 
-		nextButton = new SetTextGameButton();
+		nextButton = new SetGameTextButton();
 		nextButton.setFont(FontManager.createDefaultFontInstance());
 		nextButton.setText("Next");
 		nextButton.getLocation().set(Game.getVirtualWidth() - (nextButton.getWidth() + 10), 60);
@@ -49,7 +49,7 @@ class LearningModeTutorial extends SetGameObject {
 			}
 		});
 
-		prevButton = new SetTextGameButton();
+		prevButton = new SetGameTextButton();
 		prevButton.setFont(FontManager.createDefaultFontInstance());
 		prevButton.setText("Prev");
 		prevButton.activate();
@@ -61,7 +61,7 @@ class LearningModeTutorial extends SetGameObject {
 			}
 		});
 
-		skipButton = new SetTextGameButton();
+		skipButton = new SetGameTextButton();
 		skipButton.setWidth(100);
 		skipButton.setHeight(30);
 		skipButton.setFont(FontManager.createDefaultFontInstance());

@@ -19,9 +19,13 @@ class GameInfo extends SetGameObject {
 		getColor().set(Color.white());
 		
 		font = FontManager.createDefaultFontInstance();
-		font.setSize(18);
+		setFontSize(18);
 	}
 
+	void setFontSize(int size) {
+		this.font.setSize(size);
+	}
+	
 	@Override
 	public void draw() {
 		Game.pushRenderingShift(0, shiftY, false);
