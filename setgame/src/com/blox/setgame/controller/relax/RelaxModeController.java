@@ -17,7 +17,7 @@ public class RelaxModeController extends SetGameController<RelaxModeState> imple
 		this.view = screen;
 
 		this.model = new RelaxMode();
-		this.model.setModelListener(this);
+		this.model.setModeListener(this);
 
 		waitingState = new RelaxModeWaitingState(this);
 		dealingState = new RelaxModeDealingState(this);

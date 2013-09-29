@@ -2,6 +2,7 @@ package com.blox.setgame.view;
 
 import com.blox.framework.v0.impl.FormScreen;
 import com.blox.setgame.model.Logo;
+import com.blox.setgame.model.Toolbar;
 import com.blox.setgame.utils.R;
 
 public class MenuScreen extends FormScreen {
@@ -19,6 +20,7 @@ public class MenuScreen extends FormScreen {
 	@Override
 	public void activated() {
 		super.activated();
-		SetGame.setTitle("Set Game");
+		Toolbar.getInstance().setTitle("Set Game");
+		Toolbar.getInstance().deactivateBackButton();
 	}
 }

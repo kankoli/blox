@@ -5,10 +5,13 @@ import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.ITextSliderListener;
 import com.blox.framework.v0.util.TextSlider;
+import com.blox.framework.v0.util.Timer;
 import com.blox.framework.v0.util.Vector;
 import com.blox.setgame.utils.R;
 
 class FullGameHint extends SetGameObject implements ITextSliderListener, IEffectEndListener {
+	private final static int notificationInterval = 30;
+	
 	private SetGameImageButton button;
 	private FullGameSetInfo setInfo;
 	private Card[] cards;
@@ -18,6 +21,7 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 	private float slideY;
 	private boolean isActive;
 	private IFont font;
+	private Timer notificationTimer;
 
 	FullGameHint() {
 		button = new SetGameImageButton();
@@ -26,12 +30,22 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 			@Override
 			public void onButtonTapped() {
 				showNextHint();
+				restartNotificationTimer();
 			}
 		});
 
 		setInfo = new FullGameSetInfo();
 		textSlider = new TextSlider();
 		textSlider.setListener(this);
+		
+		notificationTimer = new Timer();
+		notificationTimer.setInterval(notificationInterval);
+		notificationTimer.setTickListener(new Timer.ITimerTickListener() {
+			@Override
+			public void timerTick(Timer timer) {
+				button.blink(null, false);
+			}
+		});
 		
 		font = FontManager.createDefaultFontInstance();
 		font.setSize(24);
@@ -40,6 +54,10 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 	@Override
 	public Vector getLocation() {
 		return button.getLocation();
+	}
+
+	public void restartNotificationTimer() {
+		notificationTimer.restart();
 	}
 
 	public void update(Card[] cards) {
@@ -104,7 +122,7 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 		drawButton();
 		drawHint();
 	}
-
+	
 	private void drawButton() {
 		button.draw();
 	}

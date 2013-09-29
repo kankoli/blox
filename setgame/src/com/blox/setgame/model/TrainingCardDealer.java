@@ -41,6 +41,8 @@ class TrainingCardDealer extends CardDealer {
 
 	TrainingCardDealer(TrainingCards cards) {
 		this.cards = cards;
+//		for (int i = 0; i < movers.length; i++)
+//			movers[i].setLooping(true);
 	}
 
 	@Override

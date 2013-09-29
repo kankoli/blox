@@ -75,6 +75,11 @@ public class Timer {
 		return elapsed;
 	}
 
+	public synchronized void restart() {
+		stop();
+		start();
+	}
+	
 	public synchronized void start() {
 		if (state != State_Started)
 			TimerManager.instance.register(this);

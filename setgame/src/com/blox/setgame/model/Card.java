@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blox.framework.v0.ITexture;
-import com.blox.framework.v0.effects.BlinkEffect;
-import com.blox.framework.v0.effects.FadeOutEffect;
-import com.blox.framework.v0.effects.IEffectEndListener;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Utils;
@@ -22,10 +19,6 @@ public class Card extends SetGameObject {
 	public static final int Space = 7;
 	public static final int SymbolHeight = 45;
 	public static final int SymbolWidth = 45;
-
-	public static final float FadingDuration = 0.25f;
-	public static final float BlinkDuration = 1f;
-	public static final int BlinkPerSecond = 10;
 
 	public static final int CardsInDeck = 81;
 
@@ -71,32 +64,12 @@ public class Card extends SetGameObject {
 	private CardAttributes attributes;
 	private ICardListener eventListener;
 
-	private FadeOutEffect fader;
-	private BlinkEffect blinker;
-
 	Card(CardAttributes cardAttributes) {
 		this.attributes = cardAttributes;
 		setWidth(Card.Width);
 		setHeight(Card.Height);
 
 		initSymbols();
-	}
-
-	private FadeOutEffect getFader() {
-		if (fader == null) {
-			fader = new FadeOutEffect(this);
-			fader.setDuration(FadingDuration);
-		}
-		return fader;
-	}
-
-	private BlinkEffect getBlinker() {
-		if (blinker == null) {
-			blinker = new BlinkEffect(this);
-			blinker.setDuration(BlinkDuration);
-			blinker.setBlinkPerSecond(BlinkPerSecond);
-		}
-		return blinker;
 	}
 
 	private void initSymbols() {
@@ -155,19 +128,6 @@ public class Card extends SetGameObject {
 
 	CardAttributes getAttributes() {
 		return attributes;
-	}
-
-	void fadeOut(IEffectEndListener listener) {
-		getFader().start(listener);
-	}
-
-	void blink(IEffectEndListener listener, boolean looping) {
-		getBlinker().setLooping(true);
-		getBlinker().start(listener);
-	}
-
-	void stopBlinking() {
-		getBlinker().stop();
 	}
 
 	@Override

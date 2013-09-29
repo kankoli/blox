@@ -12,21 +12,32 @@ public class Toolbar implements IDrawable {
 		void onToolbarBack();
 	}
 
+	private static Toolbar instance;
+
+	public static void init() {
+		if (instance == null)
+			instance = new Toolbar();
+	}
+	
+	public static Toolbar getInstance() {
+		return instance;
+	}
+	
 	private ToolbarButton backButton;
 	private ToolbarButton settingsButton;
 
-	private OnOffButton soundButton;
-	private OnOffButton musicButton;
-	private OnOffButton vibrationButton;
+	private SettingsButton soundButton;
+	private SettingsButton musicButton;
+	private SettingsButton vibrationButton;
 
 	private IToolbarListener listener;
 	private IFont font;
 
 	private String title;
 
-	public Toolbar() {
-		final float buttonSize = Game.scale(48);
-		final float buttonSpacing = Game.scale(10);
+	private Toolbar() {
+		final float buttonSpacing = Game.scale(10);		
+		final float buttonSize = SetGameImageButton.buttonSize;
 
 		font = FontManager.createDefaultFontInstance();
 		font.setSize(24);
@@ -34,13 +45,11 @@ public class Toolbar implements IDrawable {
 		
 		backButton = new ToolbarButton();
 		backButton.setTexture(R.game.textures.toolbar.back);
-		backButton.setWidth(buttonSize);
-		backButton.setHeight(buttonSize);
 		backButton.setLocation(ToolbarButton.AlignNW, buttonSpacing, buttonSpacing);
-		backButton.listenInput(true);
-		backButton.setListener(new ToolbarButton.IToolbarButtonListener() {
+		backButton.deactivate();
+		backButton.setListener(new ISetGameButtonListener() {
 			@Override
-			public void onToolbarButtonTapped(ToolbarButton button) {
+			public void onButtonTapped() {
 				if (listener != null)
 					listener.onToolbarBack();
 			}
@@ -48,36 +57,34 @@ public class Toolbar implements IDrawable {
 
 		settingsButton = new ToolbarButton();
 		settingsButton.setTexture(R.game.textures.toolbar.settings);
-		settingsButton.setWidth(buttonSize);
-		settingsButton.setHeight(buttonSize);
 		settingsButton.setLocation(ToolbarButton.AlignNE, buttonSpacing, buttonSpacing);
-		settingsButton.listenInput(true);
-		settingsButton.setListener(new ToolbarButton.IToolbarButtonListener() {
+		settingsButton.activate();
+		settingsButton.setListener(new ISetGameButtonListener() {
 			@Override
-			public void onToolbarButtonTapped(ToolbarButton button) {
-				musicButton.toggle();
-				soundButton.toggle();
-				vibrationButton.toggle();
+			public void onButtonTapped() {
+				musicButton.toggleActivation();
+				soundButton.toggleActivation();
+				vibrationButton.toggleActivation();
 			}
 		});
 
-		musicButton = new OnOffButton(R.settings.music);
-		musicButton.setWidth(buttonSize);
-		musicButton.setHeight(buttonSize);
+		musicButton = new SettingsButton(R.settings.music);
 		musicButton.setLocation(ToolbarButton.AlignNE, buttonSize + 3 * buttonSpacing, buttonSpacing);
-		musicButton.setTextures(R.game.textures.toolbar.musicStop, R.game.textures.toolbar.musicPlay);
+		musicButton.setOnTexture(R.game.textures.toolbar.musicStop);
+		musicButton.setOffTexture(R.game.textures.toolbar.musicPlay);
+		musicButton.deactivate();
 
-		soundButton = new OnOffButton(R.settings.sound);
-		soundButton.setWidth(buttonSize);
-		soundButton.setHeight(buttonSize);
+		soundButton = new SettingsButton(R.settings.sound);
 		soundButton.setLocation(ToolbarButton.AlignNE, 2 * buttonSize + 4 * buttonSpacing, buttonSpacing);
-		soundButton.setTextures(R.game.textures.toolbar.soundOn, R.game.textures.toolbar.soundOff);
+		soundButton.setOnTexture(R.game.textures.toolbar.soundOn);
+		soundButton.setOffTexture(R.game.textures.toolbar.soundOff);
+		soundButton.deactivate();
 
-		vibrationButton = new OnOffButton(R.settings.vibration);
-		vibrationButton.setWidth(buttonSize);
-		vibrationButton.setHeight(buttonSize);
+		vibrationButton = new SettingsButton(R.settings.vibration);
 		vibrationButton.setLocation(ToolbarButton.AlignNE, 3 * buttonSize + 5 * buttonSpacing, buttonSpacing);
-		vibrationButton.setTextures(R.game.textures.toolbar.vibrationOn, R.game.textures.toolbar.vibrationOff);
+		vibrationButton.setOnTexture(R.game.textures.toolbar.vibrationOn);
+		vibrationButton.setOffTexture(R.game.textures.toolbar.vibrationOff);
+		vibrationButton.deactivate();
 	}
 
 	public void setListener(IToolbarListener listener) {
@@ -88,6 +95,13 @@ public class Toolbar implements IDrawable {
 		this.title = "";
 	}
 
+	public void activateBackButton() {
+		backButton.activate();
+	}
+	public void deactivateBackButton() {
+		backButton.deactivate();
+	}
+	
 	@Override
 	public void draw() {
 		backButton.draw();
@@ -96,8 +110,8 @@ public class Toolbar implements IDrawable {
 		soundButton.draw();
 		vibrationButton.draw();
 		
-		Game.setRenderingShift(0, -20, false);
+		Game.pushRenderingShift(0, -20, false);
 		TextDrawer.draw(font, title, TextDrawer.AlignN);
-		Game.resetRenderingShift();
+		Game.popRenderingShift();
 	}
 }

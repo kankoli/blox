@@ -15,7 +15,7 @@ public class LearningMode extends TrainingMode {
 	}
 
 	private ILearningModeListener getModeListener() {
-		return (ILearningModeListener)modelListener;
+		return (ILearningModeListener)modeListener;
 	}
 
 	private void notifyTutorialEnd() {

@@ -1,21 +1,21 @@
 package com.blox.setgame.model;
 
-public abstract class SetGameModeModel {
+public abstract class SetGameMode {
 	protected CardDealer dealer;
-	protected ISetGameModelListener modelListener;
+	protected ISetGameModeListener modeListener;
 
 	protected void notifySetFound() {
-		if (modelListener != null)
-			modelListener.onSetFound();
+		if (modeListener != null)
+			modeListener.onSetFound();
 	}
 
 	protected void notifyInvalidSetSelected() {
-		if (modelListener != null)
-			modelListener.onInvalidSetSelected();
+		if (modeListener != null)
+			modeListener.onInvalidSetSelected();
 	}
 	
-	public void setModelListener(ISetGameModelListener modelListener) {
-		this.modelListener = modelListener;
+	public void setModeListener(ISetGameModeListener modeListener) {
+		this.modeListener = modeListener;
 	}
 	
 	public void setDealerListener(ICardDealerListener dealerListener) {

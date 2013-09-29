@@ -2,7 +2,7 @@ package com.blox.setgame.model;
 
 import com.blox.setgame.utils.R;
 
-public abstract class TrainingMode extends SetGameModeModel {
+public abstract class TrainingMode extends SetGameMode {
 	protected TrainingCards cards;
 
 	protected TrainingMode() {
@@ -25,7 +25,7 @@ public abstract class TrainingMode extends SetGameModeModel {
 
 	public void activateCardsOnTable() {
 		for (int i = 0; i < TrainingCards.CardToSelectCount; i++)
-			cards.getCardsToSelect(i).activate(modelListener);
+			cards.getCardsToSelect(i).activate(modeListener);
 	}
 
 	public void deactivateCards() {

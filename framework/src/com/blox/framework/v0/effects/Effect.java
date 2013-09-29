@@ -93,7 +93,7 @@ public abstract class Effect {
 	protected boolean notifyEffectEnd() {
 		return listener != null
 				? listener.onEffectEnd(getObject())
-				: false;
+				: true;
 	}
 	
 	protected void onStart() {

@@ -24,9 +24,9 @@ class GameInfo extends SetGameObject {
 
 	@Override
 	public void draw() {
-		Game.setRenderingShift(0, shiftY, false);
+		Game.pushRenderingShift(0, shiftY, false);
 		TextDrawer.draw(font, text, this, alignment);
-		Game.resetRenderingShift();
+		Game.popRenderingShift();
 	}
 
 	public void draw(String text, int alingment, int shiftY) {

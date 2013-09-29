@@ -18,9 +18,9 @@ class LearningModeTutorial extends SetGameObject {
 	private int pageIndex;
 	private List<String> pages;
 
-	private SetGameButton nextButton;
-	private SetGameButton prevButton;
-	private SetGameButton skipButton;
+	private SetTextGameButton nextButton;
+	private SetTextGameButton prevButton;
+	private SetTextGameButton skipButton;
 
 	private ILearningModeTutorialListener listener;
 
@@ -38,7 +38,7 @@ class LearningModeTutorial extends SetGameObject {
 		pages.add("Page 4 \nText");
 		pages.add("Page \n5 Text");
 
-		nextButton = new SetGameButton();
+		nextButton = new SetTextGameButton();
 		nextButton.setFont(FontManager.createDefaultFontInstance());
 		nextButton.setText("Next");
 		nextButton.getLocation().set(Game.getVirtualWidth() - (nextButton.getWidth() + 10), 60);
@@ -49,10 +49,10 @@ class LearningModeTutorial extends SetGameObject {
 			}
 		});
 
-		prevButton = new SetGameButton();
+		prevButton = new SetTextGameButton();
 		prevButton.setFont(FontManager.createDefaultFontInstance());
 		prevButton.setText("Prev");
-		prevButton.setActive(false);
+		prevButton.activate();
 		prevButton.getLocation().set(10, 60);
 		prevButton.setListener(new ISetGameButtonListener() {
 			@Override
@@ -61,7 +61,7 @@ class LearningModeTutorial extends SetGameObject {
 			}
 		});
 
-		skipButton = new SetGameButton();
+		skipButton = new SetTextGameButton();
 		skipButton.setWidth(100);
 		skipButton.setHeight(30);
 		skipButton.setFont(FontManager.createDefaultFontInstance());
@@ -89,13 +89,17 @@ class LearningModeTutorial extends SetGameObject {
 		}
 		else
 			notifyTutorialEnd();
-		prevButton.setActive(true);
+		prevButton.activate();
 	}
 
 	private void prev() {
-		if (pageIndex > 0)
-			pageIndex--;
-		prevButton.setActive(pageIndex != 0);
+		if (pageIndex > 1) {
+			pageIndex--;		
+			prevButton.activate();
+		}
+		else {
+			prevButton.deactivate();
+		}
 		nextButton.setText("Next");
 	}
 
@@ -126,8 +130,8 @@ class LearningModeTutorial extends SetGameObject {
 
 	private void drawPage() {
 		TextDrawer.draw(FontManager.defaultFont, (pageIndex + 1) + "/" + pages.size(), IDrawingInfo.viewport, TextDrawer.AlignN);
-		Game.setRenderingShift(0, -100, false);
+		Game.pushRenderingShift(0, -100, false);
 		TextDrawer.draw(font, pages.get(pageIndex), IDrawingInfo.viewport, TextDrawer.AlignN);
-		Game.resetRenderingShift();
+		Game.popRenderingShift();
 	}
 }

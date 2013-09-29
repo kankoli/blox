@@ -1,6 +1,6 @@
 package com.blox.setgame.model;
 
-public interface ISetGameModelListener extends ICardListener {
+public interface ISetGameModeListener extends ICardListener {
 	void onSetFound();
 
 	void onInvalidSetSelected();

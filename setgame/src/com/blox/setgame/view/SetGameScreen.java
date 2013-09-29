@@ -3,6 +3,7 @@ package com.blox.setgame.view;
 import com.blox.framework.v0.impl.Screen;
 import com.blox.framework.v0.impl.ScreenManager;
 import com.blox.setgame.model.Logo;
+import com.blox.setgame.model.Toolbar;
 import com.blox.setgame.utils.R;
 
 public abstract class SetGameScreen extends Screen {
@@ -31,7 +32,8 @@ public abstract class SetGameScreen extends Screen {
 	public void activated() {
 		super.activated();
 		notifyScreenActivated();
-		SetGame.setTitle(getTitle());
+		Toolbar.getInstance().setTitle(getTitle());
+		Toolbar.getInstance().activateBackButton();
 	}
 
 	@Override

@@ -1,7 +1,9 @@
 package com.blox.setgame.model;
 
+import com.blox.framework.v0.impl.Settings;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Timer;
+import com.blox.setgame.utils.R;
 
 public class PracticeMode extends TrainingMode {
 	private final static float blockDuration = 2f;
@@ -25,7 +27,7 @@ public class PracticeMode extends TrainingMode {
 	};
 
 	private IPracticeModeListener getModeListener() {
-		return (IPracticeModeListener)super.modelListener;
+		return (IPracticeModeListener)super.modeListener;
 	}
 
 	public int getScore() {
@@ -117,6 +119,9 @@ public class PracticeMode extends TrainingMode {
 		blockTimer.stop();
 		dealTimer.stop();
 		cards.empty();
+		int practiceHiScore = Settings.getInteger(R.settings.hiscores.practice, 0);
+		if (score > practiceHiScore)
+			Settings.putInteger(R.settings.hiscores.practice, score);
 	}
 
 	@Override
@@ -176,20 +181,20 @@ public class PracticeMode extends TrainingMode {
 			allCards[i].draw();
 	}
 
-	private void drawRemainingDeals() {
-		info.draw("Deals: " + deals + "/" + totalDeals, TextDrawer.AlignSW, 0);
-	}
-
 	private void drawRemainingTime() {
 		int t = (int) Math.min(timePerDeal, (1 + timePerDeal - dealTimer.getElapsedTime()));
-		info.draw("" + t, TextDrawer.AlignNE, 0);
+		info.draw("" + t, TextDrawer.AlignNE, -50);
 	}
 
 	private void drawScore() {
-		info.draw("Score: " + score, TextDrawer.AlignSW, 60);
+		info.draw("Score: " + score, TextDrawer.AlignSW, 100);
+	}
+	
+	private void drawRemainingDeals() {
+		info.draw("Deals: " + deals + "/" + totalDeals, TextDrawer.AlignSW, 70);
 	}
 
 	private void drawWaitMessage() {
-		info.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, 0);
+		info.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, -50);
 	}
 }

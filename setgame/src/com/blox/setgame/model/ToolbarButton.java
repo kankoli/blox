@@ -3,10 +3,8 @@ package com.blox.setgame.model;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextureDrawer;
-import com.blox.setgame.utils.R;
-import com.blox.setgame.utils.SetGameResources;
 
-class ToolbarButton extends SetGameObject {
+class ToolbarButton extends SetGameButton {
 	private static final int n = 1 << 0;
 	private static final int e = 1 << 1;
 	private static final int s = 1 << 2;
@@ -21,22 +19,25 @@ class ToolbarButton extends SetGameObject {
 	public static final int AlignW = w;
 	public static final int AlignNW = n | w;
 	public static final int AlignCentered = 0;
-
-	public static interface IToolbarButtonListener {
-		void onToolbarButtonTapped(ToolbarButton button);
-	}
-
+		
+	private final static float buttonSize = 48;
+	
 	private ITexture texture;
-	private IToolbarButtonListener listener;
-
-	void setListener(IToolbarButtonListener listener) {
-		this.listener = listener;
+	
+	ToolbarButton() {
+		setWidth(buttonSize);
+		setHeight(buttonSize);
 	}
-
-	void setTexture(String textureId) {
-		texture = Game.getResourceManager().getTexture(textureId);
+	
+	void setTexture(String id) {
+		texture = Game.getResourceManager().getTexture(id);
 	}
-
+	
+	@Override
+	protected void onDraw() {
+		TextureDrawer.draw(texture, this);
+	}
+	
 	@Override
 	public boolean ignoreViewport() {
 		return true;
@@ -45,32 +46,6 @@ class ToolbarButton extends SetGameObject {
 	@Override
 	public boolean ignoreShifting() {
 		return true;
-	}
-
-	@Override
-	public void draw() {
-		onDraw(texture);
-	}
-
-	@Override
-	protected boolean isIn(float x, float y) {
-		return super.isIn(Game.viewportToScreenX(x), Game.viewportToScreenY(y));
-	}
-
-	@Override
-	protected boolean onTap() {
-		SetGameResources.playSoundFlip();
-		if (listener != null)
-			listener.onToolbarButtonTapped(this);
-		return true;
-	}
-
-	protected void onDraw(ITexture texture) {
-		if (Game.getInputManager().isTouched() && isIn(Game.getInputManager().getX(), Game.getInputManager().getY()))
-			getColor().set(R.colors.setBlue);
-		else
-			getColor().set(1);
-		TextureDrawer.draw(texture, this);
 	}
 
 	void setLocation(int align, float marginX, float marginY) {

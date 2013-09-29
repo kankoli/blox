@@ -57,6 +57,11 @@ public final class R {
 		public static final String music = "music";
 		public static final String sound = "sound";
 		public static final String vibration = "vibration";
+		
+		public static final class hiscores {
+			public static final String practice = "hiscore_practice";
+			public static final String challenge = "hiscore_challenge";
+		}
 	}
 
 	public static final class learningModeScreen {

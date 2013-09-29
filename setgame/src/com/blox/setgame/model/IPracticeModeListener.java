@@ -1,6 +1,6 @@
 package com.blox.setgame.model;
 
-public interface IPracticeModeListener extends ISetGameModelListener {
+public interface IPracticeModeListener extends ISetGameModeListener {
 	void onUnblock();
 
 	void onDealTimeUp();

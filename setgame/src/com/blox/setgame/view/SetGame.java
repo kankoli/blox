@@ -14,7 +14,8 @@ public class SetGame extends BaseGame {
 	}
 
 	static void activateToolbar() {
-		toolbar = new Toolbar();
+		Toolbar.init();
+		toolbar = Toolbar.getInstance();
 		toolbar.setListener(new Toolbar.IToolbarListener() {
 			@Override
 			public void onToolbarBack() {
@@ -23,10 +24,6 @@ public class SetGame extends BaseGame {
 					((SetGameScreen) screen).back();
 			}
 		});
-	}
-	
-	static void setTitle(String title) {
-		toolbar.setTitle(title);
 	}
 
 	@Override

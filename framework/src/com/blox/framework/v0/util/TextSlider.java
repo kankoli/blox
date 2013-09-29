@@ -58,11 +58,9 @@ public class TextSlider implements IDrawable {
 			notifySlideEnd();
 		}
 		
-		Game.setRenderingShift(x, y, false);
-		
-		TextDrawer.draw(font, text, IDrawingInfo.viewport, TextDrawer.AlignSW);
-		
-		Game.resetRenderingShift();
+		Game.pushRenderingShift(x, y, false);		
+		TextDrawer.draw(font, text, IDrawingInfo.viewport, TextDrawer.AlignSW);		
+		Game.popRenderingShift();
 	}
 
 	public void stop() {

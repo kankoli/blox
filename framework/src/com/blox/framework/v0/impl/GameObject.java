@@ -55,7 +55,16 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 	}
 	
 	protected boolean isIn(float x, float y) {
+		if (ignoreViewport()) {
+			x = Game.viewportToScreenX(x);
+			y = Game.viewportToScreenY(y);
+		}
+		
 		return Utils.isIn(x, y, this);
+	}
+	
+	protected boolean isTouched () {
+		return Game.getInputManager().isTouched() && isIn(Game.getInputManager().getX(), Game.getInputManager().getY());
 	}
 	
 	protected boolean onLongPress() {
