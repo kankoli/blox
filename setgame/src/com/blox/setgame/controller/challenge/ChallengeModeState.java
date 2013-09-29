@@ -29,4 +29,9 @@ public abstract class ChallengeModeState extends SetGameState implements IChalle
 	public void draw() {
 		model.drawGame();
 	}
+
+	@Override
+	public void onScreenDeactivated() {
+		model.exitMode();
+	}
 }

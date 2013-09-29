@@ -20,9 +20,4 @@ public class ChallengeModeEndState extends ChallengeModeState {
 	public void draw() {
 		model.drawResult();
 	}
-	
-	@Override
-	public void onScreenDeactivated() {
-		model.exitMode();
-	}
 }
