@@ -19,14 +19,12 @@ class ToolbarButton extends SetGameButton {
 	public static final int AlignW = w;
 	public static final int AlignNW = n | w;
 	public static final int AlignCentered = 0;
-		
-	private final static float buttonSize = 48;
-	
+			
 	private ITexture texture;
 	
 	ToolbarButton() {
-		setWidth(buttonSize);
-		setHeight(buttonSize);
+		setWidth(Game.scale(SetGameImageButton.buttonSize));
+		setHeight(Game.scale(SetGameImageButton.buttonSize));
 	}
 	
 	void setTexture(String id) {

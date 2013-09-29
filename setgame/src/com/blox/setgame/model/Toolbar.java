@@ -37,7 +37,7 @@ public class Toolbar implements IDrawable {
 
 	private Toolbar() {
 		final float buttonSpacing = Game.scale(10);		
-		final float buttonSize = SetGameImageButton.buttonSize;
+		final float buttonSize = Game.scale(SetGameImageButton.buttonSize);
 
 		font = FontManager.createDefaultFontInstance();
 		font.setSize(24);
