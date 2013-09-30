@@ -15,7 +15,7 @@ public interface IInputListener {
 
 	boolean fling(float vx, float vy, int button);
 
-	boolean pan(float x, float y, float dx, float xy);
+	boolean pan(float x, float y, float dx, float dy);
 
 	boolean zoom(float initialDistance, float distance);
 

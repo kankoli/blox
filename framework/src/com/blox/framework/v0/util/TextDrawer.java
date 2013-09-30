@@ -49,15 +49,11 @@ public final class TextDrawer {
 	}
 
 	public static void draw(IFont font, String text, float x, float y) {
-		float dx = Game.scale(Game.renderingShiftX);
-		float dy = Game.scale(Game.renderingShiftY);
-		
-		font.draw(text, x + dx, y + dy);
+		font.draw(text, x, y);
 	}
 
 	public static void draw(IFont font, String text) {
-		Vector size = font.measureText(text);
-		draw(font, text, (Game.getScreenWidth() - size.x) / 2, (Game.getScreenHeight() + size.y) / 2);
+		draw(font, text, AlignCentered);
 	}
 
 	public static void draw(IFont font, String text, IDrawingInfo info) {
@@ -65,23 +61,24 @@ public final class TextDrawer {
 	}
 
 	public static void draw(IFont font, String text, int align) {
-		draw(font, text, 0, 0, Game.getScreenWidth(), Game.getScreenHeight(), align);
+		draw(font, text, IDrawingInfo.screen, align);
 	}
 
 	public static void draw(IFont font, String text, IDrawingInfo info, int align) {
-		float scale = info.ignoreViewportScaling() ? 1f : Game.getScale();
-		float offsetX = info.ignoreViewportOffset() ? 0f : Game.getViewportOffsetX();
-		float offsetY = info.ignoreViewportOffset() ? 0f : Game.getViewportOffsetY();
-
 		Vector loc = info.getLocation();
 
-		float lx = scale * loc.x + offsetX;
-		float ly = scale * loc.y + offsetY;
-		float width = scale * info.getWidth();
-		float height = scale * info.getHeight();
-		
-		font.getColor().set(info.getColor());
+		float lx = loc.x;
+		float ly = loc.y;
+		float width = info.getWidth();
+		float height = info.getHeight();
 
+		if (!info.ignoreViewport()) {
+			lx = Game.viewportToScreenX(lx);
+			ly = Game.viewportToScreenY(ly);
+			width = Game.scale(width);
+			height = Game.scale(height);
+		}
+		
 		draw(font, text, lx, ly, width, height, align);
 	}
 

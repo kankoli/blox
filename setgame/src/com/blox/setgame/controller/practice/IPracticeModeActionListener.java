@@ -1,8 +1,7 @@
 package com.blox.setgame.controller.practice;
 
-import com.blox.setgame.model.IPracticeModeModelListener;
-import com.blox.setgame.view.IPracticeModeViewListener;
+import com.blox.setgame.model.IPracticeModeListener;
 
-public interface IPracticeModeActionListener extends IPracticeModeModelListener, IPracticeModeViewListener {
+public interface IPracticeModeActionListener extends IPracticeModeListener {
 
 }

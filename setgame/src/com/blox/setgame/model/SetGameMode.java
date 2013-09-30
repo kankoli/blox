@@ -1,43 +1,29 @@
 package com.blox.setgame.model;
 
-import com.blox.framework.v0.IDrawable;
-import com.blox.setgame.utils.CardDealer;
-
-public abstract class SetGameMode implements IDrawable {
-	protected abstract Card[] getCardsOnTable();
+public abstract class SetGameMode {
 	protected CardDealer dealer;
-	protected ISetGameModelListener gameListener;
-		
-	protected void setDealer(CardDealer dealer) {
-		this.dealer = dealer;
-	}
-	
+	protected ISetGameModeListener modeListener;
+
 	protected void notifySetFound() {
-		if (gameListener != null)
-			gameListener.onSetFound();
+		if (modeListener != null)
+			modeListener.onSetFound();
 	}
-	
+
 	protected void notifyInvalidSetSelected() {
-		if (gameListener != null)
-			gameListener.onInvalidSetSelected();
+		if (modeListener != null)
+			modeListener.onInvalidSetSelected();
 	}
 	
-	public void setGameListener(ISetGameModelListener gameListener) {
-		this.gameListener = gameListener;
+	public void setModeListener(ISetGameModeListener modeListener) {
+		this.modeListener = modeListener;
 	}
 	
-	public CardDealer getDealer() {
-		return dealer;
+	public void setDealerListener(ICardDealerListener dealerListener) {
+		if (dealer != null)
+			dealer.setListener(dealerListener);
 	}
-	
+
 	public void deal() {
 		dealer.deal();
-	}
-
-	@Override
-	public void draw() {
-		Card[] cc = getCardsOnTable();
-		for (int i = 0; i < cc.length; i++)
-			cc[i].draw();
 	}
 }

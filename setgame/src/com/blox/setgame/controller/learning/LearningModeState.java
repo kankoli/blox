@@ -4,7 +4,7 @@ import com.blox.setgame.controller.SetGameState;
 import com.blox.setgame.model.LearningMode;
 import com.blox.setgame.view.LearningModeScreen;
 
-public abstract class LearningModeState extends SetGameState {
+public abstract class LearningModeState extends SetGameState implements ILearningModeActionListener {
 	final LearningMode model;
 	final LearningModeScreen view;
 	final LearningModeController controller;
@@ -16,12 +16,22 @@ public abstract class LearningModeState extends SetGameState {
 	}
 
 	@Override
-	public void onSetFound() {
-
+	protected void activated() {
+		model.beginTutorial();
 	}
 
 	@Override
-	public void onInvalidSetSelected() {
+	protected void deactivated() {
+		model.endTutorial();
+	}
 
+	@Override
+	public void onTutorialEnd() {
+		controller.setDealingState();
+	}
+
+	@Override
+	public void draw() {
+		model.drawGame();
 	}
 }

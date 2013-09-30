@@ -75,6 +75,11 @@ public class Timer {
 		return elapsed;
 	}
 
+	public synchronized void restart() {
+		stop();
+		start();
+	}
+	
 	public synchronized void start() {
 		if (state != State_Started)
 			TimerManager.instance.register(this);
@@ -90,11 +95,10 @@ public class Timer {
 		state = State_Stopped;
 	}
 
-	public synchronized void pause() {		
-		if (state == State_Stopped)
+	public synchronized void pause() {
+		if (state != State_Started)
 			return;
-		if (state == State_Started)
-			TimerManager.instance.unregister(this);
+		TimerManager.instance.unregister(this);
 		state = State_Paused;
 	}
 }

@@ -13,11 +13,11 @@ public class PracticeModeController extends SetGameController<PracticeModeState>
 	private PracticeModeState dealingState;
 	private PracticeModeState blockedState;
 	private PracticeModeState modeEndState;
-	
+
 	public PracticeModeController(PracticeModeScreen screen) {
 		view = screen;
 		model = new PracticeMode();
-		model.setModeListener(this);	
+		model.setModeListener(this);
 		waitingState = new PracticeModeWaitingState(this);
 		dealingState = new PracticeModeDealingState(this);
 		blockedState = new PracticeModeBlockedState(this);
@@ -28,19 +28,17 @@ public class PracticeModeController extends SetGameController<PracticeModeState>
 	public void onScreenActivated() {
 		model.startMode();
 		setDealingState();
-		view.registerDrawable(model, 1);
 	}
 
 	@Override
 	public void onScreenDeactivated() {
 		super.onScreenDeactivated();
 		model.exitMode();
-		view.unregisterDrawable(model);
 	}
 
 	@Override
-	public boolean onScreenTapped() {
-		return currentState.onScreenTapped();
+	public void onNewGame() {
+		currentState.onNewGame();
 	}
 
 	@Override
@@ -62,7 +60,7 @@ public class PracticeModeController extends SetGameController<PracticeModeState>
 	public void onModeEnd() {
 		currentState.onModeEnd();
 	}
-	
+
 	void setDealingState() {
 		setState(dealingState);
 	}

@@ -5,21 +5,22 @@ import java.util.List;
 
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.Rotation;
 import com.blox.framework.v0.util.Utils;
 import com.blox.setgame.utils.R;
 import com.blox.setgame.utils.SetGameResources;
 
-public class Card extends CardGameObject {
+public class Card extends SetGameObject {
 
 	// region static
-	
-	public static final float scale = 0.7f;
-	public static final int Height = (int) (240 * scale);
-	public static final int Space = 7;
-	public static final int SymbolHeight = (int) (50 * scale);
-	public static final int SymbolWidth = (int) (50 * scale);
 
-	public static final int Width = (int) (140 * scale);
+	public static final int Width = 100;
+	public static final int Height = 174;
+	public static final int Space = 7;
+	public static final int SymbolHeight = 45;
+	public static final int SymbolWidth = 45;
+
+	public static final int CardsInDeck = 81;
 
 	private static void createDeck(Card[] deck) {
 		int[] colors = new int[] { CardAttributes.Color_Red, CardAttributes.Color_Green, CardAttributes.Color_Blue };
@@ -53,22 +54,21 @@ public class Card extends CardGameObject {
 	public static boolean isSet(Card card1, Card card2, Card card3) {
 		return CardAttributes.isSet(card1.attributes, card2.attributes, card3.attributes);
 	}
-	
+
 	// endregion
-	
+
 	private boolean isOpened;
 	private boolean isSelected;
-	
-	private List<Symbol> symbols;	
+
+	private List<Symbol> symbols;
 	private CardAttributes attributes;
 	private ICardListener eventListener;
-	
-	public Card(CardAttributes cardAttributes) {
-		this.attributes = cardAttributes;
-		this.width = Card.Width;
-		this.height = Card.Height;	
 
-		open();
+	Card(CardAttributes cardAttributes) {
+		this.attributes = cardAttributes;
+		setWidth(Card.Width);
+		setHeight(Card.Height);
+
 		initSymbols();
 	}
 
@@ -77,48 +77,57 @@ public class Card extends CardGameObject {
 
 		ITexture symbolTexture = Game.getResourceManager().getTexture(symbolName);
 		symbols = new ArrayList<Symbol>();
+
 		if (attributes.getCount() == 1) {
-			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.firstOfOne, this.location));
-		} else if (attributes.getCount() == 2) {
-			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.firstOfTwo, this.location));
-			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.secondOfTwo, this.location));
-		} else if (attributes.getCount() == 4) {
-			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.firstOfThree, this.location));
-			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.secondOfThree, this.location));
-			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.thirdOfThree, this.location));
+			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.firstOfOne, this));
+		}
+		else if (attributes.getCount() == 2) {
+			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.firstOfTwo, this));
+			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.secondOfTwo, this));
+		}
+		else if (attributes.getCount() == 4) {
+			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.firstOfThree, this));
+			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.secondOfThree, this));
+			symbols.add(new Symbol(symbolTexture, attributes.getColor(), R.symbolpositions.thirdOfThree, this));
 		}
 	}
 
 	private void switchSelected() {
 		isSelected = !isSelected;
 	}
-	
-	public boolean isOpened() {
+
+	void activate(ICardListener listener) {
+		listenInput(true);
+		eventListener = listener;
+	}
+
+	void deactivate() {
+		listenInput(false);
+		eventListener = null;
+	}
+
+	boolean isOpened() {
 		return isOpened;
 	}
 
-	public void open() {
+	void open() {
 		isOpened = true;
 	}
 
-	public void close() {
+	void close() {
 		isOpened = false;
 	}
 
-	public boolean isSelected() {
+	boolean isSelected() {
 		return isSelected;
 	}
 
-	public void deselect() {
+	void deselect() {
 		isSelected = false;
 	}
 
-	public CardAttributes getAttributes() {
+	CardAttributes getAttributes() {
 		return attributes;
-	}
-
-	public void setEventListener(ICardListener listener) {
-		eventListener = listener;
 	}
 
 	@Override
@@ -130,6 +139,7 @@ public class Card extends CardGameObject {
 
 		SetGameResources.drawTextureCardEmpty(this);
 		for (int i = 0; i < symbols.size(); i++) {
+			symbols.get(i).getColor().a = getColor().a;
 			symbols.get(i).draw();
 		}
 
@@ -138,23 +148,20 @@ public class Card extends CardGameObject {
 	}
 
 	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		if (Utils.isIn(x, y, location, width, height)) {
-			switchSelected();
-			notifyTapped();
-			return true;
-		}
-		return false;
+	public Rotation getRotation() {
+		super.getRotation().origin.set((getLocation().x + Card.Width) / 2, (getLocation().y + Card.Height) / 2);
+		return super.getRotation();
+	}
+
+	@Override
+	protected boolean onTap() {
+		switchSelected();
+		notifyTapped();
+		return true;
 	}
 
 	private void notifyTapped() {
 		if (eventListener != null)
 			eventListener.onCardTapped(this);
-	}
-
-	@Override
-	public void deactivate() {
-		super.deactivate();
-		eventListener = null;
 	}
 }

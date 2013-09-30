@@ -1,21 +1,21 @@
 package com.blox.setgame.model;
 
-public class TrainingCards {
-	public static final int SetCardCount = 2;
+class TrainingCards {
+	public static final int ReadyCardCount = 2;
 	public static final int CardToSelectCount = 3;
 
 	private Card[] cards;
 
-	public TrainingCards() {
-		cards = new Card[SetCardCount + CardToSelectCount];
+	TrainingCards() {
+		cards = new Card[ReadyCardCount + CardToSelectCount];
 	}
 
 	public boolean isEmpty() {
-		return cards[0] != null;
+		return cards[0] == null;
 	}
-	
+
 	public void empty() {
-		for(int i = 0; i < cards.length; i++)
+		for (int i = 0; i < cards.length; i++)
 			cards[i] = null;
 	}
 
@@ -30,19 +30,19 @@ public class TrainingCards {
 	public Card[] getAllCards() {
 		return cards;
 	}
-	
+
 	public Card getCardsToSelect(int i) {
-		return cards[SetCardCount + i];
+		return cards[ReadyCardCount + i];
 	}
 
 	public void setCardsOnTable(Card... cards) {
-		for (int i = 0; i < SetCardCount; i++)
+		for (int i = 0; i < ReadyCardCount; i++)
 			this.cards[i] = cards[i];
 	}
 
 	public void setCardsToSelect(Card... cards) {
 		for (int i = 0; i < CardToSelectCount; i++)
-			this.cards[i + SetCardCount] = cards[i];
+			this.cards[i + ReadyCardCount] = cards[i];
 	}
 
 	public int checkScore(Card selectedCard) {

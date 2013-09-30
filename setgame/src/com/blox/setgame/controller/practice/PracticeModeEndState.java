@@ -6,17 +6,21 @@ public class PracticeModeEndState extends PracticeModeState {
 	public PracticeModeEndState(PracticeModeController controller) {
 		super(controller);
 	}
-	
+
 	@Override
 	protected void activated() {
 		model.endMode();
 		Game.vibrate(100);
 	}
-	
+
 	@Override
-	public boolean onScreenTapped() {
+	public void onNewGame() {
 		model.startMode();
 		controller.setDealingState();
-		return true;
+	}
+
+	@Override
+	public void draw() {
+		model.drawResults();
 	}
 }

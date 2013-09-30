@@ -1,12 +1,11 @@
 package com.blox.setgame.model;
 
-public final class CardAttributes {
+final class CardAttributes {
 	public static final int DiffSet = 7;
 
 	public static final int Value1 = 1;
 	public static final int Value2 = Value1 << 1;
 	public static final int Value3 = Value1 << 2;
-
 
 	public static final int Color_Red = Value1;
 	public static final int Color_Green = Value2;
@@ -30,9 +29,9 @@ public final class CardAttributes {
 
 	private static int getSetScore(int a1, int a2, int a3) {
 		if ((a1 & a2) == a3)
-			return 2;
-		if ((a1 | a2 | a3) == DiffSet)
 			return 1;
+		if ((a1 | a2 | a3) == DiffSet)
+			return 3;
 		return 0;
 	}
 
@@ -55,15 +54,6 @@ public final class CardAttributes {
 		return 0;
 	}
 
-	public static CardAttributes getCompletingCardAttributes(CardAttributes a1, CardAttributes a2) {
-		CardAttributes a3 = new CardAttributes();
-		a3.color = getCompleting(a1.color, a2.color);
-		a3.shape = getCompleting(a1.shape, a2.shape);
-		a3.count = getCompleting(a1.count, a2.count);
-		a3.pattern = getCompleting(a1.pattern, a2.pattern);
-		return a3;
-	}
-
 	public static int getCompleting(int a1, int a2) {
 		return a1 == a2 ? a1 : getThird(a1, a2);
 	}
@@ -72,16 +62,42 @@ public final class CardAttributes {
 		return DiffSet ^ a1 ^ a2;
 	}
 
-	private int color;
-
-	private int count;
-
-	private int pattern;
-
-	private int shape;
-
-	private CardAttributes() {
+	public static String getColorName(int color) {
+		if (color == Color_Blue)
+			return "Blue";
+		if (color == Color_Green)
+			return "Green";
+		return "Red";
 	}
+
+	public static int getCountValue(int count) {
+		if (count == Count_1)
+			return 1;
+		if (count == Count_2)
+			return 2;
+		return 3;
+	}
+
+	public static String getPatternName(int pattern) {
+		if (pattern == Pattern_Empty)
+			return "Empty";
+		if (pattern == Pattern_Filled)
+			return "Filled";
+		return "Striped";
+	}
+
+	public static String getShapeName(int shape) {
+		if (shape == Shape_Circle)
+			return "Circle";
+		if (shape == Shape_Square)
+			return "Square";
+		return "Triangle";
+	}
+
+	private int color;
+	private int count;
+	private int pattern;
+	private int shape;
 
 	public CardAttributes(int color, int shape, int count, int pattern) {
 		this.color = color;
@@ -108,6 +124,22 @@ public final class CardAttributes {
 
 	public int getShape() {
 		return shape;
+	}
+
+	public String getColorName() {
+		return getColorName(color);
+	}
+
+	public int getCountValue() {
+		return getCountValue(count);
+	}
+
+	public String getPatternName() {
+		return getPatternName(pattern);
+	}
+
+	public String getShapeName() {
+		return getShapeName(shape);
 	}
 
 	@Override

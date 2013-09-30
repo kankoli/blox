@@ -29,6 +29,7 @@ public final class R {
 			public static final String success = "success";
 			public static final String timeUp = "time-up";
 			public static final String wait = "wait";
+			public static final String flip = "flip";
 		}
 
 		public static final class textures {
@@ -36,6 +37,30 @@ public final class R {
 			public static final String cardClosed = "card-closed";
 			public static final String cardEmpty = "card-empty";
 			public static final String logo = "logo";
+			public static final String hint = "hint";
+			public static final String refresh = "refresh";
+
+			public static final class toolbar {
+				public static final String back = "tb_back";
+				public static final String settings = "tb_settings";
+				public static final String musicPlay = "tb_music_play";
+				public static final String musicStop = "tb_music_stop";
+				public static final String vibrationOn = "tb_vibration_on";
+				public static final String vibrationOff = "tb_vibration_off";
+				public static final String soundOn = "tb_sound_on";
+				public static final String soundOff = "tb_sound_off";
+			}
+		}
+	}
+	
+	public static final class settings {
+		public static final String music = "music";
+		public static final String sound = "sound";
+		public static final String vibration = "vibration";
+		
+		public static final class hiscores {
+			public static final String practice = "hiscore_practice";
+			public static final String challenge = "hiscore_challenge";
 		}
 	}
 
@@ -55,18 +80,18 @@ public final class R {
 	public static final class symbolpositions {
 		public static final Vector firstOfOne = new Vector((Card.Width - Card.SymbolWidth) / 2, (Card.Height - Card.SymbolHeight) / 2);
 
-		public static final Vector firstOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 1.2f);
-		public static final Vector secondOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 0.2f);
+		public static final Vector firstOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 1.1f);
+		public static final Vector secondOfTwo = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 0.1f);
 
-		public static final Vector firstOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 1.8f);
+		public static final Vector firstOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 1.65f);
 		public static final Vector secondOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 0.5f);
-		public static final Vector thirdOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 0.8f);
+		public static final Vector thirdOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 0.65f);
 	}
 
 	public static final class colors {
 		public static final Color setRed = Color.fromHex("#d0583bff");
-		public static final Color setGreen = Color.fromHex("#56ad89ff");
-		public static final Color setBlue = Color.fromHex("#3974b1ff");
+		public static final Color setGreen = Color.fromHex("#56bd89ff");
+		public static final Color setBlue = Color.fromHex("#3974c1ff");
 	}
 
 	private R() {

@@ -41,6 +41,10 @@ public final class ScreenManager implements IViewFinder {
 		return screen;
 	}
 
+	public Screen getCurrentScreen() {
+		return currentScreen;
+	}
+	
 	public void init() {
 		initScreenSwitcher();
 		switchToDefaultScreen();

@@ -19,6 +19,10 @@ public abstract class Manager<T> {
 		items.remove(item);
 	}
 	
+	public void empty() {
+		items.clear();
+	}
+	
 	public void execute() {
 		for (int i = items.size() - 1; i >= 0 && i <= items.size(); i--)
 			execute(items.get(i));

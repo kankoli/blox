@@ -9,14 +9,15 @@ import com.blox.framework.v0.util.TextureDrawer;
 
 public final class SetGameResources {
 	private SetGameResources() {
-		
+
 	}
 
 	private static final ISound soundError;
 	private static final ISound soundSuccess;
 	private static final ISound soundTimeUp;
 	private static final ISound soundWait;
-	
+	private static final ISound soundFlip;
+
 	private static final ITexture textureCardBorder;
 	private static final ITexture textureCardClosed;
 	private static final ITexture textureCardEmpty;
@@ -26,8 +27,9 @@ public final class SetGameResources {
 
 		soundSuccess = r.getSound(R.game.sounds.success);
 		soundError = r.getSound(R.game.sounds.error);
-		soundWait = r.getSound(R.game.sounds.wait);
 		soundTimeUp = r.getSound(R.game.sounds.timeUp);
+		soundWait = r.getSound(R.game.sounds.wait);
+		soundFlip = r.getSound(R.game.sounds.flip);
 
 		textureCardEmpty = r.getTexture(R.game.textures.cardEmpty);
 		textureCardClosed = r.getTexture(R.game.textures.cardClosed);
@@ -60,5 +62,9 @@ public final class SetGameResources {
 
 	public static void playSoundWait() {
 		soundWait.play();
+	}
+
+	public static void playSoundFlip() {
+		soundFlip.play();
 	}
 }

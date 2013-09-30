@@ -8,12 +8,12 @@ public class LearningModeWaitingState extends LearningModeState {
 	public LearningModeWaitingState(LearningModeController controller) {
 		super(controller);
 	}
-	
+
 	@Override
 	protected void activated() {
 		model.activateCardsOnTable();
 	}
-	
+
 	@Override
 	protected void deactivated() {
 		model.deactivateCards();
@@ -21,8 +21,7 @@ public class LearningModeWaitingState extends LearningModeState {
 
 	@Override
 	public void onCardTapped(Card card) {
-		card.deselect();
-		model.checkSet(card);
+		model.onCardSelected(card);
 	}
 
 	@Override

@@ -1,26 +1,21 @@
 package com.blox.setgame.model;
 
 import com.blox.setgame.utils.R;
-import com.blox.setgame.utils.TrainingCardDealer;
 
 public abstract class TrainingMode extends SetGameMode {
 	protected TrainingCards cards;
 
 	protected TrainingMode() {
 		cards = new TrainingCards();
-		setDealer(new TrainingCardDealer(cards));
-	}
-	
-	@Override
-	protected Card[] getCardsOnTable() {
-		return cards.getAllCards();
+		dealer = new TrainingCardDealer(cards);
 	}
 
 	public TrainingCards getCards() {
 		return cards;
 	}
-	
-	public void checkSet(Card selectedCard) {
+
+	public void onCardSelected(Card selectedCard) {
+		selectedCard.deselect();
 		int score = cards.checkScore(selectedCard);
 		if (score > 0)
 			notifySetFound();
@@ -29,12 +24,9 @@ public abstract class TrainingMode extends SetGameMode {
 	}
 
 	public void activateCardsOnTable() {
-		for (int i = 0; i < TrainingCards.CardToSelectCount; i++) {
-			Card card = cards.getCardsToSelect(i);
-			card.activate();
-			card.setEventListener(gameListener);
-		}
-	}	
+		for (int i = 0; i < TrainingCards.CardToSelectCount; i++)
+			cards.getCardsToSelect(i).activate(modeListener);
+	}
 
 	public void deactivateCards() {
 		for (int i = 0; i < TrainingCards.CardToSelectCount; i++) {
@@ -44,11 +36,11 @@ public abstract class TrainingMode extends SetGameMode {
 		}
 	}
 
-	public void updateCardLocations() {	
+	public void updateCardLocations() {
 		for (int i = 0; i < cards.getLength(); i++)
 			cards.get(i).getLocation().set(R.learningModeScreen.layout.positions[i]);
 	}
-	
+
 	public void exitMode() {
 		deactivateCards();
 		cards.empty();

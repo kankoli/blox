@@ -3,6 +3,7 @@ package com.blox.setgame.view;
 import com.blox.framework.v0.impl.Screen;
 import com.blox.framework.v0.impl.ScreenManager;
 import com.blox.setgame.model.Logo;
+import com.blox.setgame.model.Toolbar;
 import com.blox.setgame.utils.R;
 
 public abstract class SetGameScreen extends Screen {
@@ -12,13 +13,18 @@ public abstract class SetGameScreen extends Screen {
 		if (screenListener != null)
 			screenListener.onScreenActivated();
 	}
-	
+
 	protected void notifyScreenDeactivated() {
 		if (screenListener != null)
 			screenListener.onScreenDeactivated();
 	}
-	
-	public void setScreenListener(ISetGameViewListener screenListener) {
+
+	protected void notifyDraw() {
+		if (screenListener != null)
+			screenListener.draw();
+	}
+
+	protected void setScreenListener(ISetGameViewListener screenListener) {
 		this.screenListener = screenListener;
 	}
 
@@ -26,6 +32,8 @@ public abstract class SetGameScreen extends Screen {
 	public void activated() {
 		super.activated();
 		notifyScreenActivated();
+		Toolbar.getInstance().setTitle(getTitle());
+		Toolbar.getInstance().activateBackButton();
 	}
 
 	@Override
@@ -33,7 +41,7 @@ public abstract class SetGameScreen extends Screen {
 		super.deactivated();
 		notifyScreenDeactivated();
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
@@ -41,8 +49,20 @@ public abstract class SetGameScreen extends Screen {
 		Logo logo = new Logo();
 		logo.getColor().a = 0.25f;
 		registerDrawable(logo, 1);
-		
+
 		registerInputListener(this);
+	}
+
+	@Override
+	public void render() {
+		super.render();
+		
+		if (super.isActive())
+			notifyDraw();
+	}
+	
+	void back() {
+		onBack();
 	}
 
 	@Override
@@ -50,4 +70,6 @@ public abstract class SetGameScreen extends Screen {
 		ScreenManager.instance.switchTo(R.game.screens.menu, true);
 		return true;
 	}
+
+	protected abstract String getTitle();
 }

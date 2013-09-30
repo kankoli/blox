@@ -1,7 +1,9 @@
 package com.blox.setgame.model;
 
+import com.blox.framework.v0.impl.Settings;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Timer;
+import com.blox.setgame.utils.R;
 
 public class PracticeMode extends TrainingMode {
 	private final static float blockDuration = 2f;
@@ -13,13 +15,19 @@ public class PracticeMode extends TrainingMode {
 
 	private int deals = 0;
 	private int score = 0;
+	private GameInfo info;
 
-	private IPracticeModeModelListener modeListener;
-	private boolean waitForNewGame;
+	private ScreenTouchHandler touchHandler;
 
-	public void setModeListener(IPracticeModeModelListener modeListener) {
-		super.setGameListener(modeListener);
-		this.modeListener = modeListener;
+	private final IScreenTouchListener touchListener = new IScreenTouchListener() {
+		@Override
+		public void onScreenTouched() {
+			notifyNewGame();
+		}
+	};
+
+	private IPracticeModeListener getModeListener() {
+		return (IPracticeModeListener)super.modeListener;
 	}
 
 	public int getScore() {
@@ -27,6 +35,10 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	public PracticeMode() {
+		info = new GameInfo(50, 25);
+
+		touchHandler = new ScreenTouchHandler();
+
 		blockTimer = new Timer();
 		dealTimer = new Timer();
 
@@ -60,22 +72,29 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	private void notifyUnblocked() {
-		if (modeListener != null)
-			modeListener.onUnblock();
+		if (getModeListener() != null)
+			getModeListener().onUnblock();
 	}
 
 	private void notifyDealTimeUp() {
-		if (modeListener != null)
-			modeListener.onDealTimeUp();
+		if (getModeListener() != null)
+			getModeListener().onDealTimeUp();
 	}
 
 	private void notifyModeEnd() {
-		if (modeListener != null)
-			modeListener.onModeEnd();
+		touchHandler.activate(touchListener);
+		if (getModeListener() != null)
+			getModeListener().onModeEnd();
+	}
+
+	private void notifyNewGame() {
+		touchHandler.deactivate();
+		if (getModeListener() != null)
+			getModeListener().onNewGame();
 	}
 
 	private boolean requiresNewDeal() {
-		return waitForNewGame || deals < totalDeals;
+		return deals < totalDeals;
 	}
 
 	private void addScore(int score) {
@@ -91,19 +110,18 @@ public class PracticeMode extends TrainingMode {
 	}
 
 	public void startMode() {
-		if (!waitForNewGame)
-			return;
 		score = 0;
 		deals = 0;
-		waitForNewGame = false;
 	}
 
 	public void endMode() {
 		deactivateCards();
 		blockTimer.stop();
 		dealTimer.stop();
-		waitForNewGame = true;
 		cards.empty();
+		int practiceHiScore = Settings.getInteger(R.settings.hiscores.practice, 0);
+		if (score > practiceHiScore)
+			Settings.putInteger(R.settings.hiscores.practice, score);
 	}
 
 	@Override
@@ -113,11 +131,11 @@ public class PracticeMode extends TrainingMode {
 		dealTimer.stop();
 		score = 0;
 		deals = 0;
-		waitForNewGame = false;
 	}
 
 	@Override
-	public void checkSet(Card selectedCard) {
+	public void onCardSelected(Card selectedCard) {
+		selectedCard.deselect();
 		int score = cards.checkScore(selectedCard);
 		if (score > 0) {
 			addScore(score);
@@ -128,29 +146,22 @@ public class PracticeMode extends TrainingMode {
 			notifyInvalidSetSelected();
 		}
 	}
-	
+
 	@Override
 	public void deal() {
 		if (!requiresNewDeal()) {
 			notifyModeEnd();
 			return;
 		}
-		
+
 		deals++;
 		blockTimer.stop();
 		dealTimer.stop();
 		super.deal();
 	}
 
-	@Override
-	public void draw() {
-		if (waitForNewGame) {
-			drawResults();
-			return;
-		}
-
-		super.draw();
-
+	public void drawGame() {
+		drawCards();
 		drawScore();
 		drawRemainingDeals();
 		drawRemainingTime();
@@ -158,27 +169,32 @@ public class PracticeMode extends TrainingMode {
 			drawWaitMessage();
 	}
 
-	private void drawRemainingDeals() {
-		PracticeModeInfo.draw("Deals: " + deals + "/" + totalDeals, TextDrawer.AlignSW, 0);
+	public void drawResults() {
+		info.draw("Score: " + score, TextDrawer.AlignCentered, 50);
+		info.draw("Touch Screen", TextDrawer.AlignCentered, -50);
+		info.draw("To Continue", TextDrawer.AlignCentered, -100);
+	}
+
+	private void drawCards() {
+		Card[] allCards = cards.getAllCards();
+		for (int i = 0; i < allCards.length; i++)
+			allCards[i].draw();
 	}
 
 	private void drawRemainingTime() {
 		int t = (int) Math.min(timePerDeal, (1 + timePerDeal - dealTimer.getElapsedTime()));
-		PracticeModeInfo.draw("" + t, TextDrawer.AlignNE, 0);
+		info.draw("" + t, TextDrawer.AlignNE, -50);
 	}
 
 	private void drawScore() {
-		PracticeModeInfo.draw("Score: " + score, TextDrawer.AlignSW, 60);
+		info.draw("Score: " + score, TextDrawer.AlignSW, 100);
+	}
+	
+	private void drawRemainingDeals() {
+		info.draw("Deals: " + deals + "/" + totalDeals, TextDrawer.AlignSW, 70);
 	}
 
 	private void drawWaitMessage() {
-
-		PracticeModeInfo.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, 0);
-	}
-
-	private void drawResults() {
-		PracticeModeInfo.draw("Score: " + score, TextDrawer.AlignCentered, 50);
-		PracticeModeInfo.draw("Touch Screen", TextDrawer.AlignCentered, -50);
-		PracticeModeInfo.draw("To Continue", TextDrawer.AlignCentered, -100);
+		info.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, -50);
 	}
 }

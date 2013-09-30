@@ -73,8 +73,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="9" language="java" name="com.blox.setgame.model.ISetGameModelListener" project="setgame" 
-    file="/setgame/src/com/blox/setgame/model/ISetGameModelListener.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="9" language="java" name="com.blox.setgame.model.ISetGameModeListener" project="setgame" 
+    file="/setgame/src/com/blox/setgame/model/ISetGameModeListener.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="723" y="217"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -82,8 +82,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="10" language="java" name="com.blox.setgame.model.IPracticeModeModelListener" project="setgame" 
-    file="/setgame/src/com/blox/setgame/model/IPracticeModeModelListener.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="10" language="java" name="com.blox.setgame.model.IPracticeModeListener" project="setgame" 
+    file="/setgame/src/com/blox/setgame/model/IPracticeModeListener.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="721" y="390"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

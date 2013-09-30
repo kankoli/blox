@@ -40,6 +40,19 @@ public class Vector {
 		z = f;
 		return this;
 	}
+	
+	public Vector set(float x, float y) {
+		this.x = x;
+		this.y = y;
+		return this;
+	}
+	
+	public Vector set(float x, float y, float z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		return this;
+	}
 
 	public Vector add(Vector v) {
 		x += v.x;

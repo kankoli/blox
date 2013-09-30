@@ -7,12 +7,12 @@ public class PracticeModeBlockedState extends PracticeModeState {
 	public PracticeModeBlockedState(PracticeModeController controller) {
 		super(controller);
 	}
-	
+
 	@Override
 	protected void activated() {
 		model.activateCardsOnTable();
 	}
-	
+
 	@Override
 	protected void deactivated() {
 		model.deactivateCards();
@@ -20,7 +20,7 @@ public class PracticeModeBlockedState extends PracticeModeState {
 
 	@Override
 	public void onCardTapped(Card card) {
-		card.deselect();
+		model.onCardSelected(card);
 		SetGameResources.playSoundWait();
 	}
 }

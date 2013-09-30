@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="2" language="java" name="com.blox.setgame.model.ISetGameModelListener" project="setgame" 
-    file="/setgame/src/com/blox/setgame/model/ISetGameModelListener.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="2" language="java" name="com.blox.setgame.model.ISetGameModeListener" project="setgame" 
+    file="/setgame/src/com/blox/setgame/model/ISetGameModeListener.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="368" y="208"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="false">      
