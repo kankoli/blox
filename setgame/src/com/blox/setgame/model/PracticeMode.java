@@ -138,8 +138,8 @@ public class PracticeMode extends TrainingMode {
 		selectedCard.deselect();
 		int score = cards.checkScore(selectedCard);
 		if (score > 0) {
-			addScore(score);
 			notifySetFound();
+			addScore(score);
 		}
 		else {
 			block();

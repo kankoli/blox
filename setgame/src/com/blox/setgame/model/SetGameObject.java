@@ -13,7 +13,7 @@ abstract class SetGameObject extends GameObject {
 	public static final float FadingDuration = 0.25f;
 	public static final float BlinkDuration = 1f;
 	public static final int BlinkPerSecond = 10;
-	public static final float maxScale = 0.2f;
+	public static final float MaxScale = 0.2f;
 	
 	private FadeOutEffect fadeEffect;
 	private BlinkEffect blinkEffect;
@@ -49,14 +49,14 @@ abstract class SetGameObject extends GameObject {
 	private ScaleEffect getScaleEffect() {
 		if (scaleEffect == null) {
 			scaleEffect = new ScaleEffect(this);
-			scaleEffect.setMaxScale(maxScale);
+			scaleEffect.setMaxScale(MaxScale);
 		}
 		return scaleEffect;
 	}
 	
 	private CompositeEffect getMoveAndScaleEffect() {
 		if (moveAndScaleEffect == null) {
-			moveAndScaleEffect = new CompositeEffect(getMoveEffect(), getScaleEffect());
+			moveAndScaleEffect = new CompositeEffect(this, getMoveEffect(), getScaleEffect());
 		}
 		return moveAndScaleEffect;
 	}
@@ -67,8 +67,8 @@ abstract class SetGameObject extends GameObject {
 
 	void moveTo(IEffectEndListener listener, Vector destination, float duration) {
 		getMoveEffect().setDestination(destination);
-		getMoveEffect().setDuration(duration);
-		getMoveEffect().start(listener);
+		getMoveAndScaleEffect().setDuration(duration);
+		getMoveAndScaleEffect().start(listener);
 	}
 	
 	void blink(IEffectEndListener listener, boolean looping) {

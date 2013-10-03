@@ -2,8 +2,10 @@ package com.blox.framework.v0.effects;
 
 public class CompositeEffect extends Effect {
 	private Effect[] effects;
+	private Object obj;
 
-	public CompositeEffect(Effect... effects) {
+	public CompositeEffect(Object obj, Effect... effects) {
+		this.obj = obj;
 		this.effects = effects;
 	}
 
@@ -16,11 +18,9 @@ public class CompositeEffect extends Effect {
 
 	@Override
 	protected void onUpdate() {
-		for (int i = 0; i < effects.length; i++) {
-			effects[i].onUpdate();
-		}
+
 	}
-	
+
 	@Override
 	public void start() {
 		for (int i = 0; i < effects.length; i++) {
@@ -28,7 +28,7 @@ public class CompositeEffect extends Effect {
 		}
 		super.start();
 	}
-	
+
 	@Override
 	public void stop() {
 		for (int i = 0; i < effects.length; i++) {
@@ -37,8 +37,9 @@ public class CompositeEffect extends Effect {
 		super.stop();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected <T> T getObject() {
-		return null;
+	protected Object getObject() {
+		return obj;
 	}
 }
