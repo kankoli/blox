@@ -42,7 +42,8 @@ class TrainingCardDealer extends CardDealer {
 
 	void abortDeal() {
 		for (int i = 0; i < cards.getLength(); i++) {
-			cards.get(i).stopEffects();
+			if (cards.get(i) != null)
+				cards.get(i).stopEffects();
 		}
 	}
 	
