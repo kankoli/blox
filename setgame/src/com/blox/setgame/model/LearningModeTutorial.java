@@ -8,12 +8,9 @@ import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
+import com.blox.setgame.utils.R;
 
 class LearningModeTutorial extends SetGameObject {
-	public static interface ILearningModeTutorialListener {
-		void onTutorialEnd();
-	}
-
 	private IFont font;
 	private int pageIndex;
 	private List<String> pages;
@@ -28,7 +25,7 @@ class LearningModeTutorial extends SetGameObject {
 		this.listener = listener;
 
 		font = FontManager.createDefaultFontInstance();
-		font.setSize(18);
+		font.setScale(R.fontSize.small);
 
 		pages = new ArrayList<String>();
 
@@ -41,7 +38,7 @@ class LearningModeTutorial extends SetGameObject {
 		nextButton = new SetGameTextButton();
 		nextButton.setFont(FontManager.createDefaultFontInstance());
 		nextButton.setText("Next");
-		nextButton.getLocation().set(Game.getVirtualWidth() - (nextButton.getWidth() + 10), 60);
+		nextButton.getLocation().set(Game.getVirtualWidth() - (nextButton.getWidth() + 10), 100);
 		nextButton.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
@@ -52,8 +49,8 @@ class LearningModeTutorial extends SetGameObject {
 		prevButton = new SetGameTextButton();
 		prevButton.setFont(FontManager.createDefaultFontInstance());
 		prevButton.setText("Prev");
-		prevButton.activate();
-		prevButton.getLocation().set(10, 60);
+		prevButton.deactivate();
+		prevButton.getLocation().set(10, 100);
 		prevButton.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
@@ -66,7 +63,7 @@ class LearningModeTutorial extends SetGameObject {
 		skipButton.setHeight(30);
 		skipButton.setFont(FontManager.createDefaultFontInstance());
 		skipButton.setText("Skip");
-		skipButton.getLocation().set((Game.getVirtualWidth() - skipButton.getWidth()) / 2, 0);
+		skipButton.getLocation().set((Game.getVirtualWidth() - skipButton.getWidth()) / 2, 50);
 		skipButton.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
@@ -75,8 +72,18 @@ class LearningModeTutorial extends SetGameObject {
 		});
 	}
 
-	void reset() {
+	void start() {
 		pageIndex = 0;
+		prevButton.deactivate();
+		nextButton.activate();
+		skipButton.activate();	
+		nextButton.setText("Next");		
+	}
+
+	void end() {
+		prevButton.deactivate();
+		nextButton.deactivate();
+		skipButton.deactivate();	
 	}
 
 	private void next() {
@@ -93,8 +100,10 @@ class LearningModeTutorial extends SetGameObject {
 	}
 
 	private void prev() {
-		if (pageIndex > 1) {
-			pageIndex--;		
+		if (pageIndex > 0) {
+			pageIndex--;
+		}
+		if (pageIndex > 0) {
 			prevButton.activate();
 		}
 		else {
@@ -120,17 +129,12 @@ class LearningModeTutorial extends SetGameObject {
 		skipButton.draw();
 	}
 
-	@Override
-	public void listenInput(boolean listen) {
-		super.listenInput(listen);
-		nextButton.listenInput(listen);
-		prevButton.listenInput(listen);
-		skipButton.listenInput(listen);
-	}
-
 	private void drawPage() {
-		TextDrawer.draw(FontManager.defaultFont, (pageIndex + 1) + "/" + pages.size(), IDrawingInfo.viewport, TextDrawer.AlignN);
 		Game.pushRenderingShift(0, -100, false);
+		TextDrawer.draw(FontManager.defaultFont, (pageIndex + 1) + "/" + pages.size(), IDrawingInfo.viewport, TextDrawer.AlignN);
+		Game.popRenderingShift();
+		
+		Game.pushRenderingShift(0, -175, false);
 		TextDrawer.draw(font, pages.get(pageIndex), IDrawingInfo.viewport, TextDrawer.AlignN);
 		Game.popRenderingShift();
 	}

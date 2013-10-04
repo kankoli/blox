@@ -5,6 +5,7 @@ import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
+import com.blox.setgame.utils.R;
 
 class GameInfo extends SetGameObject {
 	private String text;
@@ -19,11 +20,11 @@ class GameInfo extends SetGameObject {
 		getColor().set(Color.white());
 		
 		font = FontManager.createDefaultFontInstance();
-		setFontSize(18);
+		setFontScale(R.fontSize.small);
 	}
 
-	void setFontSize(int size) {
-		this.font.setSize(size);
+	void setFontScale(float scale) {
+		this.font.setScale(scale);
 	}
 	
 	@Override

@@ -6,7 +6,7 @@ public class LearningMode extends TrainingMode {
 
 	public LearningMode() {
 		hint = new LearningModeHint();
-		tutorial = new LearningModeTutorial(new LearningModeTutorial.ILearningModeTutorialListener() {
+		tutorial = new LearningModeTutorial(new ILearningModeTutorialListener() {
 			@Override
 			public void onTutorialEnd() {
 				notifyTutorialEnd();
@@ -63,12 +63,11 @@ public class LearningMode extends TrainingMode {
 	}
 
 	public void endTutorial() {
-		tutorial.listenInput(false);
+		tutorial.end();
 	}
 
 	public void beginTutorial() {
 		hint.listenInput(false);
-		tutorial.reset();
-		tutorial.listenInput(true);
+		tutorial.start();
 	}
 }

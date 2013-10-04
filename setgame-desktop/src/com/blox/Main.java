@@ -10,7 +10,7 @@ public class Main {
 		cfg.title = "blox";
 		cfg.useGL20 = true;
 
-		float w = 10f;
+		float w = 11f;
 		float h = 16;
 		float x = 50;
 

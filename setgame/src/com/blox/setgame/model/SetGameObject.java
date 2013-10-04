@@ -79,4 +79,10 @@ abstract class SetGameObject extends GameObject {
 	void stopBlinking() {
 		getBlinkEffect().stop();
 	}
+
+	void stopEffects() {
+		getFadeEffect().stop();
+		getBlinkEffect().stop();
+		getMoveAndScaleEffect().stop();
+	}
 }

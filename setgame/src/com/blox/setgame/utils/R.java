@@ -94,6 +94,14 @@ public final class R {
 		public static final Color setBlue = Color.fromHex("#3974c1ff");
 	}
 
+	public static final class fontSize {
+		public static final float xSmall = 0.25f;
+		public static final float small = 0.33f;
+		public static final float medium = 0.5f;
+		public static final float large = 0.66f;
+		public static final float xLarge = 0.75f;
+	}
+	
 	private R() {
 	}
 }

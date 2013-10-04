@@ -28,12 +28,6 @@ public class LearningModeController extends SetGameController<LearningModeState>
 	}
 
 	@Override
-	public void onScreenDeactivated() {
-		super.onScreenDeactivated();
-		model.exitMode();
-	}
-
-	@Override
 	public void onTutorialEnd() {
 		currentState.onTutorialEnd();
 	}

@@ -126,11 +126,11 @@ public class PracticeMode extends TrainingMode {
 
 	@Override
 	public void exitMode() {
-		super.exitMode();
 		blockTimer.stop();
 		dealTimer.stop();
 		score = 0;
 		deals = 0;
+		super.exitMode();
 	}
 
 	@Override
@@ -138,8 +138,8 @@ public class PracticeMode extends TrainingMode {
 		selectedCard.deselect();
 		int score = cards.checkScore(selectedCard);
 		if (score > 0) {
-			notifySetFound();
 			addScore(score);
+			notifySetFound();
 		}
 		else {
 			block();

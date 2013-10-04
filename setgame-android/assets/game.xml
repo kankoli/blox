@@ -23,7 +23,7 @@
 
         <param
             key="default-font"
-            value="JetSet,36" />
+            value="JetSet,0.66" />
 
         <param
             key="default-skin"
@@ -140,8 +140,7 @@
 
             <font
                 id="JetSet"
-                path="fonts/JetSet.ttf"
-                sizes="12,18,24,36,48,60,72" />
+                path="fonts/JetSet.fnt" />
         </fonts>
 
         <textures>

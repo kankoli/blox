@@ -13,7 +13,7 @@ public class HiScores implements IDrawable {
 
 	public HiScores() {
 		info = new GameInfo(20, 0);
-		info.setFontSize(36);
+		info.setFontScale(R.fontSize.medium);
 
 		resetScores = new SetGameTextButton();
 		resetScores.setFont(FontManager.createDefaultFontInstance());

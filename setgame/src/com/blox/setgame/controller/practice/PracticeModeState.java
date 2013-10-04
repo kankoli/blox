@@ -18,6 +18,11 @@ public abstract class PracticeModeState extends SetGameState implements IPractic
 	}
 
 	@Override
+	public void onScreenDeactivated() {
+		model.exitMode();
+	}
+	
+	@Override
 	public void onUnblock() {
 		controller.setWaitingState();
 	}

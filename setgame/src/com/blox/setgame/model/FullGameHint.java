@@ -48,7 +48,7 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 		});
 		
 		font = FontManager.createDefaultFontInstance();
-		font.setSize(24);
+		font.setScale(R.fontSize.small);
 	}
 	
 	@Override

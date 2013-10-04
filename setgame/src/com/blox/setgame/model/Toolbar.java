@@ -40,7 +40,7 @@ public class Toolbar implements IDrawable {
 		final float buttonSize = Game.scale(SetGameImageButton.buttonSize);
 
 		font = FontManager.createDefaultFontInstance();
-		font.setSize(24);
+		font.setScale(R.fontSize.medium);
 		font.getColor().set(R.colors.setRed);
 		
 		backButton = new ToolbarButton();

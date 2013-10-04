@@ -31,12 +31,6 @@ public class PracticeModeController extends SetGameController<PracticeModeState>
 	}
 
 	@Override
-	public void onScreenDeactivated() {
-		super.onScreenDeactivated();
-		model.exitMode();
-	}
-
-	@Override
 	public void onNewGame() {
 		currentState.onNewGame();
 	}
