@@ -6,6 +6,7 @@ import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISettings;
+import com.blox.framework.v0.IShapeRenderer;
 import com.blox.framework.v0.ITextureDrawer;
 import com.blox.framework.v0.IVibrator;
 
@@ -29,6 +30,11 @@ public class GdxGameProvider implements IGameProvider {
 		return new GdxTextureDrawer();
 	}
 
+	@Override
+	public IShapeRenderer createShapeRenderer() {
+		return new GdxShapeRenderer();
+	}
+	
 	@Override
 	public IInputManager createInputManager() {
 		return new GdxInputManager();

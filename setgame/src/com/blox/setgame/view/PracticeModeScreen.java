@@ -1,41 +1,16 @@
 package com.blox.setgame.view;
 
-import com.blox.framework.v0.util.Color;
-import com.blox.framework.v0.util.FontManager;
-import com.blox.setgame.controller.PracticeModeController;
+import com.blox.setgame.controller.practice.PracticeModeController;
 
 public class PracticeModeScreen extends SetGameScreen {
-	private PracticeModeController controller;
-
 	@Override
-	public void activated() {
-		super.activated();
-		FontManager.defaultFont.setColor(Color.White);
-		controller.activated();
+	protected String getTitle() {
+		return "Practice";
 	}
-
-	@Override
-	public void deactivated() {
-		super.deactivated();
-		FontManager.defaultFont.setColor(Color.Black);
-		controller.deactivated();
-	}
-
+	
 	@Override
 	public void init() {
 		super.init();
-		controller = new PracticeModeController(this);
-	}
-
-	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		controller.tap(x, y, count, button);
-		return super.tap(x, y, count, button);
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		controller.execute();
+		setScreenListener(new PracticeModeController(this));
 	}
 }

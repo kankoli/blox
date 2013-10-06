@@ -1,11 +1,11 @@
 package com.blox.framework.v0.impl;
 
+import com.badlogic.gdx.Input.Keys;
 import com.blox.framework.v0.ICollisionGroup;
 import com.blox.framework.v0.ICompositeInputListener;
 import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IInputListener;
-import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMusic;
 import com.blox.framework.v0.ISettingsChangeListener;
 import com.blox.framework.v0.ITexture;
@@ -18,7 +18,7 @@ import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
-public abstract class Screen implements IInputListener, IView, ISettingsChangeListener {
+public abstract class Screen implements IInputListener, IView {
 	private String id;
 	private MoveManager moveManager;
 	private Drawer drawer;
@@ -28,6 +28,19 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 	private IMusic music;
 
 	private boolean hasInited;
+	private boolean isActive;
+	
+	private final ISettingsChangeListener settingsListener = new ISettingsChangeListener() {
+		@Override
+		public void settingChanged(String key, Object newValue) {
+			if ("music".equals(key)) {
+				if (newValue.equals(false))
+					disposeBgMusic();
+				else
+					startPlayingBgMusic();
+			}
+		}
+	};
 
 	protected Screen() {
 	}
@@ -71,7 +84,7 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 	@Override
 	public void render() {
 		if (background != null)
-			TextureDrawer.draw(background, IDrawingInfo.background);
+			TextureDrawer.draw(background, IDrawingInfo.screen);
 		drawer.draw();
 	}
 
@@ -79,17 +92,25 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 	public void activated() {
 		inputListener.activate();
 		startPlayingBgMusic();
-		Settings.registerListener(this);
+		Settings.registerListener(settingsListener);
+		MoveManager.setCurrent(moveManager);
+		isActive = true;
 	}
 
 	@Override
 	public void deactivated() {
 		inputListener.deactivate();
 		disposeBgMusic();
-		Settings.unregisterListener(this);
+		Settings.unregisterListener(settingsListener);
+		MoveManager.setCurrent(null);
+		isActive = false;
+	}
+	
+	public boolean isActive() {
+		return isActive;
 	}
 
-	private void startPlayingBgMusic() {
+	protected void startPlayingBgMusic() {
 		disposeBgMusic();
 		if (!Settings.isMusicOn())
 			return;
@@ -104,7 +125,7 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 		music.play();
 	}
 
-	private void disposeBgMusic() {
+	protected void disposeBgMusic() {
 		if (music != null) {
 			music.stop();
 			music.dispose();
@@ -112,22 +133,8 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 		}
 	}
 
-	@Override
-	public void settingChanged(String key, Object newValue) {
-		if ("music".equals(key)) {
-			if (newValue.equals(false))
-				disposeBgMusic();
-			else
-				startPlayingBgMusic();
-		}
-	}
-
-	public final void registerMovable(IMovable obj) {
-		moveManager.register(obj);
-	}
-
-	public final void unregisterMovable(IMovable obj) {
-		moveManager.unregister(obj);
+	protected boolean onBack() {
+		return false;
 	}
 
 	public final void registerDrawable(IDrawable obj, int layer) {
@@ -201,9 +208,14 @@ public abstract class Screen implements IInputListener, IView, ISettingsChangeLi
 
 	@Override
 	public boolean keyDown(int keycode) {
+		if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
+			if (onBack()) {
+				return true;
+			}
+		}
 		return false;
 	}
-
+	
 	@Override
 	public boolean keyUp(int keycode) {
 		return false;

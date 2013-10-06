@@ -1,11 +1,13 @@
 package com.blox.framework.v0;
 
+import java.io.InputStream;
+
 public interface IResourceManager {
 	void beginLoading();
 	
 	boolean isLoading();
 	
-	int getLoadingPercent();
+	float getProgress();
 	
 	ITexture getTexture(String id);
 
@@ -14,4 +16,6 @@ public interface IResourceManager {
 	IMusic getMusic(String id);
 
 	IFont getFont(String id);
+	
+	InputStream readFile(String path);
 }

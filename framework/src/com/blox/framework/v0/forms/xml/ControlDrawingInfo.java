@@ -22,7 +22,7 @@ class ControlDrawingInfo implements IDrawingInfo, IDrawable {
 	protected ControlDrawingInfo(DrawableControl control) {
 		this.control = control;
 		this.location = new Vector();
-		this.color = Color.White;
+		this.color = Color.white();
 	}
 	
 	protected void update(Form layout) {
@@ -77,15 +77,15 @@ class ControlDrawingInfo implements IDrawingInfo, IDrawable {
 	}
 
 	@Override
-	public boolean ignoreViewportOffset() {
+	public boolean ignoreViewport() {
 		return true;
 	}
-
+	
 	@Override
-	public boolean ignoreViewportScaling() {
-		return true;
-	}
-
+	public boolean ignoreShifting() {
+		return false;
+	}	
+	
 	@Override
 	public void draw() {
 		control.draw();

@@ -4,120 +4,184 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.blox.framework.v0.IAnimationEndListener;
 import com.blox.framework.v0.IBound;
-import com.blox.framework.v0.IGameObject;
+import com.blox.framework.v0.ICollidable;
+import com.blox.framework.v0.IDrawable;
+import com.blox.framework.v0.IDrawingInfo;
+import com.blox.framework.v0.IInputListener;
+import com.blox.framework.v0.IMovable;
 import com.blox.framework.v0.IMover;
-import com.blox.framework.v0.metadata.AnimationMetadata;
-import com.blox.framework.v0.metadata.GameMetadata;
-import com.blox.framework.v0.util.Animation;
-import com.blox.framework.v0.util.Animator;
 import com.blox.framework.v0.util.Color;
+import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.Rotation;
-import com.blox.framework.v0.util.TextureDrawer;
+import com.blox.framework.v0.util.Utils;
 import com.blox.framework.v0.util.Vector;
 
-public abstract class GameObject implements IGameObject {
-	protected float width;
-	protected float height;
-	protected Vector location;
-	protected Vector velocity;
-	protected Vector acceleration;
-	protected Vector scale;
-	protected Color color;
-	protected Rotation rotation;
-	protected boolean flipX;
-	protected boolean flipY;
+public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawable, IMovable, ICollidable {
+	private float width;
+	private float height;
+	private Vector location;
+	private Vector velocity;
+	private Vector acceleration;
+	private Vector scale;
+	private Color color;
+	private Rotation rotation;
+	private boolean flipX;
+	private boolean flipY;
 
-	protected Animator animator;
-	protected List<IBound> bounds;
-	protected IMover mover;
-	
+	private boolean isListeningInput;
+	private List<IBound> bounds;
+	private IMover mover;
+
 	protected GameObject() {
 		location = new Vector();
 		velocity = new Vector();
 		acceleration = new Vector();
 		scale = new Vector(1, 1, 1);
-		color = Color.White;
+		color = Color.white();
 		rotation = new Rotation();
-
-		animator = new Animator();
-		animator.registerEndListener(new AnimationEndListener(this));
 
 		bounds = new ArrayList<IBound>();
 
 		mover = IMover.NULL;
 	}
 
-	// region animations
+	public void setWidth(float width) {
+		this.width = width;
+	}
 
-	private class AnimationEndListener implements IAnimationEndListener {
-		private GameObject gameObj;
-
-		AnimationEndListener(GameObject gameObj) {
-			this.gameObj = gameObj;
+	public void setHeight(float height) {
+		this.height = height;
+	}
+	
+	protected boolean isIn(float x, float y) {
+		if (ignoreViewport()) {
+			x = Game.viewportToScreenX(x);
+			y = Game.viewportToScreenY(y);
 		}
+		
+		return Utils.isIn(x, y, this);
+	}
+	
+	protected boolean isTouched () {
+		return Game.getInputManager().isTouched() && isIn(Game.getInputManager().getX(), Game.getInputManager().getY());
+	}
+	
+	protected boolean onLongPress() {
+		return false;
+	}
+	
+	protected boolean onMouseMoved() {
+		return false;
+	}
+	
+	protected boolean onPan() {
+		return false;
+	}
+	
+	protected boolean onTap() {
+		return false;
+	}
+	
+	protected boolean onTouchDown() {
+		return false;
+	}
+	
+	protected boolean onTouchUp() {
+		return false;
+	}
+	
+	protected boolean onTouchDragged() {
+		return false;
+	}
+	
+	// region IInputListener
 
-		@Override
-		public void onAnimationEnd(Animation animation) {
-			gameObj.onAnimationEnd(animation);
-		}
+	public boolean isListeningInput() {
+		return isListeningInput;
 	}
 
-	protected Animation addAnimation(String animationId) {
-		AnimationMetadata metadata = GameMetadata.getAnimation(animationId);
-		Animation animation = Animation.fromMetadata(metadata);
-
-		animator.addAnimation(animation);
-
-		return animation;
+	public void listenInput(boolean listen) {
+		if (listen && !isListeningInput)
+			Game.getInputManager().register(this);
+		else if (!listen && isListeningInput)
+			Game.getInputManager().unregister(this);
+		isListeningInput = listen;
 	}
 
-	protected void removeAnimation(String name) {
-		animator.removeAnimation(name);
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
 	}
 
-	protected void onAnimationEnd(Animation animation) {
-
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
 	}
 
-	protected void stopAnimation() {
-		animator.stop();
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
 	}
 
-	protected Animation startAnimation() {
-		return startAnimation(false);
+	@Override
+	public boolean longPress(float x, float y) {
+		return isIn(x, y) ? onLongPress() : false;
 	}
 
-	protected Animation startAnimation(boolean forceRestart) {
-		return animator.start(forceRestart);
+	@Override
+	public boolean mouseMoved(float x, float y) {
+		return isIn(x, y) ? onMouseMoved() :false;
 	}
 
-	protected Animation startAnimation(String animationId) {
-		return animator.start(animationId);
+	@Override
+	public boolean pan(float x, float y, float dx, float dy) {
+		return isIn(x, y) ? onPan() :false;
 	}
 
-	protected void pauseAnimation() {
-		animator.pause();
+	@Override
+	public boolean pinch(Vector p1Start, Vector p2Start, Vector p1End, Vector p2End) {
+		return false;
 	}
 
-	protected Animation getAnimation() {
-		return animator.getAnimation();
+	@Override
+	public boolean scrolled(float amount) {
+		return false;
+	}
+
+	@Override
+	public boolean tap(float x, float y, int count, int button) {
+		return isIn(x, y) ? onTap() :false;
+	}
+
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		return isIn(x, y) ? onTouchDown() :false;
+	}
+
+	@Override
+	public boolean touchDragged(float x, float y, int pointer) {
+		return isIn(x, y) ? onTouchDragged() :false;
+	}
+
+	@Override
+	public boolean touchUp(float x, float y, int pointer, int button) {
+		return isIn(x, y) ? onTouchUp() :false;
+	}
+
+	@Override
+	public boolean zoom(float initialDistance, float distance) {
+		return false;
+	}
+
+	@Override
+	public boolean fling(float vx, float vy, int button) {
+		return false;
 	}
 
 	// endregion
 
-	// region IDrawable
-
-	@Override
-	public float getWidth() {
-		return width;
-	}
-
-	@Override
-	public float getHeight() {
-		return height;
-	}
+	// region IDrawingInfo
 
 	@Override
 	public Vector getScale() {
@@ -135,38 +199,19 @@ public abstract class GameObject implements IGameObject {
 	}
 
 	@Override
-	public boolean isFlipY() {
-		return flipY;
-	}
-
-	@Override
-	public void draw() {
-		Animation curr = getAnimation();
-		if (curr != null)
-			TextureDrawer.draw(curr.getFrame(), this);
-	}
-
-	@Override
-	public boolean ignoreViewportOffset() {
-		return false;
-	}
-
-	@Override
-	public boolean ignoreViewportScaling() {
+	public boolean ignoreViewport() {
 		return false;
 	}
 	
-	protected void flipX() {
-		flipX = !flipX;
-	}
-
-	protected void flipY() {
-		flipY = !flipY;
+	@Override
+	public boolean ignoreShifting() {
+		return false;
 	}
 
 	// endregion
 
 	// region IMovable
+	
 	@Override
 	public Vector getVelocity() {
 		return velocity;
@@ -180,19 +225,19 @@ public abstract class GameObject implements IGameObject {
 	@Override
 	public void move() {
 		mover.move(this);
-		// Vector vel = getVelocity();
-		// location.x += vel.x;
-		// location.y += vel.y;
-		// Vector acc = getAcceleration();
-		// vel.x += acc.x;
-		// vel.y += acc.y;
 	}
 
 	@Override
-	public void setMover(IMover mover) {
+	public void beginMove(IMover mover) {
 		this.mover = mover;
+		MoveManager.getCurrent().register(this);
 	}
 
+	@Override
+	public void stopMoving() {
+		MoveManager.getCurrent().unregister(this);
+	}
+	
 	// endregion
 
 	// region ICollidable
@@ -204,7 +249,7 @@ public abstract class GameObject implements IGameObject {
 
 	// endregion
 
-	// region IMovable & IDrawable Common
+	// region IMovable & IDrawingInfo & ICollidable Common
 
 	@Override
 	public Vector getLocation() {
@@ -213,11 +258,34 @@ public abstract class GameObject implements IGameObject {
 
 	// endregion
 
-	// region ICollidable & IDrawable Common
+	// region ICollidable & IDrawingInfo Common
+
+	@Override
+	public float getWidth() {
+		return width;
+	}
+
+	@Override
+	public float getHeight() {
+		return height;
+	}
 
 	@Override
 	public Rotation getRotation() {
 		return rotation;
+	}
+
+	@Override
+	public boolean isFlipY() {
+		return flipY;
+	}
+
+	protected void flipX() {
+		flipX = !flipX;
+	}
+
+	protected void flipY() {
+		flipY = !flipY;
 	}
 
 	// endregion

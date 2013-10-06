@@ -1,20 +1,75 @@
 package com.blox.setgame.view;
 
-import com.badlogic.gdx.Input.Keys;
 import com.blox.framework.v0.impl.Screen;
 import com.blox.framework.v0.impl.ScreenManager;
+import com.blox.setgame.model.Logo;
+import com.blox.setgame.model.Toolbar;
+import com.blox.setgame.utils.R;
 
 public abstract class SetGameScreen extends Screen {
+	protected ISetGameViewListener screenListener;
+
+	protected void notifyScreenActivated() {
+		if (screenListener != null)
+			screenListener.onScreenActivated();
+	}
+
+	protected void notifyScreenDeactivated() {
+		if (screenListener != null)
+			screenListener.onScreenDeactivated();
+	}
+
+	protected void notifyDraw() {
+		if (screenListener != null)
+			screenListener.draw();
+	}
+
+	protected void setScreenListener(ISetGameViewListener screenListener) {
+		this.screenListener = screenListener;
+	}
+
+	@Override
+	public void activated() {
+		super.activated();
+		notifyScreenActivated();
+		Toolbar.getInstance().setTitle(getTitle());
+		Toolbar.getInstance().activateBackButton();
+	}
+
+	@Override
+	public void deactivated() {
+		super.deactivated();
+		notifyScreenDeactivated();
+	}
+
 	@Override
 	public void init() {
 		super.init();
+
+		Logo logo = new Logo();
+		logo.getColor().a = 0.25f;
+		registerDrawable(logo, 1);
+
 		registerInputListener(this);
 	}
 
 	@Override
-	public boolean keyDown(int keycode) {
-		if (keycode == Keys.BACK || keycode == Keys.ESCAPE)
-			ScreenManager.instance.switchTo("menu", true);
-		return super.keyDown(keycode);
+	public void render() {
+		super.render();
+		
+		if (super.isActive())
+			notifyDraw();
 	}
+	
+	void back() {
+		onBack();
+	}
+
+	@Override
+	protected boolean onBack() {
+		ScreenManager.instance.switchTo(R.game.screens.menu, true);
+		return true;
+	}
+
+	protected abstract String getTitle();
 }

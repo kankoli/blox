@@ -1,5 +1,7 @@
 package com.blox.framework.v0.util;
 
+import java.util.Stack;
+
 import org.w3c.dom.Document;
 
 import com.badlogic.gdx.Gdx;
@@ -10,6 +12,7 @@ import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
 import com.blox.framework.v0.ISettings;
+import com.blox.framework.v0.IShapeRenderer;
 import com.blox.framework.v0.ITextureDrawer;
 import com.blox.framework.v0.IVibrator;
 import com.blox.framework.v0.forms.xml.ControlActionHandlerFactory;
@@ -22,11 +25,14 @@ public final class Game {
 	private static Viewport viewport;
 
 	private static IGameProvider provider;
-	
+
+	private static final Stack<Float> renderingShifts = new Stack<Float>();
+
 	private static DisposeManager disposeManager;
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
 	private static ITextureDrawer textureDrawer;
+	private static IShapeRenderer shapeRenderer;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
 	private static IInputManager inputManager;
 	private static ISettings settings;
@@ -34,8 +40,39 @@ public final class Game {
 	private static IControlActionHandlerFactory actionHandlerFactory;
 
 	public static float renderingAlpha = 1;
-	public static float renderingShiftX = 0;
-	public static float renderingShiftY = 0;
+
+	private static float renderingShiftX = 0;
+	private static float renderingShiftY = 0;
+
+	public static void pushRenderingShift(float x, float y, boolean ignoreViewport) {
+		float shiftX = ignoreViewport ? x : Game.scale(x);
+		float shiftY = ignoreViewport ? y : Game.scale(y);
+
+		renderingShiftX += shiftX;
+		renderingShiftY += shiftY;
+		
+		renderingShifts.push(shiftX);
+		renderingShifts.push(shiftY);
+	}
+
+	public static void popRenderingShift() {
+		if (renderingShifts.size() > 0) {
+			renderingShiftY -= renderingShifts.pop();
+			renderingShiftX -= renderingShifts.pop();
+		}
+		else {
+			renderingShiftX = 0;
+			renderingShiftY = 0;
+		}
+	}
+
+	public static float getRenderingShiftX() {
+		return renderingShiftX;
+	}
+
+	public static float getRenderingShiftY() {
+		return renderingShiftY;
+	}
 
 	private Game() {
 
@@ -43,23 +80,24 @@ public final class Game {
 
 	public static void initialize(Document gameXml) {
 		GameMetadata.load(gameXml);
-		
-		provider = (IGameProvider)Utils.createInstance(GameMetadata.getParam("provider"));
-		
+
+		provider = (IGameProvider) Utils.createInstance(GameMetadata.getParam("provider"));
+
 		disposeManager = new DisposeManager();
-		
+
 		deltaTime = provider.createDeltaTime();
 		resourceManager = provider.createResourceManager();
 		textureDrawer = provider.createTextureDrawer();
+		shapeRenderer = provider.createShapeRenderer();
 		inputManager = provider.createInputManager();
 		settings = provider.createSettings();
 		vibrator = provider.createVibrator();
-		
+
 		actionHandlerFactory = new ControlActionHandlerFactory();
 		collisionDetectorFactory = new CollisionDetectorFactory();
-				
+
 		initViewport();
-		
+
 		resourceManager.beginLoading();
 	}
 
@@ -74,7 +112,11 @@ public final class Game {
 	public static ITextureDrawer getTextureDrawer() {
 		return textureDrawer;
 	}
-	
+
+	public static IShapeRenderer getShapeRenderer() {
+		return shapeRenderer;
+	}
+
 	public static ICollisionDetectorFactory getCollisionDetectorFactory() {
 		return collisionDetectorFactory;
 	}
@@ -86,23 +128,27 @@ public final class Game {
 	public static ISettings getSettings() {
 		return settings;
 	}
-	
-	public static IVibrator getVibrator() {
-		return vibrator;
-	}
 
 	public static IControlActionHandlerFactory getActionHandlerFactory() {
 		return actionHandlerFactory;
 	}
-	
+
+	public static void vibrate(long... pattern) {
+		vibrator.vibrate(pattern);
+	}
+
+	public static void stopVibrating() {
+		vibrator.stop();
+	}
+
 	public static void dispose() {
 		disposeManager.execute();
 	}
-	
+
 	public static void registerDisposable(IDisposable disposable) {
 		disposeManager.register(disposable);
 	}
-	
+
 	public static void exit() {
 		provider.exit();
 	}
@@ -110,7 +156,7 @@ public final class Game {
 	public static String getParam(String key) {
 		return GameMetadata.getParam(key);
 	}
-	
+
 	// region viewport
 
 	public static float scale(float f) {
@@ -132,14 +178,6 @@ public final class Game {
 
 	public static void updateViewport(float screenWidth, float screenHeight) {
 		viewport.update(screenWidth, screenHeight);
-	}
-
-	public static float getViewportWidth() {
-		return viewport.getWidth();
-	}
-
-	public static float getViewportHeight() {
-		return viewport.getHeight();
 	}
 
 	public static float getScale() {

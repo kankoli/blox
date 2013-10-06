@@ -13,12 +13,12 @@ public final class TextureDrawer {
 	private static final DrawingInfo adaptedDrawingInfo = new DrawingInfo();
 
 	public static void draw(ITexture texture, IDrawingInfo info) {
-		float scale = info.ignoreViewportScaling() ? 1f : Game.getScale();
-		float offsetX = info.ignoreViewportOffset() ? 0f : Game.getViewportOffsetX();
-		float offsetY = info.ignoreViewportOffset() ? 0f : Game.getViewportOffsetY();
+		float scale = info.ignoreViewport() ? 1f : Game.getScale();
+		float offsetX = info.ignoreViewport() ? 0f : Game.getViewportOffsetX();
+		float offsetY = info.ignoreViewport() ? 0f : Game.getViewportOffsetY();
 
-		float dx = info.ignoreViewportOffset() ? Game.scale(Game.renderingShiftX) : Game.renderingShiftX;
-		float dy = info.ignoreViewportOffset() ? Game.scale(Game.renderingShiftY) : Game.renderingShiftY;
+		float dx = info.ignoreShifting() ? 0f : Game.getRenderingShiftX();
+		float dy = info.ignoreShifting() ? 0f :Game.getRenderingShiftY();
 
 		Vector l = info.getLocation();
 		Rotation r = info.getRotation();
@@ -35,6 +35,7 @@ public final class TextureDrawer {
 		adaptedDrawingInfo.r.rotation.z = r.rotation.z;
 		adaptedDrawingInfo.flipX = info.isFlipX();
 		adaptedDrawingInfo.flipY = info.isFlipY();
+		adaptedDrawingInfo.c.set(info.getColor());
 
 		drawer.draw(texture, adaptedDrawingInfo);
 	}
@@ -48,8 +49,8 @@ public final class TextureDrawer {
 		private Rotation r;
 		private boolean flipX;
 		private boolean flipY;
-		private boolean ignoreViewportOffSet;
-		private boolean ignoreViewportScaling;
+		private boolean ignoreViewport;
+		private boolean ignoreShifting;
 		
 		private DrawingInfo() {
 			l = new Vector();
@@ -94,15 +95,15 @@ public final class TextureDrawer {
 		}
 
 		@Override
-		public boolean ignoreViewportOffset() {
-			return ignoreViewportOffSet;
+		public boolean ignoreViewport() {
+			return ignoreViewport;
 		}
-
+		
 		@Override
-		public boolean ignoreViewportScaling() {
-			return ignoreViewportScaling;
-		}
-
+		public boolean ignoreShifting() {
+			return ignoreShifting;
+		}	
+		
 		@Override
 		public Color getColor() {
 			return c;

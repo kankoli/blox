@@ -8,9 +8,9 @@ public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "blox";
-		cfg.useGL20 = false;
+		cfg.useGL20 = true;
 
-		float w = 9;
+		float w = 11f;
 		float h = 16;
 		float x = 50;
 

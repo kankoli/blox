@@ -3,12 +3,12 @@ package com.blox.framework.v0;
 import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Vector;
 
-public interface IFont extends IDisposable {	
-	void setColor(Color color);
-	
-	Vector getSize(String text);
+public interface IFont extends IDisposable {
+	Color getColor();
 
 	void draw(String text, float x, float y);
-	
-	void setSize(int size);
+
+	Vector measureText(String text);
+
+	void setScale(float scale);
 }

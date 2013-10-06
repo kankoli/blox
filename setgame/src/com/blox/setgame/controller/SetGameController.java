@@ -1,105 +1,45 @@
 package com.blox.setgame.controller;
 
-import com.blox.framework.v0.IDrawingInfo;
-import com.blox.framework.v0.IResourceManager;
-import com.blox.framework.v0.ISound;
-import com.blox.framework.v0.ITexture;
-import com.blox.framework.v0.impl.StateManager;
-import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.setgame.model.Card;
-import com.blox.setgame.model.GameTable;
-import com.blox.setgame.utils.R;
-import com.blox.setgame.view.SetGameScreen;
 
-public abstract class SetGameController extends StateManager {
+public abstract class SetGameController<T extends SetGameState> implements ISetGameController {
+	protected T currentState;
 
-	private static final ISound soundError;
-	private static final ISound soundSuccess;
-	private static final ISound soundTimeUp;
-
-	private static final ISound soundWait;
-	private static final ITexture textureCardBorder;
-	private static final ITexture textureCardClosed;
-	private static final ITexture textureCardEmpty;
-
-	static {
-		IResourceManager r = Game.getResourceManager();
-
-		textureCardEmpty = r.getTexture(R.game.textures.cardEmpty);
-		textureCardClosed = r.getTexture(R.game.textures.cardClosed);
-		textureCardBorder = r.getTexture(R.game.textures.cardBorder);
-
-		soundSuccess = r.getSound(R.game.sounds.success);
-		soundError = r.getSound(R.game.sounds.error);
-		soundWait = r.getSound(R.game.sounds.wait);
-		soundTimeUp = r.getSound(R.game.sounds.timeUp);
+	@Override
+	public void onCardTapped(Card card) {
+		currentState.onCardTapped(card);
 	}
 
-	public static void drawTextureCardBorder(IDrawingInfo info) {
-		TextureDrawer.draw(textureCardBorder, info);
+	@Override
+	public void onScreenActivated() {
+		if (currentState != null)
+			currentState.onScreenActivated();
 	}
 
-	public static void drawTextureCardClosed(IDrawingInfo info) {
-		TextureDrawer.draw(textureCardClosed, info);
+	@Override
+	public void onScreenDeactivated() {
+		currentState.onScreenDeactivated();
 	}
 
-	public static void drawTextureCardEmpty(IDrawingInfo info) {
-		TextureDrawer.draw(textureCardEmpty, info);
+	@Override
+	public void onSetFound() {
+		currentState.onSetFound();
 	}
 
-	public static void playSoundError() {
-		soundError.play();
+	@Override
+	public void onInvalidSetSelected() {
+		currentState.onInvalidSetSelected();
 	}
 
-	public static void playSoundSuccess() {
-		soundSuccess.play();
+	@Override
+	public void draw() {
+		currentState.draw();
 	}
 
-	public static void playSoundTimeUp() {
-		soundTimeUp.play();
-	}
-
-	public static void playSoundWait() {
-		soundWait.play();
-	}
-
-	protected GameTable gameTable; // Game table.
-	protected SetGameScreen screen; // Parent screen.
-	/**
-	 * Waiting for user to select a card.
-	 */
-	protected WaitingState waitingState;
-
-	// /**
-	// * User selected a card.
-	// */
-	// private SelectedState selectedState;
-
-	public SetGameController(SetGameScreen parent) {
-		super();
-		this.screen = parent;
-
-		// Initializations
-		waitingState = new WaitingState(this);
-		// selectedState = new SelectedState();
-	}
-
-	public final void activated() {
-		gameTable.activateCards();
-	}
-
-	abstract public void cardTapped(Card card);
-
-	public final void deactivated() {
-		gameTable.deactivateCards();
-	}
-
-	public final void registerWaiting() {
-		gameTable.registerWaiting(waitingState);
-	}
-
-	public final void unregisterWaiting() {
-		gameTable.unregisterWaiting();
+	protected void setState(T newState) {
+		if (currentState != null)
+			currentState.deactivated();
+		currentState = newState;
+		currentState.activated();
 	}
 }

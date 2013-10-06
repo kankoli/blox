@@ -1,19 +1,16 @@
 package com.blox.setgame.view;
 
-import com.blox.setgame.controller.ChallengeModeController;
+import com.blox.setgame.controller.challenge.ChallengeModeController;
 
 public class ChallengeModeScreen extends SetGameScreen {
-	private ChallengeModeController controller;
-
+	@Override
+	protected String getTitle() {
+		return "Challenge";
+	}
+	
 	@Override
 	public void init() {
 		super.init();
-		controller = new ChallengeModeController(this);
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		controller.execute();
+		setScreenListener(new ChallengeModeController(this));
 	}
 }

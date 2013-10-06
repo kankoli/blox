@@ -11,5 +11,7 @@ public interface IMovable {
 
 	void move();
 
-	void setMover(IMover mover);
+	void beginMove(IMover mover);
+	
+	void stopMoving();
 }

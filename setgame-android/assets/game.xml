@@ -23,7 +23,7 @@
 
         <param
             key="default-font"
-            value="JetSet,36" />
+            value="JetSet,0.66" />
 
         <param
             key="default-skin"
@@ -51,48 +51,40 @@
         <screen
             id="challenge"
             background-music="game-music"
-            background-texture="bg-desk"
             class="com.blox.setgame.view.ChallengeModeScreen" />
 
         <screen
             id="learning"
             background-music="game-music"
-            background-texture="bg-desk"
             class="com.blox.setgame.view.LearningModeScreen" />
 
         <screen
             id="multiplayer"
             background-music="game-music"
-            background-texture="bg-desk"
             class="com.blox.setgame.view.MultiplayerModeScreen" />
 
         <screen
             id="menu"
             background-music="menu-music"
-            background-texture="bg-menu"
             class="com.blox.setgame.view.MenuScreen" />
 
         <screen
             id="practice"
             background-music="game-music"
-            background-texture="bg-desk"
             class="com.blox.setgame.view.PracticeModeScreen" />
 
         <screen
             id="relax"
             background-music="game-music"
-            background-texture="bg-desk"
             class="com.blox.setgame.view.RelaxModeScreen" />
 
         <screen
             id="splash"
-            background-texture="bg-splash"
             class="com.blox.setgame.view.SplashScreen" />
 
         <screen
             id="scoreBoard"
             background-music="scoreBoard-music"
-            background-texture="bg-scoreBoard"
             class="com.blox.setgame.view.ScoreBoardScreen" />
     </screens>
 
@@ -101,42 +93,9 @@
         <form id="mainMenu" >
 
             <button
-                id="btnPlay"
-                action="form=modeSelection"
-                text="Play"
-                y="24" />
-
-            <button
-                id="btnSetting"
-                action="form=settings"
-                text="Settings"
-                y="20" />
-
-            <button
-                id="btnLogin"
-                action="form=login"
-                text="Login"
-                y="16" />
-
-            <button
-                id="btnScoreBoard"
-                action="form=scoreBoardModeSelection"
-                text="Hi-Scores"
-                y="12" />
-
-            <button
-                id="btnExitGame"
-                action="exit"
-                text="Exit Game"
-                y="4" />
-        </form>
-
-        <form id="modeSelection" >
-
-            <button
                 id="btnLearning"
                 action="screen=learning"
-                text="Learning"
+                text="How To Play"
                 y="26" />
 
             <button
@@ -158,182 +117,16 @@
                 y="14" />
 
             <button
-                id="btnMultiplayer"
-                action="screen=multiplayer"
-                text="Multiplayer"
+                id="btnScoreBoard"
+                action="screen=scoreBoard"
+                text="Hi-Scores"
                 y="10" />
 
             <button
-                id="btnBack"
-                action="formback=mainMenu"
-                text="Back"
-                y="4" />
-        </form>
-
-        <form id="settings" >
-
-            <label
-                id="lblSound"
-                cols="10"
-                text="Sound"
-                x="2"
-                y="22" />
-
-            <checkbox
-                id="chkSounds"
-                action="bind=settings.sound,true"
-                cols="2"
-                x="13"
-                y="22" />
-
-            <label
-                id="lblMusic"
-                cols="10"
-                text="Music"
-                x="2"
-                y="18" />
-
-            <checkbox
-                id="chkMusic"
-                action="bind=settings.music,true"
-                cols="2"
-                x="13"
-                y="18" />
-
-            <label
-                id="lblVibration"
-                cols="10"
-                text="Vibration"
-                x="2"
-                y="14" />
-
-            <checkbox
-                id="chkVibration"
-                action="bind=settings.vibration,true"
-                cols="2"
-                x="13"
-                y="14" />
-
-            <button
-                id="btnBack"
-                action="formback=mainMenu"
-                text="Back"
-                y="4" />
-        </form>
-
-        <form id="login" >
-
-            <button
-                id="txtUsername"
-                cols="14"
-                text="Username"
-                x="1"
-                y="24" />
-
-            <button
-                id="txtPassword"
-                cols="14"
-                text="Password"
-                x="1"
-                y="21" />
-
-            <button
-                id="btnLogin"
-                action="login"
-                cols="6"
-                text="Login"
-                x="1"
-                y="17" />
-
-            <button
-                id="btnSignUp"
-                action="form=signup"
-                cols="6"
-                text="Sign Up"
-                x="9"
-                y="17" />
-
-            <button
-                id="btnLoginFacebook"
-                cols="14"
-                text="Login With Facebook"
-                x="1"
-                y="10" />
-
-            <button
-                id="btnBack"
-                action="formback=mainMenu"
-                text="Back"
-                y="4" />
-        </form>
-
-        <form id="signup" >
-
-            <button
-                id="txtUsername"
-                cols="14"
-                text="Username"
-                x="1"
-                y="24" />
-
-            <button
-                id="txtEmail"
-                cols="14"
-                text="Email"
-                x="1"
-                y="21" />
-
-            <button
-                id="txtPassword"
-                cols="14"
-                text="Password"
-                x="1"
-                y="18" />
-
-            <button
-                id="txtPasswordConfirm"
-                cols="14"
-                text="Password Confirm"
-                x="1"
-                y="15" />
-
-            <button
-                id="btnSignUp"
-                action="signup"
-                text="Sign Up"
-                y="10" />
-
-            <button
-                id="btnBack"
-                action="formback=login"
-                text="Back"
-                y="4" />
-        </form>
-
-        <form id="scoreBoardModeSelection" >
-
-            <button
-                id="btnPractice"
-                action="screen=scoreBoard"
-                text="Practice"
-                y="20" />
-
-            <button
-                id="btnChallenge"
-                action="screen=scoreBoard"
-                text="Challenge"
-                y="16" />
-
-            <button
-                id="btnMultiplayer"
-                action="screen=scoreBoard"
-                text="Multiplayer"
-                y="12" />
-
-            <button
-                id="btnBack"
-                action="formback=mainMenu"
-                text="Back"
+                id="btnExitGame"
+                action="exit"
+                focus-color="#d0583bff"
+                text="Exit Game"
                 y="4" />
         </form>
     </forms>
@@ -343,19 +136,29 @@
 
     <resources>
 
+        <fonts>
+
+            <font
+                id="JetSet"
+                path="fonts/JetSet.fnt" />
+        </fonts>
+
         <textures>
 
             <texture
-                id="ppt-button-default"
-                path="img/ui/button-default.png" />
+                id="logo"
+                path="img/logo.png"
+                resource-load="primary" />
 
             <texture
-                id="ppt-button-disabled"
-                path="img/ui/button-disabled.png" />
+                id="hint"
+                path="img/hint.png"
+                resource-load="primary" />
 
             <texture
-                id="ppt-button-focused"
-                path="img/ui/button-focused.png" />
+                id="refresh"
+                path="img/refresh.png"
+                resource-load="primary" />
 
             <texture
                 id="ppt-checkbox-checked"
@@ -366,112 +169,40 @@
                 path="img/ui/checkbox-unchecked.png" />
 
             <texture
-                id="card-111"
-                path="img/cards/111.png" />
+                id="card-11"
+                path="img/cards/11.png" />
 
             <texture
-                id="card-112"
-                path="img/cards/112.png" />
+                id="card-12"
+                path="img/cards/12.png" />
 
             <texture
-                id="card-114"
-                path="img/cards/114.png" />
+                id="card-14"
+                path="img/cards/14.png" />
 
             <texture
-                id="card-121"
-                path="img/cards/121.png" />
+                id="card-21"
+                path="img/cards/21.png" />
 
             <texture
-                id="card-122"
-                path="img/cards/122.png" />
+                id="card-22"
+                path="img/cards/22.png" />
 
             <texture
-                id="card-124"
-                path="img/cards/124.png" />
+                id="card-24"
+                path="img/cards/24.png" />
 
             <texture
-                id="card-141"
-                path="img/cards/141.png" />
+                id="card-41"
+                path="img/cards/41.png" />
 
             <texture
-                id="card-142"
-                path="img/cards/142.png" />
+                id="card-42"
+                path="img/cards/42.png" />
 
             <texture
-                id="card-144"
-                path="img/cards/144.png" />
-
-            <texture
-                id="card-211"
-                path="img/cards/211.png" />
-
-            <texture
-                id="card-212"
-                path="img/cards/212.png" />
-
-            <texture
-                id="card-214"
-                path="img/cards/214.png" />
-
-            <texture
-                id="card-221"
-                path="img/cards/221.png" />
-
-            <texture
-                id="card-222"
-                path="img/cards/222.png" />
-
-            <texture
-                id="card-224"
-                path="img/cards/224.png" />
-
-            <texture
-                id="card-241"
-                path="img/cards/241.png" />
-
-            <texture
-                id="card-242"
-                path="img/cards/242.png" />
-
-            <texture
-                id="card-244"
-                path="img/cards/244.png" />
-
-            <texture
-                id="card-411"
-                path="img/cards/411.png" />
-
-            <texture
-                id="card-412"
-                path="img/cards/412.png" />
-
-            <texture
-                id="card-414"
-                path="img/cards/414.png" />
-
-            <texture
-                id="card-421"
-                path="img/cards/421.png" />
-
-            <texture
-                id="card-422"
-                path="img/cards/422.png" />
-
-            <texture
-                id="card-424"
-                path="img/cards/424.png" />
-
-            <texture
-                id="card-441"
-                path="img/cards/441.png" />
-
-            <texture
-                id="card-442"
-                path="img/cards/442.png" />
-
-            <texture
-                id="card-444"
-                path="img/cards/444.png" />
+                id="card-44"
+                path="img/cards/44.png" />
 
             <texture
                 id="card-border"
@@ -486,21 +217,36 @@
                 path="img/cards/emptycard.png" />
 
             <texture
-                id="bg-splash"
-                path="img/bg/bg-splash.png"
-                resource-load="primary" />
+                id="tb_back"
+                path="img/toolbar/back.png" />
 
             <texture
-                id="bg-menu"
-                path="img/bg/bg-menu.png" />
+                id="tb_settings"
+                path="img/toolbar/settings.png" />
 
             <texture
-                id="bg-desk"
-                path="img/bg/bg-desk.png" />
+                id="tb_music_play"
+                path="img/toolbar/music-play.png" />
 
             <texture
-                id="bg-scoreBoard"
-                path="img/bg/bg-score-board.png" />
+                id="tb_music_stop"
+                path="img/toolbar/music-stop.png" />
+
+            <texture
+                id="tb_sound_off"
+                path="img/toolbar/sound-off.png" />
+
+            <texture
+                id="tb_sound_on"
+                path="img/toolbar/sound-on.png" />
+
+            <texture
+                id="tb_vibration_off"
+                path="img/toolbar/vibration-off.png" />
+
+            <texture
+                id="tb_vibration_on"
+                path="img/toolbar/vibration-on.png" />
         </textures>
 
         <sounds>
@@ -551,15 +297,6 @@
                 path="music/scoreboard-bg.mp3"
                 resource-load="ondemand" />
         </musics>
-
-        <fonts>
-
-            <font
-                id="JetSet"
-                path="fonts/JetSet.ttf"
-                resource-load="primary"
-                sizes="12,18,24,36,48,60,72" />
-        </fonts>
     </resources>
 
     <skins>
@@ -572,11 +309,9 @@
 
             <button
                 cols="8"
+                focus-color="#3974b1ff"
                 rows="2"
                 sound-click="ppt-button-click"
-                texture-default="ppt-button-default"
-                texture-disabled="ppt-button-disabled"
-                texture-focused="ppt-button-focused"
                 vibrate="50"
                 x="4" />
 

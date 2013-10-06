@@ -1,10 +1,13 @@
 package com.blox.framework.v0.impl.libgdx;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.BitmapFontLoader.BitmapFontParameter;
 import com.badlogic.gdx.assets.loaders.MusicLoader.MusicParameter;
 import com.badlogic.gdx.assets.loaders.SoundLoader.SoundParameter;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.blox.framework.v0.IDisposable;
 import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.IMusic;
@@ -29,19 +33,19 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	static {
 		TextureParameter textureParams = new TextureParameter();
-		textureParams.minFilter = TextureFilter.Linear;
-		textureParams.magFilter = TextureFilter.Linear;
 
 		SoundParameter soundParam = new SoundParameter();
 
 		MusicParameter musicParam = new MusicParameter();
 
-		GdxFont.GdxFontLoaderParameters fontParam = new GdxFont.GdxFontLoaderParameters();
+		BitmapFontParameter fontParam = new BitmapFontParameter();
+		fontParam.maxFilter = TextureFilter.Linear;
+		fontParam.minFitler = TextureFilter.Linear;
 
 		resourceTypes.put("texture", new ResourceLoaderInfo<Texture>(Texture.class, textureParams));
 		resourceTypes.put("sound", new ResourceLoaderInfo<Sound>(Sound.class, soundParam));
 		resourceTypes.put("music", new ResourceLoaderInfo<Music>(Music.class, musicParam));
-		resourceTypes.put("font", new ResourceLoaderInfo<GdxFont>(GdxFont.class, fontParam));
+		resourceTypes.put("font", new ResourceLoaderInfo<BitmapFont>(BitmapFont.class, fontParam));
 	}
 
 	private static class ResourceLoaderInfo<T> {
@@ -59,7 +63,6 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	GdxResourceManager() {
 		manager = new AssetManager();
-		manager.setLoader(GdxFont.class, new GdxFont.GdxFontLoader());
 	}
 
 	@Override
@@ -73,7 +76,8 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 	@Override
 	public IFont getFont(String id) {
 		ResourceMetadata meta = resources.getFont(id);
-		return manager.get(meta.getPath());
+		BitmapFont font =  manager.get(meta.getPath());
+		return new GdxFont(font);
 	}
 
 	@Override
@@ -109,8 +113,13 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 	}
 
 	@Override
-	public int getLoadingPercent() {
-		return (int) (manager.getProgress() * 100);
+	public InputStream readFile(String path) {
+		return Gdx.files.internal(path).read();
+	}
+
+	@Override
+	public float getProgress() {
+		return manager.getProgress();
 	}
 
 	@Override
@@ -139,9 +148,6 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addToLoadQueue(ResourceMetadata resourceMeta) {
 		ResourceLoaderInfo info = resourceTypes.get(resourceMeta.getType());
-		if (info.params instanceof GdxFont.GdxFontLoaderParameters) {
-			((GdxFont.GdxFontLoaderParameters) info.params).metadata = resourceMeta;
-		}
 		manager.load(resourceMeta.getPath(), info.clazz, info.params);
 	}
 }
