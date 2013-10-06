@@ -42,6 +42,10 @@
             value="sliding,0.25" />
 
         <param
+            key="tutorial-page-switcher"
+            value="sliding,0.25" />
+        
+        <param
             key="allow-exit-on-back"
             value="false" />
     </params>
@@ -247,6 +251,21 @@
             <texture
                 id="tb_vibration_on"
                 path="img/toolbar/vibration-on.png" />
+            
+            
+            <texture
+                id="shapes"
+                path="img/tutorial/shapes.png" />
+            <texture
+                id="colors"
+                path="img/tutorial/colors.png" />
+            <texture
+                id="fills"
+                path="img/tutorial/fills.png" />
+            <texture
+                id="amounts"
+                path="img/tutorial/amounts.png" />
+            
         </textures>
 
         <sounds>

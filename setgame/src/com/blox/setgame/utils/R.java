@@ -39,6 +39,11 @@ public final class R {
 			public static final String logo = "logo";
 			public static final String hint = "hint";
 			public static final String refresh = "refresh";
+			
+			public static final String shapes = "shapes";
+			public static final String colors = "colors";
+			public static final String fills = "fills";
+			public static final String amounts = "amounts";
 
 			public static final class toolbar {
 				public static final String back = "tb_back";
@@ -86,12 +91,16 @@ public final class R {
 		public static final Vector firstOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 1.65f);
 		public static final Vector secondOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 - Card.SymbolHeight * 0.5f);
 		public static final Vector thirdOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, Card.Height / 2 + Card.SymbolHeight * 0.65f);
+
+		public static Vector tutorial300x96 = new Vector(Game.getVirtualWidth() / 2 - 300 / 2, Game.getVirtualHeight() / 2 + 60);
+		public static Vector tutorial350x300 = new Vector(Game.getVirtualWidth() / 2 - 350 / 2, Game.getVirtualHeight() / 2 - 36 );
 	}
 
 	public static final class colors {
 		public static final Color setRed = Color.fromHex("#d0583bff");
 		public static final Color setGreen = Color.fromHex("#56bd89ff");
 		public static final Color setBlue = Color.fromHex("#3974c1ff");
+		public static final Color setWhite = Color.fromHex("#ffffffff");
 	}
 
 	public static final class fontSize {
