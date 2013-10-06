@@ -183,7 +183,7 @@ public class PracticeMode extends TrainingMode {
 
 	private void drawRemainingTime() {
 		int t = (int) Math.min(timePerDeal, (1 + timePerDeal - dealTimer.getElapsedTime()));
-		info.draw("" + t, TextDrawer.AlignNE, -50);
+		info.draw("" + t, TextDrawer.AlignNE, -70);
 	}
 
 	private void drawScore() {
@@ -191,10 +191,10 @@ public class PracticeMode extends TrainingMode {
 	}
 	
 	private void drawRemainingDeals() {
-		info.draw("Deals: " + deals + "/" + totalDeals, TextDrawer.AlignSW, 70);
+		info.draw("Deals: " + deals + "/" + totalDeals, TextDrawer.AlignSW, 50);
 	}
 
 	private void drawWaitMessage() {
-		info.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, -50);
+		info.draw("Wait: " + String.format("%.1f", blockDuration - blockTimer.getElapsedTime()), TextDrawer.AlignNW, -70);
 	}
 }

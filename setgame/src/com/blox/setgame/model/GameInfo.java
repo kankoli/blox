@@ -5,7 +5,6 @@ import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
-import com.blox.setgame.utils.R;
 
 class GameInfo extends SetGameObject {
 	private String text;
@@ -20,7 +19,7 @@ class GameInfo extends SetGameObject {
 		getColor().set(Color.white());
 		
 		font = FontManager.createDefaultFontInstance();
-		setFontScale(R.fontSize.small);
+//		setFontScale(R.fontSize.small);
 	}
 
 	void setFontScale(float scale) {
@@ -34,8 +33,8 @@ class GameInfo extends SetGameObject {
 		Game.popRenderingShift();
 	}
 
-	public void draw(String text, int alingment, int shiftY) {
-		this.alignment = alingment;
+	public void draw(String text, int alignment, int shiftY) {
+		this.alignment = alignment;
 		this.text = text;
 		this.shiftY = shiftY;
 		this.draw();

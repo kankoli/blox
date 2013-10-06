@@ -189,7 +189,7 @@ public abstract class FullGameMode extends SetGameMode {
 	}
 
 	protected void drawTime() {
-		info.draw(getTimeString(), TextDrawer.AlignS, 25);
+		info.draw(getTimeString(), TextDrawer.AlignS, 5);
 	}
 
 }
