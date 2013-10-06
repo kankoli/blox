@@ -25,15 +25,17 @@ class LearningModeTutorial extends SetGameObject {
 		this.listener = listener;
 
 		font = FontManager.createDefaultFontInstance();
-		font.setScale(R.fontSize.small);
+//		font.setScale(R.fontSize.small);
 
 		pages = new ArrayList<String>();
 
-		pages.add("Page \n1\n Text");
-		pages.add("Page \n2 \nText");
-		pages.add("Page \n3\n Text");
-		pages.add("Page 4 \nText");
-		pages.add("Page \n5 Text");
+		pages.add("Symbols on the cards have\nfour characteristics:\nshape, color, fill and\namount.");
+		pages.add("Three shapes:");
+		pages.add("Three colors:");
+		pages.add("Three fill types:");
+		pages.add("Three different amounts:");
+		pages.add("The objective is to find\na set of three cards\nwhere each of these four\ncharacteristics is either\nsame or different\nfor all cards.");
+		pages.add("Example sets:");
 
 		nextButton = new SetGameTextButton();
 		nextButton.setFont(FontManager.createDefaultFontInstance());
