@@ -50,10 +50,15 @@ abstract class SetGameButton extends SetGameObject {
 		if (!isActive)
 			return;
 
-		if (isTouched())
+		if (isTouched()) {
 			getColor().set(R.colors.setBlue.r, R.colors.setBlue.g, R.colors.setBlue.b, getColor().a);
-		else
+			getScale().set(1.2f);
+			getRotation().origin.set(getLocation().x + getWidth() / 2, getLocation().y + getHeight() / 2);
+		}
+		else {
 			getColor().set(1, 1, 1, getColor().a);
+			getScale().set(1f);
+		}
 
 		onDraw();
 	}

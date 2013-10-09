@@ -33,11 +33,16 @@ public final class R {
 		}
 
 		public static final class textures {
+			public static final String logo = "logo";
+			
 			public static final String cardBorder = "card-border";
 			public static final String cardClosed = "card-closed";
 			public static final String cardEmpty = "card-empty";
-			public static final String logo = "logo";
+			
 			public static final String hint = "hint";
+			public static final String next = "next";
+			public static final String prev = "prev";
+			public static final String skip = "play";
 			public static final String refresh = "refresh";
 			
 			public static final String shapes = "shapes";
@@ -109,6 +114,10 @@ public final class R {
 		public static final float medium = 0.5f;
 		public static final float large = 0.66f;
 		public static final float xLarge = 0.75f;
+	}
+	
+	public static final class ui {
+		public final static float imageButtonSize = 64;
 	}
 	
 	private R() {

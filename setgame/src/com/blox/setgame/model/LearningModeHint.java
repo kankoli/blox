@@ -8,6 +8,7 @@ import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.ITextSliderListener;
 import com.blox.framework.v0.util.TextSlider;
+import com.blox.setgame.utils.R;
 
 class LearningModeHint extends SetGameObject implements ITextSliderListener, IEffectEndListener {
 	private List<String> hints;
@@ -15,13 +16,12 @@ class LearningModeHint extends SetGameObject implements ITextSliderListener, IEf
 	private TextSlider textSlider;
 	private Card thirdCard;
 	private boolean isActive;
-	private SetGameTextButton hintButton;
+	private SetGameImageButton hintButton;
 
 	LearningModeHint() {
-		hintButton = new SetGameTextButton();
-		hintButton.setText("Hint");
-		hintButton.setFont(FontManager.createDefaultFontInstance());
-		hintButton.getLocation().set((Game.getVirtualWidth() - hintButton.getWidth()) / 2, 60);
+		hintButton = new SetGameImageButton();
+		hintButton.setTexture(R.game.textures.hint);
+		hintButton.getLocation().set((Game.getVirtualWidth() - hintButton.getWidth()) / 2, 50);
 		hintButton.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {

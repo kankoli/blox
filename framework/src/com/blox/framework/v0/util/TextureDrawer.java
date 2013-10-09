@@ -30,8 +30,7 @@ public final class TextureDrawer {
 		adaptedDrawingInfo.r.origin.y = scale * (r.origin.y - l.y);
 		adaptedDrawingInfo.w = scale * info.getWidth();
 		adaptedDrawingInfo.h = scale * info.getHeight();
-		adaptedDrawingInfo.s.x = s.x;
-		adaptedDrawingInfo.s.y = s.y;
+		adaptedDrawingInfo.s.set(s);
 		adaptedDrawingInfo.r.rotation.z = r.rotation.z;
 		adaptedDrawingInfo.flipX = info.isFlipX();
 		adaptedDrawingInfo.flipY = info.isFlipY();

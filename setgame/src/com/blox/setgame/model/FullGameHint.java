@@ -56,6 +56,16 @@ class FullGameHint extends SetGameObject implements ITextSliderListener, IEffect
 		return button.getLocation();
 	}
 
+	@Override
+	public float getWidth() {
+		return button.getWidth();
+	}
+	
+	@Override
+	public float getHeight() {
+		return button.getHeight();
+	}
+	
 	public void restartNotificationTimer() {
 		notificationTimer.restart();
 	}

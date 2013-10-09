@@ -9,7 +9,7 @@ import com.blox.framework.v0.util.Vector;
 class SetGameTextButton extends SetGameButton {
 	private String text;
 	private IFont font;
-	
+		
 	public String getText() {
 		return text;
 	}

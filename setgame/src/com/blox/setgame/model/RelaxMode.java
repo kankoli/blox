@@ -9,7 +9,7 @@ public class RelaxMode extends FullGameMode {
 	
 	public RelaxMode() {
 		super();
-		hint.getLocation().set(Game.getVirtualWidth() - 58, 50);
+		hint.getLocation().set(Game.getVirtualWidth() - hint.getWidth() - 10, 50);
 		hint.setSlideY(Game.getVirtualHeight() - 100);
 
 		resetButton = new SetGameImageButton();

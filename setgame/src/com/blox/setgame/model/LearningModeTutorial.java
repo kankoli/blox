@@ -21,9 +21,9 @@ class LearningModeTutorial extends SetGameObject implements IViewFinder {
 	private List<TutorialPage> pages;
 	private IViewSwitcher switcher;
 
-	private SetGameTextButton nextButton;
-	private SetGameTextButton prevButton;
-	private SetGameTextButton skipButton;
+	private SetGameImageButton nextButton;
+	private SetGameImageButton prevButton;
+	private SetGameImageButton skipButton;
 
 	private ILearningModeTutorialListener listener;
 
@@ -39,9 +39,8 @@ class LearningModeTutorial extends SetGameObject implements IViewFinder {
 
 		populatePages();
 
-		nextButton = new SetGameTextButton();
-		nextButton.setFont(FontManager.createDefaultFontInstance());
-		nextButton.setText("Next");
+		nextButton = new SetGameImageButton();
+		nextButton.setTexture(R.game.textures.next);
 		nextButton.getLocation().set(Game.getVirtualWidth() - (nextButton.getWidth() + 10), 100);
 		nextButton.setListener(new ISetGameButtonListener() {
 			@Override
@@ -50,9 +49,8 @@ class LearningModeTutorial extends SetGameObject implements IViewFinder {
 			}
 		});
 
-		prevButton = new SetGameTextButton();
-		prevButton.setFont(FontManager.createDefaultFontInstance());
-		prevButton.setText("Prev");
+		prevButton = new SetGameImageButton();
+		prevButton.setTexture(R.game.textures.prev);
 		prevButton.deactivate();
 		prevButton.getLocation().set(10, 100);
 		prevButton.setListener(new ISetGameButtonListener() {
@@ -62,11 +60,8 @@ class LearningModeTutorial extends SetGameObject implements IViewFinder {
 			}
 		});
 
-		skipButton = new SetGameTextButton();
-		skipButton.setWidth(100);
-		skipButton.setHeight(30);
-		skipButton.setFont(FontManager.createDefaultFontInstance());
-		skipButton.setText("Skip");
+		skipButton = new SetGameImageButton();
+		skipButton.setTexture(R.game.textures.skip);
 		skipButton.getLocation().set((Game.getVirtualWidth() - skipButton.getWidth()) / 2, 50);
 		skipButton.setListener(new ISetGameButtonListener() {
 			@Override
@@ -175,8 +170,7 @@ class LearningModeTutorial extends SetGameObject implements IViewFinder {
 		switcher.switchTo(pages.get(pageIndex).getId(), false);
 		prevButton.deactivate();
 		nextButton.activate();
-		skipButton.activate();	
-		nextButton.setText("Next");		
+		skipButton.activate();		
 	}
 
 	void end() {
@@ -189,11 +183,6 @@ class LearningModeTutorial extends SetGameObject implements IViewFinder {
 		if (pageIndex < pages.size() - 1) {
 			pageIndex++;
 			switcher.switchTo(pages.get(pageIndex).getId(), false);
-			
-			if (pageIndex == pages.size() - 1)
-				nextButton.setText("Play");
-			else
-				nextButton.setText("Next");
 		}
 		else
 			notifyTutorialEnd();
@@ -211,7 +200,6 @@ class LearningModeTutorial extends SetGameObject implements IViewFinder {
 		else {
 			prevButton.deactivate();
 		}
-		nextButton.setText("Next");
 	}
 
 	private void skip() {

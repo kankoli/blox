@@ -1,28 +1,34 @@
 package com.blox.setgame.model;
 
-import com.blox.framework.v0.IDrawable;
 import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
+import com.blox.framework.v0.util.Utils;
+import com.blox.framework.v0.util.Vector;
 import com.blox.setgame.utils.R;
 
-public class Toolbar implements IDrawable {
+public class Toolbar extends SetGameObject {
 	public static interface IToolbarListener {
 		void onToolbarBack();
 	}
 
 	private static Toolbar instance;
 
+	private static final float buttonSpacing = Game.scale(10);
+	private static final float buttonSize = Game.scale(R.ui.imageButtonSize);
+
 	public static void init() {
 		if (instance == null)
 			instance = new Toolbar();
 	}
-	
+
 	public static Toolbar getInstance() {
 		return instance;
 	}
-	
+
+	private boolean isActive;
+
 	private ToolbarButton backButton;
 	private ToolbarButton settingsButton;
 
@@ -36,13 +42,10 @@ public class Toolbar implements IDrawable {
 	private String title;
 
 	private Toolbar() {
-		final float buttonSpacing = Game.scale(10);		
-		final float buttonSize = Game.scale(SetGameImageButton.buttonSize);
-
 		font = FontManager.createDefaultFontInstance();
 		font.setScale(R.fontSize.medium);
 		font.getColor().set(R.colors.setRed);
-		
+
 		backButton = new ToolbarButton();
 		backButton.setTexture(R.game.textures.toolbar.back);
 		backButton.setLocation(ToolbarButton.AlignNW, buttonSpacing, buttonSpacing);
@@ -65,6 +68,7 @@ public class Toolbar implements IDrawable {
 				musicButton.toggleActivation();
 				soundButton.toggleActivation();
 				vibrationButton.toggleActivation();
+				isActive = !isActive;
 			}
 		});
 
@@ -85,6 +89,8 @@ public class Toolbar implements IDrawable {
 		vibrationButton.setOnTexture(R.game.textures.toolbar.vibrationOn);
 		vibrationButton.setOffTexture(R.game.textures.toolbar.vibrationOff);
 		vibrationButton.deactivate();
+
+		listenInput(true);
 	}
 
 	public void setListener(IToolbarListener listener) {
@@ -98,10 +104,23 @@ public class Toolbar implements IDrawable {
 	public void activateBackButton() {
 		backButton.activate();
 	}
+
 	public void deactivateBackButton() {
 		backButton.deactivate();
 	}
-	
+
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		Vector l = vibrationButton.getLocation();
+		if (isActive && !Utils.isIn(x, y, l, Game.getScreenWidth() - l.x, Game.getScreenHeight() - l.y)) {
+			musicButton.toggleActivation();
+			soundButton.toggleActivation();
+			vibrationButton.toggleActivation();
+			isActive = false;
+		}
+		return super.touchDown(x, y, pointer, button);
+	}
+
 	@Override
 	public void draw() {
 		backButton.draw();
@@ -109,7 +128,7 @@ public class Toolbar implements IDrawable {
 		musicButton.draw();
 		soundButton.draw();
 		vibrationButton.draw();
-		
+
 		Game.pushRenderingShift(0, -20, false);
 		TextDrawer.draw(font, title, TextDrawer.AlignN);
 		Game.popRenderingShift();

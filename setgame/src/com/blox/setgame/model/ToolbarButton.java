@@ -3,6 +3,7 @@ package com.blox.setgame.model;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextureDrawer;
+import com.blox.setgame.utils.R;
 
 class ToolbarButton extends SetGameButton {
 	private static final int n = 1 << 0;
@@ -23,8 +24,8 @@ class ToolbarButton extends SetGameButton {
 	private ITexture texture;
 	
 	ToolbarButton() {
-		setWidth(Game.scale(SetGameImageButton.buttonSize));
-		setHeight(Game.scale(SetGameImageButton.buttonSize));
+		setWidth(Game.scale(R.ui.imageButtonSize));
+		setHeight(Game.scale(R.ui.imageButtonSize));
 	}
 	
 	void setTexture(String id) {
