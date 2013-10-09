@@ -5,7 +5,7 @@ import com.blox.framework.v0.impl.Screen;
 import com.blox.framework.v0.impl.ScreenManager;
 import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.ShapeRenderer;
+import com.blox.framework.v0.util.ShapeDrawer;
 import com.blox.setgame.model.Logo;
 import com.blox.setgame.utils.R;
 
@@ -29,7 +29,7 @@ public class SplashScreen extends Screen {
 		float width = 500 * resourceManager.getProgress();
 		float x = (Game.getVirtualWidth() - width) / 2;
 
-		ShapeRenderer.drawRect(x, 100, width, 10, progressColor, true, false);
+		ShapeDrawer.drawRect(x, 100, width, 10, progressColor, true, false);
 	}
 
 	@Override

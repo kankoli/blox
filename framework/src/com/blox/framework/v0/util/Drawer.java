@@ -6,7 +6,11 @@ import java.util.List;
 import com.blox.framework.v0.IDrawable;
 
 public class Drawer {
-
+	private static Drawer current;	
+	public static Drawer getCurrent() {
+		return current;
+	}
+	
 	private class Layer {
 		private int index;
 		private List<IDrawable> objects = new ArrayList<IDrawable>();
@@ -26,6 +30,14 @@ public class Drawer {
 		this.layers = new ArrayList<Layer>();
 	}
 
+	public void activate() {
+		current = this;	
+	}
+	
+	public void deactivate() {
+		current = null;	
+	}
+	
 	public void register(IDrawable obj, int layerIndex) {
 
 		unregister(obj);

@@ -23,7 +23,7 @@
 
         <param
             key="default-font"
-            value="JetSet,0.66" />
+            value="Arial,0.5" />
 
         <param
             key="default-skin"
@@ -47,7 +47,7 @@
         
         <param
             key="allow-exit-on-back"
-            value="false" />
+            value="true" />
     </params>
 
     <screens>
@@ -145,6 +145,9 @@
             <font
                 id="JetSet"
                 path="fonts/JetSet.fnt" />
+            <font
+                id="Arial"
+                path="fonts/Arial.fnt" />
         </fonts>
 
         <textures>
@@ -156,13 +159,27 @@
 
             <texture
                 id="hint"
-                path="img/hint.png"
-                resource-load="primary" />
+                path="img/hint.png" />
+
+            <texture
+                id="fw_close"
+                path="img/framework/close.png" />
+
+            <texture
+                id="next"
+                path="img/next.png" />
+
+            <texture
+                id="prev"
+                path="img/prev.png" />
+
+            <texture
+                id="play"
+                path="img/play.png"/>
 
             <texture
                 id="refresh"
-                path="img/refresh.png"
-                resource-load="primary" />
+                path="img/refresh.png"/>
 
             <texture
                 id="ppt-checkbox-checked"

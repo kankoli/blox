@@ -1,15 +1,18 @@
 package com.blox.setgame.model;
 
 import com.blox.framework.v0.IDrawable;
+import com.blox.framework.v0.forms.xml.Dialog;
 import com.blox.framework.v0.impl.Settings;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.TextDrawer;
 import com.blox.setgame.utils.R;
+import com.blox.setgame.utils.SetGameResources;
 
 public class HiScores implements IDrawable {
 	private GameInfo info;
 	private SetGameTextButton resetScores;
+	private Dialog confirmDialog;
 
 	public HiScores() {
 		info = new GameInfo(20, 0);
@@ -22,20 +25,32 @@ public class HiScores implements IDrawable {
 		resetScores.setListener(new ISetGameButtonListener() {
 			@Override
 			public void onButtonTapped() {
-				Settings.putInteger(R.settings.hiscores.practice, 0);
-				Settings.putInteger(R.settings.hiscores.challenge, 0);
+				confirmDialog.open("Are you sure that\nyou want to reset hi-scores?");
 			}
 		});
-		
+
+		confirmDialog = new Dialog();
+		confirmDialog.setListener(new Dialog.IDialogListener() {
+			@Override
+			public void onDialogButtonClicked(String id) {
+				if ("Yes".equals(id)) {
+					Settings.putInteger(R.settings.hiscores.practice, 0);
+					Settings.putInteger(R.settings.hiscores.challenge, 0);
+				}
+				SetGameResources.playSoundFlip();
+				Game.vibrate(50);				
+			}
+		});
+
 		resetScores.getLocation().set(
-			(Game.getVirtualWidth() - resetScores.getWidth()) / 2, 200
-		);
+				(Game.getVirtualWidth() - resetScores.getWidth()) / 2, 200
+				);
 	}
-	
+
 	public void activate() {
 		resetScores.listenInput(true);
 	}
-	
+
 	public void deactivate() {
 		resetScores.listenInput(false);
 	}
@@ -47,7 +62,7 @@ public class HiScores implements IDrawable {
 
 		info.draw("Practice: " + practiceScore, TextDrawer.AlignCentered, 200);
 		info.draw("Challenge: " + challengeScore, TextDrawer.AlignCentered, 80);
-		
+
 		resetScores.draw();
 	}
 }

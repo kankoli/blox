@@ -91,6 +91,7 @@ public abstract class Screen implements IInputListener, IView {
 	@Override
 	public void activated() {
 		inputListener.activate();
+		drawer.activate();
 		startPlayingBgMusic();
 		Settings.registerListener(settingsListener);
 		MoveManager.setCurrent(moveManager);
@@ -100,6 +101,7 @@ public abstract class Screen implements IInputListener, IView {
 	@Override
 	public void deactivated() {
 		inputListener.deactivate();
+		drawer.deactivate();
 		disposeBgMusic();
 		Settings.unregisterListener(settingsListener);
 		MoveManager.setCurrent(null);

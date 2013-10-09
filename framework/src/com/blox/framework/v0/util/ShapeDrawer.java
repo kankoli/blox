@@ -1,16 +1,22 @@
 package com.blox.framework.v0.util;
 
+import com.blox.framework.v0.IDrawingInfo;
 import com.blox.framework.v0.IShapeRenderer;
 
-public final class ShapeRenderer {
+public final class ShapeDrawer {
 	private final static IShapeRenderer renderer;
 
-	private ShapeRenderer() {
+	private ShapeDrawer() {
 
 	}
 
 	static {
 		renderer = Game.getShapeRenderer();
+	}
+
+	public static void drawRect(IDrawingInfo info, float padX, float padY, boolean filled) {
+		Vector l = info.getLocation();
+		drawRect(l.x - padX, l.y - padY, info.getWidth() + 2 * padX, info.getHeight() + 2 * padY, info.getColor(), filled, info.ignoreViewport());
 	}
 
 	public static void drawRect(float x, float y, float w, float h, Color color, boolean filled, boolean ignoreViewport) {

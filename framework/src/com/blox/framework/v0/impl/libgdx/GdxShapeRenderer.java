@@ -1,5 +1,7 @@
 package com.blox.framework.v0.impl.libgdx;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.blox.framework.v0.IShapeRenderer;
@@ -37,11 +39,14 @@ final class GdxShapeRenderer implements IShapeRenderer {
 
 	private void end() {
 		renderer.end();
+		Gdx.gl.glDisable(GL10.GL_BLEND);
 		GdxGame.spriteBatch.begin();
 	}
 
 	private void begin(ShapeType shapeType, Color color) {
 		GdxGame.spriteBatch.end();
+		Gdx.gl.glEnable(GL10.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		renderer.begin(shapeType);
 		renderer.setColor(color.r, color.g, color.b, color.a * Game.renderingAlpha);
 	}

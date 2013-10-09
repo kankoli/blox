@@ -1,6 +1,7 @@
 package com.blox.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.util.Color;
@@ -50,7 +51,7 @@ class GdxFont implements IFont {
 			return;
 		font.setScale(scale);
 		font.setColor(color.r, color.g, color.b, color.a * Game.renderingAlpha);
-		font.drawMultiLine(GdxGame.spriteBatch, text, x + Game.getRenderingShiftX(), y + Game.getRenderingShiftY());
+		font.drawMultiLine(GdxGame.spriteBatch, text, x + Game.getRenderingShiftX(), y + Game.getRenderingShiftY(), measureText(text).x, HAlignment.CENTER);
 	}
 
 	@Override

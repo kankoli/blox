@@ -13,8 +13,8 @@ import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Utils;
 
 public class Button extends DrawableControl {
-	private final static Color white = Color.white(); 
-	
+	private final static Color white = Color.white();
+
 	private List<IClickListener> clickListeners;
 	private String text;
 	private Style style;
@@ -105,7 +105,7 @@ public class Button extends DrawableControl {
 	protected void onDraw() {
 		if (text == null || "".equals(text.trim()))
 			return;
-		
+
 		if (isTouched())
 			font.getColor().set(focusColor);
 		else
