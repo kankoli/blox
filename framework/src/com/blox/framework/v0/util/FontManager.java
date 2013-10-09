@@ -12,17 +12,13 @@ public final class FontManager {
 	static {
 		defaultFont = createDefaultFontInstance();
 	}
-	
-	static void setSize(int size) {
-		defaultFont.setSize(size);
-	}
-	
+		
 	public static IFont createDefaultFontInstance() {
-		// default-font = "Arial,24"
+		// default-font = "Arial,0.5"
 		String df = Game.getParam("default-font");
 		String[] ss = df.split(",");
 		IFont font =  Game.getResourceManager().getFont(ss[0]);
-		font.setSize(Utils.parseInt(ss[1]));
+		font.setScale(Utils.parseFloat(ss[1]));
 		return font;
 	}
 }

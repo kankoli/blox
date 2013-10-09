@@ -42,6 +42,7 @@ public abstract class TrainingMode extends SetGameMode {
 	}
 
 	public void exitMode() {
+		((TrainingCardDealer)dealer).abortDeal();
 		deactivateCards();
 		cards.empty();
 	}

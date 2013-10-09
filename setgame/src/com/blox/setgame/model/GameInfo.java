@@ -19,11 +19,11 @@ class GameInfo extends SetGameObject {
 		getColor().set(Color.white());
 		
 		font = FontManager.createDefaultFontInstance();
-		setFontSize(18);
+//		setFontScale(R.fontSize.small);
 	}
 
-	void setFontSize(int size) {
-		this.font.setSize(size);
+	void setFontScale(float scale) {
+		this.font.setScale(scale);
 	}
 	
 	@Override
@@ -33,8 +33,8 @@ class GameInfo extends SetGameObject {
 		Game.popRenderingShift();
 	}
 
-	public void draw(String text, int alingment, int shiftY) {
-		this.alignment = alingment;
+	public void draw(String text, int alignment, int shiftY) {
+		this.alignment = alignment;
 		this.text = text;
 		this.shiftY = shiftY;
 		this.draw();

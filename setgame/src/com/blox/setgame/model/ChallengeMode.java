@@ -56,8 +56,8 @@ public class ChallengeMode extends FullGameMode {
 
 	@Override
 	public void drawResult() {
-		info.draw("Congratulations", TextDrawer.AlignCentered, 200);
-		info.draw(String.format("You Found %d Set%s!", setsFound, setsFound > 1 ? "s" : ""), TextDrawer.AlignCentered, 150);
+		info.draw("Congratulations,", TextDrawer.AlignCentered, 200);
+		info.draw(String.format("You found %d set%s!", setsFound, setsFound != 1 ? "s" : ""), TextDrawer.AlignCentered, 150);
 		info.draw("Total Time " + modeCompleteTime, TextDrawer.AlignCentered, 50);
 		info.draw(scoreText, TextDrawer.AlignCentered, 0);
 		info.draw("Touch Screen", TextDrawer.AlignCentered, -100);
@@ -86,6 +86,6 @@ public class ChallengeMode extends FullGameMode {
 	}
 
 	protected void drawScore() {
-		info.draw(scoreText, TextDrawer.AlignNW, -80);
+		info.draw(scoreText, TextDrawer.AlignNW, -60);
 	}
 }

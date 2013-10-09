@@ -17,10 +17,10 @@ public class PracticeModeBlockedState extends PracticeModeState {
 	protected void deactivated() {
 		model.deactivateCards();
 	}
-
+	
 	@Override
 	public void onCardTapped(Card card) {
-		model.onCardSelected(card);
+		card.deselect();
 		SetGameResources.playSoundWait();
 	}
 }

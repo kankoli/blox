@@ -23,7 +23,7 @@
 
         <param
             key="default-font"
-            value="JetSet,36" />
+            value="JetSet,0.66" />
 
         <param
             key="default-skin"
@@ -41,6 +41,10 @@
             key="form-switcher"
             value="sliding,0.25" />
 
+        <param
+            key="tutorial-page-switcher"
+            value="sliding,0.25" />
+        
         <param
             key="allow-exit-on-back"
             value="false" />
@@ -140,8 +144,7 @@
 
             <font
                 id="JetSet"
-                path="fonts/JetSet.ttf"
-                sizes="12,18,24,36,48,60,72" />
+                path="fonts/JetSet.fnt" />
         </fonts>
 
         <textures>
@@ -248,6 +251,21 @@
             <texture
                 id="tb_vibration_on"
                 path="img/toolbar/vibration-on.png" />
+            
+            
+            <texture
+                id="shapes"
+                path="img/tutorial/shapes.png" />
+            <texture
+                id="colors"
+                path="img/tutorial/colors.png" />
+            <texture
+                id="fills"
+                path="img/tutorial/fills.png" />
+            <texture
+                id="amounts"
+                path="img/tutorial/amounts.png" />
+            
         </textures>
 
         <sounds>

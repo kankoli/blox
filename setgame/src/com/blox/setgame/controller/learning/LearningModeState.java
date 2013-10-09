@@ -16,6 +16,11 @@ public abstract class LearningModeState extends SetGameState implements ILearnin
 	}
 
 	@Override
+	public void onScreenDeactivated() {
+		model.exitMode();
+	}
+	
+	@Override
 	protected void activated() {
 		model.beginTutorial();
 	}

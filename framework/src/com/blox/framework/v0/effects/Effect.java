@@ -82,7 +82,6 @@ public abstract class Effect {
 			}
 			else {
 				stop();
-				isActive = false;
 				return;
 			}
 		}

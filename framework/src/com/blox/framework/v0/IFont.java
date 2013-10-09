@@ -10,5 +10,5 @@ public interface IFont extends IDisposable {
 
 	Vector measureText(String text);
 
-	void setSize(int size);
+	void setScale(float scale);
 }

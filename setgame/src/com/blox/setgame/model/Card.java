@@ -122,7 +122,7 @@ public class Card extends SetGameObject {
 		return isSelected;
 	}
 
-	void deselect() {
+	public void deselect() {
 		isSelected = false;
 	}
 

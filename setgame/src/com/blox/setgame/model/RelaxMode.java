@@ -63,11 +63,11 @@ public class RelaxMode extends FullGameMode {
 	}
 
 	public void drawResult() {
-		info.draw("Congratulations", TextDrawer.AlignCentered, 150);
-		info.draw(String.format("You Found %d Set%s!", setsFound, setsFound > 1 ? "s" : ""), TextDrawer.AlignCentered, 100);
+		info.draw("Congratulations,", TextDrawer.AlignCentered, 170);
+		info.draw(String.format("You found %d set%s!", setsFound, setsFound != 1 ? "s" : ""), TextDrawer.AlignCentered, 120);
 		info.draw("Total Time " + modeCompleteTime, TextDrawer.AlignCentered, 0);
-		info.draw("Touch Screen", TextDrawer.AlignCentered, -100);
-		info.draw("To Continue", TextDrawer.AlignCentered, -150);
+		info.draw("Touch Screen", TextDrawer.AlignCentered, -120);
+		info.draw("To Continue", TextDrawer.AlignCentered, -170);
 	}
 
 	protected void drawHint() {

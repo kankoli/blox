@@ -30,8 +30,6 @@ class TrainingCardDealer extends CardDealer {
 
 	TrainingCardDealer(TrainingCards cards) {
 		this.cards = cards;
-		// for (int i = 0; i < movers.length; i++)
-		// movers[i].setLooping(true);
 	}
 
 	@Override
@@ -42,6 +40,13 @@ class TrainingCardDealer extends CardDealer {
 			beginMoveOldCards();
 	}
 
+	void abortDeal() {
+		for (int i = 0; i < cards.getLength(); i++) {
+			if (cards.get(i) != null)
+				cards.get(i).stopEffects();
+		}
+	}
+	
 	private void dealAndMoveNewCards() {
 		dealNewCards();
 		beginMoveNewCards();
