@@ -112,7 +112,7 @@ public class Toolbar extends SetGameObject {
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Vector l = vibrationButton.getLocation();
-		if (isActive && !Utils.isIn(x, y, l, Game.getScreenWidth() - l.x, Game.getScreenHeight() - l.y)) {
+		if (isActive && !Utils.isIn(Game.viewportToScreenX(x), Game.viewportToScreenY(y), l, Game.getScreenWidth() - l.x, Game.getScreenHeight() - l.y)) {
 			musicButton.toggleActivation();
 			soundButton.toggleActivation();
 			vibrationButton.toggleActivation();
