@@ -1,15 +1,17 @@
 package com.blox.framework.v0.forms.xml;
 
+import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.TextDrawer;
+import com.blox.framework.v0.util.Utils;
 
 public class Label extends DrawableControl {
 	private String text;
-	private Color color;
 	private boolean centered;
 	private int alignment;
+	private IFont font;
 	
 	public String getText() {
 		return text;
@@ -20,14 +22,11 @@ public class Label extends DrawableControl {
 	}
 
 	public Color getColor() {
-		return color;
+		return font.getColor();
 	}
 
 	public void setColor(Color color) {
-		this.color.r = color.r;
-		this.color.g = color.g;
-		this.color.b = color.b;
-		this.color.a = color.a;
+		getColor().set(color);
 	}
 
 	public boolean isCentered() {
@@ -38,8 +37,12 @@ public class Label extends DrawableControl {
 		this.centered = centered;
 	}
 	
+	public void setFontScale(float f) {
+		font.setScale(f);
+	}
+	
 	public Label() {
-		
+		font = FontManager.createDefaultFontInstance();
 	}
 	
 	@Override
@@ -54,7 +57,7 @@ public class Label extends DrawableControl {
 	
 	@Override
 	public void draw() {
-		TextDrawer.draw(FontManager.defaultFont, text, drawable, alignment);
+		TextDrawer.draw(font, text, drawable, alignment);
 	}
 	
 	@Override
@@ -63,7 +66,10 @@ public class Label extends DrawableControl {
 			text = value;
 		
 		else if ("color".equals(attribute))
-			color = Color.fromHex(value);
+			setColor(Color.fromHex(value));
+		
+		else if ("font-scale".equals(attribute))
+			setFontScale(Utils.parseFloat(value));
 		
 		else if ("align".equals(attribute))
 			alignment = TextDrawer.getAlignment(value);
