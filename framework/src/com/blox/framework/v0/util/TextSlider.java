@@ -1,31 +1,53 @@
 package com.blox.framework.v0.util;
 
 import com.blox.framework.v0.IDrawable;
-import com.blox.framework.v0.IDrawingInfo;
-import com.blox.framework.v0.IFont;
+import com.blox.framework.v0.impl.Text;
 
 public class TextSlider implements IDrawable {
-	private final static float speed = Game.getVirtualWidth() / 2f;
+	private final float speed;
 	
-	private IFont font;
-	private String text;
-
-	private boolean isSliding;
-	private float y;
+	private final Text text;
+	
 	private float x;
-	private float width;
+	private float textWidth;
+	private boolean isSliding;
 	private ITextSliderListener listener;
+	
+	public TextSlider() {
+		this(Game.getVirtualWidth() / 2f);
+	}
+	
+	public TextSlider(float speed) {
+		this.speed = speed;
 
+		text = new Text();
+		text.setWidth(Game.getVirtualWidth());
+		text.setHeight(Game.getVirtualHeight());
+		text.setWrapped(false);
+	}
+	
 	public void setListener(ITextSliderListener listener) {
 		this.listener = listener;
 	}
 
-	public IFont getFont() {
-		return font;
+	public String getText() {
+		return text.getText();
 	}
 
-	public String getText() {
-		return text;
+	public void setText(String text) {
+		this.text.setText(text);
+	}
+	
+	public void setFontScale(float scale) {
+		text.setFontScale(scale);
+	}
+	
+	public float getY() {
+		return text.getY();
+	}
+	
+	public void setY(float y) {
+		text.setY(y);
 	}
 
 	public boolean isSliding() {
@@ -37,13 +59,12 @@ public class TextSlider implements IDrawable {
 			listener.onTextSlideEnd(this);
 	}
 
-	public void slide(IFont font, String text, float y) {
-		this.font = font;
-		this.text = text;
-		this.y = y;
-		this.isSliding = true;
-		this.x = Game.getVirtualWidth();
-		this.width = Game.descale(font.measureText(text).x);
+	public void slide() {
+		x = Game.getVirtualWidth();
+		textWidth = text.getTextAreaWidth();
+
+		Drawer.getCurrent().register(this, 10);
+		isSliding = true;
 	}
 
 	@Override
@@ -53,14 +74,14 @@ public class TextSlider implements IDrawable {
 
 		x -= Game.getDeltaTime() * speed;
 
-		if (x + width < 0) {
+		if (x + textWidth < 0) {
 			isSliding = false;
 			notifySlideEnd();
+			return;
 		}
 		
-		Game.pushRenderingShift(x, y, false);		
-		TextDrawer.draw(font, text, IDrawingInfo.viewport, TextDrawer.AlignSW);		
-		Game.popRenderingShift();
+		text.setX(x);		
+		text.draw();
 	}
 
 	public void stop() {

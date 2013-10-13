@@ -14,6 +14,11 @@ public final class ShapeDrawer {
 		renderer = Game.getShapeRenderer();
 	}
 
+	public static void drawRect(IDrawingInfo info, boolean filled) {
+		Vector l = info.getLocation();
+		drawRect(l.x, l.y, info.getWidth(), info.getHeight(), info.getColor(), filled, info.ignoreViewport());
+	}
+	
 	public static void drawRect(IDrawingInfo info, float padX, float padY, boolean filled) {
 		Vector l = info.getLocation();
 		drawRect(l.x - padX, l.y - padY, info.getWidth() + 2 * padX, info.getHeight() + 2 * padY, info.getColor(), filled, info.ignoreViewport());

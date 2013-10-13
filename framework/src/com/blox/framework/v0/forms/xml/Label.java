@@ -1,48 +1,36 @@
 package com.blox.framework.v0.forms.xml;
 
-import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.impl.AttachedText;
+import com.blox.framework.v0.impl.Text;
 import com.blox.framework.v0.util.Color;
-import com.blox.framework.v0.util.FontManager;
-import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Utils;
 
 public class Label extends DrawableControl {
-	private String text;
-	private boolean centered;
-	private int alignment;
-	private IFont font;
+	private Text text;
+
+	public Label() {
+		text = new AttachedText(drawable);
+	}
 	
 	public String getText() {
-		return text;
+		return text.getText();
 	}
 	
 	public void setText(String text) {
-		this.text = text;
+		this.text.setText(text);
 	}
 
 	public Color getColor() {
-		return font.getColor();
+		return text.getColor();
 	}
 
 	public void setColor(Color color) {
 		getColor().set(color);
 	}
-
-	public boolean isCentered() {
-		return centered;
-	}
-
-	public void setCentered(boolean centered) {
-		this.centered = centered;
-	}
 	
 	public void setFontScale(float f) {
-		font.setScale(f);
-	}
-	
-	public Label() {
-		font = FontManager.createDefaultFontInstance();
+		text.setFontScale(f);
 	}
 	
 	@Override
@@ -57,13 +45,13 @@ public class Label extends DrawableControl {
 	
 	@Override
 	public void draw() {
-		TextDrawer.draw(font, text, drawable, alignment);
+		text.draw();
 	}
 	
 	@Override
 	protected void setAttribute(String attribute, String value) {
 		if ("text".equals(attribute))
-			text = value;
+			setText(value);
 		
 		else if ("color".equals(attribute))
 			setColor(Color.fromHex(value));
@@ -71,8 +59,11 @@ public class Label extends DrawableControl {
 		else if ("font-scale".equals(attribute))
 			setFontScale(Utils.parseFloat(value));
 		
-		else if ("align".equals(attribute))
-			alignment = TextDrawer.getAlignment(value);
+		else if ("halign".equals(attribute))
+			text.setHorizontalAlignment(Text.getHAlign(value));
+
+		else if ("valign".equals(attribute))
+			text.setVerticalAlignment(Text.getVAlign(value));
 		
 		else 
 			super.setAttribute(attribute, value);

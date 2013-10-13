@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.blox.framework.v0.IFont;
+import com.blox.framework.v0.impl.Text;
 import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Game;
+import com.blox.framework.v0.util.Rectangle;
 import com.blox.framework.v0.util.Vector;
 
 class GdxFont implements IFont {
@@ -32,13 +34,13 @@ class GdxFont implements IFont {
 	}
 
 	@Override
-	public Vector measureText(String text) {
+	public Vector measureText(String text, float maxWidth) {
 		if (text == null) {
 			size.x = size.y = 0;
 		}
 		else {
 			font.setScale(scale);
-			TextBounds bounds = font.getMultiLineBounds(text);
+			TextBounds bounds = font.getWrappedBounds(text, maxWidth);
 			size.x = bounds.width;
 			size.y = bounds.height;
 		}
@@ -46,16 +48,29 @@ class GdxFont implements IFont {
 	}
 
 	@Override
-	public void draw(String text, float x, float y) {
+	public void draw(String text, Rectangle textArea, int align) {
 		if (text == null)
 			return;
 		font.setScale(scale);
 		font.setColor(color.r, color.g, color.b, color.a * Game.renderingAlpha);
-		font.drawMultiLine(GdxGame.spriteBatch, text, x + Game.getRenderingShiftX(), y + Game.getRenderingShiftY(), measureText(text).x, HAlignment.CENTER);
+		font.drawWrapped(GdxGame.spriteBatch, text, textArea.x, textArea.y + textArea.height, textArea.width, getHAlignment(align));
 	}
 
 	@Override
 	public void setScale(float scale) {
 		this.scale = Game.scale(scale);
+	}
+
+	private static HAlignment getHAlignment(int align) {
+		switch (align) {
+		case Text.HAlignLeft:
+			return HAlignment.LEFT;
+		case Text.HAlignRight:
+			return HAlignment.RIGHT;
+		case Text.HAlignCenter:
+			return HAlignment.CENTER;
+		default:
+			return HAlignment.LEFT;
+		}
 	}
 }

@@ -64,8 +64,18 @@ public final class TextureDrawer {
 		}
 
 		@Override
+		public void setWidth(float width) {
+			this.w = width;
+		}
+		
+		@Override
 		public float getHeight() {
 			return h;
+		}
+
+		@Override
+		public void setHeight(float height) {
+			this.h = height;
 		}
 
 		@Override

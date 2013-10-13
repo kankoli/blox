@@ -40,7 +40,6 @@ public final class Game {
 	private static IControlActionHandlerFactory actionHandlerFactory;
 
 	public static float renderingAlpha = 1;
-
 	private static float renderingShiftX = 0;
 	private static float renderingShiftY = 0;
 
@@ -66,10 +65,16 @@ public final class Game {
 		}
 	}
 
+	/** 
+	 * @return renderingShiftX value in screen coordinates
+	 */
 	public static float getRenderingShiftX() {
 		return renderingShiftX;
 	}
 
+	/** 
+	 * @return renderingShiftY value in screen coordinates
+	 */
 	public static float getRenderingShiftY() {
 		return renderingShiftY;
 	}
@@ -159,10 +164,21 @@ public final class Game {
 
 	// region viewport
 
+	/**
+	 * viewport to screen
+	 * @param f width, height etc...
+	 * @return
+	 */
 	public static float scale(float f) {
 		return f * getScale();
 	}
 
+
+	/**
+	 * screen to viewport 
+	 * @param f width, height etc...
+	 * @return
+	 */
 	public static float descale(float f) {
 		return f / getScale();
 	}

@@ -35,10 +35,15 @@ class ControlDrawingInfo implements IDrawingInfo, IDrawable {
 		width = xScale * control.getCols();
 		height = yScale * control.getRows();		
 	}
-
+	
 	@Override
 	public float getWidth() {
 		return width;
+	}
+
+	@Override
+	public void setWidth(float width) {
+		this.width = width;
 	}
 
 	@Override
@@ -46,6 +51,11 @@ class ControlDrawingInfo implements IDrawingInfo, IDrawable {
 		return height;
 	}
 
+	@Override
+	public void setHeight(float height) {
+		this.height = height;
+	}
+	
 	@Override
 	public Vector getLocation() {
 		return location;

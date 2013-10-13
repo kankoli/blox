@@ -10,38 +10,38 @@ public interface IDrawingInfo {
 	public static final Rotation noRotation = new Rotation();
 	public static final Vector origin = new Vector();
 	public static final Color white = Color.white();
-	
+
 	public static final IDrawingInfo screen = new IDrawingInfo() {
 		@Override
 		public boolean isFlipY() {
 			return false;
 		}
-		
+
 		@Override
 		public boolean isFlipX() {
 			return false;
 		}
-				
+
 		@Override
 		public boolean ignoreViewport() {
 			return true;
 		}
-		
+
 		@Override
 		public boolean ignoreShifting() {
 			return false;
-		}	
-		
+		}
+
 		@Override
 		public float getWidth() {
 			return Game.getScreenWidth();
 		}
-		
+
 		@Override
 		public Vector getScale() {
 			return noScale;
 		}
-		
+
 		@Override
 		public Rotation getRotation() {
 			return noRotation;
@@ -51,49 +51,55 @@ public interface IDrawingInfo {
 		public Color getColor() {
 			return white;
 		}
-		
+
 		@Override
 		public Vector getLocation() {
 			return origin;
 		}
-		
+
 		@Override
 		public float getHeight() {
 			return Game.getScreenHeight();
 		}
+
+		public void setHeight(float height) {
+		}
+
+		public void setWidth(float width) {
+		}
 	};
-	
+
 	public static final IDrawingInfo viewport = new IDrawingInfo() {
 		@Override
 		public boolean isFlipY() {
 			return false;
 		}
-		
+
 		@Override
 		public boolean isFlipX() {
 			return false;
 		}
-				
+
 		@Override
 		public boolean ignoreViewport() {
 			return false;
 		}
-		
+
 		@Override
 		public boolean ignoreShifting() {
 			return false;
-		}		
-		
+		}
+
 		@Override
 		public float getWidth() {
 			return Game.getVirtualWidth();
 		}
-		
+
 		@Override
 		public Vector getScale() {
 			return noScale;
 		}
-		
+
 		@Override
 		public Rotation getRotation() {
 			return noRotation;
@@ -103,28 +109,38 @@ public interface IDrawingInfo {
 		public Color getColor() {
 			return white;
 		}
-		
+
 		@Override
 		public Vector getLocation() {
 			return origin;
 		}
-		
+
 		@Override
 		public float getHeight() {
 			return Game.getVirtualHeight();
 		}
+
+		public void setHeight(float height) {
+		}
+
+		public void setWidth(float width) {
+		}
 	};
-	
+
 	float getWidth();
 
+	void setWidth(float width);
+
 	float getHeight();
+
+	void setHeight(float height);
 
 	Vector getLocation();
 
 	Vector getScale();
 
 	Rotation getRotation();
-	
+
 	Color getColor();
 
 	boolean isFlipX();
@@ -132,6 +148,6 @@ public interface IDrawingInfo {
 	boolean isFlipY();
 
 	boolean ignoreViewport();
-	
+
 	boolean ignoreShifting();
 }

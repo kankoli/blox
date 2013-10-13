@@ -3,30 +3,30 @@ package com.blox.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blox.framework.v0.IFont;
 import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.impl.AttachedText;
+import com.blox.framework.v0.impl.Text;
 import com.blox.framework.v0.util.Color;
-import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
-import com.blox.framework.v0.util.TextDrawer;
 import com.blox.framework.v0.util.Utils;
 
 public class Button extends DrawableControl {
 	private final static Color white = Color.white();
 
+	private final Text text;
+	
 	private List<IClickListener> clickListeners;
-	private String text;
 	private Style style;
 	private int vibrationDuration;
 	public ISound clickSound;
-	public IFont font;
 	private Color focusColor;
 
 	Button() {
 		style = new Style();
 		clickListeners = new ArrayList<IClickListener>();
-		font = FontManager.createDefaultFontInstance();
+		text = new AttachedText(drawable); 
+		text.setHorizontalAlignment(Text.HAlignCenter);
 	}
 
 	public void addClickListener(IClickListener listener) {
@@ -72,7 +72,7 @@ public class Button extends DrawableControl {
 			vibrationDuration = Utils.parseInt(value);
 
 		else if ("text".equals(attribute))
-			text = value;
+			text.setText(value);
 
 		else
 			super.setAttribute(attribute, value);
@@ -103,15 +103,12 @@ public class Button extends DrawableControl {
 
 	@Override
 	protected void onDraw() {
-		if (text == null || "".equals(text.trim()))
-			return;
-
 		if (isTouched())
-			font.getColor().set(focusColor);
+			text.getColor().set(focusColor);
 		else
-			font.getColor().set(white);
-
-		TextDrawer.draw(font, text, drawable);
+			text.getColor().set(white);
+		
+		text.draw();
 	}
 
 	public static class Style {

@@ -3,19 +3,22 @@ package com.blox.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blox.framework.v0.IFont;
+import com.blox.framework.v0.ITexture;
+import com.blox.framework.v0.impl.AttachedText;
 import com.blox.framework.v0.impl.GameObject;
+import com.blox.framework.v0.impl.Text;
 import com.blox.framework.v0.util.Color;
 import com.blox.framework.v0.util.Drawer;
-import com.blox.framework.v0.util.FontManager;
 import com.blox.framework.v0.util.Game;
 import com.blox.framework.v0.util.ShapeDrawer;
-import com.blox.framework.v0.util.TextDrawer;
+import com.blox.framework.v0.util.TextureDrawer;
 import com.blox.framework.v0.util.Vector;
 
 public class Dialog extends GameObject {
-	public static float buttonSpace = 15f;
+	public static float padding = 15f;
+	public static Color white = Color.white();
 	public static Color activeButtonColor = Color.white();
+	public static Color closeButtonFocusColor = Color.red();
 
 	public static float dialogWidth = 0.75f;
 
@@ -23,21 +26,28 @@ public class Dialog extends GameObject {
 		void onDialogButtonClicked(String id);
 	}
 
-	private static final Color fadingBackground = new Color(0, 0, 0, 0.8f);
-	private static final Color borderColor = new Color(1);
+	private static final Color fadingBackground = new Color(0, 0, 0, 0.9f);
 
-	private String message;
-	private IFont font;
+	private final Text message;
 	private float fontScale;
 	private IDialogListener listener;
 	private List<DialogButton> buttons;
+	private DialogCloseButton closeButton;
 
 	public Dialog() {
 		buttons = new ArrayList<Dialog.DialogButton>();
+
+		closeButton = new DialogCloseButton(this);
+
 		setWidth(Game.getVirtualWidth() * dialogWidth);
-		font = FontManager.createDefaultFontInstance();
+
+		message = new AttachedText(this);
+		message.setHorizontalAlignment(Text.HAlignCenter);
+		message.setVerticalAlignment(Text.VAlignTop);
+		message.setPadX(padding);
+		message.setPadY(padding);
 		fontScale = 1f;
-		
+
 		addButton("Yes", "Yes");
 		addButton("No", "No");
 	}
@@ -48,41 +58,47 @@ public class Dialog extends GameObject {
 
 	public void setFontScale(float scale) {
 		fontScale = scale;
-		font.setScale(fontScale);
+		message.setFontScale(fontScale);
 	}
 
-	private void addButton(String id, String text) {
+	private DialogButton addButton(String id, String text) {
 		DialogButton btn = new DialogButton(this);
 		btn.setId(id);
 		btn.setText(text);
 
 		buttons.add(btn);
+
+		return btn;
 	}
 
-	public void open(String message) {
-		this.message = message;
-		this.listenInput(true);
-		
-		Vector size = font.measureText(message);
-		setHeight(size.y + 100);
+	public void open(String messageText) {
+		message.setText(messageText);
+		listenInput(true);
+
+		this.setHeight(message.getTextAreaHeight() + 2 * padding + 100);
 
 		Vector l = getLocation();
 		l.x = (Game.getVirtualWidth() - getWidth()) / 2;
 		l.y = (Game.getVirtualHeight() - getHeight()) / 2;
 
-		float buttonWidth = (getWidth() - (buttons.size() + 1) * buttonSpace) / buttons.size();
+		float buttonWidth = (getWidth() - (buttons.size() + 1) * padding) / buttons.size();
 		for (int i = 0; i < buttons.size(); i++) {
 			DialogButton b = buttons.get(i);
-			b.setWidth(buttonWidth);
-			b.setHeight(b.font.measureText(b.text).y + 20);
 			b.listenInput(true);
-			b.getLocation().set(l.x + (i + 1) * buttonSpace + i * b.getWidth(), l.y + buttonSpace);
+			b.setWidth(buttonWidth);
+			b.getLocation().set(l.x + (i + 1) * padding + i * b.getWidth(), l.y - 3 * padding - b.getHeight() + 100);
 		}
 
+		closeButton.getLocation().set(
+				l.x + getWidth() - closeButton.getWidth() / 2,
+				l.y + getHeight() - closeButton.getHeight() / 2);
+
+		closeButton.listenInput(true);
 		Drawer.getCurrent().register(this, 1000);
 	}
 
 	public void close() {
+		closeButton.listenInput(false);
 		listenInput(false);
 		Drawer.getCurrent().unregister(this);
 		for (int i = 0; i < buttons.size(); i++)
@@ -93,20 +109,24 @@ public class Dialog extends GameObject {
 	public void draw() {
 		ShapeDrawer.drawRect(0, 0, Game.getScreenWidth(), Game.getScreenHeight(), fadingBackground, true, true);
 
-		Game.pushRenderingShift(0, -buttonSpace, false);
-		TextDrawer.draw(font, message, this, TextDrawer.AlignN);
-		Game.popRenderingShift();
+		message.draw();
 
-		float y = getLocation().y;
+		Vector l = getLocation();
+		float w = getWidth();
 		float h = getHeight();
 
-		ShapeDrawer.drawLine(0, y, Game.getVirtualWidth(), y, borderColor, false);
-		ShapeDrawer.drawLine(0, y + h, Game.getVirtualWidth(), y + h, borderColor, false);
+		ShapeDrawer.drawLine(l.x, l.y, l.x + w, l.y, white, false);
+		ShapeDrawer.drawLine(l.x, l.y, l.x, l.y + h, white, false);
+		
+		ShapeDrawer.drawLine(l.x + w, l.y, l.x + w, l.y + h - closeButton.getHeight() / 2, white, false);
+		ShapeDrawer.drawLine(l.x, l.y + h, l.x + w - closeButton.getWidth() / 2, l.y + h, white, false);
 
 		for (int i = 0; i < buttons.size(); i++)
 			buttons.get(i).draw();
+
+		closeButton.draw();
 	}
-	
+
 	private void buttonTapped(DialogButton button) {
 		if (listener != null)
 			listener.onDialogButtonClicked(button.getId());
@@ -121,15 +141,43 @@ public class Dialog extends GameObject {
 		return true;
 	}
 
+	private static class DialogCloseButton extends GameObject {
+		private Dialog parent;
+		private ITexture texture;
+
+		DialogCloseButton(Dialog parent) {
+			this.parent = parent;
+			texture = Game.getResourceManager().getTexture("fw_close");
+			setWidth(48f);
+			setHeight(48f);
+		}
+
+		@Override
+		public void draw() {
+			if (isTouched())
+				getColor().set(closeButtonFocusColor);
+			else
+				getColor().set(1);
+			TextureDrawer.draw(texture, this);
+		}
+
+		@Override
+		protected boolean onTap() {
+			parent.close();
+			return true;
+		}
+	}
+
 	private static class DialogButton extends GameObject {
 		private String id;
-		private String text;
+		private Text text;
 		private final Dialog dialog;
-		private IFont font;
 
 		DialogButton(Dialog dialog) {
 			this.dialog = dialog;
-			this.font = FontManager.createDefaultFontInstance();
+			this.text = new AttachedText(this);
+			this.text.setHorizontalAlignment(Text.HAlignCenter);
+			this.text.setVerticalAlignment(Text.VAlignCenter);
 		}
 
 		public String getId() {
@@ -141,16 +189,17 @@ public class Dialog extends GameObject {
 		}
 
 		public void setText(String text) {
-			this.text = text;
+			this.text.setText(text);
+			setHeight(this.text.getTextAreaHeight());
 		}
 
 		@Override
 		public void draw() {
 			if (isTouched())
-				font.getColor().set(activeButtonColor);
+				text.getColor().set(activeButtonColor);
 			else
-				font.getColor().set(1);
-			TextDrawer.draw(font, text, this, TextDrawer.AlignCentered);
+				text.getColor().set(getColor());
+			text.draw();
 		}
 
 		@Override
