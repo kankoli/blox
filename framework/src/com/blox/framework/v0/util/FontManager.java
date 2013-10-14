@@ -8,17 +8,19 @@ public final class FontManager {
 	}
 
 	public static final IFont defaultFont;
+	public static float defaultFontSize;
 
 	static {
 		defaultFont = createDefaultFontInstance();
 	}
-		
+
 	public static IFont createDefaultFontInstance() {
 		// default-font = "Arial,0.5"
 		String df = Game.getParam("default-font");
 		String[] ss = df.split(",");
-		IFont font =  Game.getResourceManager().getFont(ss[0]);
-		font.setScale(Utils.parseFloat(ss[1]));
+		IFont font = Game.getResourceManager().getFont(ss[0]);
+		defaultFontSize = Utils.parseFloat(ss[1]);
+		font.setScale(defaultFontSize);
 		return font;
 	}
 }

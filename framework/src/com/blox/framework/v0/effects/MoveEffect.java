@@ -15,7 +15,11 @@ public class MoveEffect extends DrawingEffect {
 	}
 
 	public void setDestination(Vector destination) {
-		this.destination.set(destination);
+		setDestination(destination.x, destination.y);
+	}
+
+	public void setDestination(float x, float y) {
+		this.destination.set(x, y);
 		updateSpeed();
 	}
 

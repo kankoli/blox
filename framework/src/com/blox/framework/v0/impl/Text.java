@@ -22,6 +22,10 @@ public class Text implements IDrawable {
 		this(FontManager.createDefaultFontInstance(), false, false);
 	}
 
+	public Text(boolean ignoreViewport, boolean ignoreShifting) {
+		this(FontManager.createDefaultFontInstance(), ignoreViewport, ignoreShifting);
+	}
+	
 	public Text(String fontId) {
 		this(Game.getResourceManager().getFont(fontId), false, false);
 	}
