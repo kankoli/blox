@@ -1,0 +1,59 @@
+**Overview**
+
+Ichigu is a card game played with a deck of 81 cards. Each card in deck is unique and has some symbols on it. Objective of the game is to find groups of three cards, which is called an ichigu, from the deck as fast as possible. Symbols on the cards have four properties and each of them have three different values
+	
+	- Shape:   Triangle, Circle, Square
+	- Color:   Red, Green, Blue
+	- Pattern: Empty, Striped, Filled
+	- Count:   One, Two, Three
+	
+That's why there are 81 unique cards in the deck : 3 x 3 x 3 x 3 = 81	
+	
+To make an ichigu all 3 cards must have
+
+	- Same or different shapes
+	- Same or different colors
+	- Same or different patterns
+	- Same or different counts
+	
+In other words, it is NOT an ichigu if you can seperate three cards into: Two ...s and one ...
+	
+**GameModes**
+
+	- Training Modes
+		- Learning Mode
+		- Practice Mode
+	- Full Game Modes
+		- Relax Mode
+		- Challenge Mode
+		- Multiplayer Mode
+
+	
+** Learning Mode **
+
+In this mode, you will be given two cards and asked for the third card that makes an ichigu with the given two cards. Any time you need help feel free to tap tip button at the bottom of screen.
+
+**Practice Mode**
+
+Practice Mode is basically same as Learning Mode but it is a little bit more challenging. This time you have to be fast and there won't be any tips. You will have 5 seconds to find the third card and if you make a mistake you have to wait for 2 seconds to give another answer.
+
+**Relax Mode**
+
+Relax Mode is the basic Full Game Mode. You will be given 12 opened and 3 closed extra cards. You are expected to find an ichigu in 12 cards. If you need, you can open extra cards and look for an ichigu in 15 cards. Again you will have a tip button and any time you wish you can reset or pause game.
+
+**Challenge Mode**
+
+Challenge Mode is the challenging version of the Relax Mode. There won't be a tip button and once you start you have to finish game. No pause, no reset. You will get more score as you find faster and more complex ichigus.
+
+**Multiplayer Mode** (Not available yet)
+
+Multiplayer Mode will be available soon where you can play a Full Game with other players online. Multiplayer Mode can be played with 2, 3 or 4 players at the same time.
+
+**Scores**
+
+Scores are calculated over two basic parameters:
+
+    - How complex was the ichigu?
+    - How fast did you find the ichigu?", Text.HAlignLeft, 30).setPadX(20);
+
+You get 1 point for a common property of ichigu cards and 3 points for different properties. Sum of property points is multiplied by a factor calculated over time. In Challenge Mode Game, if you find an ichigu after opening extra cards you will get half of the point that you supposed to get. Note that, your point won't be deducted if there is no ichigu exists in 12 cards. So, first try finding ichigus without opening extra cards then open them if you are sure that there is no ichigu or lost too much time.
