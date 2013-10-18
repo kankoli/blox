@@ -94,17 +94,18 @@ public class Form extends Control implements IView {
 	}
 
 	@Override
-	public void render() {
+	public void draw() {
 		formDrawer.draw();
 	}
 
 	@Override
-	public void activated() {
+	public void activate() {
 		show();
 	}
 
 	@Override
-	public void deactivated() {
+	public boolean deactivate() {
 		hide();
+		return true;
 	}
 }

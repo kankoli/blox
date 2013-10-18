@@ -13,10 +13,10 @@ public class FadingViewSwitcher extends ViewSwitcher {
 		float alpha = elapsed / duration;
 
 		Game.renderingAlpha = 1 - alpha;
-		oldView.render();
+		oldView.draw();
 
 		Game.renderingAlpha = alpha;
-		newView.render();
+		newView.draw();
 
 		Game.renderingAlpha = 1;
 	}

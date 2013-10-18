@@ -29,7 +29,7 @@ public final class ShapeDrawer {
 			x = Game.viewportToScreenX(x);
 			y = Game.viewportToScreenY(y);
 			w = Game.scale(w);
-			y = Game.scale(y);
+			h = Game.scale(h);
 		}
 
 		renderer.drawRect(x + Game.getRenderingShiftX(), y + Game.getRenderingShiftY(), w, h, color, filled);

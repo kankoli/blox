@@ -10,14 +10,14 @@ public class SlidingViewSwitcher extends ViewSwitcher {
 	@Override
 	protected void renderSwitching(boolean back) {
 		float dx = elapsed / duration;
-		int x = back ? -1 : 1;
+		float x = back ? -1f : 1f;
 
 		Game.pushRenderingShift(-dx * Game.getVirtualWidth() * x, 0, false);
-		oldView.render();
+		oldView.draw();
 		Game.popRenderingShift();
 
 		Game.pushRenderingShift((1 - dx) * Game.getVirtualWidth() * x, 0, false);
-		newView.render();
+		newView.draw();
 		Game.popRenderingShift();
 	}
 }

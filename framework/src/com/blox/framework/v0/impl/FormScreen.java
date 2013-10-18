@@ -47,33 +47,17 @@ public class FormScreen extends Screen implements IViewFinder {
 		super.init();
 		initFormSwitcher();
 		registerInputListener(this);
+		registerDrawable(switcher, 2);
 	}
 
 	@Override
-	public void update() {
-		if (!switcher.isSwitching())
-			super.update();
-	}
-
-	@Override
-	public void render() {
-		super.render();
-		if (switcher.isSwitching())
-			switcher.render();
-		else
-			currentForm.render();
-	}
-
-	@Override
-	public void activated() {
-		super.activated();
+	protected void onAfterActivate() {
 		currentScreen = this;
 		currentForm.show();
 	}
 
 	@Override
-	public void deactivated() {
-		super.deactivated();
+	protected void onAfterDeactivate() {
 		currentScreen = null;
 		currentForm.hide();
 	}

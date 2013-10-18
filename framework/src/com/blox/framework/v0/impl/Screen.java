@@ -29,7 +29,7 @@ public abstract class Screen implements IInputListener, IView {
 
 	private boolean hasInited;
 	private boolean isActive;
-	
+
 	private final ISettingsChangeListener settingsListener = new ISettingsChangeListener() {
 		@Override
 		public void settingChanged(String key, Object newValue) {
@@ -77,37 +77,67 @@ public abstract class Screen implements IInputListener, IView {
 	}
 
 	public void update() {
+		if (!isActive)
+			return;
 		moveManager.execute();
 		collisionManager.execute();
 	}
 
 	@Override
-	public void render() {
+	public void draw() {
 		if (background != null)
 			TextureDrawer.draw(background, IDrawingInfo.screen);
 		drawer.draw();
 	}
 
 	@Override
-	public void activated() {
+	public final void activate() {
+		if (!onBeforeActivate())
+			return;
+		
 		inputListener.activate();
 		drawer.activate();
 		startPlayingBgMusic();
 		Settings.registerListener(settingsListener);
 		MoveManager.setCurrent(moveManager);
 		isActive = true;
+		
+		onAfterActivate();
+	}
+
+	protected boolean onBeforeActivate() {
+		return true;
+	}
+
+	protected void onAfterActivate() {
+
 	}
 
 	@Override
-	public void deactivated() {
+	public final boolean deactivate() {
+		if (!onBeforeDeactivate())
+			return false;
+		
 		inputListener.deactivate();
 		drawer.deactivate();
 		disposeBgMusic();
 		Settings.unregisterListener(settingsListener);
 		MoveManager.setCurrent(null);
 		isActive = false;
+		
+		onAfterDeactivate();
+		
+		return true;
 	}
-	
+
+	protected boolean onBeforeDeactivate() {
+		return true;
+	}
+
+	protected void onAfterDeactivate() {
+
+	}
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -217,7 +247,7 @@ public abstract class Screen implements IInputListener, IView {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean keyUp(int keycode) {
 		return false;

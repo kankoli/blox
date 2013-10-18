@@ -15,48 +15,66 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 
 	protected IViewFinder viewFinder;
 	private boolean back;
+	private boolean requiresEndNotify;
 
 	public ViewSwitcher(float duration) {
 		this.duration = duration;
 		this.elapsed = duration;
 	}
 
-	@Override
-	public boolean isSwitching() {
+	private boolean isSwitching() {
 		return elapsed < duration;
 	}
 
+	private void cancelSwitching() {
+		elapsed = duration + 100;
+		requiresEndNotify = false;
+	}
+
 	@Override
-	public void switchTo(String id, boolean back) {
+	public boolean switchTo(String id, boolean back) {
 		this.back = back;
-		
+		this.requiresEndNotify = true;
+
 		IView view = viewFinder.findView(id);
 		if (view == newView)
-			return;
+			return true;
 
 		if (newView != null) {
 			elapsed = 0;
-			
-			this.oldView = this.newView;			
-			this.newView = view;
-			
-			if (oldView != null)
-				oldView.deactivated();
+
+			IView currentView = this.newView;
+
+			if (currentView != null && !currentView.deactivate()) {
+				cancelSwitching();
+				return false;
+			}
+			else {
+				this.oldView = currentView;
+				this.newView = view;
+				return true;
+			}
 		}
 		else {
 			this.newView = view;
-			onSwitchEnd(false);
+			onSwitchEnd();
+			return true;
 		}
 	}
 
 	@Override
-	public void render() {
+	public void draw() {
 		elapsed += Game.getDeltaTime();
 
 		if (isSwitching())
 			renderSwitching(back);
-		else
-			onSwitchEnd(true);
+		else {
+			if (requiresEndNotify) {
+				onSwitchEnd();
+				requiresEndNotify = false;
+			}
+			newView.draw();
+		}
 	}
 
 	@Override
@@ -64,11 +82,8 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 		this.viewFinder = finder;
 	}
 
-	protected void onSwitchEnd(boolean forceRender) {
-		newView.activated();
-
-		if (forceRender)
-			newView.render();
+	protected void onSwitchEnd() {
+		newView.activate();
 	}
 
 	protected abstract void renderSwitching(boolean back);

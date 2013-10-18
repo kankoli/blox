@@ -7,6 +7,6 @@ public class DefaultViewSwitcher extends ViewSwitcher {
 
 	@Override
 	protected void renderSwitching(boolean back) {
-		newView.render();
+		newView.draw();
 	}
 }

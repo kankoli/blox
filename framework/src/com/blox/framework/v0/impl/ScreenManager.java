@@ -51,20 +51,17 @@ public final class ScreenManager implements IViewFinder {
 	}
 
 	public void update() {
-		if (!switcher.isSwitching())
-			currentScreen.update();
+		currentScreen.update();
 	}
 
 	public void render() {
-		if (switcher.isSwitching())
-			switcher.render();
-		else
-			currentScreen.render();
+		switcher.draw();
 	}
 
 	public void switchTo(String screenId, boolean back) {
-		switcher.switchTo(screenId, back);
-		currentScreen = getScreen(screenId);
+		boolean screenSwitched = switcher.switchTo(screenId, back);
+		if (screenSwitched)
+			currentScreen = getScreen(screenId);
 	}
 
 	@Override

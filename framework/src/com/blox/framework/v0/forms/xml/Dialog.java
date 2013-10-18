@@ -3,6 +3,7 @@ package com.blox.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blox.framework.v0.ISound;
 import com.blox.framework.v0.ITexture;
 import com.blox.framework.v0.impl.AttachedText;
 import com.blox.framework.v0.impl.GameObject;
@@ -16,23 +17,25 @@ import com.blox.framework.v0.util.Vector;
 
 public class Dialog extends GameObject {
 	public static float padding = 15f;
-	public static Color white = Color.white();
-	public static Color activeButtonColor = Color.white();
-	public static Color closeButtonFocusColor = Color.red();
+	public static final Color borderColor = Color.white();
+	public static final Color activeButtonColor = Color.white();
+	public static final Color closeButtonFocusColor = Color.red();
+	public static final Color modalBackgroundColor = new Color(0, 0, 0, 0.5f);
+	public static final Color dialogBackgroundColor = new Color(0, 0, 0, 0.75f);
+	public static ISound clickSound;
 
-	public static float dialogWidth = 0.75f;
+	public static float dialogWidth = 0.90f;
 
 	public static interface IDialogListener {
 		void onDialogButtonClicked(String id);
 	}
-
-	private static final Color fadingBackground = new Color(0, 0, 0, 0.9f);
 
 	private final Text message;
 	private float fontScale;
 	private IDialogListener listener;
 	private List<DialogButton> buttons;
 	private DialogCloseButton closeButton;
+	private boolean isOpened;
 
 	public Dialog() {
 		buttons = new ArrayList<Dialog.DialogButton>();
@@ -72,6 +75,10 @@ public class Dialog extends GameObject {
 	}
 
 	public void open(String messageText) {
+		if (isOpened)
+			return;
+		isOpened = true;
+
 		message.setText(messageText);
 		listenInput(true);
 
@@ -98,6 +105,14 @@ public class Dialog extends GameObject {
 	}
 
 	public void close() {
+		if (!isOpened)
+			return;
+		isOpened = false;
+
+		if (clickSound != null)
+			clickSound.play();
+		Game.vibrate(50);
+
 		closeButton.listenInput(false);
 		listenInput(false);
 		Drawer.getCurrent().unregister(this);
@@ -107,19 +122,21 @@ public class Dialog extends GameObject {
 
 	@Override
 	public void draw() {
-		ShapeDrawer.drawRect(0, 0, Game.getScreenWidth(), Game.getScreenHeight(), fadingBackground, true, true);
-
-		message.draw();
+		ShapeDrawer.drawRect(0, 0, Game.getScreenWidth(), Game.getScreenHeight(), modalBackgroundColor, true, true);
 
 		Vector l = getLocation();
 		float w = getWidth();
 		float h = getHeight();
 
-		ShapeDrawer.drawLine(l.x, l.y, l.x + w, l.y, white, false);
-		ShapeDrawer.drawLine(l.x, l.y, l.x, l.y + h, white, false);
-		
-		ShapeDrawer.drawLine(l.x + w, l.y, l.x + w, l.y + h - closeButton.getHeight() / 2, white, false);
-		ShapeDrawer.drawLine(l.x, l.y + h, l.x + w - closeButton.getWidth() / 2, l.y + h, white, false);
+		ShapeDrawer.drawRect(l.x, l.y, w, h, dialogBackgroundColor, true, false);
+
+		message.draw();
+
+		ShapeDrawer.drawLine(l.x, l.y, l.x + w, l.y, borderColor, false);
+		ShapeDrawer.drawLine(l.x, l.y, l.x, l.y + h, borderColor, false);
+
+		ShapeDrawer.drawLine(l.x + w, l.y, l.x + w, l.y + h - closeButton.getHeight() / 2, borderColor, false);
+		ShapeDrawer.drawLine(l.x, l.y + h, l.x + w - closeButton.getWidth() / 2, l.y + h, borderColor, false);
 
 		for (int i = 0; i < buttons.size(); i++)
 			buttons.get(i).draw();
@@ -136,7 +153,7 @@ public class Dialog extends GameObject {
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		if (!isIn(x, y)) {
-			close();
+			buttonTapped(buttons.get(1));
 		}
 		return true;
 	}
@@ -163,7 +180,7 @@ public class Dialog extends GameObject {
 
 		@Override
 		protected boolean onTap() {
-			parent.close();
+			parent.buttonTapped(parent.buttons.get(1));
 			return true;
 		}
 	}

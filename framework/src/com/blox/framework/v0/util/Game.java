@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.blox.framework.v0.ICollisionDetectorFactory;
 import com.blox.framework.v0.IDeltaTime;
 import com.blox.framework.v0.IDisposable;
+import com.blox.framework.v0.IGameExitListener;
 import com.blox.framework.v0.IGameProvider;
 import com.blox.framework.v0.IInputManager;
 import com.blox.framework.v0.IResourceManager;
@@ -27,6 +28,8 @@ public final class Game {
 	private static IGameProvider provider;
 
 	private static final Stack<Float> renderingShifts = new Stack<Float>();
+
+	public static IGameExitListener exitListener;
 
 	private static DisposeManager disposeManager;
 	private static IDeltaTime deltaTime;
@@ -49,7 +52,7 @@ public final class Game {
 
 		renderingShiftX += shiftX;
 		renderingShiftY += shiftY;
-		
+
 		renderingShifts.push(shiftX);
 		renderingShifts.push(shiftY);
 	}
@@ -65,14 +68,14 @@ public final class Game {
 		}
 	}
 
-	/** 
+	/**
 	 * @return renderingShiftX value in screen coordinates
 	 */
 	public static float getRenderingShiftX() {
 		return renderingShiftX;
 	}
 
-	/** 
+	/**
 	 * @return renderingShiftY value in screen coordinates
 	 */
 	public static float getRenderingShiftY() {
@@ -155,7 +158,8 @@ public final class Game {
 	}
 
 	public static void exit() {
-		provider.exit();
+		if (exitListener == null || exitListener.onGameExit())
+			provider.exit();
 	}
 
 	public static String getParam(String key) {
@@ -166,17 +170,20 @@ public final class Game {
 
 	/**
 	 * viewport to screen
-	 * @param f width, height etc...
+	 * 
+	 * @param f
+	 *            width, height etc...
 	 * @return
 	 */
 	public static float scale(float f) {
 		return f * getScale();
 	}
 
-
 	/**
-	 * screen to viewport 
-	 * @param f width, height etc...
+	 * screen to viewport
+	 * 
+	 * @param f
+	 *            width, height etc...
 	 * @return
 	 */
 	public static float descale(float f) {

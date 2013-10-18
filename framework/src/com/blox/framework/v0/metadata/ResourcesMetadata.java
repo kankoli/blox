@@ -31,6 +31,10 @@ public final class ResourcesMetadata extends Metadata {
 	private <T extends ResourceMetadata> void loadResources(Node node,
 			String nodeName, String childNodeName) {
 		Node nodes = Utils.getChildNode(node, nodeName);
+		
+		if (nodes == null)
+			return;
+		
 		List<Node> resourceNodes = Utils.getChildNodes(nodes, childNodeName);
 		for (Node resourceNode : resourceNodes) {
 			T resource = Metadata.fromNode(resourceNode);

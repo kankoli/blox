@@ -13,7 +13,7 @@ public abstract class BaseGame implements IGame {
 	}
 
 	@Override
-	public void render() {
+	public void draw() {
 		ScreenManager.instance.render();
 	}
 

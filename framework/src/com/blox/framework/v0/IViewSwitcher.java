@@ -1,11 +1,13 @@
 package com.blox.framework.v0;
 
-public interface IViewSwitcher {
-	boolean isSwitching();
-
-	void switchTo(String id, boolean back);
-
-	void render();
+public interface IViewSwitcher extends IDrawable {
+	/**
+	 * 
+	 * @param id id of new view
+	 * @param back true if switching back to new view 
+	 * @return true if switching succeeded
+	 */
+	boolean switchTo(String id, boolean back);
 	
 	void setViewFinder(IViewFinder finder);
 }

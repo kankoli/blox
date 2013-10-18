@@ -57,7 +57,7 @@ public class GdxGame implements ApplicationListener {
 		game.update();
 
 		spriteBatch.begin();
-		game.render();
+		game.draw();
 		spriteBatch.end();		
 	}
 
