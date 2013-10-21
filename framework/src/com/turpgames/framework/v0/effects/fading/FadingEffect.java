@@ -1,17 +1,25 @@
-package com.turpgames.framework.v0.effects;
+package com.turpgames.framework.v0.effects.fading;
 
-import com.turpgames.framework.v0.IDrawingInfo;
+import com.turpgames.framework.v0.effects.Effect;
 
-public abstract class FadingEffect extends DrawingEffect {
+public abstract class FadingEffect extends Effect {
 	private float minAlpha;
 	private float maxAlpha;
 	private float alphaRange;
-
-	protected FadingEffect(IDrawingInfo obj) {
-		super(obj);
+	protected final IFadingEffectSubject obj;
+	
+	protected FadingEffect(IFadingEffectSubject obj) {
 		minAlpha = 0;
 		maxAlpha = 1;
 		updateAlphaRange();
+		
+		this.obj = obj;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	protected IFadingEffectSubject getObject() {
+		return obj;
 	}
 	
 	public float getMinAlpha() {
