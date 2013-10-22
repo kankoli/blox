@@ -35,7 +35,21 @@ public class FormScreen extends Screen implements IViewFinder {
 			formHistory.push(currentForm.getId());
 
 		switcher.switchTo(formId, back);
+		onFormDeactivated(currentForm);
 		currentForm = UIManager.getForm(formId);
+		onFormActivated(currentForm);
+	}
+
+	protected Form getCurrentForm() {
+		return currentForm;
+	}
+	
+	protected void onFormActivated(Form activatedForm) {
+		
+	}
+
+	protected void onFormDeactivated(Form deactivatedForm) {
+		
 	}
 
 	protected <T extends Control> T getControl(String id) {
@@ -84,5 +98,10 @@ public class FormScreen extends Screen implements IViewFinder {
 
 	public static void switchTo(String formId, boolean back) {
 		currentScreen.setForm(formId, back);
+	}
+
+	public void back() {
+		if (formHistory.size() > 0)
+			setForm(formHistory.peek(), true);
 	}
 }
