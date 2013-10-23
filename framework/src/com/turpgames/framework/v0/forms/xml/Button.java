@@ -27,6 +27,7 @@ public class Button extends DrawableControl {
 		clickListeners = new ArrayList<IClickListener>();
 		text = new AttachedText(drawable); 
 		text.setHorizontalAlignment(Text.HAlignCenter);
+		text.setWrapped(false);
 	}
 
 	public void addClickListener(IClickListener listener) {
@@ -74,6 +75,9 @@ public class Button extends DrawableControl {
 		else if ("text".equals(attribute))
 			text.setText(value);
 
+		else if ("font-scale".equals(attribute))
+			text.setFontScale(Utils.parseFloat(value));
+		
 		else
 			super.setAttribute(attribute, value);
 	}

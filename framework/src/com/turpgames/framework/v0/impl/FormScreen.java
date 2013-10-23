@@ -14,7 +14,7 @@ import com.turpgames.framework.v0.util.Game;
 public class FormScreen extends Screen implements IViewFinder {
 	private static FormScreen currentScreen;
 
-	private Stack<String> formHistory;
+	protected Stack<String> formHistory;
 	private Form currentForm;
 	private IViewSwitcher switcher;
 

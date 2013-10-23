@@ -139,4 +139,8 @@ public class Toast extends GameObject {
 		hide();
 		return true;
 	}
+
+	public void setText(String message) {
+		text.setText(message);
+	}
 }
