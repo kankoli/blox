@@ -4,7 +4,7 @@ import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
-public class TexturedGameObject extends GameObject {
+public abstract class TexturedGameObject extends GameObject {
 	private ITexture texture;
 
 	public TexturedGameObject(String id) {

@@ -103,12 +103,14 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 
 	public void listenInput(boolean listen) {
 		if (listen && !isListeningInput)
-			Game.getInputManager().register(this);
+			registerSelf();
 		else if (!listen && isListeningInput)
 			Game.getInputManager().unregister(this);
 		isListeningInput = listen;
 	}
 
+	abstract public void registerSelf();
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		return false;

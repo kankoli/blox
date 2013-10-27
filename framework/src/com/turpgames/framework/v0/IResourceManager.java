@@ -17,5 +17,7 @@ public interface IResourceManager {
 
 	IFont getFont(String id);
 	
+	String getString(String id);
+	
 	InputStream readFile(String path);
 }

@@ -17,6 +17,11 @@ import org.w3c.dom.NodeList;
 import com.turpgames.framework.v0.IDrawingInfo;
 
 public class Utils {
+	public static final int LAYER_SCREEN = 0;
+	public static final int LAYER_GAME = 1;
+	public static final int LAYER_INFO = 2;
+	public static final int LAYER_DIALOG = 3;
+		
 	private static final Random rnd = new Random();
 
 	public static boolean isIn(float x, float y, IDrawingInfo drawingInfo) {
@@ -170,5 +175,11 @@ public class Utils {
 	
 	public static <T> T random(T[] array) {
 		return array[randInt(array.length)];
+	}
+	
+	public static String getTimeString(int time) {
+		int min = time / 60;
+		int sec = time % 60;
+		return (min < 10 ? ("0" + min) : ("" + min)) + ":" + (sec < 10 ? ("0" + sec) : ("" + sec));
 	}
 }

@@ -10,6 +10,7 @@ import com.turpgames.framework.v0.util.Drawer;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.ShapeDrawer;
 import com.turpgames.framework.v0.util.Timer;
+import com.turpgames.framework.v0.util.Utils;
 
 public class Toast extends GameObject {
 	public static interface IToastListener {
@@ -28,10 +29,11 @@ public class Toast extends GameObject {
 		text.setVerticalAlignment(Text.VAlignTop);
 		text.setPadX(Game.scale(30));
 		text.setPadY(Game.scale(30));
-
+		text.getColor().set(Color.white());
+		
 		this.getLocation().set(0, Game.getScreenHeight() + 10);
 		this.setWidth(Game.getScreenWidth());
-		this.getColor().set(0, 0, 0, 0.8f);
+		this.getColor().set(Color.black());
 
 		timer = new Timer();
 		timer.setTickListener(timerListener);
@@ -41,6 +43,10 @@ public class Toast extends GameObject {
 		effect.setListener(effectListener);
 	}
 
+	public void setDuration(float f) {
+		effect.setDuration(f/1000);
+	}
+	
 	public void setPadX(float padX) {
 		text.setPadX(Game.scale(padX));
 	}
@@ -57,6 +63,12 @@ public class Toast extends GameObject {
 		text.setFontScale(scale);
 	}
 
+	public void setToastColor(Color color) {
+		float alpha = getColor().a;
+		getColor().set(color);
+		getColor().a = alpha;
+	}
+	
 	public void setTextColor(Color color) {
 		text.getColor().set(color);
 	}
@@ -104,7 +116,7 @@ public class Toast extends GameObject {
 	private void effectEnd() {
 		if (isActive)
 			timer.start();
-		else
+		else if (Drawer.getCurrent() != null)
 			Drawer.getCurrent().unregister(this);
 	}
 
@@ -142,5 +154,14 @@ public class Toast extends GameObject {
 
 	public void setText(String message) {
 		text.setText(message);
+	}
+
+	public void setAlpha(float f) {
+		getColor().a = f;
+	}
+
+	@Override
+	public void registerSelf() {
+		Game.getInputManager().register(this, Utils.LAYER_INFO);
 	}
 }

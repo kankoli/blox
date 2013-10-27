@@ -78,10 +78,13 @@ public class Button extends DrawableControl {
 		else if ("font-scale".equals(attribute))
 			text.setFontScale(Utils.parseFloat(value));
 		
+		else if ("resource-text".equals(attribute))
+			text.setText(Game.getResourceManager().getString(value));
+		
 		else
 			super.setAttribute(attribute, value);
 	}
-
+	
 	@Override
 	protected void setAction(String action) {
 		final IControlActionHandler handler = Game.getActionHandlerFactory().create(this, action);

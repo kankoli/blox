@@ -7,28 +7,14 @@ import com.turpgames.framework.v0.IDrawable;
 
 public class Drawer {
 	private static Drawer current;
+	private List<Layer<IDrawable>> layers;
 
 	public static Drawer getCurrent() {
 		return current;
 	}
 
-	private class Layer {
-		private int index;
-		private List<IDrawable> objects = new ArrayList<IDrawable>();
-
-		private void register(IDrawable obj) {
-			objects.add(obj);
-		}
-
-		private boolean unregister(IDrawable obj) {
-			return objects.remove(obj);
-		}
-	}
-
-	private List<Layer> layers;
-
 	public Drawer() {
-		this.layers = new ArrayList<Layer>();
+		this.layers = new ArrayList<Layer<IDrawable>>();
 	}
 
 	public void activate() {
@@ -45,23 +31,22 @@ public class Drawer {
 
 		int i = 0;
 		for (; i < layers.size(); i++) {
-			Layer layer = layers.get(i);
-			if (layerIndex == layer.index) {
+			Layer<IDrawable> layer = layers.get(i);
+			if (layerIndex == layer.getIndex()) {
 				layer.register(obj);
 				return;
 			}
-			if (layerIndex < layer.index) {
+			if (layerIndex < layer.getIndex()) {
 				break;
 			}
 		}
-		Layer newLayer = new Layer();
-		newLayer.index = layerIndex;
+		Layer<IDrawable> newLayer = new Layer<IDrawable>(layerIndex);
 		newLayer.register(obj);
 		layers.add(i, newLayer);
 	}
 
 	public void unregister(IDrawable obj) {
-		for (Layer layer : layers) {
+		for (Layer<IDrawable> layer : layers) {
 			if (layer.unregister(obj))
 				return;
 		}
@@ -69,9 +54,10 @@ public class Drawer {
 
 	public void draw() {
 		for (int i = 0; i < layers.size(); i++) {
-			Layer layer = layers.get(i);
-			for (int j = 0; j < layer.objects.size(); j++) {
-				layer.objects.get(j).draw();
+			Layer<IDrawable> layer = layers.get(i);
+			List<IDrawable> objects = layer.getObjects();
+			for (int j = 0; j < objects.size(); j++) {
+				objects.get(j).draw();
 			}
 		}
 	}

@@ -13,6 +13,7 @@ import com.turpgames.framework.v0.util.Drawer;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.ShapeDrawer;
 import com.turpgames.framework.v0.util.TextureDrawer;
+import com.turpgames.framework.v0.util.Utils;
 import com.turpgames.framework.v0.util.Vector;
 
 public class Dialog extends GameObject {
@@ -50,9 +51,6 @@ public class Dialog extends GameObject {
 		message.setPadX(padding);
 		message.setPadY(padding);
 		fontScale = 1f;
-
-		addButton("Yes", "Yes");
-		addButton("No", "No");
 	}
 
 	public void setListener(IDialogListener listener) {
@@ -64,7 +62,7 @@ public class Dialog extends GameObject {
 		message.setFontScale(fontScale);
 	}
 
-	private DialogButton addButton(String id, String text) {
+	protected DialogButton addButton(String id, String text) {
 		DialogButton btn = new DialogButton(this);
 		btn.setId(id);
 		btn.setText(text);
@@ -115,7 +113,8 @@ public class Dialog extends GameObject {
 
 		closeButton.listenInput(false);
 		listenInput(false);
-		Drawer.getCurrent().unregister(this);
+		if (Drawer.getCurrent() != null)
+			Drawer.getCurrent().unregister(this);
 		for (int i = 0; i < buttons.size(); i++)
 			buttons.get(i).listenInput(false);
 	}
@@ -145,9 +144,9 @@ public class Dialog extends GameObject {
 	}
 
 	private void buttonTapped(DialogButton button) {
+		close();
 		if (listener != null)
 			listener.onDialogButtonClicked(button.getId());
-		close();
 	}
 
 	@Override
@@ -158,7 +157,7 @@ public class Dialog extends GameObject {
 		return true;
 	}
 
-	private static class DialogCloseButton extends GameObject {
+	public static class DialogCloseButton extends GameObject {
 		private Dialog parent;
 		private ITexture texture;
 
@@ -183,9 +182,14 @@ public class Dialog extends GameObject {
 			parent.buttonTapped(parent.buttons.get(1));
 			return true;
 		}
+
+		@Override
+		public void registerSelf() {
+			Game.getInputManager().register(this, Utils.LAYER_DIALOG);
+		}
 	}
 
-	private static class DialogButton extends GameObject {
+	public static class DialogButton extends GameObject {
 		private String id;
 		private Text text;
 		private final Dialog dialog;
@@ -224,5 +228,15 @@ public class Dialog extends GameObject {
 			dialog.buttonTapped(this);
 			return true;
 		}
+
+		@Override
+		public void registerSelf() {
+			Game.getInputManager().register(this, Utils.LAYER_DIALOG);
+		}
+	}
+
+	@Override
+	public void registerSelf() {
+		Game.getInputManager().register(this, Utils.LAYER_DIALOG);
 	}
 }

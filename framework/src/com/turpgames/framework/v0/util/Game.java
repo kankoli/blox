@@ -94,11 +94,11 @@ public final class Game {
 		disposeManager = new DisposeManager();
 
 		deltaTime = provider.createDeltaTime();
+		settings = provider.createSettings();
 		resourceManager = provider.createResourceManager();
 		textureDrawer = provider.createTextureDrawer();
 		shapeRenderer = provider.createShapeRenderer();
 		inputManager = provider.createInputManager();
-		settings = provider.createSettings();
 		vibrator = provider.createVibrator();
 
 		actionHandlerFactory = new ControlActionHandlerFactory();
