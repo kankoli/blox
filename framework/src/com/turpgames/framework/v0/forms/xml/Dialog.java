@@ -3,6 +3,7 @@ package com.turpgames.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.framework.v0.ILanguageListener;
 import com.turpgames.framework.v0.ISound;
 import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.impl.AttachedText;
@@ -62,10 +63,10 @@ public class Dialog extends GameObject {
 		message.setFontScale(fontScale);
 	}
 
-	protected DialogButton addButton(String id, String text) {
+	protected DialogButton addButton(String id, String resourceTextId) {
 		DialogButton btn = new DialogButton(this);
 		btn.setId(id);
-		btn.setText(text);
+		btn.setResourceTextId(resourceTextId);
 
 		buttons.add(btn);
 
@@ -189,16 +190,20 @@ public class Dialog extends GameObject {
 		}
 	}
 
-	public static class DialogButton extends GameObject {
+	public static class DialogButton extends GameObject implements ILanguageListener {
 		private String id;
 		private Text text;
 		private final Dialog dialog;
 
+		private String resourceTextId;
+		
 		DialogButton(Dialog dialog) {
 			this.dialog = dialog;
 			this.text = new AttachedText(this);
 			this.text.setHorizontalAlignment(Text.HAlignCenter);
 			this.text.setVerticalAlignment(Text.VAlignCenter);
+			
+			Game.getLanguageManager().register(this);
 		}
 
 		public String getId() {
@@ -209,8 +214,13 @@ public class Dialog extends GameObject {
 			this.id = id;
 		}
 
-		public void setText(String text) {
-			this.text.setText(text);
+		public void setResourceTextId(String resourceTextId) {
+			this.resourceTextId = resourceTextId;
+			setText();
+		}
+		
+		private void setText() {
+			this.text.setText(Game.getLanguageManager().getString(this.resourceTextId));
 			setHeight(this.text.getTextAreaHeight());
 		}
 
@@ -232,6 +242,11 @@ public class Dialog extends GameObject {
 		@Override
 		public void registerSelf() {
 			Game.getInputManager().register(this, Utils.LAYER_DIALOG);
+		}
+
+		@Override
+		public void onLanguageChanged() {
+			setText();
 		}
 	}
 

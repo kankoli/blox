@@ -1,10 +1,8 @@
 package com.turpgames.framework.v0.impl.libgdx;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
@@ -24,7 +22,6 @@ import com.turpgames.framework.v0.IMusic;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.ISound;
 import com.turpgames.framework.v0.ITexture;
-import com.turpgames.framework.v0.impl.Settings;
 import com.turpgames.framework.v0.metadata.GameMetadata;
 import com.turpgames.framework.v0.metadata.ResourceMetadata;
 import com.turpgames.framework.v0.metadata.ResourcesMetadata;
@@ -63,25 +60,9 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 	private final AssetManager manager;
 	private ResourcesMetadata resources;
-	private Properties strings;
 	
 	GdxResourceManager() {
 		manager = new AssetManager();
-		
-		InputStream is = Gdx.files.internal("Strings_" + Settings.getString("language", "en") + "_" + Settings.getString("country", "US")
-				+".properties").read();
-		strings = new Properties();
-		try {
-			strings.load(is);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public String getString(String id) {
-		return strings.getProperty(id);
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package com.turpgames.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.framework.v0.ILanguageListener;
 import com.turpgames.framework.v0.ISound;
 import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.impl.AttachedText;
@@ -11,7 +12,7 @@ import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Utils;
 
-public class Button extends DrawableControl {
+public class Button extends DrawableControl implements ILanguageListener {
 	private final static Color white = Color.white();
 
 	private final Text text;
@@ -22,12 +23,15 @@ public class Button extends DrawableControl {
 	public ISound clickSound;
 	private Color focusColor;
 
+	private String resource_text;
+
 	Button() {
 		style = new Style();
 		clickListeners = new ArrayList<IClickListener>();
 		text = new AttachedText(drawable); 
 		text.setHorizontalAlignment(Text.HAlignCenter);
 		text.setWrapped(false);
+		Game.getLanguageManager().register(this);
 	}
 
 	public void addClickListener(IClickListener listener) {
@@ -78,8 +82,10 @@ public class Button extends DrawableControl {
 		else if ("font-scale".equals(attribute))
 			text.setFontScale(Utils.parseFloat(value));
 		
-		else if ("resource-text".equals(attribute))
-			text.setText(Game.getResourceManager().getString(value));
+		else if ("resource-text".equals(attribute)) {
+			resource_text = value;
+			text.setText(Game.getLanguageManager().getString(resource_text));
+		}
 		
 		else
 			super.setAttribute(attribute, value);
@@ -126,5 +132,10 @@ public class Button extends DrawableControl {
 		private Style() {
 
 		}
+	}
+
+	@Override
+	public void onLanguageChanged() {
+		text.setText(Game.getLanguageManager().getString(resource_text));
 	}
 }

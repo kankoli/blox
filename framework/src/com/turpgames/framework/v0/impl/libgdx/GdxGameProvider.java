@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.turpgames.framework.v0.IDeltaTime;
 import com.turpgames.framework.v0.IGameProvider;
 import com.turpgames.framework.v0.IInputManager;
+import com.turpgames.framework.v0.ILanguageManager;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.ISettings;
 import com.turpgames.framework.v0.IShapeRenderer;
@@ -20,6 +21,11 @@ public class GdxGameProvider implements IGameProvider {
 		return new GdxResourceManager();
 	}
 
+	@Override
+	public ILanguageManager createLanguageManager() {
+		return new GdxLanguageManager();
+	}
+	
 	@Override
 	public IDeltaTime createDeltaTime() {
 		return new GdxDeltaTime();

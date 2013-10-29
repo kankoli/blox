@@ -3,6 +3,7 @@ package com.turpgames.framework.v0.metadata;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -21,6 +22,7 @@ public class GameMetadata {
 	private Map<String, FormMetadata> forms = new HashMap<String, FormMetadata>();
 	private Map<String, SkinMetadata> skins = new HashMap<String, SkinMetadata>();
 	private Map<String, AnimationMetadata> animations = new HashMap<String, AnimationMetadata>();
+	private Map<String, LanguageMetadata> languages = new HashMap<String, LanguageMetadata>();
 
 	private GameMetadata() {
 
@@ -57,7 +59,15 @@ public class GameMetadata {
 	public static AnimationMetadata getAnimation(String id) {
 		return instance.animations.get(id);
 	}
-
+	
+	public static LanguageMetadata getLanguage(String id) {
+		return instance.languages.get(id);
+	}
+	
+	public static Set<String> getLanguages() {
+		return instance.languages.keySet();
+	}
+	
 	public static void load(Document gameXml) {
 		instance.init(gameXml);
 	}
@@ -78,6 +88,7 @@ public class GameMetadata {
 		load(gameNode, forms, "forms", "form");
 		load(gameNode, skins, "skins", "skin");
 		load(gameNode, animations, "animations", "animation");
+		load(gameNode, languages, "languages", "language");
 		
 		resources = new ResourcesMetadata();
 		resources.loadNode(Utils.getChildNode(gameNode, "resources"));

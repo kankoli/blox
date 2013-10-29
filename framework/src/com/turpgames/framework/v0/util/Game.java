@@ -11,6 +11,7 @@ import com.turpgames.framework.v0.IDisposable;
 import com.turpgames.framework.v0.IGameExitListener;
 import com.turpgames.framework.v0.IGameProvider;
 import com.turpgames.framework.v0.IInputManager;
+import com.turpgames.framework.v0.ILanguageManager;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.ISettings;
 import com.turpgames.framework.v0.IShapeRenderer;
@@ -34,6 +35,7 @@ public final class Game {
 	private static DisposeManager disposeManager;
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
+	private static ILanguageManager languageManager;
 	private static ITextureDrawer textureDrawer;
 	private static IShapeRenderer shapeRenderer;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
@@ -96,6 +98,7 @@ public final class Game {
 		deltaTime = provider.createDeltaTime();
 		settings = provider.createSettings();
 		resourceManager = provider.createResourceManager();
+		languageManager = provider.createLanguageManager();
 		textureDrawer = provider.createTextureDrawer();
 		shapeRenderer = provider.createShapeRenderer();
 		inputManager = provider.createInputManager();
@@ -115,6 +118,10 @@ public final class Game {
 
 	public static IResourceManager getResourceManager() {
 		return resourceManager;
+	}
+	
+	public static ILanguageManager getLanguageManager() {
+		return languageManager;
 	}
 
 	public static ITextureDrawer getTextureDrawer() {
