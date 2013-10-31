@@ -2,6 +2,8 @@ package com.turpgames.framework.v0.impl.libgdx;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -47,13 +49,18 @@ public class GdxLanguageManager implements ILanguageManager {
 	
 	private void loadLanguage(String id, String country) {
 		InputStream is = Gdx.files.internal("lang/Strings_" + id + "_" + country + ".properties").read();
+
 		strings = new Properties();
 		try {
-			strings.load(is);
+			InputStreamReader isr = new InputStreamReader(is, "UTF8" );
+			strings.load(isr);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	private void notifyListeners() {
