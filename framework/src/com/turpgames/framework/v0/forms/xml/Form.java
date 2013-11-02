@@ -109,4 +109,18 @@ public class Form extends Control implements IView {
 		hide();
 		return true;
 	}
+
+	@Override
+	public void disable() {
+		for (Control control : controls.values())
+			control.disable();
+		super.disable();
+	}
+
+	@Override
+	public void enable() {
+		for (Control control : controls.values())
+			control.enable();
+		super.enable();
+	}
 }

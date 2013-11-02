@@ -49,6 +49,9 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 
 	@Override
 	protected void onTap() {
+		if (!isEnabled)
+			return;
+		
 		notifyClickListeners();
 		if (vibrationDuration > 0)
 			Game.vibrate(vibrationDuration);
@@ -116,7 +119,7 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 
 	@Override
 	protected void onDraw() {
-		if (isTouched())
+		if (isEnabled && isTouched())
 			text.getColor().set(focusColor);
 		else
 			text.getColor().set(white);

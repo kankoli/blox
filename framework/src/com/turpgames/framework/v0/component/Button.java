@@ -1,10 +1,14 @@
 package com.turpgames.framework.v0.component;
 
+import com.turpgames.framework.v0.ISound;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 
 public abstract class Button extends GameObject {
+	public static boolean defaultVibrateOnClick = true;;
+	public static ISound defaultClickSound;
+	
 	private static final int n = 1 << 0;
 	private static final int e = 1 << 1;
 	private static final int s = 1 << 2;
@@ -20,6 +24,9 @@ public abstract class Button extends GameObject {
 	public static final int AlignNW = n | w;
 	public static final int AlignCentered = 0;
 	
+	private boolean vibrateOnClick;
+	private ISound clickSound;
+	
 	protected boolean isActive;
 	protected IButtonListener listener;
 	protected Color defaultColor;
@@ -28,7 +35,9 @@ public abstract class Button extends GameObject {
 	protected Button(Color defaultColor, Color touchedColor) {
 		this();
 		setDefaultColor(defaultColor);
-		setTouchedColor(touchedColor);
+		setTouchedColor(touchedColor); 
+		vibrateOnClick = defaultVibrateOnClick;
+		clickSound = defaultClickSound;
 	}
 
 	private Button() {
@@ -67,6 +76,14 @@ public abstract class Button extends GameObject {
 		touchedColor.set(color.r, color.g, color.b, color.a);
 	}
 	
+	public void setClickSound(ISound sound) {
+		this.clickSound = sound;
+	}
+	
+	public void setVibrateOnClick(boolean vibrate) {
+		this.vibrateOnClick = vibrate;
+	}
+	
 	@Override
 	public boolean ignoreViewport() {
 		return true;
@@ -78,9 +95,12 @@ public abstract class Button extends GameObject {
 	}
 	
 	@Override
-	protected boolean onTap() {
-//		IchiguResources.playSoundFlip();
-//		Game.vibrate(50);
+	protected boolean onTap() {	
+		if (clickSound != null)
+			clickSound.play();
+		
+		if (vibrateOnClick)
+			Game.vibrate(50);
 
 		if (listener != null)
 			listener.onButtonTapped();

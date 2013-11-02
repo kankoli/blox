@@ -40,7 +40,7 @@ class GdxResourceManager implements IResourceManager, IDisposable {
 
 		BitmapFontParameter fontParam = new BitmapFontParameter();
 		fontParam.maxFilter = TextureFilter.Linear;
-		fontParam.minFitler = TextureFilter.Linear;
+		fontParam.minFilter = TextureFilter.Linear;
 
 		resourceTypes.put("texture", new ResourceLoaderInfo<Texture>(Texture.class, textureParams));
 		resourceTypes.put("sound", new ResourceLoaderInfo<Sound>(Sound.class, soundParam));

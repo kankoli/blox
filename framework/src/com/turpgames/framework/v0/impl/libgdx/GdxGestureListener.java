@@ -51,4 +51,9 @@ class GdxGestureListener implements GestureListener {
 
 		return listener.pinch(ip1, ip2, p1, p2);
 	}
+
+	@Override
+	public boolean panStop(float x, float y, int pointer, int button) {
+		return false;
+	}
 }
