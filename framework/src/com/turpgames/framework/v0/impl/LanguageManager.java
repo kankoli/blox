@@ -34,9 +34,10 @@ public class LanguageManager extends Manager<ILanguageListener> {
 	
 	private void loadLanguage(String id) {
 		strings = new Properties();
+		InputStream is = null;
 		try {
 			LanguageMetadata metadata = GameMetadata.getLanguage(id);
-			InputStream is = Gdx.files.internal(metadata.getFilePath()).read();
+			is = Gdx.files.internal(metadata.getFilePath()).read();
 			InputStreamReader isr = new InputStreamReader(is, metadata.getEncoding());
 			strings.load(isr);
 		} catch (UnsupportedEncodingException e1) {
@@ -48,7 +49,16 @@ public class LanguageManager extends Manager<ILanguageListener> {
 		} catch (Exception e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
-		} 
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -56,3 +66,4 @@ public class LanguageManager extends Manager<ILanguageListener> {
 		item.onLanguageChanged();
 	}
 }
+
