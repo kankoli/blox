@@ -63,7 +63,7 @@ public class TextSlider implements IDrawable {
 		x = Game.getVirtualWidth();
 		textWidth = text.getTextAreaWidth();
 
-		Drawer.getCurrent().register(this, 10);
+		Drawer.getCurrent().register(this, Utils.LAYER_INFO);
 		isSliding = true;
 	}
 

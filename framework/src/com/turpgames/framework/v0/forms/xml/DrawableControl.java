@@ -66,6 +66,8 @@ public abstract class DrawableControl extends Control implements IDrawable {
 	protected boolean isTouched() {
 		if (!inputManager.isTouched())
 			return false;
+		if (inputManager.isDialogActive())
+			return false;
 
 		float x = inputManager.getX();
 		float y = inputManager.getY();

@@ -89,7 +89,7 @@ public class Toast extends GameObject {
 		effect.start();
 
 		this.listenInput(true);
-		Drawer.getCurrent().register(this, 1000);
+		Drawer.getCurrent().register(this, Utils.LAYER_INFO);
 	}
 
 	public void dispose() {

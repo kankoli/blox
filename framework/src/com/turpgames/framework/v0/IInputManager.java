@@ -7,4 +7,6 @@ public interface IInputManager extends ICompositeInputListener {
 	float getY();
 	
 	boolean isTouched();
+
+	boolean isDialogActive();
 }

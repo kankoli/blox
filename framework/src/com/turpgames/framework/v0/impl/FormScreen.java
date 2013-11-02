@@ -10,6 +10,7 @@ import com.turpgames.framework.v0.forms.xml.Control;
 import com.turpgames.framework.v0.forms.xml.Form;
 import com.turpgames.framework.v0.forms.xml.UIManager;
 import com.turpgames.framework.v0.util.Game;
+import com.turpgames.framework.v0.util.Utils;
 
 public class FormScreen extends Screen implements IViewFinder {
 	private static FormScreen currentScreen;
@@ -61,7 +62,7 @@ public class FormScreen extends Screen implements IViewFinder {
 		super.init();
 		initFormSwitcher();
 		registerInputListener(this);
-		registerDrawable(switcher, 2);
+		registerDrawable(switcher, Utils.LAYER_SCREEN);
 	}
 
 	@Override

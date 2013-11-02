@@ -25,6 +25,10 @@ public class FlashEffect extends Effect {
 		this.flashPerSecond = flashPerSecond;
 	}
 	
+	public void setFlashColor(Color flashColor) {
+		this.flashColor = flashColor;
+	}
+	
 	@Override
 	protected void onStart() {
 		initialColor.set(obj.getColor().r, obj.getColor().g, obj.getColor().b, obj.getColor().a);

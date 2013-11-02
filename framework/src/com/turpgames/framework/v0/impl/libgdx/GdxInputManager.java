@@ -10,6 +10,7 @@ import com.turpgames.framework.v0.IInputListener;
 import com.turpgames.framework.v0.IInputManager;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Layer;
+import com.turpgames.framework.v0.util.Utils;
 import com.turpgames.framework.v0.util.Vector;
 
 /***
@@ -300,6 +301,15 @@ class GdxInputManager implements IInputManager, IInputListener {
 		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
 			IInputListener listener = tempList.get(i);
 			if (listener.keyTyped(character))
+				return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isDialogActive() {
+		for (int i = 0; i < layers.size(); i++) {
+			if (layers.get(i).getIndex() == Utils.LAYER_DIALOG && layers.get(i).getObjects().size() > 0)
 				return true;
 		}
 		return false;

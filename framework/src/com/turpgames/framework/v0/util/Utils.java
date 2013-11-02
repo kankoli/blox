@@ -17,10 +17,11 @@ import org.w3c.dom.NodeList;
 import com.turpgames.framework.v0.IDrawingInfo;
 
 public class Utils {
-	public static final int LAYER_SCREEN = 0;
-	public static final int LAYER_GAME = 1;
-	public static final int LAYER_INFO = 2;
-	public static final int LAYER_DIALOG = 3;
+	public static final int LAYER_BACKGROUND = 0;
+	public static final int LAYER_SCREEN = 1;
+	public static final int LAYER_GAME = 2;
+	public static final int LAYER_INFO = 3;
+	public static final int LAYER_DIALOG = 4;
 		
 	private static final Random rnd = new Random();
 

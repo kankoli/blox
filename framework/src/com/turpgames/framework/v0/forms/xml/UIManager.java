@@ -29,7 +29,7 @@ public final class UIManager {
 
 	private static Control createControl(String name) {
 		if ("button".equals(name))
-			return new Button();
+			return new FormButton();
 
 		if ("checkbox".equals(name))
 			return new CheckBox();

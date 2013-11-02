@@ -100,7 +100,7 @@ public class Dialog extends GameObject {
 				l.y + getHeight() - closeButton.getHeight() / 2);
 
 		closeButton.listenInput(true);
-		Drawer.getCurrent().register(this, 1000);
+		Drawer.getCurrent().register(this, Utils.LAYER_DIALOG);
 	}
 
 	public void close() {
