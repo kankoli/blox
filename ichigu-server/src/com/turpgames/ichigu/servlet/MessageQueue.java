@@ -9,6 +9,7 @@ public class MessageQueue {
 	private final static Queue<String> messages = new PriorityQueue<String>();
 
 	public static void push(String message) {
+		System.out.println("message received: " + message);
 		messages.add(message);
 	}
 

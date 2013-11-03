@@ -24,12 +24,10 @@ public class IchiguResponseServlet extends HttpServlet {
 			ServletOutputStream os = response.getOutputStream();
 			while (true) {
 				synchronized (MessageQueue.syncObj) {
-					if (MessageQueue.size() > 0) {
-						while (MessageQueue.size() > 0) {
-							os.print(MessageQueue.pop());
-						}
-						os.flush();
+					while (MessageQueue.size() > 0) {
+						os.print("{" + MessageQueue.pop() + "}");
 					}
+					os.flush();
 				}
 				Thread.sleep(50);
 			}
