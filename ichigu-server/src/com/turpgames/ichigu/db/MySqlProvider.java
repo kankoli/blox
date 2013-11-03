@@ -21,5 +21,4 @@ public class MySqlProvider implements IConnectionProvider {
 	public String getPassword() {
 		return "123456";
 	}
-
 }
