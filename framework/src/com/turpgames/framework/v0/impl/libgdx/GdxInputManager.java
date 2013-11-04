@@ -75,8 +75,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	@Override
 	public void unregister(IInputListener obj) {
 		for (Layer<IInputListener> layer : layers) {
-			if (layer.unregister(obj))
-				return;
+			layer.unregister(obj);
 		}
 	}
 

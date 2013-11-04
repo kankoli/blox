@@ -10,4 +10,6 @@ public interface IViewSwitcher extends IDrawable {
 	boolean switchTo(String id, boolean back);
 	
 	void setViewFinder(IViewFinder finder);
+	
+	void setView(String id);
 }

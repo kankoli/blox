@@ -42,6 +42,8 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 
 		loadLanguageButtons();
 		deactivate();
+
+		Drawer.getCurrent().register(this, Utils.LAYER_DIALOG);
 	}
 
 	abstract protected void concreteAddControlButton();
@@ -125,6 +127,17 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 	}
 
 	@Override
+	public void listenInput(boolean listen) {
+		if (!listen) {
+			controlButton.deactivate();
+		}
+		else {
+			controlButton.activate();
+		}
+		super.listenInput(listen);
+	}
+	
+	@Override
 	public void draw() {
 		if (isActive) {
 			ShapeDrawer.drawRect(0, 0, Game.getScreenWidth(), Game.getScreenHeight(), modalBackgroundColor, true, true);
@@ -136,9 +149,7 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 
 	@Override
 	public void registerSelf() {
-		Drawer.getCurrent().register(this, Utils.LAYER_DIALOG);
-		for (LanguageButton btn : buttons)
-			btn.registerSelf();
+		controlButton.registerSelf();
 	}
 
 	@Override

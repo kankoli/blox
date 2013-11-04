@@ -16,6 +16,7 @@ public class LanguageButton extends ImageButton {
 	protected LanguageButton(String languageId, float width, float height, Color defaultColor, Color touchedColor) {
 		super(width, height, defaultColor, touchedColor);
 		load(languageId);
+		Drawer.getCurrent().register(this, Utils.LAYER_DIALOG);
 	}
 	
 	private void load(String languageId) {
@@ -49,7 +50,6 @@ public class LanguageButton extends ImageButton {
 	
 	@Override
 	public void registerSelf() {
-		Drawer.getCurrent().register(this, Utils.LAYER_DIALOG);
 		Game.getInputManager().register(this, Utils.LAYER_DIALOG);
 	}
 }

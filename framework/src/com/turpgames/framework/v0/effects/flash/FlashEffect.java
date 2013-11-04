@@ -36,7 +36,7 @@ public class FlashEffect extends Effect {
 	
 	@Override
 	protected void onStop() {
-		obj.getColor().set(initialColor.r, initialColor.g, initialColor.b, initialColor.a);
+		obj.setColor(initialColor.r, initialColor.g, initialColor.b, initialColor.a);
 	}
 	
 	@Override
@@ -48,10 +48,10 @@ public class FlashEffect extends Effect {
 	@Override
 	protected void onUpdate() {
 		if ((int)(2 * flashPerSecond * getElapsed()) % 2 == 0) {
-			obj.getColor().set(flashColor.r, flashColor.g, flashColor.b, flashColor.a);
+			obj.setColor(flashColor.r, flashColor.g, flashColor.b, flashColor.a);
 		}
 		else {
-			obj.getColor().set(initialColor.r, initialColor.g, initialColor.b, initialColor.a);
+			obj.setColor(initialColor.r, initialColor.g, initialColor.b, initialColor.a);
 		}
 	}
 

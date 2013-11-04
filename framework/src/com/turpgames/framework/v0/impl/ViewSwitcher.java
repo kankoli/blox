@@ -32,6 +32,13 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 	}
 
 	@Override
+	public void setView(String id) {
+		IView view = viewFinder.findView(id);
+		this.newView = view;
+		onSwitchEnd();
+	}
+	
+	@Override
 	public boolean switchTo(String id, boolean back) {
 		this.back = back;
 		this.requiresEndNotify = true;

@@ -25,4 +25,9 @@ public class FlashingGameInfo extends GameInfo implements IFlashEffectSubject {
 	public Color getColor() {
 		return text.getColor();
 	}
+
+	@Override
+	public void setColor(float r, float g, float b, float a) {
+		text.getColor().set(r,g,b,a);
+	}
 }

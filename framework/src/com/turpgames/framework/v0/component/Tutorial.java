@@ -73,7 +73,7 @@ public abstract class Tutorial extends GameObject implements IViewFinder, ILangu
 	
 	public void start() {
 		pageIndex = 0;
-		switcher.switchTo(pages.get(pageIndex).getId(), false);
+		switcher.setView(pages.get(pageIndex).getId());
 		prevButton.deactivate();
 		nextButton.activate();
 		updatePageInfoText();
