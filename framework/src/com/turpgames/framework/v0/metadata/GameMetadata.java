@@ -3,11 +3,11 @@ package com.turpgames.framework.v0.metadata;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.turpgames.framework.v0.util.OrderedMap;
 import com.turpgames.framework.v0.util.Utils;
 
 public class GameMetadata {
@@ -22,7 +22,7 @@ public class GameMetadata {
 	private Map<String, FormMetadata> forms = new HashMap<String, FormMetadata>();
 	private Map<String, SkinMetadata> skins = new HashMap<String, SkinMetadata>();
 	private Map<String, AnimationMetadata> animations = new HashMap<String, AnimationMetadata>();
-	private Map<String, LanguageMetadata> languages = new HashMap<String, LanguageMetadata>();
+	private OrderedMap<String, LanguageMetadata> languages = new OrderedMap<String, LanguageMetadata>();
 
 	private GameMetadata() {
 
@@ -64,8 +64,8 @@ public class GameMetadata {
 		return instance.languages.get(id);
 	}
 	
-	public static Set<String> getLanguages() {
-		return instance.languages.keySet();
+	public static List<String> getLanguages() {
+		return instance.languages.getOrderedKeys();
 	}
 	
 	public static void load(Document gameXml) {

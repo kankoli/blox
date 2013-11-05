@@ -40,4 +40,8 @@ public class GameInfo implements IDrawable {
 	public void draw() {
 		text.draw();		
 	}
+
+	public void setFontScale(float f) {
+		text.setFontScale(f);
+	}
 }

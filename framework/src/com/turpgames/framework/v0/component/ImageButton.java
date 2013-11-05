@@ -25,6 +25,16 @@ public class ImageButton extends Button {
 	}
 	
 	@Override
+	protected boolean isIn(float x, float y) {
+		if (ignoreViewport()) {
+			x = Game.viewportToScreenX(x);
+			y = Game.viewportToScreenY(y);
+		}
+		// getLocation().tmp().set(getLocation().x, getLocation().y - 20) instead of getLocation() to add more click area at the bottom.
+		return Utils.isIn(x, y, getLocation().tmp().set(getLocation().x, getLocation().y - 20), getWidth(), getHeight());
+	}
+	
+	@Override
 	protected void onDraw() {
 		TextureDrawer.draw(texture, this);
 	}
