@@ -166,6 +166,14 @@ public final class Game {
 		disposeManager.register(disposable);
 	}
 
+	public static void openUrl(String url) {
+		provider.openUrl(url);
+	}
+
+	public static int getAppType() {
+		return provider.getAppType();
+	}
+	
 	public static void exit() {
 		if (exitListener == null || exitListener.onGameExit())
 			provider.exit();

@@ -1,6 +1,7 @@
 package com.turpgames.framework.v0.impl.libgdx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.turpgames.framework.v0.IDeltaTime;
 import com.turpgames.framework.v0.IGameProvider;
 import com.turpgames.framework.v0.IInputManager;
@@ -12,14 +13,14 @@ import com.turpgames.framework.v0.IVibrator;
 
 public class GdxGameProvider implements IGameProvider {
 	public GdxGameProvider() {
-		
+
 	}
 
 	@Override
 	public IResourceManager createResourceManager() {
 		return new GdxResourceManager();
 	}
-	
+
 	@Override
 	public IDeltaTime createDeltaTime() {
 		return new GdxDeltaTime();
@@ -34,7 +35,7 @@ public class GdxGameProvider implements IGameProvider {
 	public IShapeRenderer createShapeRenderer() {
 		return new GdxShapeRenderer();
 	}
-	
+
 	@Override
 	public IInputManager createInputManager() {
 		return new GdxInputManager();
@@ -48,6 +49,22 @@ public class GdxGameProvider implements IGameProvider {
 	@Override
 	public IVibrator createVibrator() {
 		return new GdxVibrator();
+	}
+
+	@Override
+	public void openUrl(String url) {
+		Gdx.net.openURI(url);
+	}
+
+	@Override
+	public int getAppType() {
+		if (Gdx.app.getType().equals(ApplicationType.Android))
+			return AppTypeAndroid;
+		if (Gdx.app.getType().equals(ApplicationType.iOS))
+			return AppTypeIOS;
+		if (Gdx.app.getType().equals(ApplicationType.Desktop))
+			return AppTypeDesktop;
+		return AppTypeUnknown;
 	}
 
 	@Override
