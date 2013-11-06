@@ -104,7 +104,7 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 		}
 	}
 
-	private void activate() {
+	public void activate() {
 		isActive = true;
 		for (LanguageButton btn : buttons)
 			btn.activate();
@@ -113,7 +113,7 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 			listener.onLanguageMenuActivated();
 	}
 
-	private void deactivate() {
+	public void deactivate() {
 		isActive = false;
 		for (LanguageButton btn : buttons)
 			btn.deactivate();
@@ -157,4 +157,8 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 		setControlButtonTexture();
 		deactivate();
 	}
+
+	public boolean isActive() {
+		return isActive;
+	}	
 }

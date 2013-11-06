@@ -93,6 +93,7 @@ public class FormScreen extends Screen implements IViewFinder {
 			else {
 				setForm(formHistory.peek(), true);
 			}
+			return true;
 		}
 		return super.keyDown(keycode);
 	}
