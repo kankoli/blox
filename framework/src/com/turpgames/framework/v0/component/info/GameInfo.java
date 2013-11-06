@@ -38,7 +38,7 @@ public class GameInfo implements IDrawable {
 
 	@Override
 	public void draw() {
-		text.draw();		
+		text.draw();
 	}
 
 	public void setFontScale(float f) {

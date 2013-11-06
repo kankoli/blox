@@ -26,6 +26,11 @@ public class TextButton extends Button {
 		updateSize();
 	}
 
+	public void setFontScale(float scale) {
+		text.setFontScale(scale);
+		updateSize();
+	}
+	
 	private void updateSize() {
 		setWidth(text.getTextAreaWidth() + 20);
 		setHeight(text.getTextAreaHeight() + 10);
