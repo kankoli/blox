@@ -19,7 +19,7 @@ public abstract class Toolbar extends GameObject {
 	protected ToggleButton vibrationButton;
 
 	private IToolbarListener listener;
-	
+
 	protected Toolbar() {
 		addBackButton();
 		addSettingsButton();
@@ -42,7 +42,7 @@ public abstract class Toolbar extends GameObject {
 	}
 
 	abstract protected void concreteAddBackButton();
-	
+
 	private final void addBackButton() {
 		concreteAddBackButton();
 		backButton.deactivate();
@@ -54,9 +54,9 @@ public abstract class Toolbar extends GameObject {
 			}
 		});
 	}
-	
+
 	abstract protected void concreteAddSettingsButton();
-	
+
 	private final void addSettingsButton() {
 		concreteAddSettingsButton();
 		settingsButton.activate();
@@ -72,25 +72,24 @@ public abstract class Toolbar extends GameObject {
 	}
 
 	abstract protected void concreteAddSoundButton();
-	
-	private final void addSoundButton() {		
+
+	private final void addSoundButton() {
 		concreteAddSoundButton();
 		soundButton.deactivate();
 	}
-	
+
 	abstract protected void concreteAddVibrationButton();
-	
+
 	private final void addVibrationButton() {
 		concreteAddVibrationButton();
 		vibrationButton.deactivate();
 	}
-	
+
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Vector l = vibrationButton.getLocation();
-		// l.tmp().set(l.x, l.y - 20) instead of l to add more click area at the bottom
-		if (isActive && !Utils.isIn(Game.viewportToScreenX(x), Game.viewportToScreenY(y), 
-				l.tmp().set(l.x, l.y - 20), Game.getScreenWidth() - l.x, Game.getScreenHeight() - l.y)) {
+		if (isActive && !Utils.isIn(Game.viewportToScreenX(x), Game.viewportToScreenY(y),
+				l.x, l.y, Game.getScreenWidth() - l.x, Game.getScreenHeight() - l.y)) {
 			soundButton.toggleActivation();
 			vibrationButton.toggleActivation();
 			isActive = false;
