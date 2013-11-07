@@ -14,7 +14,7 @@ final class GdxSound implements ISound {
 	}
 	
 	@Override
-	public void play() {
+	public void play() {		
 		if (Settings.isSoundOn())
 			sound.play(1f);
 	}

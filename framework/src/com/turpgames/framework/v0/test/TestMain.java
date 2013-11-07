@@ -9,20 +9,57 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
+import com.badlogic.gdx.net.NetJavaImpl;
+import com.badlogic.gdx.net.ServerSocket;
+import com.badlogic.gdx.net.ServerSocketHints;
+import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.net.SocketHints;
 import com.turpgames.framework.v0.net.TurpHttpClient;
 
 public class TestMain {
 	public static void main(String[] args) {
 		try {
-			for (int i = 0; i < 100; i++)
-				testTurpClient();
+			testGdxhttpClient();
 			System.out.println("OK!");
 		}
 		catch (Throwable t) {
 			t.printStackTrace();
 		}
+	}
+
+	private static void testGdxhttpClient() throws Exception {
+		Gdx.net = new Net() {
+			NetJavaImpl net = new NetJavaImpl();
+
+			@Override
+			public void sendHttpRequest(HttpRequest httpRequest, HttpResponseListener httpResponseListener) {
+				net.sendHttpRequest(httpRequest, httpResponseListener);
+			}
+
+			@Override
+			public void openURI(String URI) {
+
+			}
+
+			@Override
+			public ServerSocket newServerSocket(Protocol protocol, int port, ServerSocketHints hints) {
+				return null;
+			}
+
+			@Override
+			public Socket newClientSocket(Protocol protocol, String host, int port, SocketHints hints) {
+				return null;
+			}
+		};
+
+		CometClient cc = new CometClient();
+		cc.subscribe();
 	}
 
 	protected static void testTurpClient() throws IOException {

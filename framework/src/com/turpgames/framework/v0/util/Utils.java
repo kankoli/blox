@@ -24,7 +24,20 @@ public class Utils {
 	public static final int LAYER_DIALOG = 4;
 		
 	private static final Random rnd = new Random();
+	
+	public static String getOSVersion() {
+		return System.getProperty("os.version");
+	}
 
+	public static String readUtf8String(InputStream is) throws IOException {
+		StringBuffer strBuffer = new StringBuffer();
+		byte[] buffer = new byte[128];
+		int bytesRead;
+		while ((bytesRead = is.read(buffer, 0, buffer.length)) > 0)
+			strBuffer.append(new String(buffer, 0, bytesRead, "UTF-8"));
+		return strBuffer.toString();
+	}
+	
 	public static boolean isIn(float x, float y, IDrawingInfo drawingInfo) {
 		return isIn(x, y, drawingInfo.getLocation(), drawingInfo.getWidth(), drawingInfo.getHeight());
 	}

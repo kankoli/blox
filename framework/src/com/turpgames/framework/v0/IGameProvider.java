@@ -15,5 +15,7 @@ public interface IGameProvider {
 	
 	IVibrator createVibrator();
 	
+	IHttpClient createHttpClient();
+	
 	void exit();
 }

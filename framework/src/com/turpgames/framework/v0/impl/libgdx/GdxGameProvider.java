@@ -3,6 +3,7 @@ package com.turpgames.framework.v0.impl.libgdx;
 import com.badlogic.gdx.Gdx;
 import com.turpgames.framework.v0.IDeltaTime;
 import com.turpgames.framework.v0.IGameProvider;
+import com.turpgames.framework.v0.IHttpClient;
 import com.turpgames.framework.v0.IInputManager;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.ISettings;
@@ -48,6 +49,11 @@ public class GdxGameProvider implements IGameProvider {
 	@Override
 	public IVibrator createVibrator() {
 		return new GdxVibrator();
+	}
+
+	@Override
+	public IHttpClient createHttpClient() {
+		return new GdxHttpClient();
 	}
 
 	@Override
