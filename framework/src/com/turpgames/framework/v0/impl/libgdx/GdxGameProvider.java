@@ -12,8 +12,21 @@ import com.turpgames.framework.v0.ITextureDrawer;
 import com.turpgames.framework.v0.IVibrator;
 
 public class GdxGameProvider implements IGameProvider {
-	public GdxGameProvider() {
+	private int appType;
 
+	public GdxGameProvider() {
+		setAppType();
+	}
+
+	private void setAppType() {
+		if (Gdx.app.getType().equals(ApplicationType.Android))
+			appType = AppTypeAndroid;
+		if (Gdx.app.getType().equals(ApplicationType.iOS))
+			appType = AppTypeIOS;
+		if (Gdx.app.getType().equals(ApplicationType.Desktop))
+			appType = AppTypeDesktop;
+		else
+			appType = AppTypeUnknown;
 	}
 
 	@Override
@@ -58,13 +71,7 @@ public class GdxGameProvider implements IGameProvider {
 
 	@Override
 	public int getAppType() {
-		if (Gdx.app.getType().equals(ApplicationType.Android))
-			return AppTypeAndroid;
-		if (Gdx.app.getType().equals(ApplicationType.iOS))
-			return AppTypeIOS;
-		if (Gdx.app.getType().equals(ApplicationType.Desktop))
-			return AppTypeDesktop;
-		return AppTypeUnknown;
+		return appType;
 	}
 
 	@Override

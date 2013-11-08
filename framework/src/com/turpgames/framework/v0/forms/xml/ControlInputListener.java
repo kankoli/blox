@@ -25,8 +25,8 @@ class ControlInputListener extends CompositeInputListener {
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		for (int i = controls.size() - 1; i >= 0; i--) {
 			DrawableControl control = controls.get(i);
-			if (control.isIn(x, y))
-				control.onTouchDown();
+			if (control.isIn(x, y) && control.onTouchDown())
+				return true;
 		}
 		return false;
 	}
@@ -35,8 +35,8 @@ class ControlInputListener extends CompositeInputListener {
 	public boolean touchUp(float x, float y, int pointer, int button) {
 		for (int i = controls.size() - 1; i >= 0; i--) {
 			DrawableControl control = controls.get(i);
-			if (control.isIn(x, y))
-				control.onTouchUp();
+			if (control.isIn(x, y) && control.onTouchUp())
+				return true;
 		}
 		return false;
 	}
@@ -45,8 +45,8 @@ class ControlInputListener extends CompositeInputListener {
 	public boolean touchDragged(float x, float y, int pointer) {
 		for (int i = controls.size() - 1; i >= 0; i--) {
 			DrawableControl control = controls.get(i);
-			if (control.isIn(x, y))
-				control.onTouchDragged();
+			if (control.isIn(x, y) && control.onTouchDragged())
+				return true;
 		}
 		return false;
 	}
@@ -55,8 +55,8 @@ class ControlInputListener extends CompositeInputListener {
 	public boolean tap(float x, float y, int count, int button) {
 		for (int i = controls.size() - 1; i >= 0; i--) {
 			DrawableControl control = controls.get(i);
-			if (control.isIn(x, y))
-				control.onTap();
+			if (control.isIn(x, y) && control.onTap())
+				return true;
 		}
 		return false;
 	}
@@ -65,8 +65,8 @@ class ControlInputListener extends CompositeInputListener {
 	public boolean longPress(float x, float y) {
 		for (int i = controls.size() - 1; i >= 0; i--) {
 			DrawableControl control = controls.get(i);
-			if (control.isIn(x, y))
-				control.onLongPress();
+			if (control.isIn(x, y) && control.onLongPress())
+				return true;
 		}
 		return false;
 	}

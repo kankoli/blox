@@ -3,7 +3,6 @@ package com.turpgames.framework.v0.component;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Utils;
-import com.turpgames.framework.v0.util.Vector;
 
 public abstract class Toolbar extends GameObject {
 	public static interface IToolbarListener {
@@ -25,8 +24,16 @@ public abstract class Toolbar extends GameObject {
 		addSettingsButton();
 		addSoundButton();
 		addVibrationButton();
+		
+		updateSizeAndLocation();
 
 		listenInput(true);
+	}
+	
+	private void updateSizeAndLocation() {
+		setWidth(Game.getVirtualWidth() - vibrationButton.getLocation().x);
+		setHeight(vibrationButton.getHeight() + 20);
+		getLocation().set(vibrationButton.getLocation());
 	}
 
 	public void setListener(IToolbarListener listener) {
@@ -84,12 +91,15 @@ public abstract class Toolbar extends GameObject {
 		concreteAddVibrationButton();
 		vibrationButton.deactivate();
 	}
-
+	
+	@Override
+	public boolean ignoreViewport() {
+		return true;
+	}
+	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		Vector l = vibrationButton.getLocation();
-		if (isActive && !Utils.isIn(Game.viewportToScreenX(x), Game.viewportToScreenY(y),
-				l.x, l.y, Game.getScreenWidth() - l.x, Game.getScreenHeight() - l.y)) {
+		if (isActive && !isTouched()) {
 			soundButton.toggleActivation();
 			vibrationButton.toggleActivation();
 			isActive = false;

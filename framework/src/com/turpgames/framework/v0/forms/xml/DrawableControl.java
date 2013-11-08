@@ -2,10 +2,8 @@ package com.turpgames.framework.v0.forms.xml;
 
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.ITexture;
-import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
 import com.turpgames.framework.v0.util.Utils;
-import com.turpgames.framework.v0.util.Vector;
 
 public abstract class DrawableControl extends Control implements IDrawable {
 	protected int x;
@@ -76,48 +74,43 @@ public abstract class DrawableControl extends Control implements IDrawable {
 	}
 
 	protected boolean isIn(float x, float y) {
-		Vector loc = drawable.getLocation();
-
-		float width = drawable.getWidth();
-		float height = drawable.getHeight();
-
-		return Utils.isIn(Game.viewportToScreenX(x), Game.viewportToScreenY(y), loc, width, height);
+		return Utils.isIn(x, y, drawable);
 	}
 
-	protected void onTouchDown() {
-
+	protected boolean onTouchDown() {
+		return false;
 	}
 
-	protected void onTouchUp() {
-
+	protected boolean onTouchUp() {
+		return false;
 	}
 
-	protected void onTouchDragged() {
-
+	protected boolean onTouchDragged() {
+		return false;
 	}
 
-	protected void onTap() {
-
+	protected boolean onTap() {
+		return false;
 	}
 
-	protected void onLongPress() {
-
+	protected boolean onLongPress() {
+		return false;
 	}
 
-	protected void onKeyDown(int keycode) {
-
+	protected boolean onKeyDown(int keycode) {
+		return false;
 	}
 
-	protected void onKeyUp(int keycode) {
-
+	protected boolean onKeyUp(int keycode) {
+		return false;
 	}
 
-	protected void onKeyTyped(char character) {
-
+	protected boolean onKeyTyped(char character) {
+		return false;
 	}
 
-	protected void onMouseOver() {
-
+	protected boolean onMouseOver() {
+		return false;
 	}
 
 }

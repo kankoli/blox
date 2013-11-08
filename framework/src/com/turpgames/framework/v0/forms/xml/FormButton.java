@@ -48,15 +48,17 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 	}
 
 	@Override
-	protected void onTap() {
+	protected boolean onTap() {
 		if (!isEnabled)
-			return;
+			return false;
 		
 		notifyClickListeners();
 		if (vibrationDuration > 0)
 			Game.vibrate(vibrationDuration);
 		if (clickSound != null)
 			clickSound.play();
+		
+		return true;
 	}
 
 	@Override
