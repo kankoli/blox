@@ -56,11 +56,12 @@ public class CheckBox extends DrawableControl {
 	}
 
 	@Override
-	protected void onTap() {
+	protected boolean onTap() {
 		isChecked = !isChecked;
 		notifyClickListeners();
 		if (style.soundClick != null)
 			style.soundClick.play();
+		return true;
 	}	
 	
 	@Override

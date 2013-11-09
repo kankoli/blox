@@ -1,15 +1,13 @@
 package com.turpgames.framework.v0.impl;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-import com.badlogic.gdx.Gdx;
 import com.turpgames.framework.v0.ILanguageListener;
 import com.turpgames.framework.v0.metadata.GameMetadata;
 import com.turpgames.framework.v0.metadata.LanguageMetadata;
+import com.turpgames.framework.v0.util.Game;
 
 public class LanguageManager extends Manager<ILanguageListener> {
 
@@ -17,7 +15,6 @@ public class LanguageManager extends Manager<ILanguageListener> {
 	
 	public LanguageManager() {
 		loadLanguage(Settings.getString("language", "en-US"));
-//		changeLanguage("en-US");
 	}
 	
 	public String getString(String id) {
@@ -36,18 +33,11 @@ public class LanguageManager extends Manager<ILanguageListener> {
 		strings = new Properties();
 		try {
 			LanguageMetadata metadata = GameMetadata.getLanguage(id);
-			InputStream is = Gdx.files.internal(metadata.getFilePath()).read();
+			InputStream is = Game.getResourceManager().readFile(metadata.getFilePath());
 			InputStreamReader isr = new InputStreamReader(is, metadata.getEncoding());
 			strings.load(isr);
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (Exception e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		} 
 	}
 	

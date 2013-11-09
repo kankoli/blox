@@ -25,15 +25,25 @@ public class Utils {
 		
 	private static final Random rnd = new Random();
 
+	/**
+	 * 
+	 * @param x coordinate according to screen origin (not viewport)
+	 * @param y coordinate according to screen origin (not viewport)
+	 * @param drawingInfo
+	 * @return
+	 */
 	public static boolean isIn(float x, float y, IDrawingInfo drawingInfo) {
-		return isIn(x, y, drawingInfo.getLocation(), drawingInfo.getWidth(), drawingInfo.getHeight());
-	}
-	
-	public static boolean isIn(float x, float y, Vector location, float width, float height) {
-		return isIn(x, y, location.x, location.y, width, height);
+		return isIn(x, y, 
+				drawingInfo.getLocation().x, drawingInfo.getLocation().y, 
+				drawingInfo.getWidth(), drawingInfo.getHeight(), 
+				drawingInfo.ignoreViewport());
 	}
 
-	public static boolean isIn(float x, float y, float lx, float ly, float width, float height) {
+	private static boolean isIn(float x, float y, float lx, float ly, float width, float height, boolean ignoreViewport) {
+		if (!ignoreViewport) {
+			x = Game.screenToViewportX(x);
+			y = Game.screenToViewportY(y);
+		}
 		return x > lx && x < lx + width && y > ly && y < ly + height;
 	}
 

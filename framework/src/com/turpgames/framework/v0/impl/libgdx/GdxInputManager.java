@@ -81,12 +81,12 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public float getX() {
-		return Game.screenToViewportX(Gdx.input.getX());
+		return Gdx.input.getX();
 	}
 
 	@Override
 	public float getY() {
-		return Game.screenToViewportY(Game.getScreenHeight() - Gdx.input.getY());
+		return Game.getScreenHeight() - Gdx.input.getY();
 	}
 
 	@Override
@@ -104,8 +104,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
+		y = Game.getScreenHeight() - y;
 
 		List<IInputListener> tempList = getTempListeners();
 		
@@ -120,8 +119,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean touchUp(float x, float y, int pointer, int button) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
+		y = Game.getScreenHeight() - y;
 
 		List<IInputListener> tempList = getTempListeners();
 		
@@ -135,8 +133,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean touchDragged(float x, float y, int pointer) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
+		y = Game.getScreenHeight() - y;
 
 		List<IInputListener> tempList = getTempListeners();
 		
@@ -150,9 +147,8 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
-
+		y = Game.getScreenHeight() - y;
+		
 		List<IInputListener> tempList = getTempListeners();
 		
 		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
@@ -165,8 +161,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean longPress(float x, float y) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
+		y = Game.getScreenHeight() - y;
 
 		List<IInputListener> tempList = getTempListeners();
 		
@@ -180,9 +175,6 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean fling(float vx, float vy, int button) {
-		vx = Game.screenToViewportX(vx);
-		vy = Game.screenToViewportY(vy);
-
 		List<IInputListener> tempList = getTempListeners();
 		
 		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
@@ -195,8 +187,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean pan(float x, float y, float dx, float dy) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
+		y = Game.getScreenHeight() - y;
 
 		List<IInputListener> tempList = getTempListeners();
 		
@@ -214,7 +205,7 @@ class GdxInputManager implements IInputManager, IInputListener {
 		
 		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
 			IInputListener listener = tempList.get(i);
-			if (listener.zoom(Game.scale(initialDistance), Game.scale(distance)))
+			if (listener.zoom(initialDistance, distance))
 				return true;
 		}
 		return false;
@@ -226,11 +217,6 @@ class GdxInputManager implements IInputManager, IInputListener {
 		p2Start.y = Game.getScreenHeight() - p2Start.y;
 		p1End.y = Game.getScreenHeight() - p1End.y;
 		p2End.y = Game.getScreenHeight() - p2End.y;
-
-		Game.screenToViewport(p1Start);
-		Game.screenToViewport(p2Start);
-		Game.screenToViewport(p1End);
-		Game.screenToViewport(p2End);
 
 		List<IInputListener> tempList = getTempListeners();
 
