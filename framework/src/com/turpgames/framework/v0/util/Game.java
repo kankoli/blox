@@ -99,9 +99,9 @@ public final class Game {
 		deltaTime = provider.createDeltaTime();
 		settings = provider.createSettings();
 		resourceManager = provider.createResourceManager();
-		
+
 		languageManager = new LanguageManager();
-		
+
 		textureDrawer = provider.createTextureDrawer();
 		shapeRenderer = provider.createShapeRenderer();
 		inputManager = provider.createInputManager();
@@ -122,7 +122,7 @@ public final class Game {
 	public static IResourceManager getResourceManager() {
 		return resourceManager;
 	}
-	
+
 	public static LanguageManager getLanguageManager() {
 		return languageManager;
 	}
@@ -154,7 +154,7 @@ public final class Game {
 	public static IHttpClient createHttpClient() {
 		return provider.createHttpClient();
 	}
-	
+
 	public static void vibrate(long... pattern) {
 		vibrator.vibrate(pattern);
 	}
@@ -175,10 +175,18 @@ public final class Game {
 		provider.openUrl(url);
 	}
 
-	public static int getAppType() {
-		return provider.getAppType();
+	public static boolean isIOS() {
+		return IGameProvider.AppTypeIOS == provider.getAppType();
 	}
-	
+
+	public static boolean isAndroid() {
+		return IGameProvider.AppTypeAndroid == provider.getAppType();
+	}
+
+	public static boolean isDesktop() {
+		return IGameProvider.AppTypeDesktop == provider.getAppType();
+	}
+
 	public static void exit() {
 		if (exitListener == null || exitListener.onGameExit())
 			provider.exit();

@@ -70,12 +70,16 @@ public abstract class Toolbar extends GameObject {
 		settingsButton.setListener(new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
-				// musicButton.toggleActivation();
-				soundButton.toggleActivation();
-				vibrationButton.toggleActivation();
-				isActive = !isActive;
+				toggleActivation();
 			}
 		});
+	}
+
+	private void toggleActivation() {
+		soundButton.toggleActivation();
+		if (!Game.isIOS())
+			vibrationButton.toggleActivation();
+		isActive = !isActive;
 	}
 
 	abstract protected void concreteAddSoundButton();
@@ -99,11 +103,8 @@ public abstract class Toolbar extends GameObject {
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		if (isActive && !isTouched()) {
-			soundButton.toggleActivation();
-			vibrationButton.toggleActivation();
-			isActive = false;
-		}
+		if (isActive && !isTouched())
+			toggleActivation();
 		return super.touchDown(x, y, pointer, button);
 	}
 

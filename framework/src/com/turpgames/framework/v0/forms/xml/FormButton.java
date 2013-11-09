@@ -16,7 +16,7 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 	private final static Color white = Color.white();
 
 	private final Text text;
-	
+
 	private List<IClickListener> clickListeners;
 	private Style style;
 	private int vibrationDuration;
@@ -28,7 +28,7 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 	FormButton() {
 		style = new Style();
 		clickListeners = new ArrayList<IClickListener>();
-		text = new AttachedText(drawable); 
+		text = new AttachedText(drawable);
 		text.setHorizontalAlignment(Text.HAlignCenter);
 		text.setWrapped(false);
 		Game.getLanguageManager().register(this);
@@ -51,13 +51,13 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 	protected boolean onTap() {
 		if (!isEnabled)
 			return false;
-		
+
 		notifyClickListeners();
 		if (vibrationDuration > 0)
 			Game.vibrate(vibrationDuration);
 		if (clickSound != null)
 			clickSound.play();
-		
+
 		return true;
 	}
 
@@ -86,16 +86,23 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 
 		else if ("font-scale".equals(attribute))
 			text.setFontScale(Utils.parseFloat(value));
-		
+
+		else if ("hidden-ios".equals(attribute)) {
+			if (Game.isIOS() && "true".equals(value)) {
+				disable();
+				hide();
+			}
+		}
+
 		else if ("resource-text".equals(attribute)) {
 			resource_text = value;
 			text.setText(Game.getLanguageManager().getString(resource_text));
 		}
-		
+
 		else
 			super.setAttribute(attribute, value);
 	}
-	
+
 	@Override
 	protected void setAction(String action) {
 		final IControlActionHandler handler = Game.getActionHandlerFactory().create(this, action);
@@ -125,7 +132,7 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 			text.getColor().set(focusColor);
 		else
 			text.getColor().set(white);
-		
+
 		text.draw();
 	}
 
