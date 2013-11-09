@@ -10,6 +10,7 @@ import com.turpgames.framework.v0.IDeltaTime;
 import com.turpgames.framework.v0.IDisposable;
 import com.turpgames.framework.v0.IGameExitListener;
 import com.turpgames.framework.v0.IGameProvider;
+import com.turpgames.framework.v0.IHttpClient;
 import com.turpgames.framework.v0.IInputManager;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.ISettings;
@@ -150,6 +151,10 @@ public final class Game {
 		return actionHandlerFactory;
 	}
 
+	public static IHttpClient createHttpClient() {
+		return provider.createHttpClient();
+	}
+	
 	public static void vibrate(long... pattern) {
 		vibrator.vibrate(pattern);
 	}

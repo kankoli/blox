@@ -31,14 +31,15 @@ public class LanguageManager extends Manager<ILanguageListener> {
 	
 	private void loadLanguage(String id) {
 		strings = new Properties();
+		InputStream is = null;
 		try {
 			LanguageMetadata metadata = GameMetadata.getLanguage(id);
-			InputStream is = Game.getResourceManager().readFile(metadata.getFilePath());
+			is = Game.getResourceManager().readFile(metadata.getFilePath());
 			InputStreamReader isr = new InputStreamReader(is, metadata.getEncoding());
 			strings.load(isr);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 	
 	@Override
@@ -46,3 +47,4 @@ public class LanguageManager extends Manager<ILanguageListener> {
 		item.onLanguageChanged();
 	}
 }
+

@@ -9,87 +9,111 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
+import com.badlogic.gdx.net.NetJavaImpl;
+import com.badlogic.gdx.net.ServerSocket;
+import com.badlogic.gdx.net.ServerSocketHints;
+import com.badlogic.gdx.net.Socket;
+import com.badlogic.gdx.net.SocketHints;
+import com.turpgames.framework.v0.net.TurpHttpClient;
 
 public class TestMain {
 	public static void main(String[] args) {
 		try {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						sendRandomRequests();
-					}
-					catch (Throwable t) {
-						System.out.println("Request Thread failed!");
-						t.printStackTrace();
-					}
-				}
-			}).start();
-
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						readResponses();
-					}
-					catch (Throwable t) {
-						System.out.println("Response Thread failed!");
-						t.printStackTrace();
-					}
-				}
-			}).start();
-
+			testGdxhttpClient();
 			System.out.println("OK!");
-
 		}
 		catch (Throwable t) {
 			t.printStackTrace();
 		}
 	}
 
-	protected static void sendRandomRequests() throws Exception {
+	private static void testGdxhttpClient() throws Exception {
+		Gdx.net = new Net() {
+			NetJavaImpl net = new NetJavaImpl();
+
+			@Override
+			public void sendHttpRequest(HttpRequest httpRequest, HttpResponseListener httpResponseListener) {
+				net.sendHttpRequest(httpRequest, httpResponseListener);
+			}
+
+			@Override
+			public void openURI(String URI) {
+
+			}
+
+			@Override
+			public ServerSocket newServerSocket(Protocol protocol, int port, ServerSocketHints hints) {
+				return null;
+			}
+
+			@Override
+			public Socket newClientSocket(Protocol protocol, String host, int port, SocketHints hints) {
+				return null;
+			}
+		};
+
+		CometClient cc = new CometClient();
+		cc.subscribe();
+	}
+
+	protected static void testTurpClient() throws IOException {
+		final TurpHttpClient client = new TurpHttpClient(
+				"http://localhost:8080/ichigu-server/IchiguRequestServlet",
+				"http://localhost:8080/ichigu-server/IchiguResponseServlet");
+
+		client.connect();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					sendRandomRequests(client);
+				}
+				catch (Throwable t) {
+					System.out.println("Request Thread failed!");
+					t.printStackTrace();
+				}
+			}
+		}).start();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					readResponses(client);
+				}
+				catch (Throwable t) {
+					System.out.println("Read Response Thread failed!");
+					t.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
+	protected static void sendRandomRequests(TurpHttpClient client) throws Exception {
 		while (true) {
-			Thread.sleep(1000);
+			Thread.sleep(50);
 
 			String guid = UUID.randomUUID().toString();
-			URL url = new URL("http://localhost:8080/ichigu-server/IchiguRequestServlet?p=" + guid);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setReadTimeout(10000);
-			conn.setRequestMethod("GET");
-			conn.addRequestProperty("Accept-Charset", "utf-8");
 
-			InputStream is = conn.getInputStream();
+			client.sendRequest(guid);
 
-			byte b = (byte) is.read();
-			String s = new String(new byte[] { b });
-			if ("1".equals(s))
-				System.out.println("sent: " + guid);
-			else
-				System.out.println("not sent: " + guid);
-
-			is.close();
+			System.out.println("sent: " + guid);
 		}
 	}
 
-	protected static void readResponses() throws Exception {
-		URL url = new URL("http://localhost:8080/ichigu-server/IchiguResponseServlet");
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setReadTimeout(0);
-		conn.setRequestMethod("GET");
-		conn.addRequestProperty("Accept-Charset", "utf-8");
-
-		InputStream is = conn.getInputStream();
-
-		try {
-			int bytesRead = 0;
-			byte[] buffer = new byte[1024];
-			while ((bytesRead = is.read(buffer, 0, buffer.length)) > 0) {
-				System.out.println("read: " + bytesRead + " - " + new String(buffer, 0, bytesRead));
-			}
-		}
-		finally {
-			is.close();
+	protected static void readResponses(TurpHttpClient client) throws Exception {
+		while (true) {
+			String s = client.readResponse();
+			if (s != null)
+				System.out.println("read: " + s);
+			Thread.sleep(50);
 		}
 	}
 

@@ -21,17 +21,15 @@ public class IchiguResponseServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			ServletOutputStream os = response.getOutputStream(); 
+			ServletOutputStream os = response.getOutputStream();
 			while (true) {
 				synchronized (MessageQueue.syncObj) {
-					if (MessageQueue.size() > 0) {
-						while (MessageQueue.size() > 0) {
-							os.print(MessageQueue.pop());
-						}
-						os.flush();
+					while (MessageQueue.size() > 0) {
+						os.print("{" + MessageQueue.pop() + "}");
 					}
+					os.flush();
 				}
-				Thread.sleep(50);					
+				Thread.sleep(50);
 			}
 		}
 		catch (ClientAbortException cae) {

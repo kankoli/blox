@@ -79,7 +79,7 @@ public class DbManager {
 			statement = connection.prepareStatement(sql.query, Statement.RETURN_GENERATED_KEYS);
 		else
 			statement = connection.prepareStatement(sql.query);
-		
+
 		SqlParameter[] params = sql.getParameters();
 		if (params.length > 0) {
 			for (int i = 0; i < params.length; i++) {

@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class IchiguRequest {
 	private final Map<String, String[]> requestParams;
-	
+
 	public IchiguRequest(Map<String, String[]> requestParams) {
 		this.requestParams = requestParams;
 	}
-	
+
 	public String getParam(String paramName) {
 		try {
 			return URLDecoder.decode(requestParams.get(paramName)[0], "UTF-8");
@@ -19,11 +19,11 @@ public class IchiguRequest {
 			return requestParams.get(paramName)[0];
 		}
 	}
-	
+
 	public String getAuthKey() {
 		return getParam("a");
 	}
-	
+
 	public String getOperation() {
 		return getParam("o");
 	}

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.turpgames.framework.v0.IDeltaTime;
 import com.turpgames.framework.v0.IGameProvider;
+import com.turpgames.framework.v0.IHttpClient;
 import com.turpgames.framework.v0.IInputManager;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.ISettings;
@@ -72,6 +73,11 @@ public class GdxGameProvider implements IGameProvider {
 	@Override
 	public int getAppType() {
 		return appType;
+	}
+
+	@Override
+	public IHttpClient createHttpClient() {
+		return new GdxHttpClient();
 	}
 
 	@Override
