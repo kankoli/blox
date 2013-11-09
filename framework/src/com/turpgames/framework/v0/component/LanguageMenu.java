@@ -85,11 +85,11 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 		float h = Game.scale(buttonHeight);
 		float s = Game.scale(buttonSpacing);
 
-		float x = (Game.getScreenWidth() - (w + s) * 3 + s) / 2;
-		float y = (Game.getScreenHeight() - (h + s) * (languages.length / 3) + s) / 2;
+		float x = (Game.getScreenWidth() - (w + s) * 2 + s) / 2;
+		float y = (Game.getScreenHeight() - (h + s) * (languages.length / 2) + s) / 2;
 		for (int i = 0; i < languages.length; i++) {
 			btn = new LanguageButton((String) languages[i], buttonWidth, buttonHeight, Color.white(), Color.white());
-			btn.setLocation(Button.AlignSW, x + (i % 3) * (w + s), y + (i / 3) * (h + s));
+			btn.setLocation(Button.AlignSW, x + (i % 2) * (w + s), y + (i / 2) * (h + s));
 			btn.setListener(this);
 			buttons.add(btn);
 		}
