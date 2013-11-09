@@ -20,6 +20,7 @@ public class GdxGame implements ApplicationListener {
 	static ShapeRenderer shapeRenderer;
 
 	private IGame game;
+	private volatile boolean paused;
 
 	public GdxGame() {
 
@@ -51,6 +52,9 @@ public class GdxGame implements ApplicationListener {
 
 	@Override
 	public void render() {
+		if (paused)
+			return;
+		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
@@ -58,7 +62,7 @@ public class GdxGame implements ApplicationListener {
 
 		spriteBatch.begin();
 		game.draw();
-		spriteBatch.end();		
+		spriteBatch.end();
 	}
 
 	@Override
@@ -75,11 +79,11 @@ public class GdxGame implements ApplicationListener {
 
 	@Override
 	public void pause() {
-
+		paused = true;
 	}
 
 	@Override
 	public void resume() {
-
+		paused = false;
 	}
 }
