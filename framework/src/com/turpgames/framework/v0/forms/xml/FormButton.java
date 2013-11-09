@@ -22,6 +22,8 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 	private int vibrationDuration;
 	public ISound clickSound;
 	private Color focusColor;
+	
+	private boolean ignore;
 
 	private String resource_text;
 
@@ -49,7 +51,7 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 
 	@Override
 	protected boolean onTap() {
-		if (!isEnabled)
+		if (!isEnabled || ignore)
 			return false;
 
 		notifyClickListeners();
@@ -87,10 +89,12 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 		else if ("font-scale".equals(attribute))
 			text.setFontScale(Utils.parseFloat(value));
 
+		// TODO: buna daha güzel bi çözüm bulmalý
 		else if ("hidden-ios".equals(attribute)) {
 			if (Game.isIOS() && "true".equals(value)) {
 				disable();
 				hide();
+				ignore = true;
 			}
 		}
 
@@ -128,6 +132,8 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 
 	@Override
 	protected void onDraw() {
+		if (ignore)
+			return;
 		if (isEnabled && isTouched())
 			text.getColor().set(focusColor);
 		else
