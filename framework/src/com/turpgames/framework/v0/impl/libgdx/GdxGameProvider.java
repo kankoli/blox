@@ -22,9 +22,9 @@ public class GdxGameProvider implements IGameProvider {
 	private void setAppType() {
 		if (Gdx.app.getType().equals(ApplicationType.Android))
 			appType = AppTypeAndroid;
-		if (Gdx.app.getType().equals(ApplicationType.iOS))
+		else if (Gdx.app.getType().equals(ApplicationType.iOS))
 			appType = AppTypeIOS;
-		if (Gdx.app.getType().equals(ApplicationType.Desktop))
+		else if (Gdx.app.getType().equals(ApplicationType.Desktop))
 			appType = AppTypeDesktop;
 		else
 			appType = AppTypeUnknown;

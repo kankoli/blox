@@ -16,19 +16,21 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 	private final static Color white = Color.white();
 
 	private final Text text;
-	
+
 	private List<IClickListener> clickListeners;
 	private Style style;
 	private int vibrationDuration;
 	public ISound clickSound;
 	private Color focusColor;
+	
+	private boolean ignore;
 
 	private String resource_text;
 
 	FormButton() {
 		style = new Style();
 		clickListeners = new ArrayList<IClickListener>();
-		text = new AttachedText(drawable); 
+		text = new AttachedText(drawable);
 		text.setHorizontalAlignment(Text.HAlignCenter);
 		text.setWrapped(false);
 		Game.getLanguageManager().register(this);
@@ -49,15 +51,15 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 
 	@Override
 	protected boolean onTap() {
-		if (!isEnabled)
+		if (!isEnabled || ignore)
 			return false;
-		
+
 		notifyClickListeners();
 		if (vibrationDuration > 0)
 			Game.vibrate(vibrationDuration);
 		if (clickSound != null)
 			clickSound.play();
-		
+
 		return true;
 	}
 
@@ -86,16 +88,25 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 
 		else if ("font-scale".equals(attribute))
 			text.setFontScale(Utils.parseFloat(value));
-		
+
+		// TODO: buna daha güzel bi çözüm bulmalý
+		else if ("hidden-ios".equals(attribute)) {
+			if (Game.isIOS() && "true".equals(value)) {
+				disable();
+				hide();
+				ignore = true;
+			}
+		}
+
 		else if ("resource-text".equals(attribute)) {
 			resource_text = value;
 			text.setText(Game.getLanguageManager().getString(resource_text));
 		}
-		
+
 		else
 			super.setAttribute(attribute, value);
 	}
-	
+
 	@Override
 	protected void setAction(String action) {
 		final IControlActionHandler handler = Game.getActionHandlerFactory().create(this, action);
@@ -121,11 +132,13 @@ public class FormButton extends DrawableControl implements ILanguageListener {
 
 	@Override
 	protected void onDraw() {
+		if (ignore)
+			return;
 		if (isEnabled && isTouched())
 			text.getColor().set(focusColor);
 		else
 			text.getColor().set(white);
-		
+
 		text.draw();
 	}
 
