@@ -8,6 +8,7 @@ import com.turpgames.framework.v0.ILanguageListener;
 import com.turpgames.framework.v0.metadata.GameMetadata;
 import com.turpgames.framework.v0.metadata.LanguageMetadata;
 import com.turpgames.framework.v0.util.Game;
+import com.turpgames.framework.v0.util.Utils;
 
 public class LanguageManager extends Manager<ILanguageListener> {
 
@@ -19,7 +20,7 @@ public class LanguageManager extends Manager<ILanguageListener> {
 	
 	public String getString(String id) {
 		if (strings.getProperty(id) == null)
-			return "null";
+			return id;
 		return strings.getProperty(id);
 	}
 	
@@ -39,6 +40,9 @@ public class LanguageManager extends Manager<ILanguageListener> {
 			strings.load(isr);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally {
+			Utils.close(is);
 		}
 	}
 	

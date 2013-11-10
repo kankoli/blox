@@ -13,7 +13,9 @@ public class ToggleButton extends ImageButton {
 	private Color onColor;
 	private Color offColor;
 
-	public ToggleButton(float width, float height, String settingsKey, String onTextureId, String offTextureId, Color onColor, Color offColor) {
+	public ToggleButton(float width, float height, String settingsKey,
+			String onTextureId, String offTextureId, Color onColor,
+			Color offColor) {
 		super(width, height, onColor, onColor);
 		this.settingsKey = settingsKey;
 		this.isOn = Settings.getBoolean(settingsKey, true);
@@ -22,18 +24,16 @@ public class ToggleButton extends ImageButton {
 		this.onColor = onColor;
 		this.offColor = offColor;
 	}
-	
+
 	@Override
 	protected void onDraw() {
-		if(isOn) 
+		if (isOn) {
 			getColor().set(this.onColor);
-		else
-			getColor().set(this.offColor);
-		
-		if (isOn)
 			super.onDraw();
-		else
+		} else {
+			getColor().set(this.offColor);
 			TextureDrawer.draw(textureOff, this);
+		}
 	}
 
 	@Override
@@ -41,12 +41,5 @@ public class ToggleButton extends ImageButton {
 		isOn = !isOn;
 		Settings.putBoolean(settingsKey, isOn);
 		return super.onTap();
-	}
-
-	void toggleActivation() {
-		if (isActive())
-			deactivate();
-		else
-			activate();
 	}
 }

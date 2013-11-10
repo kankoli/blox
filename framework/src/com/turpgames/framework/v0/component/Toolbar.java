@@ -24,15 +24,15 @@ public abstract class Toolbar extends GameObject {
 		addSettingsButton();
 		addSoundButton();
 		addVibrationButton();
-		
+
 		updateSizeAndLocation();
 
 		listenInput(true);
 	}
-	
-	private void updateSizeAndLocation() {
-		setWidth(Game.getVirtualWidth() - vibrationButton.getLocation().x);
-		setHeight(vibrationButton.getHeight() + 20);
+
+	protected void updateSizeAndLocation() {
+		setWidth(Game.getScreenWidth() - vibrationButton.getLocation().x);
+		setHeight(vibrationButton.getHeight());
 		getLocation().set(vibrationButton.getLocation());
 	}
 
@@ -70,16 +70,23 @@ public abstract class Toolbar extends GameObject {
 		settingsButton.setListener(new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
-				toggleActivation();
+				toggleActivation(!isActive);
 			}
 		});
 	}
 
-	private void toggleActivation() {
-		soundButton.toggleActivation();
-		if (!Game.isIOS())
-			vibrationButton.toggleActivation();
-		isActive = !isActive;
+	private void toggleActivation(boolean activate) {
+		isActive = activate;
+		if (isActive) {
+			soundButton.activate();
+			if (!Game.isIOS())
+				vibrationButton.activate();
+		}
+		else {
+			soundButton.deactivate();
+			if (!Game.isIOS())
+				vibrationButton.deactivate();
+		}
 	}
 
 	abstract protected void concreteAddSoundButton();
@@ -95,16 +102,16 @@ public abstract class Toolbar extends GameObject {
 		concreteAddVibrationButton();
 		vibrationButton.deactivate();
 	}
-	
+
 	@Override
 	public boolean ignoreViewport() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		if (isActive && !isTouched())
-			toggleActivation();
+			toggleActivation(false);
 		return super.touchDown(x, y, pointer, button);
 	}
 

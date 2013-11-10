@@ -1,5 +1,6 @@
 package com.turpgames.framework.v0.util;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -137,14 +138,7 @@ public class Utils {
 			return null;
 		}
 		finally {
-			if (is != null) {
-				try {
-					is.close();
-				}
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			close(is);
 		}
 	}
 
@@ -198,5 +192,16 @@ public class Utils {
 		int min = time / 60;
 		int sec = time % 60;
 		return (min < 10 ? ("0" + min) : ("" + min)) + ":" + (sec < 10 ? ("0" + sec) : ("" + sec));
+	}
+
+	public static void close(Closeable closable) {
+		if (closable == null)
+			return;
+		try {
+			closable.close();
+		} catch (IOException e) {
+			// ignore
+			e.printStackTrace();
+		}
 	}
 }
