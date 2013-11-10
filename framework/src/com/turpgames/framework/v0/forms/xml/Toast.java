@@ -15,6 +15,8 @@ import com.turpgames.framework.v0.util.Utils;
 public class Toast extends GameObject {
 	public static interface IToastListener {
 		void onToastHidden(Toast toast);
+
+		void onTap();
 	}
 
 	private Timer timer;
@@ -148,7 +150,7 @@ public class Toast extends GameObject {
 
 	@Override
 	protected boolean onTap() {
-		hide();
+		listener.onTap();
 		return true;
 	}
 

@@ -68,11 +68,11 @@ public class Text implements IDrawable {
 	private boolean ignoreViewport;
 	private boolean ignoreShifting;
 
-	// x, y, width vs screen'e göre deðerleri tutmakta.
+	// x, y, width vs screen'e gore degerleri tutmakta.
 
-	// ignoreViewport deðilse, dýþarýya viewporta göre olan deðerler üzerinden
+	// ignoreViewport degilse, dýþarýya viewporta gore olan degerler uzerinden
 	// çalýþmakta
-	// bu yüzden get/set'lerde descale/scale yapýlýyor
+	// bu yuzden get/set'lerde descale/scale yapiliyor
 
 	public void setFontScale(float scale) {
 		font.setScale(scale);
