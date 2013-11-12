@@ -21,14 +21,6 @@
     <pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
     <pattern>com.turpgames.framework.v0.impl.libgdx.GdxGameProvider</pattern>
     <pattern>com.turpgames.ichigu.view.*</pattern>
-	<pattern>org.apache.harmony.xnet.provider.jsse.OpenSSLProvider</pattern>
-	<pattern>org.apache.harmony.security.provider.cert.DRLCertFactory</pattern>
-	<pattern>com.android.org.bouncycastle.jce.provider.BouncyCastleProvider</pattern>
-	<pattern>org.apache.harmony.security.provider.crypto.CryptoProvider</pattern>
-	<pattern>org.apache.harmony.xnet.provider.jsse.JSSEProvider</pattern>
-
-	<pattern>java.util.ArrayDeque</pattern>
-	<pattern>org.apache.harmony.xnet.provider.jsse.OpenSSLMessageDigestJDK$SHA1</pattern>
   </forceLinkClasses>  
   <libs>
     <lib>libs/ios/libgdx.a</lib>
