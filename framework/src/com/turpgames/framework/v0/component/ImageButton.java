@@ -20,8 +20,8 @@ public class ImageButton extends Button {
 
 	public ImageButton(float width, float height, Color defaultColor, Color touchedColor) {
 		super(defaultColor, touchedColor);
-		setWidth(Game.scale(width));
-		setHeight(Game.scale(height));
+		setWidth(width);
+		setHeight(height);
 	}
 
 	public void setTexture(String textureId) {

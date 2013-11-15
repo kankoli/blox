@@ -3,28 +3,30 @@ package com.turpgames.framework.v0.component.info;
 import com.turpgames.framework.v0.forms.xml.Toast;
 import com.turpgames.framework.v0.util.Color;
 
-public abstract class ToastGameInfo implements Toast.IToastListener {
+public abstract class ToastGameInfo {
 	protected Toast toast;
 	
 	public ToastGameInfo() {
 		toast = new Toast();
-		toast.setListener(this);
 	}
 
 	/***
 	 * 
 	 * @param message
-	 * @param duration in milliseconds
-	 * @param toastDuration in milliseconds
+	 * @param showDuration in seconds
+	 * @param slideDuration in seconds
 	 */
-	public void show(String message, float duration, float toastDuration) {
-		toast.setDuration(toastDuration);
-		toast.show(message, duration);
+	public void show(String message, float showDuration, float slideDuration) {
+		toast.setSlideDuration(slideDuration);
+		toast.show(message, showDuration);
 	}
 
-	@Override
-	public void onToastHidden(Toast toast) {
-
+	public void hide() {
+		toast.hide();
+	}
+	
+	public void setToastListener(Toast.IToastListener listener) {
+		toast.setListener(listener);
 	}
 
 	public void setTextColor(Color color) {

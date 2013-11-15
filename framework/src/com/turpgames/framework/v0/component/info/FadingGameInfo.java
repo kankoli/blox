@@ -10,7 +10,7 @@ import com.turpgames.framework.v0.util.Utils;
 public class FadingGameInfo extends GameInfo implements IFadingEffectSubject {
 	private FadeOutEffect fadeOutEffect;
 	private boolean isActive;
-	private float millis = 2500;
+	private float fadeOutDuration = 2.5f;
 
 	public FadingGameInfo() {
 		fadeOutEffect = new FadeOutEffect(this);
@@ -33,7 +33,7 @@ public class FadingGameInfo extends GameInfo implements IFadingEffectSubject {
 
 		this.isActive = true;
 
-		fadeOutEffect.setDuration(millis / 1000f);
+		fadeOutEffect.setDuration(fadeOutDuration);
 		fadeOutEffect.start();
 
 		Drawer.getCurrent().register(this, Utils.LAYER_INFO);

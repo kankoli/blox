@@ -65,28 +65,14 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 
 	private final void loadLanguageButtons() {
 		Object[] languages = GameMetadata.getLanguages().toArray();
-		LanguageButton btn;
 
-		// 3 per row or col
-		// float x = (Game.getScreenWidth() - (buttonWidth + buttonSpacing) * 3
-		// + buttonSpacing) / 2;
-		// float y = (Game.getScreenHeight() - (buttonHeight + buttonSpacing) *
-		// 3 + buttonSpacing) / 2;
-		// for(int i = 0; i < languages.length; i++) {
-		// btn = new LanguageButton((String) languages[i], buttonWidth,
-		// buttonHeight, Color.white(), Color.white());
-		// btn.setLocation(Button.AlignSW, x + (i % 3) * (buttonWidth +
-		// buttonSpacing), y + (i / 3) * (buttonWidth + buttonSpacing));
-		// btn.setListener(this);
-		// buttons.add(btn);
-		// }
-
-		float w = Game.scale(buttonWidth);
-		float h = Game.scale(buttonHeight);
-		float s = Game.scale(buttonSpacing);
+		float w = buttonWidth;
+		float h = buttonHeight;
+		float s = buttonSpacing;
 
 		float x = (Game.getScreenWidth() - (w + s) * 2 + s) / 2;
 		float y = (Game.getScreenHeight() - (h + s) * (languages.length / 2) + s) / 2;
+		LanguageButton btn;
 		for (int i = 0; i < languages.length; i++) {
 			btn = new LanguageButton((String) languages[i], buttonWidth, buttonHeight, Color.white(), Color.white());
 			btn.setLocation(Button.AlignSW, x + (i % 2) * (w + s), y + (i / 2) * (h + s));
