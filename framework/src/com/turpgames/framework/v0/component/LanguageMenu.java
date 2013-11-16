@@ -24,18 +24,21 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 	private float buttonSpacing;
 	private float buttonWidth;
 	private float buttonHeight;
+	private int flagsPerRow = 3;
 
 	private ILanguageMenuListener listener;
 
 	protected ImageButton controlButton;
 	private List<LanguageButton> buttons;
 	private boolean isActive;
-
-	public LanguageMenu(float buttonSpacing, float buttonWidth, float buttonHeight) {
+	
+	protected LanguageMenu(float buttonSpacing, float buttonWidth, float buttonHeight, int flagsPerRow) {
 		buttons = new ArrayList<LanguageButton>();
+		
 		this.buttonSpacing = buttonSpacing;
 		this.buttonWidth = buttonWidth;
 		this.buttonHeight = buttonHeight;
+		this.flagsPerRow = flagsPerRow;
 
 		addControlButton();
 		setControlButtonTexture();
@@ -68,14 +71,14 @@ public abstract class LanguageMenu extends GameObject implements IButtonListener
 
 		float w = buttonWidth;
 		float h = buttonHeight;
-		float s = buttonSpacing;
+		float s = buttonSpacing;		
 
-		float x = (Game.getScreenWidth() - (w + s) * 2 + s) / 2;
-		float y = (Game.getScreenHeight() - (h + s) * (languages.length / 2) + s) / 2;
+		float x = (Game.getScreenWidth() - (w + s) * flagsPerRow + s) / 2;
+		float y = (Game.getScreenHeight() - (h + s) * (languages.length / flagsPerRow) + s) / 2;
 		LanguageButton btn;
 		for (int i = 0; i < languages.length; i++) {
 			btn = new LanguageButton((String) languages[i], buttonWidth, buttonHeight, Color.white(), Color.white());
-			btn.setLocation(Button.AlignSW, x + (i % 2) * (w + s), y + (i / 2) * (h + s));
+			btn.setLocation(Button.AlignSW, x + (i % flagsPerRow) * (w + s), y + (i / flagsPerRow) * (h + s));
 			btn.setListener(this);
 			buttons.add(btn);
 		}
