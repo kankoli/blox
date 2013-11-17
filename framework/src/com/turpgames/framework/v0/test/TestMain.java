@@ -116,7 +116,8 @@ public class TestMain {
 	}
 
 	protected static void testEncoding() throws UnsupportedEncodingException, MalformedURLException, IOException, ProtocolException {
-		String plain = "ý ü ð þ ç ö Ý Ü Ð Þ Ç Ö";
+//		String plain = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
+		String plain = "asdfasdf";
 		String encoded = URLEncoder.encode(plain, "UTF-8");
 		String decoded = URLDecoder.decode(encoded, "UTF-8");
 
