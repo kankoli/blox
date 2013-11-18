@@ -26,10 +26,6 @@ public class Utils {
 		
 	private static final Random rnd = new Random();
 	
-	public static String getOSVersion() {
-		return System.getProperty("os.version");
-	}
-
 	public static String readUtf8String(InputStream is) throws IOException {
 		StringBuffer strBuffer = new StringBuffer();
 		byte[] buffer = new byte[128];

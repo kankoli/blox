@@ -22,7 +22,7 @@ public interface IGameProvider {
 	
 	void openUrl(String url);
 	
-	int getAppType(); 
+	int getAppType();
 
 	IHttpClient createHttpClient();
 	

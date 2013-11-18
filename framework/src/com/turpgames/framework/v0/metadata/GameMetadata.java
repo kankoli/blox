@@ -15,6 +15,7 @@ public class GameMetadata {
 
 	private String gameName;
 	private String gameClass;
+	private String gameVersion;
 
 	private ResourcesMetadata resources;
 	private Map<String, String> params = new HashMap<String, String>();
@@ -36,6 +37,10 @@ public class GameMetadata {
 		return instance.gameClass;
 	}
 
+	public static String getGameVersion() {
+		return instance.gameVersion;
+	}
+	
 	public static String getParam(String key) {
 		return instance.params.get(key);
 	}
@@ -82,6 +87,7 @@ public class GameMetadata {
 
 		gameName = Utils.getAttributeValue(gameNode, "id");
 		gameClass = Utils.getAttributeValue(gameNode, "class");
+		gameVersion = Utils.getAttributeValue(gameNode, "version");
 
 		loadParams(Utils.getChildNode(gameNode, "params"));
 		load(gameNode, screens, "screens", "screen");

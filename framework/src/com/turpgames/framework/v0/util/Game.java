@@ -33,6 +33,9 @@ public final class Game {
 
 	public static IGameExitListener exitListener;
 
+	private static Version osVersion;
+	private static Version gameVersion;
+
 	private static DisposeManager disposeManager;
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
@@ -109,6 +112,9 @@ public final class Game {
 
 		actionHandlerFactory = new ControlActionHandlerFactory();
 		collisionDetectorFactory = new CollisionDetectorFactory();
+
+		osVersion = new Version(System.getProperty("os.version"));
+		gameVersion = new Version(GameMetadata.getGameVersion());
 
 		initViewport();
 
@@ -194,6 +200,14 @@ public final class Game {
 
 	public static String getParam(String key) {
 		return GameMetadata.getParam(key);
+	}
+
+	public static Version getOSVersion() {
+		return osVersion;
+	}
+
+	public static Version getVersion() {
+		return gameVersion;
 	}
 
 	// region viewport
