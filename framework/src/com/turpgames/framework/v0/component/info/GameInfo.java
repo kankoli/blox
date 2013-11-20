@@ -14,14 +14,12 @@ public class GameInfo implements IDrawable {
 		text.setHeight(Game.getVirtualHeight());
 	}
 
-	public void locate(int halign, int valign) {
-		text.setHorizontalAlignment(halign);
-		text.setVerticalAlignment(valign);
+	public void setAlignment(int halign, int valign) {
+		text.setAlignment(halign, valign);
 	}
 
 	public void setPadding(float padX, float padY) {
-		text.setPadX(padX);
-		text.setPadY(padY);
+		text.setPadding(padX, padY);
 	}
 
 	public void setColor(Color color) {

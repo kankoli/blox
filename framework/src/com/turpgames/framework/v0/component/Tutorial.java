@@ -121,7 +121,7 @@ public abstract class Tutorial extends GameObject implements IViewFinder, ILangu
 
 	private void notifyTutorialEnd() {
 		if (listener != null)
-			listener.onTutorialEnd();
+			listener.onModeEnd();
 	}
 
 	@Override

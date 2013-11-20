@@ -23,6 +23,7 @@ public class Toast extends GameObject {
 	private MoveEffect hideEffect;
 	private IToastState state;
 	private IToastListener listener;
+	private boolean hideOnTap;
 
 	public Toast() {
 		text = new AttachedText(this);
@@ -49,6 +50,7 @@ public class Toast extends GameObject {
 		hideEffect.setDestination(0, Game.getScreenHeight() + 10);
 		
 		state = ToastHiddenState.instance;
+		hideOnTap = true;
 	}
 
 	public void setSlideDuration(float f) {
@@ -82,6 +84,10 @@ public class Toast extends GameObject {
 		text.getColor().set(color);
 	}
 
+	public void setHideOnTap(boolean hideOnTap) {
+		this.hideOnTap = hideOnTap;
+	}
+	
 	public void dispose() {
 		this.listenInput(false);
 		if (Drawer.getCurrent() != null)
@@ -189,7 +195,8 @@ public class Toast extends GameObject {
 
 	@Override
 	protected boolean onTap() {
-		hide();
+		if (hideOnTap)
+			hide();
 		return true;
 	}
 

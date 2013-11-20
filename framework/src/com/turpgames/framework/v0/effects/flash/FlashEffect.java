@@ -31,7 +31,7 @@ public class FlashEffect extends Effect {
 	
 	@Override
 	protected void onStart() {
-		initialColor.set(obj.getColor().r, obj.getColor().g, obj.getColor().b, obj.getColor().a);
+		initialColor.set(obj.getColor());
 	}
 	
 	@Override
