@@ -2,13 +2,24 @@ package com.turpgames.framework.impl.ios;
 
 import org.robovm.cocoatouch.foundation.NSBundle;
 import org.robovm.cocoatouch.foundation.NSDictionary;
+import org.robovm.cocoatouch.foundation.NSError;
 import org.robovm.cocoatouch.foundation.NSObject;
 import org.robovm.cocoatouch.foundation.NSString;
+import org.robovm.rt.bro.ptr.Ptr;
 
 import com.turpgames.framework.v0.IEnvironmentProvider;
 import com.turpgames.framework.v0.util.Version;
 
 public class IOSProvider implements IEnvironmentProvider {
+	static {
+		Ptr<NSError> error = Ptr.newPtr(NSError.class);
+		if (AVAudioSession.getSharedInstance().setCategory("AVAudioSessionCategoryAmbient", error)) {
+		    // Success
+		} else {
+		    // Failure
+		}
+	}
+	
 	private Version version;
 
 	@Override

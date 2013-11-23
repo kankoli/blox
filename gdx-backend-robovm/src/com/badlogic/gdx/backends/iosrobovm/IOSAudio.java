@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 public class IOSAudio implements Audio {
 
 	public IOSAudio() {
-		OALSimpleAudio.sharedInstance().setAllowIpod(false);
+		OALSimpleAudio.sharedInstance().setAllowIpod(true);
 		OALSimpleAudio.sharedInstance().setHonorSilentSwitch(true);
 	}
 	
