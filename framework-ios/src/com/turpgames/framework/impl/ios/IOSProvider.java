@@ -17,15 +17,15 @@ public class IOSProvider implements IEnvironmentProvider {
 			try {
 				NSBundle mainBundle = NSBundle.getMainBundle();
 				if (mainBundle == null)
-					System.out.println("mainBundle is null");
+					throw new Exception("mainBundle is null");
 				
 				NSDictionary infoDictionary = mainBundle.getInfoDictionary();
 				if (infoDictionary == null)
-					System.out.println("infoDictionary is null");
+					throw new Exception("infoDictionary is null");
 				
 				NSObject versionEntry = infoDictionary.get(new NSString("CFBundleShortVersionString"));
 				if (versionEntry == null)
-					System.out.println("versionEntry is null");
+					throw new Exception("versionEntry is null");
 				
 				String versionString = versionEntry.toString();				
 				version = new Version(versionString);
