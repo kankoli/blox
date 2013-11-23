@@ -6,8 +6,8 @@ import com.turpgames.framework.v0.ILanguageListener;
 import com.turpgames.framework.v0.IView;
 import com.turpgames.framework.v0.IViewFinder;
 import com.turpgames.framework.v0.IViewSwitcher;
-import com.turpgames.framework.v0.component.info.GameInfo;
 import com.turpgames.framework.v0.impl.GameObject;
+import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.impl.ViewSwitcher;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Utils;
@@ -21,8 +21,8 @@ public abstract class Tutorial extends GameObject implements IViewFinder, ILangu
 
 	protected ImageButton nextButton;
 	protected ImageButton prevButton;
-	protected GameInfo pageTitle;
-	protected GameInfo pagesInfo;
+	protected Text pageTitle;
+	protected Text pagesInfo;
 
 	protected Tutorial(ITutorialListener listener) {
 		this.listener = listener;
@@ -31,10 +31,10 @@ public abstract class Tutorial extends GameObject implements IViewFinder, ILangu
 		switcher = ViewSwitcher.createInstance(pageSwitcher);
 		switcher.setViewFinder(this);
 
-		pageTitle = new GameInfo();
+		pageTitle = new Text();
 		addPageTitle();
 		
-		pagesInfo = new GameInfo();
+		pagesInfo = new Text();
 		addPagesInfo();
 		
 		addNextButton();

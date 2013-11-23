@@ -30,6 +30,8 @@ public class Dialog extends GameObject {
 
 	public static interface IDialogListener {
 		void onDialogButtonClicked(String id);
+
+		void onDialogClosed();
 	}
 
 	private final Text message;
@@ -63,7 +65,7 @@ public class Dialog extends GameObject {
 		message.setFontScale(fontScale);
 	}
 
-	protected DialogButton addButton(String id, String resourceTextId) {
+	public DialogButton addButton(String id, String resourceTextId) {
 		DialogButton btn = new DialogButton(this);
 		btn.setId(id);
 		btn.setResourceTextId(resourceTextId);
@@ -104,6 +106,10 @@ public class Dialog extends GameObject {
 	}
 
 	public void close() {
+		close(false);
+	}
+	
+	private void close(boolean notifyClosed) {
 		if (!isOpened)
 			return;
 		isOpened = false;
@@ -118,6 +124,9 @@ public class Dialog extends GameObject {
 			Drawer.getCurrent().unregister(this);
 		for (int i = 0; i < buttons.size(); i++)
 			buttons.get(i).listenInput(false);
+		
+		if (listener != null && notifyClosed)
+			listener.onDialogClosed();
 	}
 
 	@Override
@@ -145,7 +154,7 @@ public class Dialog extends GameObject {
 	}
 
 	private void buttonTapped(DialogButton button) {
-		close();
+		close(false);
 		if (listener != null)
 			listener.onDialogButtonClicked(button.getId());
 	}
@@ -153,7 +162,7 @@ public class Dialog extends GameObject {
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		if (!isIn(x, y)) {
-			buttonTapped(buttons.get(1));
+			close(true);
 		}
 		return true;
 	}
@@ -180,7 +189,7 @@ public class Dialog extends GameObject {
 
 		@Override
 		protected boolean onTap() {
-			parent.buttonTapped(parent.buttons.get(1));
+			parent.close(true);
 			return true;
 		}
 
@@ -196,13 +205,13 @@ public class Dialog extends GameObject {
 		private final Dialog dialog;
 
 		private String resourceTextId;
-		
+
 		DialogButton(Dialog dialog) {
 			this.dialog = dialog;
 			this.text = new AttachedText(this);
 			this.text.setHorizontalAlignment(Text.HAlignCenter);
 			this.text.setVerticalAlignment(Text.VAlignCenter);
-			
+
 			Game.getLanguageManager().register(this);
 		}
 
@@ -218,7 +227,7 @@ public class Dialog extends GameObject {
 			this.resourceTextId = resourceTextId;
 			setText();
 		}
-		
+
 		private void setText() {
 			this.text.setText(Game.getLanguageManager().getString(this.resourceTextId));
 			setHeight(this.text.getTextAreaHeight());

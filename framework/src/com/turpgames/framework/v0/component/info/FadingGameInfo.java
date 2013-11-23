@@ -3,11 +3,12 @@ package com.turpgames.framework.v0.component.info;
 import com.turpgames.framework.v0.effects.IEffectEndListener;
 import com.turpgames.framework.v0.effects.fading.FadeOutEffect;
 import com.turpgames.framework.v0.effects.fading.IFadingEffectSubject;
+import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Drawer;
 import com.turpgames.framework.v0.util.Utils;
 
-public class FadingGameInfo extends GameInfo implements IFadingEffectSubject {
+public class FadingGameInfo extends Text implements IFadingEffectSubject {
 	private FadeOutEffect fadeOutEffect;
 	private boolean isActive;
 	private float fadeOutDuration = 2.5f;
@@ -18,7 +19,7 @@ public class FadingGameInfo extends GameInfo implements IFadingEffectSubject {
 		fadeOutEffect.setMaxAlpha(1);
 		fadeOutEffect.setListener(effectListener);
 
-		this.text.getColor().set(Color.white());
+		getColor().set(Color.white());
 	}
 
 	public void setDuration(float duration) {
@@ -55,6 +56,6 @@ public class FadingGameInfo extends GameInfo implements IFadingEffectSubject {
 
 	@Override
 	public void setAlpha(float alpha) {
-		this.text.getColor().a = alpha;
+		getColor().a = alpha;
 	}
 }

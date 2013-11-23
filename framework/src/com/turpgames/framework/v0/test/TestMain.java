@@ -9,6 +9,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -19,31 +21,50 @@ import com.badlogic.gdx.net.ServerSocket;
 import com.badlogic.gdx.net.ServerSocketHints;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
+import com.badlogic.gdx.utils.Array;
+import com.turpgames.framework.v0.IUpdateProcess;
 import com.turpgames.framework.v0.net.TurpHttpClient;
 import com.turpgames.framework.v0.util.Utils;
 
 public class TestMain {
 	public static void main(String[] args) {
 		try {
-			int[] arr;
-			for (int i = 0; i < 100; i++) {
-				arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+			
+			List<Integer> list = new ArrayList<Integer>();
 
-				int start = 3;
-
-				shuffle(arr, start, arr.length, 100);
-
-				boolean error = false;
-
-				for (int x = 0; x < start; x++)
-					error = error || arr[x] != x;
-
-				if (error)
-					System.out.print("ERRORRRRRRR: ");
-
-				System.out.print(String.format("[%d]", start));
-				arrayWriteLine(arr);
-			}
+			add(list, 7);
+			add(list, 2);
+			add(list, 5);
+			add(list, 8);
+			add(list, 9);
+			add(list, 1);
+			add(list, 3);
+			add(list, 0);
+			add(list, 6);
+			add(list, 4);
+			
+			for (Integer i : list)
+				System.out.println(i);
+			
+//			int[] arr;
+//			for (int i = 0; i < 100; i++) {
+//				arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+//
+//				int start = 3;
+//
+//				shuffle(arr, start, arr.length, 100);
+//
+//				boolean error = false;
+//
+//				for (int x = 0; x < start; x++)
+//					error = error || arr[x] != x;
+//
+//				if (error)
+//					System.out.print("ERRORRRRRRR: ");
+//
+//				System.out.print(String.format("[%d]", start));
+//				arrayWriteLine(arr);
+//			}
 
 			// for (int i = 0; i < 10; i++) {
 			// arr = new int[] { 0, 1, 2, 3, 4, 5, 6, -1, -1, -1 };
@@ -78,7 +99,16 @@ public class TestMain {
 			System.out.print(arr[i] + " ");
 		System.out.println();
 	}
-
+	
+	public static void add(List<Integer> list, Integer x) {
+		int i;
+		for (i = 0; i < list.size(); i++) {
+			if (list.get(i).compareTo(x) == 1)
+				break;
+		}
+		list.add(i, x);
+	}
+	
 	private static void shuffle(int[] arr, int start, int end, int iter) {
 		if (start == end || start + 1 == end)
 			return;

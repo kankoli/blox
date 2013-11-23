@@ -2,9 +2,10 @@ package com.turpgames.framework.v0.component.info;
 
 import com.turpgames.framework.v0.effects.flash.FlashEffect;
 import com.turpgames.framework.v0.effects.flash.IFlashEffectSubject;
+import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Color;
 
-public class FlashingGameInfo extends GameInfo implements IFlashEffectSubject {
+public class FlashingGameInfo extends Text implements IFlashEffectSubject {
 	private FlashEffect flashEffect;
 	
 	public FlashingGameInfo(Color flashColor, int flashPerSecond, float duration) {
@@ -22,12 +23,7 @@ public class FlashingGameInfo extends GameInfo implements IFlashEffectSubject {
 	}
 	
 	@Override
-	public Color getColor() {
-		return text.getColor();
-	}
-
-	@Override
 	public void setColor(float r, float g, float b, float a) {
-		text.getColor().set(r,g,b,a);
+		getColor().set(r,g,b,a);
 	}
 }
