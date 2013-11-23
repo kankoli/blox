@@ -33,24 +33,24 @@ public abstract class Tutorial extends GameObject implements IViewFinder, ILangu
 
 		pageTitle = new Text();
 		addPageTitle();
-		
+
 		pagesInfo = new Text();
 		addPagesInfo();
-		
+
 		addNextButton();
 		addPrevButton();
-		
+
 		populatePages();
 
 		updatePageInfoText();
-		
+
 		Game.getLanguageManager().register(this);
 	}
 
 	abstract protected void addPageTitle();
-	
+
 	abstract protected void addPagesInfo();
-	
+
 	abstract protected void concreteAddNextButton();
 
 	private final void addNextButton() {
@@ -62,9 +62,9 @@ public abstract class Tutorial extends GameObject implements IViewFinder, ILangu
 			}
 		});
 	}
-	
+
 	abstract protected void concreteAddPrevButton();
-	
+
 	private final void addPrevButton() {
 		concreteAddPrevButton();
 		prevButton.setListener(new IButtonListener() {
@@ -74,9 +74,9 @@ public abstract class Tutorial extends GameObject implements IViewFinder, ILangu
 			}
 		});
 	}
-	
+
 	abstract protected void populatePages();
-	
+
 	public void start() {
 		pageIndex = 0;
 		switcher.setView(pages.get(pageIndex).getId());
@@ -93,12 +93,13 @@ public abstract class Tutorial extends GameObject implements IViewFinder, ILangu
 	private void next() {
 		if (pageIndex < pages.size() - 1) {
 			pageIndex++;
+			prevButton.activate();
+			updatePageInfoText();
 			switcher.switchTo(pages.get(pageIndex).getId(), false);
 		}
-		else
+		else {
 			notifyTutorialEnd();
-		prevButton.activate();
-		updatePageInfoText();
+		}
 	}
 
 	private void prev() {
