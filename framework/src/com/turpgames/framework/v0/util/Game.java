@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.turpgames.framework.v0.ICollisionDetectorFactory;
 import com.turpgames.framework.v0.IDeltaTime;
 import com.turpgames.framework.v0.IDisposable;
+import com.turpgames.framework.v0.IEnvironmentProvider;
 import com.turpgames.framework.v0.IGameExitListener;
 import com.turpgames.framework.v0.IGameProvider;
 import com.turpgames.framework.v0.IHttpClient;
@@ -35,6 +36,8 @@ public final class Game {
 
 	private static Version osVersion;
 	private static Version gameVersion;
+	
+	public static IEnvironmentProvider environmentProvider;
 
 	private static DisposeManager disposeManager;
 	private static IDeltaTime deltaTime;
@@ -114,7 +117,11 @@ public final class Game {
 		collisionDetectorFactory = new CollisionDetectorFactory();
 
 		osVersion = new Version(System.getProperty("os.version"));
-		gameVersion = new Version(GameMetadata.getGameVersion());
+		
+		if (environmentProvider == null)
+			gameVersion = new Version(GameMetadata.getGameVersion());
+		else
+			gameVersion = environmentProvider.getVersion();
 
 		initViewport();
 

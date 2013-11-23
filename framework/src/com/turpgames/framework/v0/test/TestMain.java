@@ -9,6 +9,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Random;
 import java.util.UUID;
 
 import com.badlogic.gdx.Gdx;
@@ -19,16 +20,87 @@ import com.badlogic.gdx.net.ServerSocketHints;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.turpgames.framework.v0.net.TurpHttpClient;
+import com.turpgames.framework.v0.util.Utils;
 
 public class TestMain {
 	public static void main(String[] args) {
 		try {
-			testGdxhttpClient();
+			int[] arr;
+			for (int i = 0; i < 100; i++) {
+				arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+				int start = 3;
+
+				shuffle(arr, start, arr.length, 100);
+
+				boolean error = false;
+
+				for (int x = 0; x < start; x++)
+					error = error || arr[x] != x;
+
+				if (error)
+					System.out.print("ERRORRRRRRR: ");
+
+				System.out.print(String.format("[%d]", start));
+				arrayWriteLine(arr);
+			}
+
+			// for (int i = 0; i < 10; i++) {
+			// arr = new int[] { 0, 1, 2, 3, 4, 5, 6, -1, -1, -1 };
+			//
+			// for (int k = 0; k < 3; k++) {
+			// int x = Utils.randInt(arr.length - 3);
+			//
+			// insertAt(x, arr, 88);
+			//
+			// System.out.print(String.format("%d = ", x));
+			// arrayWriteLine(arr);
+			// }
+			// for (int j = 0; j < arr.length; j++) {
+			// if (arr[j] < 0) {
+			// System.out.println("Error!!!");
+			// break;
+			// }
+			// }
+			//
+			// System.out.println();
+			// }
+
 			System.out.println("OK!");
 		}
 		catch (Throwable t) {
 			t.printStackTrace();
 		}
+	}
+
+	private static void arrayWriteLine(int[] arr) {
+		for (int i = 0; i < arr.length; i++)
+			System.out.print(arr[i] + " ");
+		System.out.println();
+	}
+
+	private static void shuffle(int[] arr, int start, int end, int iter) {
+		if (start == end || start + 1 == end)
+			return;
+		while (iter-- > 0) {
+			int i1 = Utils.randInt(start, end);
+			int i2 = Utils.randInt(start, end);
+			while (i1 == i2)
+				i2 = Utils.randInt(start, end);
+
+			int tmp = arr[i1];
+			arr[i1] = arr[i2];
+			arr[i2] = tmp;
+		}
+	}
+
+	private static void insertAt(int index, int[] deck, int cardToInsert) {
+		if (deck[index] > -1) {
+			for (int i = deck.length - 1; i > index; i--)
+				deck[i] = deck[i - 1];
+		}
+
+		deck[index] = cardToInsert;
 	}
 
 	private static void testGdxhttpClient() throws Exception {

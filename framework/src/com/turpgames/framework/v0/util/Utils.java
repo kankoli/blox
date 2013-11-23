@@ -23,9 +23,9 @@ public class Utils {
 	public static final int LAYER_GAME = 2;
 	public static final int LAYER_INFO = 3;
 	public static final int LAYER_DIALOG = 4;
-		
+
 	private static final Random rnd = new Random();
-	
+
 	public static String readUtf8String(InputStream is) throws IOException {
 		StringBuffer strBuffer = new StringBuffer();
 		byte[] buffer = new byte[128];
@@ -34,11 +34,11 @@ public class Utils {
 			strBuffer.append(new String(buffer, 0, bytesRead, "UTF-8"));
 		return strBuffer.toString();
 	}
-	
+
 	public static boolean isIn(float x, float y, IDrawingInfo drawingInfo) {
-		return isIn(x, y, 
-				drawingInfo.getLocation().x, drawingInfo.getLocation().y, 
-				drawingInfo.getWidth(), drawingInfo.getHeight(), 
+		return isIn(x, y,
+				drawingInfo.getLocation().x, drawingInfo.getLocation().y,
+				drawingInfo.getWidth(), drawingInfo.getHeight(),
 				drawingInfo.ignoreViewport());
 	}
 
@@ -163,14 +163,33 @@ public class Utils {
 	public static int randInt() {
 		return rnd.nextInt();
 	}
-	
+
+	/**
+	 * 
+	 * @param maxValue
+	 * @return [0 - maxValue)
+	 */
 	public static int randInt(int maxValue) {
+		if (maxValue == 0)
+			return 0;
 		return rnd.nextInt(maxValue);
 	}
 
+	/**
+	 * 
+	 * @param minValue
+	 * @param maxValue
+	 * @return [minValue - maxValue)
+	 */
+	public static int randInt(int minValue, int maxValue) {
+		if (minValue == maxValue)
+			return minValue;
+		return randInt(maxValue - minValue) + minValue;
+	}
+
 	public static <T> void shuffle(T[] array) {
-		int loopSize = array.length * array.length;
-		for (int i = 0; i < loopSize; i++) {
+		int iter = array.length * array.length;
+		while (iter-- > 0) {
 			int x = randInt(array.length);
 			int y = randInt(array.length);
 
@@ -179,11 +198,32 @@ public class Utils {
 			array[y] = tmp;
 		}
 	}
-	
+
+	public static <T> void shuffle(T[] array, int start, int end) {
+		int iter = (start - end) * (start - end);
+		shuffle(array, start, end, iter);
+	}
+
+	public static <T> void shuffle(T[] array, int start, int end, int iter) {
+		if (start == end || start + 1 == end)
+			return;
+
+		while (iter-- > 0) {
+			int i1 = Utils.randInt(start, end);
+			int i2 = Utils.randInt(start, end);
+			while (i1 == i2)
+				i2 = Utils.randInt(start, end);
+
+			T tmp = array[i1];
+			array[i1] = array[i2];
+			array[i2] = tmp;
+		}
+	}
+
 	public static <T> T random(T[] array) {
 		return array[randInt(array.length)];
 	}
-	
+
 	public static String getTimeString(int time) {
 		int min = time / 60;
 		int sec = time % 60;
@@ -195,7 +235,8 @@ public class Utils {
 			return;
 		try {
 			closable.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			// ignore
 			e.printStackTrace();
 		}
