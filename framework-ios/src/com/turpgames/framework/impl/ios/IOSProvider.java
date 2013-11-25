@@ -12,6 +12,10 @@ import com.turpgames.framework.v0.util.Version;
 
 public class IOSProvider implements IEnvironmentProvider {
 	static {
+		enableBackgroundMusic();
+	}
+
+	private static void enableBackgroundMusic() {
 		Ptr<NSError> error = Ptr.newPtr(NSError.class);
 		if (AVAudioSession.getSharedInstance().setCategory("AVAudioSessionCategoryAmbient", error)) {
 		    // Success
