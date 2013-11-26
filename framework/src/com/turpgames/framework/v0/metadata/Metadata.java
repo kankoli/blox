@@ -63,6 +63,8 @@ public abstract class Metadata {
 			return new ScreenMetadata();
 		if ("skin".equals(nodeName))
 			return new SkinMetadata();
+		if ("language".equals(nodeName))
+			return new LanguageMetadata();
 		return null;
 	}
 }

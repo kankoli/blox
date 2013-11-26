@@ -8,8 +8,10 @@ import com.badlogic.gdx.Gdx;
 import com.turpgames.framework.v0.ICollisionDetectorFactory;
 import com.turpgames.framework.v0.IDeltaTime;
 import com.turpgames.framework.v0.IDisposable;
+import com.turpgames.framework.v0.IEnvironmentProvider;
 import com.turpgames.framework.v0.IGameExitListener;
 import com.turpgames.framework.v0.IGameProvider;
+import com.turpgames.framework.v0.IHttpClient;
 import com.turpgames.framework.v0.IInputManager;
 import com.turpgames.framework.v0.IResourceManager;
 import com.turpgames.framework.v0.ISettings;
@@ -20,6 +22,7 @@ import com.turpgames.framework.v0.forms.xml.ControlActionHandlerFactory;
 import com.turpgames.framework.v0.forms.xml.IControlActionHandlerFactory;
 import com.turpgames.framework.v0.impl.CollisionDetectorFactory;
 import com.turpgames.framework.v0.impl.DisposeManager;
+import com.turpgames.framework.v0.impl.LanguageManager;
 import com.turpgames.framework.v0.metadata.GameMetadata;
 
 public final class Game {
@@ -31,9 +34,15 @@ public final class Game {
 
 	public static IGameExitListener exitListener;
 
+	private static Version osVersion;
+	private static Version gameVersion;
+	
+	public static IEnvironmentProvider environmentProvider;
+
 	private static DisposeManager disposeManager;
 	private static IDeltaTime deltaTime;
 	private static IResourceManager resourceManager;
+	private static LanguageManager languageManager;
 	private static ITextureDrawer textureDrawer;
 	private static IShapeRenderer shapeRenderer;
 	private static ICollisionDetectorFactory collisionDetectorFactory;
@@ -94,15 +103,25 @@ public final class Game {
 		disposeManager = new DisposeManager();
 
 		deltaTime = provider.createDeltaTime();
+		settings = provider.createSettings();
 		resourceManager = provider.createResourceManager();
+
+		languageManager = new LanguageManager();
+
 		textureDrawer = provider.createTextureDrawer();
 		shapeRenderer = provider.createShapeRenderer();
 		inputManager = provider.createInputManager();
-		settings = provider.createSettings();
 		vibrator = provider.createVibrator();
 
 		actionHandlerFactory = new ControlActionHandlerFactory();
 		collisionDetectorFactory = new CollisionDetectorFactory();
+
+		osVersion = new Version(System.getProperty("os.version"));
+		
+		if (environmentProvider == null)
+			gameVersion = new Version(GameMetadata.getGameVersion());
+		else
+			gameVersion = environmentProvider.getVersion();
 
 		initViewport();
 
@@ -115,6 +134,10 @@ public final class Game {
 
 	public static IResourceManager getResourceManager() {
 		return resourceManager;
+	}
+
+	public static LanguageManager getLanguageManager() {
+		return languageManager;
 	}
 
 	public static ITextureDrawer getTextureDrawer() {
@@ -141,6 +164,10 @@ public final class Game {
 		return actionHandlerFactory;
 	}
 
+	public static IHttpClient createHttpClient() {
+		return provider.createHttpClient();
+	}
+
 	public static void vibrate(long... pattern) {
 		vibrator.vibrate(pattern);
 	}
@@ -157,6 +184,22 @@ public final class Game {
 		disposeManager.register(disposable);
 	}
 
+	public static void openUrl(String url) {
+		provider.openUrl(url);
+	}
+
+	public static boolean isIOS() {
+		return IGameProvider.AppTypeIOS == provider.getAppType();
+	}
+
+	public static boolean isAndroid() {
+		return IGameProvider.AppTypeAndroid == provider.getAppType();
+	}
+
+	public static boolean isDesktop() {
+		return IGameProvider.AppTypeDesktop == provider.getAppType();
+	}
+
 	public static void exit() {
 		if (exitListener == null || exitListener.onGameExit())
 			provider.exit();
@@ -164,6 +207,14 @@ public final class Game {
 
 	public static String getParam(String key) {
 		return GameMetadata.getParam(key);
+	}
+
+	public static Version getOSVersion() {
+		return osVersion;
+	}
+
+	public static Version getVersion() {
+		return gameVersion;
 	}
 
 	// region viewport

@@ -10,6 +10,7 @@ import com.turpgames.framework.v0.metadata.ControlMetadata;
 import com.turpgames.framework.v0.metadata.FormMetadata;
 import com.turpgames.framework.v0.metadata.GameMetadata;
 import com.turpgames.framework.v0.util.Drawer;
+import com.turpgames.framework.v0.util.Utils;
 
 public class Form extends Control implements IView {
 	private Map<String, Control> controls;
@@ -26,7 +27,7 @@ public class Form extends Control implements IView {
 		controls.put(control.id, control);
 		if (control instanceof DrawableControl) {
 			DrawableControl drawableControl = (DrawableControl) control;
-			formDrawer.register(drawableControl, 1000);
+			formDrawer.register(drawableControl, Utils.LAYER_SCREEN);
 			inputListener.register(drawableControl);
 		}
 	}
@@ -107,5 +108,19 @@ public class Form extends Control implements IView {
 	public boolean deactivate() {
 		hide();
 		return true;
+	}
+
+	@Override
+	public void disable() {
+		for (Control control : controls.values())
+			control.disable();
+		super.disable();
+	}
+
+	@Override
+	public void enable() {
+		for (Control control : controls.values())
+			control.enable();
+		super.enable();
 	}
 }

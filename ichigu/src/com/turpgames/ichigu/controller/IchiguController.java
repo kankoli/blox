@@ -1,6 +1,6 @@
 package com.turpgames.ichigu.controller;
 
-import com.turpgames.ichigu.model.Card;
+import com.turpgames.ichigu.model.game.Card;
 
 public abstract class IchiguController<T extends IchiguState> implements IIchiguController {
 	protected T currentState;
@@ -18,23 +18,30 @@ public abstract class IchiguController<T extends IchiguState> implements IIchigu
 
 	@Override
 	public boolean onScreenDeactivated() {
-		return currentState.onScreenDeactivated();
+		if (currentState != null)
+			return currentState.onScreenDeactivated();
+		return false;
 	}
 
+	@Override
+	public void onExitConfirmed() {
+		currentState.onExitConfirmed();		
+	}
+	
 	@Override
 	public void onIchiguFound() {
 		currentState.onIchiguFound();
 	}
 
 	@Override
-	public void onInvalidIchiguSelected() {
-		currentState.onInvalidIchiguSelected();
-	}
-
-	@Override
 	public void draw() {
 		if (currentState != null)
 			currentState.draw();
+	}
+	
+	@Override
+	public void onInvalidIchiguSelected() {
+		currentState.onInvalidIchiguSelected();
 	}
 
 	protected void setState(T newState) {

@@ -10,11 +10,12 @@ import com.turpgames.framework.v0.forms.xml.Control;
 import com.turpgames.framework.v0.forms.xml.Form;
 import com.turpgames.framework.v0.forms.xml.UIManager;
 import com.turpgames.framework.v0.util.Game;
+import com.turpgames.framework.v0.util.Utils;
 
 public class FormScreen extends Screen implements IViewFinder {
 	private static FormScreen currentScreen;
 
-	private Stack<String> formHistory;
+	protected Stack<String> formHistory;
 	private Form currentForm;
 	private IViewSwitcher switcher;
 
@@ -35,7 +36,21 @@ public class FormScreen extends Screen implements IViewFinder {
 			formHistory.push(currentForm.getId());
 
 		switcher.switchTo(formId, back);
+		onFormDeactivated(currentForm);
 		currentForm = UIManager.getForm(formId);
+		onFormActivated(currentForm);
+	}
+
+	protected Form getCurrentForm() {
+		return currentForm;
+	}
+	
+	protected void onFormActivated(Form activatedForm) {
+		
+	}
+
+	protected void onFormDeactivated(Form deactivatedForm) {
+		
 	}
 
 	protected <T extends Control> T getControl(String id) {
@@ -47,7 +62,7 @@ public class FormScreen extends Screen implements IViewFinder {
 		super.init();
 		initFormSwitcher();
 		registerInputListener(this);
-		registerDrawable(switcher, 2);
+		registerDrawable(switcher, Utils.LAYER_SCREEN);
 	}
 
 	@Override
@@ -78,11 +93,17 @@ public class FormScreen extends Screen implements IViewFinder {
 			else {
 				setForm(formHistory.peek(), true);
 			}
+			return true;
 		}
 		return super.keyDown(keycode);
 	}
 
 	public static void switchTo(String formId, boolean back) {
 		currentScreen.setForm(formId, back);
+	}
+
+	public void back() {
+		if (formHistory.size() > 0)
+			setForm(formHistory.peek(), true);
 	}
 }

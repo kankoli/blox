@@ -9,20 +9,30 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.turpgames.framework.v0.IInputListener;
 import com.turpgames.framework.v0.IInputManager;
 import com.turpgames.framework.v0.util.Game;
+import com.turpgames.framework.v0.util.Layer;
+import com.turpgames.framework.v0.util.Utils;
 import com.turpgames.framework.v0.util.Vector;
 
+/***
+ * 'dialogListeners' is populated by listeners from dialogs. This list has precedence over 'listeners'; if it's not empty, 
+ * the events are passed through this list instead of 'listeners'
+ * 
+ * getTempListeners() function provides temporary 'listeners' list in case of in-loop removal of elements.
+ * Added after the issue of exit dialog appearing after hitting hardware back button (twice) to go back to MenuScreen -playForm and then menuForm.
+ * @author kadirello
+ *
+ */
 class GdxInputManager implements IInputManager, IInputListener {
-	private List<IInputListener> listeners;
+	private List<Layer<IInputListener>> layers;
 	private InputMultiplexer multiplexer;
 	private boolean listening;
 
 	GdxInputManager() {
-		listeners = new ArrayList<IInputListener>();
+		layers = new ArrayList<Layer<IInputListener>>();
 
 		multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(new GdxInputProcessor(this));
 		multiplexer.addProcessor(new GestureDetector(new GdxGestureListener(this)));
-		
 	}
 
 	@Override
@@ -43,24 +53,40 @@ class GdxInputManager implements IInputManager, IInputListener {
 	}
 
 	@Override
-	public void register(IInputListener listener) {
-		if (!listeners.contains(listener))
-			listeners.add(listener);
+	public void register(IInputListener obj, int layerIndex) {
+		unregister(obj);
+
+		int i = 0;
+		for (; i < layers.size(); i++) {
+			Layer<IInputListener> layer = layers.get(i);
+			if (layerIndex == layer.getIndex()) {
+				layer.register(obj);
+				return;
+			}
+			if (layerIndex < layer.getIndex()) {
+				break;
+			}
+		}
+		Layer<IInputListener> newLayer = new Layer<IInputListener>(layerIndex);
+		newLayer.register(obj);
+		layers.add(i, newLayer);
 	}
 
 	@Override
-	public void unregister(IInputListener listener) {
-		listeners.remove(listener);
+	public void unregister(IInputListener obj) {
+		for (Layer<IInputListener> layer : layers) {
+			layer.unregister(obj);
+		}
 	}
 
 	@Override
 	public float getX() {
-		return Game.screenToViewportX(Gdx.input.getX());
+		return Gdx.input.getX();
 	}
 
 	@Override
 	public float getY() {
-		return Game.screenToViewportY(Game.getScreenHeight() - Gdx.input.getY());
+		return Game.getScreenHeight() - Gdx.input.getY();
 	}
 
 	@Override
@@ -68,12 +94,22 @@ class GdxInputManager implements IInputManager, IInputListener {
 		return Gdx.input.isTouched();
 	}
 
+	private List<IInputListener> getTempListeners() {
+		List<IInputListener> tempList = new ArrayList<IInputListener>();
+		for (int i = 0; i < layers.size(); i++)
+			for (IInputListener listener : layers.get(i).getObjects())
+				tempList.add(listener);
+		return tempList;
+	}
+	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		y = Game.getScreenHeight() - y;
+
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 		
 			if (listener.touchDown(x, y, pointer, button))
 				return true;
@@ -83,10 +119,12 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean touchUp(float x, float y, int pointer, int button) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		y = Game.getScreenHeight() - y;
+
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.touchUp(x, y, pointer, button))
 				return true;
 		}
@@ -95,10 +133,12 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean touchDragged(float x, float y, int pointer) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		y = Game.getScreenHeight() - y;
+
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.touchDragged(x, y, pointer))
 				return true;
 		}
@@ -107,10 +147,12 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		y = Game.getScreenHeight() - y;
+		
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.tap(x, y, count, button))
 				return true;
 		}
@@ -119,10 +161,12 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean longPress(float x, float y) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		y = Game.getScreenHeight() - y;
+
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.longPress(x, y))
 				return true;
 		}
@@ -131,10 +175,10 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean fling(float vx, float vy, int button) {
-		vx = Game.screenToViewportX(vx);
-		vy = Game.screenToViewportY(vy);
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.fling(vx, vy, button))
 				return true;
 		}
@@ -142,12 +186,14 @@ class GdxInputManager implements IInputManager, IInputListener {
 	}
 
 	@Override
-	public boolean pan(float x, float y, float dx, float xy) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
-			if (listener.pan(x, y, dx, xy))
+	public boolean pan(float x, float y, float dx, float dy) {
+		y = Game.getScreenHeight() - y;
+
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
+			if (listener.pan(x, y, dx, dy))
 				return true;
 		}
 		return false;
@@ -155,9 +201,11 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
-			if (listener.zoom(Game.scale(initialDistance), Game.scale(distance)))
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
+			if (listener.zoom(initialDistance, distance))
 				return true;
 		}
 		return false;
@@ -170,13 +218,10 @@ class GdxInputManager implements IInputManager, IInputListener {
 		p1End.y = Game.getScreenHeight() - p1End.y;
 		p2End.y = Game.getScreenHeight() - p2End.y;
 
-		Game.screenToViewport(p1Start);
-		Game.screenToViewport(p2Start);
-		Game.screenToViewport(p1End);
-		Game.screenToViewport(p2End);
+		List<IInputListener> tempList = getTempListeners();
 
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.pinch(p1Start, p2Start, p1End, p2End))
 				return true;
 		}
@@ -185,20 +230,25 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean mouseMoved(float x, float y) {
-		x = Game.screenToViewportX(x);
-		y = Game.screenToViewportY(Game.getScreenHeight() - y);
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
-			if (listener.mouseMoved(x, y))
-				return true;
-		}
+//		x = Game.screenToViewportX(x);
+//		y = Game.screenToViewportY(Game.getScreenHeight() - y);
+//
+//		List<IInputListener> tempList = getTempListeners();
+//		
+//		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+//			IInputListener listener = tempList.get(i);
+//			if (listener.mouseMoved(x, y))
+//				return true;
+//		}
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(float amount) {
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.scrolled(amount))
 				return true;
 		}
@@ -207,8 +257,10 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.keyDown(keycode))
 				return true;
 		}
@@ -217,8 +269,10 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.keyUp(keycode))
 				return true;
 		}
@@ -227,9 +281,20 @@ class GdxInputManager implements IInputManager, IInputListener {
 
 	@Override
 	public boolean keyTyped(char character) {
-		for (int i = listeners.size() - 1; i >= 0 && i < listeners.size(); i--) {
-			IInputListener listener = listeners.get(i);
+		List<IInputListener> tempList = getTempListeners();
+		
+		for (int i = tempList.size() - 1; i >= 0 && i < tempList.size(); i--) {
+			IInputListener listener = tempList.get(i);
 			if (listener.keyTyped(character))
+				return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isDialogActive() {
+		for (int i = 0; i < layers.size(); i++) {
+			if (layers.get(i).getIndex() == Utils.LAYER_DIALOG && layers.get(i).getObjects().size() > 0)
 				return true;
 		}
 		return false;

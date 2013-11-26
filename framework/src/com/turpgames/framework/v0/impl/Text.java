@@ -25,7 +25,7 @@ public class Text implements IDrawable {
 	public Text(boolean ignoreViewport, boolean ignoreShifting) {
 		this(FontManager.createDefaultFontInstance(), ignoreViewport, ignoreShifting);
 	}
-	
+
 	public Text(String fontId) {
 		this(Game.getResourceManager().getFont(fontId), false, false);
 	}
@@ -41,10 +41,12 @@ public class Text implements IDrawable {
 		this.ignoreShifting = ignoreShifting;
 
 		this.text = "";
-		this.setX(0);
-		this.setY(0);
-		this.setVerticalAlignment(VAlignBottom);
-		this.setHorizontalAlignment(HAlignLeft);
+		this.setLocation(0, 0);
+		this.setAlignment(HAlignLeft, VAlignBottom);
+		if (ignoreViewport)
+			this.setSize(Game.getScreenWidth(), Game.getScreenHeight());
+		else
+			this.setSize(Game.getVirtualWidth(), Game.getVirtualHeight());
 		this.setWrapped(true);
 	}
 
@@ -68,11 +70,11 @@ public class Text implements IDrawable {
 	private boolean ignoreViewport;
 	private boolean ignoreShifting;
 
-	// x, y, width vs screen'e göre deðerleri tutmakta.
+	// x, y, width vs screen'e gore degerleri tutmakta.
 
-	// ignoreViewport deðilse, dýþarýya viewporta göre olan deðerler üzerinden
+	// ignoreViewport degilse, dýþarýya viewporta gore olan degerler uzerinden
 	// çalýþmakta
-	// bu yüzden get/set'lerde descale/scale yapýlýyor
+	// bu yuzden get/set'lerde descale/scale yapiliyor
 
 	public void setFontScale(float scale) {
 		font.setScale(scale);
@@ -114,6 +116,11 @@ public class Text implements IDrawable {
 			this.y = y;
 	}
 
+	public void setLocation(float x, float y) {
+		setX(x);
+		setY(y);
+	}
+
 	public float getWidth() {
 		return descale(width);
 	}
@@ -132,6 +139,11 @@ public class Text implements IDrawable {
 		height = scale(height);
 		if (requiresUpdate(this.height != height))
 			this.height = height;
+	}
+
+	public void setSize(float width, float height) {
+		setWidth(width);
+		setHeight(height);
 	}
 
 	public float getPadX() {
@@ -154,6 +166,11 @@ public class Text implements IDrawable {
 			this.padY = padY;
 	}
 
+	public void setPadding(float padX, float padY) {
+		setPadX(padX);
+		setPadY(padY);
+	}
+
 	public int getHorizontalAlignment() {
 		return horizontalAlignment;
 	}
@@ -170,6 +187,11 @@ public class Text implements IDrawable {
 	public void setVerticalAlignment(int verticalAlignment) {
 		if (requiresUpdate(this.verticalAlignment != verticalAlignment))
 			this.verticalAlignment = verticalAlignment;
+	}
+
+	public void setAlignment(int horizontalAlignment, int verticalAlignment) {
+		setHorizontalAlignment(horizontalAlignment);
+		setVerticalAlignment(verticalAlignment);
 	}
 
 	public boolean isWrapped() {

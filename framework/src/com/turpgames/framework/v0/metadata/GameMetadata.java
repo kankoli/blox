@@ -7,6 +7,7 @@ import java.util.Map;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.turpgames.framework.v0.util.OrderedMap;
 import com.turpgames.framework.v0.util.Utils;
 
 public class GameMetadata {
@@ -14,6 +15,7 @@ public class GameMetadata {
 
 	private String gameName;
 	private String gameClass;
+	private String gameVersion;
 
 	private ResourcesMetadata resources;
 	private Map<String, String> params = new HashMap<String, String>();
@@ -21,6 +23,7 @@ public class GameMetadata {
 	private Map<String, FormMetadata> forms = new HashMap<String, FormMetadata>();
 	private Map<String, SkinMetadata> skins = new HashMap<String, SkinMetadata>();
 	private Map<String, AnimationMetadata> animations = new HashMap<String, AnimationMetadata>();
+	private OrderedMap<String, LanguageMetadata> languages = new OrderedMap<String, LanguageMetadata>();
 
 	private GameMetadata() {
 
@@ -34,6 +37,10 @@ public class GameMetadata {
 		return instance.gameClass;
 	}
 
+	public static String getGameVersion() {
+		return instance.gameVersion;
+	}
+	
 	public static String getParam(String key) {
 		return instance.params.get(key);
 	}
@@ -57,7 +64,15 @@ public class GameMetadata {
 	public static AnimationMetadata getAnimation(String id) {
 		return instance.animations.get(id);
 	}
-
+	
+	public static LanguageMetadata getLanguage(String id) {
+		return instance.languages.get(id);
+	}
+	
+	public static List<String> getLanguages() {
+		return instance.languages.getOrderedKeys();
+	}
+	
 	public static void load(Document gameXml) {
 		instance.init(gameXml);
 	}
@@ -72,12 +87,14 @@ public class GameMetadata {
 
 		gameName = Utils.getAttributeValue(gameNode, "id");
 		gameClass = Utils.getAttributeValue(gameNode, "class");
+		gameVersion = Utils.getAttributeValue(gameNode, "version");
 
 		loadParams(Utils.getChildNode(gameNode, "params"));
 		load(gameNode, screens, "screens", "screen");
 		load(gameNode, forms, "forms", "form");
 		load(gameNode, skins, "skins", "skin");
 		load(gameNode, animations, "animations", "animation");
+		load(gameNode, languages, "languages", "language");
 		
 		resources = new ResourcesMetadata();
 		resources.loadNode(Utils.getChildNode(gameNode, "resources"));

@@ -1,7 +1,8 @@
 package com.turpgames.ichigu.view;
 
-import com.turpgames.ichigu.model.HiScores;
-import com.turpgames.ichigu.model.Toolbar;
+import com.turpgames.framework.v0.util.Utils;
+import com.turpgames.ichigu.model.display.IchiguToolbar;
+import com.turpgames.ichigu.model.game.HiScores;
 
 public class ScoreBoardScreen extends IchiguScreen {
 	private HiScores hiScores;
@@ -9,12 +10,13 @@ public class ScoreBoardScreen extends IchiguScreen {
 	@Override
 	protected void onAfterActivate() {
 		hiScores.activate();
-		Toolbar.getInstance().activateBackButton();
+		IchiguToolbar.getInstance().activateBackButton();
 	}
 	
 	@Override
 	protected boolean onBeforeDeactivate() {
 		hiScores.deactivate();
+		IchiguToolbar.getInstance().deactivateBackButton();
 		return true;
 	}
 
@@ -22,6 +24,6 @@ public class ScoreBoardScreen extends IchiguScreen {
 	public void init() {
 		super.init();
 		hiScores = new HiScores();
-		registerDrawable(hiScores, 10);
+		registerDrawable(hiScores, Utils.LAYER_SCREEN);
 	}
 }

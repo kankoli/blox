@@ -25,15 +25,12 @@ final class GdxShapeRenderer implements IShapeRenderer {
 	@Override
 	public void drawRect(float x, float y, float w, float h, Color color, boolean filled) {
 		if (filled)
-			begin(ShapeType.FilledRectangle, color);
+			begin(ShapeType.Filled, color);
 		else
-			begin(ShapeType.Rectangle, color);
-		
-		if (filled)
-			renderer.filledRect(x, y, w, h);
-		else
-			renderer.rect(x, y, w, h);
-		
+			begin(ShapeType.Line, color);
+
+		renderer.rect(x, y, w, h);
+
 		end();
 	}
 

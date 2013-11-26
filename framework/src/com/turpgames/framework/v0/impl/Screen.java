@@ -72,10 +72,10 @@ public abstract class Screen implements IInputListener, IView {
 		moveManager = new MoveManager();
 		collisionManager = new CollisionManager();
 		inputListener = new CompositeInputListener();
-		inputListener.register(this);
+		inputListener.register(this, Utils.LAYER_SCREEN);
 		hasInited = true;
 	}
-
+	
 	public void update() {
 		if (!isActive)
 			return;
@@ -186,7 +186,7 @@ public abstract class Screen implements IInputListener, IView {
 	}
 
 	public final void registerInputListener(IInputListener obj) {
-		inputListener.register(obj);
+		inputListener.register(obj, Utils.LAYER_SCREEN);
 	}
 
 	public final void unregisterInputListener(IInputListener obj) {

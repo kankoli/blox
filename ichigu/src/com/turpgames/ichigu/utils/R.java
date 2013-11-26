@@ -4,7 +4,7 @@ import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.FontManager;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Vector;
-import com.turpgames.ichigu.model.Card;
+import com.turpgames.ichigu.model.game.Card;
 
 public final class R {
 	/**
@@ -19,10 +19,12 @@ public final class R {
 
 		public static final class forms {
 			public static final String mainMenu = "mainMenu";
+			public static final String playMenu = "playMenu";
 		}
 
 		public static final class screens {
 			public static final String menu = "menu";
+			public static final String practice = "practice";
 		}
 
 		public static final class sounds {
@@ -50,6 +52,8 @@ public final class R {
 			public static final String filledSquare = "card-22";
 			public static final String emptyTriangle = "card-41";
 
+			public static final String libgdx = "libgdx";
+
 			public static final class toolbar {
 				public static final String back = "tb_back";
 				public static final String settings = "tb_settings";
@@ -60,6 +64,26 @@ public final class R {
 				public static final String soundOn = "tb_sound_on";
 				public static final String soundOff = "tb_sound_off";
 			}
+
+			public static final class points {
+				public static final String shapecircle = "shapecircle";
+				public static final String shaperectangle = "shaperectangle";
+				public static final String shapetriangle = "shapetriangle";
+				public static final String shapeall = "shapeall";
+
+				public static final String countone = "countone";
+				public static final String counttwo = "counttwo";
+				public static final String countthree = "countthree";
+				public static final String countall = "countall";
+
+				public static final String fillempty = "fillempty";
+				public static final String fillstriped = "fillstriped";
+				public static final String fillfull = "fillfull";
+				public static final String fillall = "fillall";
+
+				public static final String colorone = "colorone";
+				public static final String colorall = "colorall";
+			}
 		}
 	}
 
@@ -69,9 +93,17 @@ public final class R {
 		public static final String vibration = "vibration";
 
 		public static final class hiscores {
-			public static final String practice = "hiscore_practice";
-			public static final String challenge = "hiscore_challenge";
+			public static final String minichallenge = "hiscore_practice";
+			public static final String normal = "hiscore_normal";
+			public static final String normaltime = "hiscore_normal_time";
+			public static final String fullchallenge = "hiscore_challenge";
 		}
+
+		public static final String language = "language";
+		public static final String country = "country";
+
+		public static final String ichiguBalance = "ichigu-points";
+		public static final String hintCount = "hint-count";
 	}
 
 	public static final class learningModeScreen {
@@ -96,9 +128,6 @@ public final class R {
 		public static final Vector firstOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, 2 + Card.Height / 2 - Card.SymbolHeight * 1.65f);
 		public static final Vector secondOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, 2 + Card.Height / 2 - Card.SymbolHeight * 0.5f);
 		public static final Vector thirdOfThree = new Vector((Card.Width - Card.SymbolWidth) / 2, 2 + Card.Height / 2 + Card.SymbolHeight * 0.65f);
-
-		public static Vector tutorial300x96 = new Vector(Game.getVirtualWidth() / 2 - 300 / 2, Game.getVirtualHeight() / 2 - 60);
-		public static Vector tutorial350x300 = new Vector(Game.getVirtualWidth() / 2 - 350 / 2, 200);
 	}
 
 	public static final class colors {
@@ -110,6 +139,9 @@ public final class R {
 		public static final Color ichiguYellow = Color.fromHex("#f9b000ff");
 		public static final Color ichiguCyan = Color.fromHex("#00f9b0ff");
 		public static final Color ichiguMagenta = Color.fromHex("#f900b0ff");
+
+		public static final Color buttonDefault = ichiguWhite;
+		public static final Color buttonTouched = ichiguYellow;
 	}
 
 	public static final class fontSize {
@@ -117,11 +149,135 @@ public final class R {
 		public static final float small = FontManager.defaultFontSize * 0.625f;
 		public static final float medium = FontManager.defaultFontSize * 0.75f;
 		public static final float large = FontManager.defaultFontSize * 1f;
-		public static final float xLarge = FontManager.defaultFontSize * 0.25f;
+		public static final float xLarge = FontManager.defaultFontSize * 1.25f;
 	}
 
 	public static final class ui {
-		public final static float imageButtonSize = 64;
+		public final static float imageButtonWidth = 64;
+		public final static float imageButtonHeight = 64;
+		public final static float flagButtonWidth = 128;
+		public final static float flagButtonHeight = 128;
+		public final static float flagControlButtonWidth = 64;
+		public final static float flagControlButtonHeight = 64;
+		public final static float libgdxLogoWidth = 200;
+		public final static float libgdxLogoHeight = 33;
+	}
+
+	public static final class strings {
+		public final static String howToPlay = "howToPlay";
+		public final static String hiScores = "hiScores";
+		public final static String about = "about";
+
+		public final static String newGame = "newGame";
+		public final static String backToMenu = "backToMenu";
+
+		public final static String circle = "circle";
+		public final static String square = "square";
+		public final static String triangle = "triangle";
+
+		public final static String blue = "blue";
+		public final static String red = "red";
+		public final static String green = "green";
+
+		public final static String empty = "empty";
+		public final static String striped = "striped";
+		public final static String filled = "filled";
+
+		public final static String sameShapes = "sameShapes";
+		public final static String sameColors = "sameColors";
+		public final static String samePatterns = "samePatterns";
+		public final static String sameCounts = "sameCounts";
+		public final static String differentShapes = "differentShapes";
+		public final static String differentColors = "differentColors";
+		public final static String differentPatterns = "differentPatterns";
+		public final static String differentCounts = "differentCounts";
+
+		public final static String found = "found";
+
+		public final static String exitConfirm = "exitConfirm";
+		public final static String resetConfirm = "resetConfirm";
+		public final static String hiscoreResetConfirm = "hiscoreResetConfirm";
+		public final static String exitProgramConfirm = "exitProgramConfirm";
+
+		public final static String yes = "yes";
+		public final static String no = "no";
+
+		public final static String noIchigu = "noIchigu";
+		public final static String oneIchigu = "oneIchigu";
+		public final static String someIchigu = "someIchigu";
+
+		public final static String noTip = "noTip";
+		public final static String tryAgain = "tryAgain";
+		public final static String wait = "wait";
+
+		public final static String miniChallengeResult = "miniChallengeResult";
+		public final static String fullChallengeResult = "fullChallengeResult";
+		public final static String normalResult = "normalResult";
+		
+		public final static String newHiscore = "newHiscore";
+
+		public final static String resetHiscore = "resetHiscore";
+		public final static String hiscoreInfo = "hiscoreInfo";
+
+		public final static String tutOverviewTitle = "tutOverviewTitle";
+		public final static String tutOverview = "tutOverview";
+		public final static String tutSymbolsTitle = "tutSymbolsTitle";
+		public final static String tutSymbols1 = "tutSymbols1";
+		public final static String tutSymbols2 = "tutSymbols2";
+		public final static String tutIchiguTitle = "tutIchiguTitle";
+		public final static String tutIchigu = "tutIchigu";
+		public final static String tutSampleIchiguTitle = "tutSampleIchiguTitle";
+		public final static String tutSameShape = "tutSameShape";
+		public final static String tutSameColor = "tutSameColor";
+		public final static String tutSamePattern = "tutSamePattern";
+		public final static String tutSameCount = "tutSameCount";
+		public final static String tutDifferentShapes = "tutDifferentShapes";
+		public final static String tutDifferentColors = "tutDifferentColors";
+		public final static String tutDifferentPatterns = "tutDifferentPatterns";
+		public final static String tutDifferentCounts = "tutDifferentCounts";
+
+		public final static String tutSampleNotIchiguTitle = "tutSampleNotIchiguTitle";
+		public final static String tutTwoAndOneShape = "tutTwoAndOneShape";
+		public final static String tutTwoAndOneColor = "tutTwoAndOneColor";
+		public final static String tutTwoAndOnePattern = "tutTwoAndOnePattern";
+		public final static String tutTwoAndOneCount = "tutTwoAndOneCount";
+
+		public final static String tutGameModesTitle = "tutGameModesTitle";
+		public final static String tutSingleIchiguModes = "tutSingleIchiguModes";
+		public final static String tutFullGameModes = "tutFullGameModes";
+
+		public final static String tutPracticeModeTitle = "tutPracticeModeTitle";
+		public final static String tutPracticeMode = "tutPracticeMode";
+
+		public final static String tutMiniChallengeModeTitle = "tutMiniChallengeModeTitle";
+		public final static String tutMiniChallengeMode = "tutMiniChallengeMode";
+				
+		public final static String tutFullModesTitle = "tutFullModesTitle";
+		public final static String tutFullModes = "tutFullModes";
+		
+		public final static String tutNormalModeTitle = "tutNormalModeTitle";
+		public final static String tutNormalMode = "tutNormalMode";
+
+		public final static String tutFullChallengeModeTitle = "tutFullChallengeModeTitle";
+		public final static String tutFullChallengeMode = "tutFullChallengeMode";
+
+		public final static String aboutInfo1 = "aboutInfo1";
+		public final static String aboutInfo2 = "aboutInfo2";
+		public final static String aboutInfo3 = "aboutInfo3";
+		public final static String aboutThanks = "aboutThanks";
+
+		public final static String turpAddress = "turp-address";
+		public final static String libgdxAddress = "libgdx-address";
+		public final static String playStoreAddress = "play-store-address";
+		public final static String appStoreAddressIOS7 = "app-store-address-ios7";
+		public final static String appStoreAddressOld = "app-store-address-old";
+
+		public final static String insufficientIchiguBalance = "insufficientIchiguBalance";
+		public final static String market = "market";
+		public final static String marketInfo = "marketInfo";
+		public final static String bankInfo = "bankInfo";
+		public final static String ok = "ok";
+		public final static String buy = "buy";
 	}
 
 	private R() {

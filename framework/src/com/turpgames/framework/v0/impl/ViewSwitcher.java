@@ -32,7 +32,15 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 	}
 
 	@Override
+	public void setView(String id) {
+		IView view = viewFinder.findView(id);
+		this.newView = view;
+		onSwitchEnd();
+	}
+	
+	@Override
 	public boolean switchTo(String id, boolean back) {
+		Game.getInputManager().deactivate();
 		this.back = back;
 		this.requiresEndNotify = true;
 
@@ -46,6 +54,7 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 			IView currentView = this.newView;
 
 			if (currentView != null && !currentView.deactivate()) {
+				Game.getInputManager().activate();
 				cancelSwitching();
 				return false;
 			}
@@ -57,6 +66,7 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 		}
 		else {
 			this.newView = view;
+			Game.getInputManager().activate();
 			onSwitchEnd();
 			return true;
 		}
@@ -70,6 +80,7 @@ public abstract class ViewSwitcher implements IViewSwitcher {
 			renderSwitching(back);
 		else {
 			if (requiresEndNotify) {
+				Game.getInputManager().activate();
 				onSwitchEnd();
 				requiresEndNotify = false;
 			}

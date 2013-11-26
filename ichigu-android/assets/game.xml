@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game
     id="Ichigu"
-    class="com.turpgames.ichigu.view.IchiguGame" >
+    class="com.turpgames.ichigu.view.IchiguGame"
+    version="1.1.0" >
 
     <params>
 
@@ -23,7 +24,7 @@
 
         <param
             key="default-font"
-            value="JetSet,1" />
+            value="Akachen_chinese,1" />
 
         <param
             key="default-skin"
@@ -35,11 +36,11 @@
 
         <param
             key="screen-switcher"
-            value="sliding,0.5" />
+            value="sliding,0.30" />
 
         <param
             key="form-switcher"
-            value="sliding,0.25" />
+            value="sliding,0.30" />
 
         <param
             key="tutorial-page-switcher"
@@ -48,17 +49,53 @@
         <param
             key="allow-exit-on-back"
             value="true" />
+
+        <param
+            key="turp-address"
+            value="http://www.turpgames.com" />
+
+        <param
+            key="libgdx-address"
+            value="http://libgdx.badlogicgames.com" />
+
+        <param
+            key="play-store-address"
+            value="https://play.google.com/store/apps/details?id=com.turpgames.ichigu" />
+
+        <param
+            key="app-store-address-ios7"
+            value="itms-apps://itunes.apple.com/app/id737312134" />
+
+        <param
+            key="app-store-address-old"
+            value="itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&amp;id=737312134" />
     </params>
 
     <screens>
 
         <screen
-            id="challenge"
-            class="com.turpgames.ichigu.view.ChallengeModeScreen" />
+            id="tutorial"
+            class="com.turpgames.ichigu.view.TutorialModeScreen" />
 
         <screen
-            id="learning"
-            class="com.turpgames.ichigu.view.LearningModeScreen" />
+            id="practice"
+            class="com.turpgames.ichigu.view.PracticeModeScreen" />
+
+        <screen
+            id="minichallenge"
+            class="com.turpgames.ichigu.view.MiniChallengeModeScreen" />
+
+        <screen
+            id="relax"
+            class="com.turpgames.ichigu.view.RelaxModeScreen" />
+
+        <screen
+            id="normal"
+            class="com.turpgames.ichigu.view.NormalModeScreen" />
+
+        <screen
+            id="fullchallenge"
+            class="com.turpgames.ichigu.view.FullChallengeModeScreen" />
 
         <screen
             id="multiplayer"
@@ -69,20 +106,20 @@
             class="com.turpgames.ichigu.view.MenuScreen" />
 
         <screen
-            id="practice"
-            class="com.turpgames.ichigu.view.PracticeModeScreen" />
-
-        <screen
-            id="relax"
-            class="com.turpgames.ichigu.view.RelaxModeScreen" />
-
-        <screen
             id="splash"
             class="com.turpgames.ichigu.view.SplashScreen" />
 
         <screen
             id="scoreBoard"
             class="com.turpgames.ichigu.view.ScoreBoardScreen" />
+
+        <screen
+            id="about"
+            class="com.turpgames.ichigu.view.AboutScreen" />
+
+        <screen
+            id="market"
+            class="com.turpgames.ichigu.view.MarketScreen" />
     </screens>
 
     <forms>
@@ -96,55 +133,73 @@
                 rows="2"
                 text="Ichigu"
                 x="0"
-                y="26"
+                y="27"
                 color="#56bd89ff" />
 
-            <label
-                id="lblBeta"
-                font-scale="0.5"
-                text="beta"
-                cols="16"
-                rows="1"
-                x="0"
-                y="25"
-                color="#f9b000ff" />
-
             <button
-                id="btnLearning"
-                action="screen=learning"
-                text="How To Play"
+                id="btnPlay"
+                action="form=playMenu"
+                resource-text="play"
                 y="21" />
 
             <button
-                id="btnPractice"
-                action="screen=practice"
-                text="Practice"
-                y="18" />
-
-            <button
-                id="btnRelax"
-                action="screen=relax"
-                text="Relax"
-                y="15" />
-
-            <button
-                id="btnChallenge"
-                action="screen=challenge"
-                text="Challenge"
-                y="12" />
+                id="btnLearning"
+                action="screen=tutorial"
+                resource-text="howToPlay"
+                y="16" />
 
             <button
                 id="btnScoreBoard"
                 action="screen=scoreBoard"
-                text="Hi Scores"
-                y="9" />
+                resource-text="hiScores"
+                y="13" />
+
+            <button
+                id="btnMarket"
+                action="screen=market"
+                resource-text="market"
+                y="10" />
+
+            <button
+                id="btnAbout"
+                action="screen=about"
+                resource-text="about"
+                y="7" />
 
             <button
                 id="btnExitGame"
                 action="exit"
                 focus-color="#d0583bff"
-                text="Exit Game"
-                y="4" />
+                hidden-ios="true"
+                resource-text="exitGame"
+                y="2" />
+        </form>
+
+        <form id="playMenu" >
+
+            <button
+                id="btnPractice"
+                action="screen=practice"
+                resource-text="practice"
+                y="24" />
+
+            <button
+                id="btnMiniChallenge"
+                action="screen=minichallenge"
+                resource-text="miniChallenge"
+                y="20" />
+
+            <button
+                id="btnNormal"
+                action="screen=normal"
+                resource-text="normalMode"
+                y="12" />
+
+            <button
+                id="btnChallenge"
+                action="screen=fullchallenge"
+                resource-text="fullChallenge"
+                y="8" />
         </form>
     </forms>
 
@@ -156,8 +211,8 @@
         <fonts>
 
             <font
-                id="JetSet"
-                path="fonts/JetSet.fnt" />
+                id="Akachen_chinese"
+                path="fonts/chinese/akachen_chinese.fnt" />
         </fonts>
 
         <textures>
@@ -190,7 +245,7 @@
             <texture
                 id="refresh"
                 path="img/refresh.png" />
-            
+
             <texture
                 id="card-11"
                 path="img/cards/11.png" />
@@ -262,36 +317,146 @@
             <texture
                 id="tb_vibration_on"
                 path="img/toolbar/vibration-on.png" />
-            
+
             <texture
                 id="bg"
                 path="img/bg.png" />
+
+            <texture
+                id="shapecircle"
+                path="img/points/shapecircle.png" />
+
+            <texture
+                id="shaperectangle"
+                path="img/points/shaperectangle.png" />
+
+            <texture
+                id="shapetriangle"
+                path="img/points/shapetriangle.png" />
+
+            <texture
+                id="shapeall"
+                path="img/points/shapeall.png" />
+
+            <texture
+                id="countone"
+                path="img/points/countone.png" />
+
+            <texture
+                id="counttwo"
+                path="img/points/counttwo.png" />
+
+            <texture
+                id="countthree"
+                path="img/points/countthree.png" />
+
+            <texture
+                id="countall"
+                path="img/points/countall.png" />
+
+            <texture
+                id="fillempty"
+                path="img/points/fillempty.png" />
+
+            <texture
+                id="fillstriped"
+                path="img/points/fillstriped.png" />
+
+            <texture
+                id="fillfull"
+                path="img/points/fillfull.png" />
+
+            <texture
+                id="fillall"
+                path="img/points/fillall.png" />
+
+            <texture
+                id="colorone"
+                path="img/points/colorone.png" />
+
+            <texture
+                id="colorall"
+                path="img/points/colorall.png" />
+
+            <texture
+                id="flag_en_us"
+                path="img/flags/EN_US.png" />
+
+            <texture
+                id="flag_tr"
+                path="img/flags/TR.png" />
+
+            <texture
+                id="flag_it"
+                path="img/flags/IT.png" />
+
+            <texture
+                id="flag_se"
+                path="img/flags/SE.png" />
+
+            <texture
+                id="flag_cn"
+                path="img/flags/CN.png" />
+
+            <texture
+                id="flag_fr"
+                path="img/flags/FR.png" />
+
+            <texture
+                id="libgdx"
+                path="img/about/libgdx.png" />
         </textures>
 
         <sounds>
 
             <sound
                 id="success"
-                path="sound/success.ogg" />
+                path="sound/success.mp3" />
 
             <sound
                 id="error"
-                path="sound/error.ogg" />
+                path="sound/error.mp3" />
 
             <sound
                 id="flip"
-                path="sound/flip.ogg" />
+                path="sound/flip.mp3" />
 
             <sound
                 id="wait"
-                path="sound/wait.ogg" />
+                path="sound/wait.mp3" />
 
             <sound
                 id="time-up"
-                path="sound/time-up.ogg" />
+                path="sound/time-up.mp3" />
         </sounds>
-
     </resources>
+
+    <languages>
+
+        <language
+            id="en-US"
+            encoding="UTF8"
+            flag-texture-id="flag_en_us"
+            path="lang/Strings_en_US.properties" />
+
+        <languageX
+            id="it-IT"
+            encoding="UTF8"
+            flag-texture-id="flag_it"
+            path="lang/Strings_it_IT.properties" />
+
+        <language
+            id="tr-TR"
+            encoding="UTF8"
+            flag-texture-id="flag_tr"
+            path="lang/Strings_tr_TR.properties" />
+
+        <languageX
+            id="cn-CN"
+            encoding="UTF8"
+            flag-texture-id="flag_cn"
+            path="lang/Strings_cn_CN.properties" />
+    </languages>
 
     <skins>
 
@@ -304,12 +469,13 @@
             <button
                 cols="8"
                 focus-color="#3974b1ff"
+                font-scale="1.2"
                 halign="center"
                 rows="2"
                 sound-click="flip"
                 vibrate="50"
                 x="4" />
-            
+
             <label
                 halign="center"
                 rows="2"

@@ -3,6 +3,7 @@ package com.turpgames.framework.v0.forms.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.framework.v0.ILanguageListener;
 import com.turpgames.framework.v0.ISound;
 import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.impl.AttachedText;
@@ -13,6 +14,7 @@ import com.turpgames.framework.v0.util.Drawer;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.ShapeDrawer;
 import com.turpgames.framework.v0.util.TextureDrawer;
+import com.turpgames.framework.v0.util.Utils;
 import com.turpgames.framework.v0.util.Vector;
 
 public class Dialog extends GameObject {
@@ -28,6 +30,8 @@ public class Dialog extends GameObject {
 
 	public static interface IDialogListener {
 		void onDialogButtonClicked(String id);
+
+		void onDialogClosed();
 	}
 
 	private final Text message;
@@ -50,9 +54,6 @@ public class Dialog extends GameObject {
 		message.setPadX(padding);
 		message.setPadY(padding);
 		fontScale = 1f;
-
-		addButton("Yes", "Yes");
-		addButton("No", "No");
 	}
 
 	public void setListener(IDialogListener listener) {
@@ -64,10 +65,10 @@ public class Dialog extends GameObject {
 		message.setFontScale(fontScale);
 	}
 
-	private DialogButton addButton(String id, String text) {
+	public DialogButton addButton(String id, String resourceTextId) {
 		DialogButton btn = new DialogButton(this);
 		btn.setId(id);
-		btn.setText(text);
+		btn.setResourceTextId(resourceTextId);
 
 		buttons.add(btn);
 
@@ -101,10 +102,14 @@ public class Dialog extends GameObject {
 				l.y + getHeight() - closeButton.getHeight() / 2);
 
 		closeButton.listenInput(true);
-		Drawer.getCurrent().register(this, 1000);
+		Drawer.getCurrent().register(this, Utils.LAYER_DIALOG);
 	}
 
 	public void close() {
+		close(false);
+	}
+	
+	private void close(boolean notifyClosed) {
 		if (!isOpened)
 			return;
 		isOpened = false;
@@ -115,9 +120,13 @@ public class Dialog extends GameObject {
 
 		closeButton.listenInput(false);
 		listenInput(false);
-		Drawer.getCurrent().unregister(this);
+		if (Drawer.getCurrent() != null)
+			Drawer.getCurrent().unregister(this);
 		for (int i = 0; i < buttons.size(); i++)
 			buttons.get(i).listenInput(false);
+		
+		if (listener != null && notifyClosed)
+			listener.onDialogClosed();
 	}
 
 	@Override
@@ -145,20 +154,20 @@ public class Dialog extends GameObject {
 	}
 
 	private void buttonTapped(DialogButton button) {
+		close(false);
 		if (listener != null)
 			listener.onDialogButtonClicked(button.getId());
-		close();
 	}
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		if (!isIn(x, y)) {
-			buttonTapped(buttons.get(1));
+			close(true);
 		}
 		return true;
 	}
 
-	private static class DialogCloseButton extends GameObject {
+	public static class DialogCloseButton extends GameObject {
 		private Dialog parent;
 		private ITexture texture;
 
@@ -180,21 +189,30 @@ public class Dialog extends GameObject {
 
 		@Override
 		protected boolean onTap() {
-			parent.buttonTapped(parent.buttons.get(1));
+			parent.close(true);
 			return true;
+		}
+
+		@Override
+		public void registerSelf() {
+			Game.getInputManager().register(this, Utils.LAYER_DIALOG);
 		}
 	}
 
-	private static class DialogButton extends GameObject {
+	public static class DialogButton extends GameObject implements ILanguageListener {
 		private String id;
 		private Text text;
 		private final Dialog dialog;
+
+		private String resourceTextId;
 
 		DialogButton(Dialog dialog) {
 			this.dialog = dialog;
 			this.text = new AttachedText(this);
 			this.text.setHorizontalAlignment(Text.HAlignCenter);
 			this.text.setVerticalAlignment(Text.VAlignCenter);
+
+			Game.getLanguageManager().register(this);
 		}
 
 		public String getId() {
@@ -205,8 +223,13 @@ public class Dialog extends GameObject {
 			this.id = id;
 		}
 
-		public void setText(String text) {
-			this.text.setText(text);
+		public void setResourceTextId(String resourceTextId) {
+			this.resourceTextId = resourceTextId;
+			setText();
+		}
+
+		private void setText() {
+			this.text.setText(Game.getLanguageManager().getString(this.resourceTextId));
 			setHeight(this.text.getTextAreaHeight());
 		}
 
@@ -224,5 +247,20 @@ public class Dialog extends GameObject {
 			dialog.buttonTapped(this);
 			return true;
 		}
+
+		@Override
+		public void registerSelf() {
+			Game.getInputManager().register(this, Utils.LAYER_DIALOG);
+		}
+
+		@Override
+		public void onLanguageChanged() {
+			setText();
+		}
+	}
+
+	@Override
+	public void registerSelf() {
+		Game.getInputManager().register(this, Utils.LAYER_DIALOG);
 	}
 }

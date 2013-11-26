@@ -1,6 +1,6 @@
 package com.turpgames.ichigu.controller;
 
-import com.turpgames.ichigu.model.Card;
+import com.turpgames.ichigu.model.game.Card;
 
 public abstract class IchiguState implements IIchiguController {
 	protected void activated() {
@@ -28,7 +28,7 @@ public abstract class IchiguState implements IIchiguController {
 
 	@Override
 	public void onScreenActivated() {
-
+		
 	}
 
 	@Override

@@ -55,11 +55,6 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 	}
 	
 	protected boolean isIn(float x, float y) {
-		if (ignoreViewport()) {
-			x = Game.viewportToScreenX(x);
-			y = Game.viewportToScreenY(y);
-		}
-		
 		return Utils.isIn(x, y, this);
 	}
 	
@@ -103,12 +98,14 @@ public abstract class GameObject implements IInputListener, IDrawingInfo, IDrawa
 
 	public void listenInput(boolean listen) {
 		if (listen && !isListeningInput)
-			Game.getInputManager().register(this);
+			registerSelf();
 		else if (!listen && isListeningInput)
 			Game.getInputManager().unregister(this);
 		isListeningInput = listen;
 	}
 
+	abstract public void registerSelf();
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		return false;

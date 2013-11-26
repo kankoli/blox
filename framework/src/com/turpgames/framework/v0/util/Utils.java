@@ -1,5 +1,6 @@
 package com.turpgames.framework.v0.util;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -17,17 +18,35 @@ import org.w3c.dom.NodeList;
 import com.turpgames.framework.v0.IDrawingInfo;
 
 public class Utils {
+	public static final int LAYER_BACKGROUND = 0;
+	public static final int LAYER_SCREEN = 1;
+	public static final int LAYER_GAME = 2;
+	public static final int LAYER_INFO = 3;
+	public static final int LAYER_DIALOG = 4;
+
 	private static final Random rnd = new Random();
 
-	public static boolean isIn(float x, float y, IDrawingInfo drawingInfo) {
-		return isIn(x, y, drawingInfo.getLocation(), drawingInfo.getWidth(), drawingInfo.getHeight());
-	}
-	
-	public static boolean isIn(float x, float y, Vector location, float width, float height) {
-		return isIn(x, y, location.x, location.y, width, height);
+	public static String readUtf8String(InputStream is) throws IOException {
+		StringBuffer strBuffer = new StringBuffer();
+		byte[] buffer = new byte[128];
+		int bytesRead;
+		while ((bytesRead = is.read(buffer, 0, buffer.length)) > 0)
+			strBuffer.append(new String(buffer, 0, bytesRead, "UTF-8"));
+		return strBuffer.toString();
 	}
 
-	public static boolean isIn(float x, float y, float lx, float ly, float width, float height) {
+	public static boolean isIn(float x, float y, IDrawingInfo drawingInfo) {
+		return isIn(x, y,
+				drawingInfo.getLocation().x, drawingInfo.getLocation().y,
+				drawingInfo.getWidth(), drawingInfo.getHeight(),
+				drawingInfo.ignoreViewport());
+	}
+
+	private static boolean isIn(float x, float y, float lx, float ly, float width, float height, boolean ignoreViewport) {
+		if (!ignoreViewport) {
+			x = Game.screenToViewportX(x);
+			y = Game.screenToViewportY(y);
+		}
 		return x > lx && x < lx + width && y > ly && y < ly + height;
 	}
 
@@ -115,14 +134,7 @@ public class Utils {
 			return null;
 		}
 		finally {
-			if (is != null) {
-				try {
-					is.close();
-				}
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			close(is);
 		}
 	}
 
@@ -151,14 +163,33 @@ public class Utils {
 	public static int randInt() {
 		return rnd.nextInt();
 	}
-	
+
+	/**
+	 * 
+	 * @param maxValue
+	 * @return [0 - maxValue)
+	 */
 	public static int randInt(int maxValue) {
+		if (maxValue == 0)
+			return 0;
 		return rnd.nextInt(maxValue);
 	}
 
+	/**
+	 * 
+	 * @param minValue
+	 * @param maxValue
+	 * @return [minValue - maxValue)
+	 */
+	public static int randInt(int minValue, int maxValue) {
+		if (minValue == maxValue)
+			return minValue;
+		return randInt(maxValue - minValue) + minValue;
+	}
+
 	public static <T> void shuffle(T[] array) {
-		int loopSize = array.length * array.length;
-		for (int i = 0; i < loopSize; i++) {
+		int iter = array.length * array.length;
+		while (iter-- > 0) {
 			int x = randInt(array.length);
 			int y = randInt(array.length);
 
@@ -167,8 +198,47 @@ public class Utils {
 			array[y] = tmp;
 		}
 	}
-	
+
+	public static <T> void shuffle(T[] array, int start, int end) {
+		int iter = (start - end) * (start - end);
+		shuffle(array, start, end, iter);
+	}
+
+	public static <T> void shuffle(T[] array, int start, int end, int iter) {
+		if (start == end || start + 1 == end)
+			return;
+
+		while (iter-- > 0) {
+			int i1 = Utils.randInt(start, end);
+			int i2 = Utils.randInt(start, end);
+			while (i1 == i2)
+				i2 = Utils.randInt(start, end);
+
+			T tmp = array[i1];
+			array[i1] = array[i2];
+			array[i2] = tmp;
+		}
+	}
+
 	public static <T> T random(T[] array) {
 		return array[randInt(array.length)];
+	}
+
+	public static String getTimeString(int time) {
+		int min = time / 60;
+		int sec = time % 60;
+		return (min < 10 ? ("0" + min) : ("" + min)) + ":" + (sec < 10 ? ("0" + sec) : ("" + sec));
+	}
+
+	public static void close(Closeable closable) {
+		if (closable == null)
+			return;
+		try {
+			closable.close();
+		}
+		catch (IOException e) {
+			// ignore
+			e.printStackTrace();
+		}
 	}
 }
