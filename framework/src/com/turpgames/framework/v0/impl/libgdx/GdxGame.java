@@ -23,7 +23,7 @@ public class GdxGame implements ApplicationListener {
 	private volatile boolean paused;
 
 	public GdxGame() {
-
+		
 	}
 
 	private void initGdx() {
